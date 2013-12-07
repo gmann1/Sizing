@@ -1,4 +1,4 @@
-package voctec;
+package edu.asu.voctec;
 
 public interface Singleton
 {

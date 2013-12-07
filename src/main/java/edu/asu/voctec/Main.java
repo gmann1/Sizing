@@ -1,4 +1,4 @@
-package voctec;
+package edu.asu.voctec;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;

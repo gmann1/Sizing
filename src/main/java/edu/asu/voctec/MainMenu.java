@@ -1,4 +1,4 @@
-package voctec;
+package edu.asu.voctec;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
