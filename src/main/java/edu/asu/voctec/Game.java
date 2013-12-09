@@ -100,6 +100,8 @@ public class Game extends StateBasedGame implements Singleton
 	{
 		//Add all GameStates
 		this.addState(new MainMenu());
+		this.addState(new ScenarioHub());
+		this.addState(new OptionsMenu());
 		//TODO add all other states
 		
 		//Initialize all the game states

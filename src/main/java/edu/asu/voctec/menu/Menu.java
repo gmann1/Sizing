@@ -1,5 +1,7 @@
 package edu.asu.voctec.menu;
 
+import java.awt.Dimension;
+import java.awt.Point;
 import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
@@ -10,10 +12,16 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public abstract class Menu extends BasicGameState
+import edu.asu.voctec.Main;
+import edu.asu.voctec.Resizable;
+
+public abstract class Menu extends BasicGameState implements Resizable
 {
 	protected Image backgroundImage;
 	protected final ArrayList<Button> buttons = new ArrayList<>();
+	protected float scale;
+	
+	public abstract Dimension getDesignResolution();
 	
 	/**
 	 * Adds a button to this menu, and ensures that no duplicate buttons are
@@ -42,13 +50,21 @@ public abstract class Menu extends BasicGameState
 	 * @param y 		The y position of the mouse when the button was pressed
 	 */
 	@Override
-	public void mousePressed(int button, int x, int y)
+	public void mousePressed(int buttonType, int x, int y)
 	{
-		boolean leftButtonPressed = (button == Input.MOUSE_LEFT_BUTTON);
+		boolean leftButtonPressed = (buttonType == Input.MOUSE_LEFT_BUTTON);
 		
 		if (leftButtonPressed)
 		{
-			//TODO check buttons
+			//check buttons
+			for (Button button : buttons)
+			{
+				if (button.checkClicked(new Point(x,y)))
+				{
+					button.actOnMouseClick();
+					break;
+				}
+			}
 		}
 	}
 	
@@ -58,14 +74,40 @@ public abstract class Menu extends BasicGameState
 	{
 		//TODO account for different aspect ratios
 		//draw background
-		g.drawImage(this.backgroundImage, 0, 0);
+		if (this.backgroundImage == null)
+			System.out.println("Menu background failed to load: BackgroundImageNull");
+		else
+			g.drawImage(this.backgroundImage, 0, 0);
 		
 		//TODO implement change tracking
 		//TODO draw only buttons that have been changed
 		//draw all buttons
 		for (Button button : buttons)
 		{
-			g.drawImage(button, button.getX(), button.getY());
+			g.drawImage(button.getImage(), button.getX(), button.getY());
+		}
+	}
+	
+	public boolean resize()
+	{
+		this.rescale();
+		
+		for (Button button : buttons)
+		{
+			button.format();
+		}
+		
+		//if no errors occurred, return true
+		return true;
+	}
+	
+	public void rescale()
+	{
+		this.scale = (float) (Main.getScreenDimension().getHeight() / getDesignResolution().getHeight());
+		
+		for (Button button : buttons)
+		{
+			button.scale(scale);
 		}
 	}
 }
