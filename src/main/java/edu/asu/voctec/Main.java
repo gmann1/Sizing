@@ -12,14 +12,15 @@ public class Main
 	public static final String GAME_TITLE = "Sizing";
 	public static final boolean SHOW_FPS = false;
 	
-	private static final int DEFAULT_WINDOW_WIDTH = 800;
-	private static final int DEFAULT_WINDOW_HEIGHT = 600;
-	private static ScreenResolution screenDimension;
+	private static final int DEFAULT_WINDOW_WIDTH = 1280;
+	private static final int DEFAULT_WINDOW_HEIGHT = 720;
+	private static ScreenResolution previousScreenDimension;
+	private static ScreenResolution currentScreenDimension;
 	private static AppGameContainer gameContainer;
 	
 	public static void main(String[] args) throws SlickException, ResolutionNotSupportedException
 	{
-		screenDimension = new ScreenResolution(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
+		currentScreenDimension = new ScreenResolution(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
 		gameContainer = new AppGameContainer(Game.constructGame());
 		
 		//adjust settings
@@ -38,22 +39,27 @@ public class Main
 		boolean resizeSuccessfull = false;
 		Game currentGame = Game.getCurrentGame();
 		
-		//TODO add image cropping
-		Main.screenDimension = screenDimension;
+		// Update dimension information
+		Main.previousScreenDimension = Main.currentScreenDimension;
+		Main.currentScreenDimension = screenDimension;
 		
 		try
 		{
-			//resize container (user window) //false indicates windowed mode (not full-screen)
-			gameContainer.setDisplayMode(Main.screenDimension.width, Main.screenDimension.height, false);
-			
 			//resize gameStates
 			for (int id : Game.GAME_STATES)
 			{
+				// Iterate through each GameState
 				GameState gameState = currentGame.getState(id);
+				
+				// Image cropping and resizing is handled by each Resizable gameState
 				if (gameState instanceof Resizable)
 					((Resizable) gameState).resize();
 			}
+
+			//resize container (user window) //false indicates windowed mode (not full-screen)
+			gameContainer.setDisplayMode(Main.currentScreenDimension.width, Main.currentScreenDimension.height, false);
 			
+			// If no exceptions were thrown while resizing, then resizing was successful
 			resizeSuccessfull = true;
 		} catch (SlickException e)
 		{
@@ -67,8 +73,19 @@ public class Main
 	 * @return	a copy of the current resolution Dimension object (i.e. current
 	 * game window resolution)
 	 */
-	public static ScreenResolution getScreenDimension()
+	public static ScreenResolution getCurrentScreenDimension()
 	{
-		return Main.screenDimension;
+		//TODO replace with copy
+		return Main.currentScreenDimension;
+	}
+	
+	/**
+	 * @return	a copy of the previous resolution Dimension object (i.e. previous
+	 * game window resolution)
+	 */
+	public static ScreenResolution getPreviousScreenDimension()
+	{
+		//TODO replace with copy
+		return Main.previousScreenDimension;
 	}
 }

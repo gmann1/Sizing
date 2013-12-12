@@ -2,12 +2,20 @@ package edu.asu.voctec;
 
 import java.awt.Dimension;
 
+import org.newdawn.slick.Image;
+
 import edu.asu.voctec.AspectRatio.ResolutionNotSupportedException;
 
 public class ScreenResolution extends Dimension
 {
 	private static final long serialVersionUID = -5575416306076775945L;
 	private AspectRatio aspectRatio;
+	
+	public ScreenResolution(Image backgroundImage) 
+			throws ResolutionNotSupportedException
+	{
+		this(backgroundImage.getWidth(), backgroundImage.getHeight());
+	}
 	
 	public ScreenResolution(int width, int height) 
 			throws ResolutionNotSupportedException

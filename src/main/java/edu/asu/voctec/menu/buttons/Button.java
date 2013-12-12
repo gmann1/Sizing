@@ -1,4 +1,4 @@
-package edu.asu.voctec.menu;
+package edu.asu.voctec.menu.buttons;
 
 import java.awt.Point;
 
@@ -17,14 +17,6 @@ public abstract class Button// extends Image
 		TOP_RIGHT_ALIGN,
 		BOTTOM_LEFT_ALIGN,
 		BOTTOM_RIGHT_ALIGN;
-	}
-	
-	public static interface DefaultImagePaths
-	{
-		public static final String NEW_GAME_BUTTON = "resources/default/img/testButton.png";
-		public static final String OPTIONS_BUTTON = "resources/default/img/testButton.png";
-		public static final String INSTRUCTOR_CONTROL_PANEL_BUTTON = "resources/default/img/Horo - Square.png";
-		public static final String BACK_BUTTON = "resources/default/img/testButton.png";
 	}
 	
 	protected final Image baseImage; //initial image to maintain quality throughout modifications
@@ -83,11 +75,11 @@ public abstract class Button// extends Image
 		if (layout == LayoutOption.TOP_LEFT_ALIGN)
 			relativeLocation = new Point (0, 0);
 		else if (layout == LayoutOption.TOP_RIGHT_ALIGN)
-			relativeLocation = new Point (Main.getScreenDimension().width - image.getWidth(), 0);
+			relativeLocation = new Point (Main.getCurrentScreenDimension().width - image.getWidth(), 0);
 		else if (layout == LayoutOption.BOTTOM_LEFT_ALIGN)
-			relativeLocation = new Point (0, Main.getScreenDimension().height - image.getHeight());
+			relativeLocation = new Point (0, Main.getCurrentScreenDimension().height - image.getHeight());
 		else if (layout == LayoutOption.BOTTOM_RIGHT_ALIGN)
-			relativeLocation = new Point (Main.getScreenDimension().width - image.getWidth(), Main.getScreenDimension().height - image.getHeight());
+			relativeLocation = new Point (Main.getCurrentScreenDimension().width - image.getWidth(), Main.getCurrentScreenDimension().height - image.getHeight());
 		
 		//TODO scale translation
 		//offset location by the amount specified by this object
@@ -96,14 +88,14 @@ public abstract class Button// extends Image
 	
 	public void centerHorizontaly()
 	{
-		int relativeX = (Main.getScreenDimension().width / 2) - (image.getWidth() / 2);
+		int relativeX = (Main.getCurrentScreenDimension().width / 2) - (image.getWidth() / 2);
 		
 		this.relativeLocation.setLocation(relativeX, this.relativeLocation.y);
 	}
 	
 	public void centerVertically()
 	{
-		int relativeY = (Main.getScreenDimension().height / 2) - (image.getHeight() / 2);
+		int relativeY = (Main.getCurrentScreenDimension().height / 2) - (image.getHeight() / 2);
 		
 		this.relativeLocation.setLocation(this.relativeLocation.x, relativeY);
 	}

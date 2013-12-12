@@ -4,10 +4,10 @@ import java.awt.Point;
 
 import org.newdawn.slick.SlickException;
 
+import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.ScenarioHub;
-import edu.asu.voctec.menu.Button;
 
-public class NewGameButton extends TransitionButton
+public class NewGameButton extends TransitionButton implements GameDefaults
 {
 	public static int TRANSITION_SCREEN = ScenarioHub.ID;
 	
@@ -36,7 +36,7 @@ public class NewGameButton extends TransitionButton
 	public NewGameButton(Point relativeLocation, LayoutOption... layoutOptions) throws SlickException
 	{
 		//sets the image to the default NewGameButton image
-		this(Button.DefaultImagePaths.NEW_GAME_BUTTON, relativeLocation, layoutOptions);
+		this(ImagePaths.NEW_GAME_BUTTON, relativeLocation, layoutOptions);
 	}
 	
 	/**

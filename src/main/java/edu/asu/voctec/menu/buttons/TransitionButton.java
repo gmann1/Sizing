@@ -6,7 +6,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import edu.asu.voctec.Game;
-import edu.asu.voctec.menu.Button;
 
 public class TransitionButton extends Button
 {

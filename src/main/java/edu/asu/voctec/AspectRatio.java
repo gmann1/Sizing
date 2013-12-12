@@ -1,6 +1,7 @@
 package edu.asu.voctec;
 
 import java.awt.Dimension;
+import java.awt.Rectangle;
 
 public enum AspectRatio
 {
@@ -25,6 +26,51 @@ public enum AspectRatio
 	{
 		this.width = width;
 		this.height = height;
+	}
+	
+	//TODO refactor with more appropriate name
+	//TODO support more ratio combinations
+	//TODO abstract to apply to all ratios
+	/**
+	 * Finds a maximized window of the desired aspect ratio within the given 
+	 * baseScreen. For instance, if given a 1280x720 screen, and an aspect 
+	 * ratio of 4:3, this method will return a 960x720 window, centered in 
+	 * the baseScreen (new Rectangle(160, 0, 960, 720)). 
+	 * 
+	 * At the moment, only 16:9 to 4:3 subsections are supported.
+	 * 
+	 * @param baseScreen 
+	 * @param subSectionAspectRatio
+	 * @return
+	 */
+	public static Rectangle getSubSection(ScreenResolution baseScreen, 
+			AspectRatio subSectionAspectRatio) throws ResolutionNotSupportedException
+	{
+		// Ensure aspect ratios are supported
+		if ( !(baseScreen.getAspectRatio().equals(AspectRatio.x16_9)) || 
+				!(subSectionAspectRatio.equals(x4_3)))
+		{
+			throw new ResolutionNotSupportedException("getSubSection only " + 
+				"supports 16:9 to 4:3. (Given: " + baseScreen.getAspectRatio().toString() 
+				+ " to " + subSectionAspectRatio.toString());
+		}
+		else // Specified operation is supported
+		{
+			//TODO abstract to apply to all ratios
+			// Get 4:3 window centered in 16:9 window
+				// Determine scale of subSection
+				// Because 3 maps to 9 sooner (3 steps) than 4 maps to 16 
+				//   (4 steps), use height as a basis for scale.
+			int scale = baseScreen.height / subSectionAspectRatio.height;
+				// Determine width and height of subSection based on the calculated scale.
+			int width = baseScreen.width * scale;
+			int height = baseScreen.height * scale;
+				// Determine topleft corner of subSection in order to center the subSection.
+			int x = (baseScreen.width - width) / 2;
+			int y = 0; // Because subSection height = baseScreen height, it will be centered with y=0;
+			
+			return new Rectangle(x, y, width, height);
+		}
 	}
 	
 	public static AspectRatio getAspectRatio(int width, int height) 
@@ -80,5 +126,17 @@ public enum AspectRatio
 		{
 			super("This resolution is not supported: " + width + "x" + height);
 		}
+		
+		public ResolutionNotSupportedException(String message)
+		{
+			super(message);
+		}
+	}
+	
+	@Override
+	public String toString()
+	{
+		//WxH e.g. 16x9 or 4x3
+		return "" + this.width + "x" + this.height;
 	}
 }

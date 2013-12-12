@@ -2,6 +2,7 @@ package edu.asu.voctec.menu;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
@@ -12,13 +13,18 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.AspectRatio;
+import edu.asu.voctec.AspectRatio.ResolutionNotSupportedException;
+import edu.asu.voctec.menu.buttons.Button;
 import edu.asu.voctec.Main;
 import edu.asu.voctec.Resizable;
+import edu.asu.voctec.ScreenResolution;
 
 public abstract class Menu extends BasicGameState implements Resizable
 {
-	protected Image baseBackgroundImage;
-	protected Image backgroundImage;
+	private ScreenResolution baseResolution;
+	private Image baseBackgroundImage;
+	private Image backgroundImage;
 	protected final ArrayList<Button> buttons = new ArrayList<>();
 	protected float scale;
 	
@@ -26,7 +32,19 @@ public abstract class Menu extends BasicGameState implements Resizable
 	
 	protected void initializeBackgroundImage(Image backgroundImage)
 	{
-		this.setBackgroundImage(backgroundImage);
+		try
+		{
+			if (backgroundImage != null)
+				this.baseResolution = new ScreenResolution(backgroundImage);
+		}
+		catch (ResolutionNotSupportedException e)
+		{
+			e.printStackTrace();
+			//TODO resize image to design resolution
+		}
+		
+		this.backgroundImage = backgroundImage;
+		this.baseBackgroundImage = backgroundImage;
 	}
 	
 	/**
@@ -96,15 +114,44 @@ public abstract class Menu extends BasicGameState implements Resizable
 	
 	public boolean resize()
 	{
-		if (this.backgroundImage != null)
+		// Define dimension to transition to
+		ScreenResolution newDimension = Main.getCurrentScreenDimension();
+		
+		if (this.baseResolution.equals(newDimension))
+			this.backgroundImage = this.baseBackgroundImage;
+		else if (this.backgroundImage != null)
 		{
-			//TODO crop image
-			//TODO scale cropped section
-			//TODO account for multiple aspect ratios
+			try
+			{
+				// Define rectangle to crop image to new aspectRatio
+				//TODO fix getSubSection algorithm
+				Rectangle croppedSubSection = AspectRatio.getSubSection(
+						this.baseResolution, newDimension.getAspectRatio());
+				croppedSubSection = new Rectangle(160, 0, 960, 720);
+				System.out.println(croppedSubSection);
+				// Crop image to new aspectRatio
+				Image croppedImage = this.baseBackgroundImage.getSubImage(
+						croppedSubSection.x, croppedSubSection.y, 
+						croppedSubSection.width, croppedSubSection.height);
+				
+				// Scale cropped section to new dimension
+				Image scaledImage = croppedImage.getScaledCopy(
+						newDimension.width, newDimension.height);
+				
+				// Update the current image
+				this.backgroundImage = scaledImage;
+			}
+			catch (ResolutionNotSupportedException e)
+			{
+				// TODO handle exception
+				e.printStackTrace();
+			}
 		}
 		
+		// Update metadata of this map (regarding size) and all buttons in this menu
 		this.rescale();
 		
+		// Resize and Reformat all buttons in this menu
 		for (Button button : buttons)
 		{
 			button.format();
@@ -116,7 +163,7 @@ public abstract class Menu extends BasicGameState implements Resizable
 	
 	public void rescale()
 	{
-		this.scale = (float) (Main.getScreenDimension().getHeight() / getDesignResolution().getHeight());
+		this.scale = (float) (Main.getCurrentScreenDimension().getHeight() / getDesignResolution().getHeight());
 		
 		for (Button button : buttons)
 		{
@@ -127,11 +174,5 @@ public abstract class Menu extends BasicGameState implements Resizable
 	public Image getBackgroundImage()
 	{
 		return backgroundImage;
-	}
-
-	public void setBackgroundImage(Image backgroundImage)
-	{
-		this.baseBackgroundImage = backgroundImage;
-		this.backgroundImage = backgroundImage;
 	}
 }

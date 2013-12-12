@@ -12,8 +12,8 @@ import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.Main;
 import edu.asu.voctec.ScreenResolution;
 import edu.asu.voctec.AspectRatio.ResolutionNotSupportedException;
-import edu.asu.voctec.menu.Button.LayoutOption;
 import edu.asu.voctec.menu.buttons.*;
+import edu.asu.voctec.menu.buttons.Button.LayoutOption;
 
 public class MainMenu extends Menu implements GameDefaults
 {
@@ -24,9 +24,10 @@ public class MainMenu extends Menu implements GameDefaults
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
+		//TODO replace absolute positioning with ButtonBlock class
 		//TODO declare & instantiate all buttons
 		Button newGameButton = new NewGameButton(0, 248, LayoutOption.CENTER_HORIZONTALLY);
-		Button optionsButton = new TransitionButton(Button.DefaultImagePaths.OPTIONS_BUTTON, 
+		Button optionsButton = new TransitionButton(ImagePaths.OPTIONS_BUTTON, 
 													0, 348, 
 													OptionsMenu.ID,
 													LayoutOption.CENTER_HORIZONTALLY);
@@ -37,7 +38,7 @@ public class MainMenu extends Menu implements GameDefaults
 		
 		//TODO remove sizing test
 		//resizing TEST
-		addButton(new Button(Button.DefaultImagePaths.NEW_GAME_BUTTON,
+		addButton(new Button(ImagePaths.NEW_GAME_BUTTON,
 				  new Point(-10, -10),
 				  LayoutOption.BOTTOM_RIGHT_ALIGN){
 
@@ -58,9 +59,9 @@ public class MainMenu extends Menu implements GameDefaults
 				}
 				
 				//TODO improve algorithm to work with user-definaed resolutions
-				if (Main.getScreenDimension().equals(d1280))
+				if (Main.getCurrentScreenDimension().equals(d1280))
 					Main.resize(d800);
-				else if (Main.getScreenDimension().equals(d800))
+				else if (Main.getCurrentScreenDimension().equals(d800))
 					Main.resize(d1280);
 			}
 			

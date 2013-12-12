@@ -8,8 +8,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.GameDefaults;
-import edu.asu.voctec.menu.Button.LayoutOption;
+import edu.asu.voctec.menu.buttons.Button;
 import edu.asu.voctec.menu.buttons.TransitionButton;
+import edu.asu.voctec.menu.buttons.Button.LayoutOption;
 
 public class OptionsMenu extends Menu implements GameDefaults
 {
@@ -21,7 +22,7 @@ public class OptionsMenu extends Menu implements GameDefaults
 			throws SlickException
 	{
 		//TODO declare & instantiate all buttons
-		Button backButton = new TransitionButton(Button.DefaultImagePaths.BACK_BUTTON,
+		Button backButton = new TransitionButton(ImagePaths.BACK_BUTTON,
 												 10, 10, MainMenu.ID,
 												 LayoutOption.TOP_LEFT_ALIGN);
 		
