@@ -7,6 +7,7 @@ public interface GameDefaults
 		// Backgrounds
 		public static final String MainMenuBackground = "resources/default/img/dualAspectBackground.jpg";
 		public static final String OptionsMenuBackground = "resources/default/img/blackBackground.jpg";
+		public static final String ScenarioHubBackground = "resources/default/img/dualAspectBackground.jpg";
 		
 		// Buttons
 		public static final String NEW_GAME_BUTTON = "resources/default/img/testButton.png";

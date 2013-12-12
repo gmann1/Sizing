@@ -63,8 +63,8 @@ public enum AspectRatio
 				//   (4 steps), use height as a basis for scale.
 			int scale = baseScreen.height / subSectionAspectRatio.height;
 				// Determine width and height of subSection based on the calculated scale.
-			int width = baseScreen.width * scale;
-			int height = baseScreen.height * scale;
+			int width = subSectionAspectRatio.width * scale;
+			int height = subSectionAspectRatio.height * scale;
 				// Determine topleft corner of subSection in order to center the subSection.
 			int x = (baseScreen.width - width) / 2;
 			int y = 0; // Because subSection height = baseScreen height, it will be centered with y=0;

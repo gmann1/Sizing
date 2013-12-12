@@ -93,7 +93,7 @@ public abstract class Menu extends BasicGameState implements Resizable
 	}
 	
 	@Override
-	public void render(GameContainer container, StateBasedGame game, Graphics g)
+	public void render(GameContainer container, StateBasedGame game, Graphics graphics)
 			throws SlickException
 	{
 		//TODO account for different aspect ratios
@@ -101,14 +101,14 @@ public abstract class Menu extends BasicGameState implements Resizable
 		if (this.backgroundImage == null)
 			System.out.println("Menu background failed to load: BackgroundImageNull");
 		else
-			g.drawImage(this.backgroundImage, 0, 0);
+			graphics.drawImage(this.backgroundImage, 0, 0);
 		
 		//TODO implement change tracking
 		//TODO draw only buttons that have been changed
 		//draw all buttons
 		for (Button button : buttons)
 		{
-			g.drawImage(button.getImage(), button.getX(), button.getY());
+			button.draw(graphics);
 		}
 	}
 	
@@ -127,8 +127,6 @@ public abstract class Menu extends BasicGameState implements Resizable
 				//TODO fix getSubSection algorithm
 				Rectangle croppedSubSection = AspectRatio.getSubSection(
 						this.baseResolution, newDimension.getAspectRatio());
-				croppedSubSection = new Rectangle(160, 0, 960, 720);
-				System.out.println(croppedSubSection);
 				// Crop image to new aspectRatio
 				Image croppedImage = this.baseBackgroundImage.getSubImage(
 						croppedSubSection.x, croppedSubSection.y, 
@@ -150,12 +148,6 @@ public abstract class Menu extends BasicGameState implements Resizable
 		
 		// Update metadata of this map (regarding size) and all buttons in this menu
 		this.rescale();
-		
-		// Resize and Reformat all buttons in this menu
-		for (Button button : buttons)
-		{
-			button.format();
-		}
 		
 		//if no errors occurred, return true
 		return true;

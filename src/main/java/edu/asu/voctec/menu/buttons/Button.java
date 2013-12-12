@@ -1,13 +1,15 @@
 package edu.asu.voctec.menu.buttons;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import edu.asu.voctec.Main;
 
-public abstract class Button// extends Image
+public abstract class Button
 {
 	public static enum LayoutOption
 	{
@@ -19,8 +21,13 @@ public abstract class Button// extends Image
 		BOTTOM_RIGHT_ALIGN;
 	}
 	
+	/** Default location of textLabel, relative to the button object */
+	public static final Rectangle DEFAULT_LABEL_POSITION = new Rectangle (5, 5, 265, 65);
+	
 	protected final Image baseImage; //initial image to maintain quality throughout modifications
 	protected Image image; //image displayed to user
+	protected LabelName labelName = null; //text to display next to the button
+	protected TranslatableLabel buttonLabel; //object to display labelName text
 	protected Point relativeLocation; //location relative to the container/menu holding this button.
 	protected Point absoluteOffset; //amount by which to offset image //Applies only to ALIGN layouts
 	protected LayoutOption[] layoutOptions;
@@ -54,7 +61,7 @@ public abstract class Button// extends Image
 	
 	public abstract void actOnMouseClick();
 	
-	public void format()
+	private void format()
 	{
 		if (this.layoutOptions == null)
 			this.layoutOptions = new LayoutOption[0];
@@ -164,7 +171,71 @@ public abstract class Button// extends Image
 		//scale position
 		this.relativeLocation = new Point((int) (scale * absoluteOffset.x), (int) (scale * absoluteOffset.y));
 		
+		//reposition button according to format settings
+		this.format();
+		
+		//scale label
+		scaleLabel(scale);
+		
 		//return image
 		return this.image;
+	}
+
+	public LabelName getLabel() {
+		return labelName;
+	}
+	
+	public void scaleLabel(float scale)
+	{
+		//TODO add support for custom positioning
+		//scale label rectangle
+		Rectangle scaledLabelRectangle = getScaledRectangle(Button.DEFAULT_LABEL_POSITION, scale);
+		
+		//get label position relative to the screen
+		Rectangle labelPosition = getTranslatedRectangle(scaledLabelRectangle, this.relativeLocation);
+		
+		//create the scaled label, and set it as this button's label
+		if (this.labelName != null)
+			this.buttonLabel = new TranslatableLabel(labelName, labelPosition);
+		else
+			this.buttonLabel = null;
+	}
+
+	public void setLabel(LabelName labelName)
+	{
+		this.labelName = labelName;
+		
+		//TODO account for instances where the current scale is not 1.0
+		//create full sized label and set it as this button's label
+		scaleLabel(1);
+	}
+	
+	public void draw(Graphics graphics)
+	{
+		graphics.drawImage(this.getImage(), this.getX(), this.getY());
+		if (this.buttonLabel != null)
+			this.buttonLabel.render(Main.getGameContainer(), graphics);
+	}
+	
+	//TODO move to utilities class
+	public static Rectangle getTranslatedRectangle(Rectangle baseRectangle, Point translationAmount)
+	{
+		int x = baseRectangle.x + translationAmount.x;
+		int y = baseRectangle.y + translationAmount.y;
+		int width = baseRectangle.width;
+		int height = baseRectangle.height;
+		
+		return new Rectangle(x, y, width, height);
+	}
+	
+	//TODO move to utilities class
+	public static Rectangle getScaledRectangle(Rectangle baseRectangle, float scale)
+	{
+		int x = (int) (baseRectangle.x * scale);
+		int y = (int) (baseRectangle.y * scale);
+		int width = (int) (baseRectangle.width * scale);
+		int height = (int) (baseRectangle.height * scale);
+		
+		return new Rectangle(x, y, width, height);
 	}
 }

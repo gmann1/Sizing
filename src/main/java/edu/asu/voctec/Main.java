@@ -51,6 +51,8 @@ public class Main
 				// Iterate through each GameState
 				GameState gameState = currentGame.getState(id);
 				
+				//TODO only resize the current state
+				//TODO resize each state upon entry
 				// Image cropping and resizing is handled by each Resizable gameState
 				if (gameState instanceof Resizable)
 					((Resizable) gameState).resize();
@@ -88,4 +90,11 @@ public class Main
 		//TODO replace with copy
 		return Main.previousScreenDimension;
 	}
+
+	public static AppGameContainer getGameContainer()
+	{
+		return gameContainer;
+	}
+	
+	
 }

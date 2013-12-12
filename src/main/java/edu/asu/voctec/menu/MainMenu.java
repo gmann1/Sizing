@@ -26,11 +26,15 @@ public class MainMenu extends Menu implements GameDefaults
 	{
 		//TODO replace absolute positioning with ButtonBlock class
 		//TODO declare & instantiate all buttons
+		//TODO move setLabel() call to button constructor
 		Button newGameButton = new NewGameButton(0, 248, LayoutOption.CENTER_HORIZONTALLY);
+		newGameButton.setLabel(LabelName.startButton);
+		
 		Button optionsButton = new TransitionButton(ImagePaths.OPTIONS_BUTTON, 
 													0, 348, 
 													OptionsMenu.ID,
 													LayoutOption.CENTER_HORIZONTALLY);
+		optionsButton.setLabel(LabelName.optionsButton);
 		
 		//TODO add all buttons
 		addButton(newGameButton);
