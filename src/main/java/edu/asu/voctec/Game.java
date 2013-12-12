@@ -7,6 +7,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.menu.MainMenu;
+import edu.asu.voctec.menu.OptionsMenu;
+
 /**
  * Singleton class representing the currently running game. 
  * 

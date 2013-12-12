@@ -17,11 +17,17 @@ import edu.asu.voctec.Resizable;
 
 public abstract class Menu extends BasicGameState implements Resizable
 {
+	protected Image baseBackgroundImage;
 	protected Image backgroundImage;
 	protected final ArrayList<Button> buttons = new ArrayList<>();
 	protected float scale;
 	
 	public abstract Dimension getDesignResolution();
+	
+	protected void initializeBackgroundImage(Image backgroundImage)
+	{
+		this.setBackgroundImage(backgroundImage);
+	}
 	
 	/**
 	 * Adds a button to this menu, and ensures that no duplicate buttons are
@@ -90,6 +96,13 @@ public abstract class Menu extends BasicGameState implements Resizable
 	
 	public boolean resize()
 	{
+		if (this.backgroundImage != null)
+		{
+			//TODO crop image
+			//TODO scale cropped section
+			//TODO account for multiple aspect ratios
+		}
+		
 		this.rescale();
 		
 		for (Button button : buttons)
@@ -109,5 +122,16 @@ public abstract class Menu extends BasicGameState implements Resizable
 		{
 			button.scale(scale);
 		}
+	}
+
+	public Image getBackgroundImage()
+	{
+		return backgroundImage;
+	}
+
+	public void setBackgroundImage(Image backgroundImage)
+	{
+		this.baseBackgroundImage = backgroundImage;
+		this.backgroundImage = backgroundImage;
 	}
 }

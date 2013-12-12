@@ -24,6 +24,7 @@ public abstract class Button// extends Image
 		public static final String NEW_GAME_BUTTON = "resources/default/img/testButton.png";
 		public static final String OPTIONS_BUTTON = "resources/default/img/testButton.png";
 		public static final String INSTRUCTOR_CONTROL_PANEL_BUTTON = "resources/default/img/Horo - Square.png";
+		public static final String BACK_BUTTON = "resources/default/img/testButton.png";
 	}
 	
 	protected final Image baseImage; //initial image to maintain quality throughout modifications

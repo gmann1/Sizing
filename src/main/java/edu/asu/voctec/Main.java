@@ -1,10 +1,10 @@
 package edu.asu.voctec;
 
-import java.awt.Dimension;
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
+
+import edu.asu.voctec.AspectRatio.ResolutionNotSupportedException;
 
 public class Main
 {
@@ -12,18 +12,20 @@ public class Main
 	public static final String GAME_TITLE = "Sizing";
 	public static final boolean SHOW_FPS = false;
 	
-	private static int windowWidth = 800;
-	private static int windowHeight = 600;
+	private static final int DEFAULT_WINDOW_WIDTH = 800;
+	private static final int DEFAULT_WINDOW_HEIGHT = 600;
+	private static ScreenResolution screenDimension;
 	private static AppGameContainer gameContainer;
 	
-	public static void main(String[] args) throws SlickException
+	public static void main(String[] args) throws SlickException, ResolutionNotSupportedException
 	{
+		screenDimension = new ScreenResolution(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
 		gameContainer = new AppGameContainer(Game.constructGame());
 		
 		//adjust settings
 		gameContainer.setShowFPS(SHOW_FPS);
 		gameContainer.setTargetFrameRate(TARGET_FRAME_RATE);
-		gameContainer.setDisplayMode(windowWidth, windowHeight, false);
+		gameContainer.setDisplayMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, false);
 		gameContainer.setForceExit(false);
 		//TODO load settings from file
 		
@@ -31,18 +33,18 @@ public class Main
 		gameContainer.start();
 	}
 	
-	public static boolean resize(Dimension screenDimension)
+	public static boolean resize(ScreenResolution screenDimension)
 	{
 		boolean resizeSuccessfull = false;
 		Game currentGame = Game.getCurrentGame();
 		
-		windowWidth = screenDimension.width;
-		windowHeight = screenDimension.height;
+		//TODO add image cropping
+		Main.screenDimension = screenDimension;
 		
 		try
 		{
-			//resize container (user window)
-			gameContainer.setDisplayMode(windowWidth, windowHeight, false);
+			//resize container (user window) //false indicates windowed mode (not full-screen)
+			gameContainer.setDisplayMode(Main.screenDimension.width, Main.screenDimension.height, false);
 			
 			//resize gameStates
 			for (int id : Game.GAME_STATES)
@@ -55,7 +57,6 @@ public class Main
 			resizeSuccessfull = true;
 		} catch (SlickException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -63,10 +64,11 @@ public class Main
 	}
 	
 	/**
-	 * @return	a copy of the current resolution Dimension object
+	 * @return	a copy of the current resolution Dimension object (i.e. current
+	 * game window resolution)
 	 */
-	public static Dimension getScreenDimension()
+	public static ScreenResolution getScreenDimension()
 	{
-		return new Dimension(Main.windowWidth, Main.windowHeight);
+		return Main.screenDimension;
 	}
 }

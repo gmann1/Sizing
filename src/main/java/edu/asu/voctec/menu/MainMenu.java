@@ -1,4 +1,4 @@
-package edu.asu.voctec;
+package edu.asu.voctec.menu;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -8,9 +8,11 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import edu.asu.voctec.menu.Button;
+import edu.asu.voctec.GameDefaults;
+import edu.asu.voctec.Main;
+import edu.asu.voctec.ScreenResolution;
+import edu.asu.voctec.AspectRatio.ResolutionNotSupportedException;
 import edu.asu.voctec.menu.Button.LayoutOption;
-import edu.asu.voctec.menu.Menu;
 import edu.asu.voctec.menu.buttons.*;
 
 public class MainMenu extends Menu implements GameDefaults
@@ -23,9 +25,9 @@ public class MainMenu extends Menu implements GameDefaults
 			throws SlickException
 	{
 		//TODO declare & instantiate all buttons
-		Button newGameButton = new NewGameButton(0, 100, LayoutOption.CENTER_HORIZONTALLY);
+		Button newGameButton = new NewGameButton(0, 248, LayoutOption.CENTER_HORIZONTALLY);
 		Button optionsButton = new TransitionButton(Button.DefaultImagePaths.OPTIONS_BUTTON, 
-													0, 200, 
+													0, 348, 
 													OptionsMenu.ID,
 													LayoutOption.CENTER_HORIZONTALLY);
 		
@@ -42,9 +44,20 @@ public class MainMenu extends Menu implements GameDefaults
 			@Override
 			public void actOnMouseClick()
 			{
-				Dimension d1280 = new Dimension(1280, 720);
-				Dimension d800 = new Dimension(800, 600);
+				ScreenResolution d1280 = null;
+				ScreenResolution d800 = null;
 				
+				try
+				{
+					d1280 = new ScreenResolution(1280, 720);
+					d800 = new ScreenResolution(800, 600);
+				}
+				catch (ResolutionNotSupportedException e)
+				{
+					e.printStackTrace();
+				}
+				
+				//TODO improve algorithm to work with user-definaed resolutions
 				if (Main.getScreenDimension().equals(d1280))
 					Main.resize(d800);
 				else if (Main.getScreenDimension().equals(d800))
@@ -56,7 +69,8 @@ public class MainMenu extends Menu implements GameDefaults
 		//TODO initialize all resources
 		
 		//initialize background image
-		this.backgroundImage = new Image(ImagePaths.MainMenuBackground);
+		Image background = new Image(ImagePaths.MainMenuBackground);
+		super.initializeBackgroundImage(background);
 		
 		//ensure the appropriate scale is being used
 		resize();
