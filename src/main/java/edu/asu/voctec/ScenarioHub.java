@@ -39,6 +39,9 @@ public class ScenarioHub extends Menu
 		
 		//ensure the appropriate scale is being used
 		resize();
+		
+		//ensure the appropriate language is being used
+		updateTranslation();
 	}
 	
 	@Override

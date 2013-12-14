@@ -3,15 +3,21 @@ package edu.asu.voctec.menu.buttons;
 import java.awt.Font;
 import java.awt.Rectangle;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.GUIContext;
 import org.newdawn.slick.gui.TextField;
 
+import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.Main;
+import edu.asu.voctec.Translatable;
 
-public class TranslatableLabel extends TextField
+public class TranslatableLabel extends TextField implements Translatable, GameDefaults
 {
-	public static final Font DEFAULT_AWT_FONT = new Font("Times New Roman", Font.BOLD, 24);
+	public static final Font DEFAULT_AWT_FONT = new Font("Meiryo", Font.BOLD, Fonts.FONT_SIZE);
+	public static final TrueTypeFont DEFAULT_TRUE_TYPE_FONT = 
+			new TrueTypeFont(DEFAULT_AWT_FONT, Fonts.ANTI_ALLIAS, Dictionary.getExtraCharacters());
+	
 	protected final LabelName label;
 	
 	public TranslatableLabel(LabelName label, GUIContext container, org.newdawn.slick.Font font, 
@@ -19,8 +25,12 @@ public class TranslatableLabel extends TextField
 	{
 		super(container, font, x, y, width, height);
 		super.setCursorVisible(false);
+		super.deactivate();
 		this.label = label;
+		this.setBackgroundColor(null);
+		this.setBorderColor(null);
 		this.setText(label.getTranslation());
+		this.setTextColor(Color.magenta);
 	}
 	
 	public TranslatableLabel(LabelName label, GUIContext container, org.newdawn.slick.Font font, 
@@ -32,7 +42,7 @@ public class TranslatableLabel extends TextField
 	public TranslatableLabel(LabelName label, GUIContext container, int x, int y,
 			int width, int height)
 	{
-		this(label, container, new TrueTypeFont(DEFAULT_AWT_FONT, false), x, y, width, height);
+		this(label, container, DEFAULT_TRUE_TYPE_FONT, x, y, width, height);
 	}
 	
 	public TranslatableLabel(LabelName label, GUIContext container, Rectangle labelBounds)
@@ -40,16 +50,14 @@ public class TranslatableLabel extends TextField
 		this(label, container, labelBounds.x, labelBounds.y, labelBounds.width, labelBounds.height);
 	}
 	
-	public TranslatableLabel(LabelName label, Rectangle labelBounds)
+	public TranslatableLabel(LabelName label, TrueTypeFont font, Rectangle labelBounds)
 	{
-		this(label, Main.getGameContainer(), labelBounds.x, labelBounds.y, labelBounds.width, labelBounds.height);
-		
-		// TODO Test that gameContainer is consistent
+		this(label, Main.getGameContainer(), font, labelBounds.x, labelBounds.y, labelBounds.width, labelBounds.height);
 	}
 	
-	public void updateText()
+	public void updateTranslation()
 	{
-		//TODO change text based on current dictionary
+		this.setText(label.getTranslation());
 	}
 	
 }

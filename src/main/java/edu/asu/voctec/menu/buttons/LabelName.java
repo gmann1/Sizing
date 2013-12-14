@@ -1,20 +1,45 @@
 package edu.asu.voctec.menu.buttons;
 
-public enum LabelName
+import java.util.HashMap;
+
+import edu.asu.voctec.Main;
+
+public class LabelName
 {
-	startButton 	("startButton"),
-	optionsButton 	("optionsButton");
+	private static HashMap<String, LabelName> labelsByXMLListing = new HashMap<>();
+	public static final LabelName startButton = new LabelName("startButton", "Start");
+	public static final LabelName optionsButton = new LabelName("optionsButton", "Options");
 	
 	public final String xmlListing;
+	public final String defaultTranslation;
 	
-	private LabelName(String xmlListing)
+	public LabelName(String xmlListing, String defaultTranslation)
 	{
-		this.xmlListing = xmlListing;
+		this.xmlListing = xmlListing.toLowerCase();
+		this.defaultTranslation = defaultTranslation;
+		labelsByXMLListing.put(xmlListing.toLowerCase(), this);
+	}
+	
+	private static HashMap<String, LabelName> getLabelsByXMLListing()
+	{
+		return labelsByXMLListing;
+	}
+	
+	public static LabelName getLabelNameByXMLListing(String xmlID)
+	{
+		return getLabelsByXMLListing().get(xmlID.toLowerCase());
 	}
 	
 	public String getTranslation()
 	{
-		//TODO add loading from dictionary
-		return this.xmlListing;
+		String translation;
+		Dictionary currentLanguage = Main.getCurrentLanguage();
+		
+		if(currentLanguage == null || currentLanguage.get(this) == null)
+			translation = this.defaultTranslation;
+		else
+			translation = currentLanguage.get(this);
+		
+		return translation;
 	}
 }

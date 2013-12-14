@@ -79,6 +79,9 @@ public class MainMenu extends Menu implements GameDefaults
 		
 		//ensure the appropriate scale is being used
 		resize();
+		
+		//ensure the appropriate language is being used
+		updateTranslation();
 	}
 	
 	@Override

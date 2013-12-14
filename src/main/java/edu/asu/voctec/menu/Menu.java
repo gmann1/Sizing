@@ -19,8 +19,9 @@ import edu.asu.voctec.menu.buttons.Button;
 import edu.asu.voctec.Main;
 import edu.asu.voctec.Resizable;
 import edu.asu.voctec.ScreenResolution;
+import edu.asu.voctec.Translatable;
 
-public abstract class Menu extends BasicGameState implements Resizable
+public abstract class Menu extends BasicGameState implements Resizable, Translatable
 {
 	private ScreenResolution baseResolution;
 	private Image baseBackgroundImage;
@@ -166,5 +167,14 @@ public abstract class Menu extends BasicGameState implements Resizable
 	public Image getBackgroundImage()
 	{
 		return backgroundImage;
+	}
+	
+	public void updateTranslation()
+	{
+		//TODO only translate if current language != new language
+		for (Button button : buttons)
+		{
+			button.updateTranslation();
+		}
 	}
 }
