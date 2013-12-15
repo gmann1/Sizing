@@ -34,13 +34,23 @@ public class Dictionary extends HashMap<LabelName, String> implements GameDefaul
 		this.languageName = languageName.toLowerCase();
 		
 		//add dictionary to map
-		supportedLanguages.put(languageName.toLowerCase(), this);
+		supportedLanguages.put(this.languageName, this);
 		
 		//create a label name for the language (to be used by translation buttons
-		new LabelName(languageName.toLowerCase(), languageName.toLowerCase());
+		new LabelName(this.languageName, capitalize(this.languageName));
 		
 		//ensure all characters in languageName are accounted for
 		addExtraCharacters(languageName);
+	}
+	
+	//TODO move to utilities
+	public static String capitalize(String string)
+	{
+		string = string.toLowerCase();
+		String firstLetter = string.substring(0, 1);
+		String tailLetters = string.substring(1);
+		
+		return firstLetter.toUpperCase() + tailLetters;
 	}
 	
 	public static Dictionary constructDictionary(String languageName)
@@ -72,7 +82,9 @@ public class Dictionary extends HashMap<LabelName, String> implements GameDefaul
 	
 	public static boolean loadDictionaries(File dictionaryFile)
 	{
+		System.out.println("Loading Dictionaries...");
 		boolean loadSuccessful = false;
+		
 		try 
 		{
 			// Create and parse XML document
@@ -133,6 +145,7 @@ public class Dictionary extends HashMap<LabelName, String> implements GameDefaul
 			}
 			
 			loadSuccessful = true;
+			System.out.println("Dictionaries Loaded Successfully.");
 			
 		} catch (ParserConfigurationException | SAXException | IOException e) 
 		{

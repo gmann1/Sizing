@@ -10,7 +10,7 @@ import org.newdawn.slick.gui.TextField;
 
 import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.Main;
-import edu.asu.voctec.Translatable;
+import edu.asu.voctec.utilities.Translatable;
 
 public class TranslatableLabel extends TextField implements Translatable, GameDefaults
 {

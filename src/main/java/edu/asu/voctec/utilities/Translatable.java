@@ -1,4 +1,4 @@
-package edu.asu.voctec;
+package edu.asu.voctec.utilities;
 
 public interface Translatable
 {

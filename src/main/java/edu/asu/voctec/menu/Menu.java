@@ -16,10 +16,10 @@ import org.newdawn.slick.state.StateBasedGame;
 import edu.asu.voctec.AspectRatio;
 import edu.asu.voctec.AspectRatio.ResolutionNotSupportedException;
 import edu.asu.voctec.menu.buttons.Button;
+import edu.asu.voctec.utilities.Resizable;
+import edu.asu.voctec.utilities.Translatable;
 import edu.asu.voctec.Main;
-import edu.asu.voctec.Resizable;
 import edu.asu.voctec.ScreenResolution;
-import edu.asu.voctec.Translatable;
 
 public abstract class Menu extends BasicGameState implements Resizable, Translatable
 {

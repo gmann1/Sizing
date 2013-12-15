@@ -9,6 +9,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.menu.MainMenu;
 import edu.asu.voctec.menu.OptionsMenu;
+import edu.asu.voctec.minigames.EnergyAssesmentGame;
+import edu.asu.voctec.utilities.Singleton;
 
 /**
  * Singleton class representing the currently running game. 
@@ -105,6 +107,7 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new MainMenu());
 		this.addState(new ScenarioHub());
 		this.addState(new OptionsMenu());
+		this.addState(new EnergyAssesmentGame());
 		//TODO add all other states
 		
 		//Initialize all the game states
@@ -128,5 +131,13 @@ public class Game extends StateBasedGame implements Singleton
 	{
 		super.addState(state);
 		GAME_STATES.add(state.getID());
+	}
+	
+	@Override
+	public void enterState(int id)
+	{
+		System.out.println("Switching States...");
+		super.enterState(id);
+		System.out.println("Switch Successful. Current State: " + this.getCurrentStateID());
 	}
 }
