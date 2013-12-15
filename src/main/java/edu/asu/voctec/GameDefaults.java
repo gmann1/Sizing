@@ -1,5 +1,7 @@
 package edu.asu.voctec;
 
+import edu.asu.voctec.menu.buttons.LabelName;
+
 public interface GameDefaults
 {
 	public interface ImagePaths
@@ -8,6 +10,7 @@ public interface GameDefaults
 		public static final String MainMenuBackground = "resources/default/img/dualAspectBackground.jpg";
 		public static final String OptionsMenuBackground = "resources/default/img/blackBackground.jpg";
 		public static final String ScenarioHubBackground = "resources/default/img/dualAspectBackground.jpg";
+		public static final String BLACK_BACKGROUND = "resources/default/img/blackBackground.jpg";
 		
 		// Buttons
 		public static final String NEW_GAME_BUTTON = "resources/default/img/testButton.png";
@@ -64,6 +67,23 @@ public interface GameDefaults
 	{
 		public static final String LABEL_NAME = "label";
 		public static final String SUPPORTED_LANGUAGE = "supported_language";
+	}
+	
+	public interface Labels
+	{
+		// Critical Design Month Labels
+		public interface CriticalDesignMonth
+		{
+			public static final LabelName start = new LabelName("criticalDesignStart", "Start");
+			public static final LabelName exit = new LabelName("criticalDesignExit", "Exit");
+			public static final LabelName instructionsLine1 = new LabelName("criticalDesignInstructionsLn1", "Welcome!");
+			public static final LabelName instructionsLine2 = new LabelName("criticalDesignInstructionsLn2", "Collect Energy with your solar panel.");
+			public static final LabelName instructionsLine3 = new LabelName("criticalDesignInstructionsLn3", "Controls:");
+			public static final LabelName instructionsLine4 = new LabelName("criticalDesignInstructionsLn4", "Move Left: left arrow");
+			public static final LabelName instructionsLine5 = new LabelName("criticalDesignInstructionsLn5", "Move Right: right arrow");
+			public static final LabelName instructionsLine6 = new LabelName("criticalDesignInstructionsLn6", "Rotate Panel: 'q' and 'r' keys");
+		}
+		
 	}
 	
 	public interface Fonts

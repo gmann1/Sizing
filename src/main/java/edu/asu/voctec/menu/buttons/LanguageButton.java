@@ -17,7 +17,7 @@ public class LanguageButton extends TransitionButton implements GameDefaults
 			Dictionary language, LayoutOption... layoutOptions) 
 					throws SlickException
 	{
-		super(ImagePaths.LANGUAGE_BUTTON, new Point(relativeX, relativeY), TRANSITION_SCREEN, layoutOptions);
+		super(ImagePaths.LANGUAGE_BUTTON, relativeX, relativeY, TRANSITION_SCREEN, layoutOptions);
 		//TODO set label text
 		this.language = language;
 	}

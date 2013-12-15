@@ -56,6 +56,16 @@ public class TranslatableLabel extends TextField implements Translatable, GameDe
 		this(label, Main.getGameContainer(), font, labelBounds.x, labelBounds.y, labelBounds.width, labelBounds.height);
 	}
 	
+	public TranslatableLabel(LabelName label, Rectangle labelBounds)
+	{
+		this(label, Main.getGameContainer(), labelBounds.x, labelBounds.y, labelBounds.width, labelBounds.height);
+	}
+	
+	public TranslatableLabel(LabelName label, TrueTypeFont font, int x, int y, int width, int height)
+	{
+		this(label, Main.getGameContainer(), font, x, y, width, height);
+	}
+	
 	public void updateTranslation()
 	{
 		this.setText(label.getTranslation());

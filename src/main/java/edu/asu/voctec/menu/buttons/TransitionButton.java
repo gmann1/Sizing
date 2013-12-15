@@ -23,19 +23,6 @@ public class TransitionButton extends Button
 		super(image, relativeLocation, layoutOptions);
 		this.newScreen = newScreen;
 	}
-
-	/**
-	 * @param imagePath			path of the desired image for this button
-	 * @param relativeLocation	location of this button relative to it's container
-	 * @param newScreen			screen that will be transitioned to when this button is pressed
-	 * @throws SlickException 	Indicates a failure to load the image
-	 */
-	public TransitionButton(String imagePath, Point relativeLocation, int newScreen, LayoutOption... layoutOptions)
-			throws SlickException
-	{
-		super(imagePath, relativeLocation, layoutOptions);
-		this.newScreen = newScreen;
-	}
 	
 	/**
 	 * @see #TransitionButton(String, Point, int)
@@ -43,7 +30,8 @@ public class TransitionButton extends Button
 	public TransitionButton(String imagePath, int relativeX, int relativeY, int newScreen, LayoutOption... layoutOptions)
 			throws SlickException
 	{
-		this(imagePath, new Point(relativeX, relativeY), newScreen, layoutOptions);
+		super(imagePath, new Point(relativeX, relativeY), layoutOptions);
+		this.newScreen = newScreen;
 	}
 
 	/**

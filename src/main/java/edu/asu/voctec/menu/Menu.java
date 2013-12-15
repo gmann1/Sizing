@@ -16,6 +16,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import edu.asu.voctec.AspectRatio;
 import edu.asu.voctec.AspectRatio.ResolutionNotSupportedException;
 import edu.asu.voctec.menu.buttons.Button;
+import edu.asu.voctec.menu.buttons.TranslatableLabel;
 import edu.asu.voctec.utilities.Resizable;
 import edu.asu.voctec.utilities.Translatable;
 import edu.asu.voctec.Main;
@@ -26,7 +27,9 @@ public abstract class Menu extends BasicGameState implements Resizable, Translat
 	private ScreenResolution baseResolution;
 	private Image baseBackgroundImage;
 	private Image backgroundImage;
+	//TODO combine to GUIElements
 	protected final ArrayList<Button> buttons = new ArrayList<>();
+	protected final ArrayList<TranslatableLabel> labels = new ArrayList<>();
 	protected float scale;
 	
 	public abstract Dimension getDesignResolution();
@@ -64,6 +67,14 @@ public abstract class Menu extends BasicGameState implements Resizable, Translat
 			return false;
 		else
 			return buttons.add(button);
+	}
+	
+	public boolean addLabel(TranslatableLabel label)
+	{
+		if (labels.contains(label))
+			return false;
+		else
+			return labels.add(label);
 	}
 	
 	/** 
@@ -110,6 +121,14 @@ public abstract class Menu extends BasicGameState implements Resizable, Translat
 		for (Button button : buttons)
 		{
 			button.draw(graphics);
+		}
+		
+		//TODO implement change tracking
+		//TODO draw only labels that have been changed
+		//draw all labels
+		for (TranslatableLabel label : labels)
+		{
+			label.draw(graphics);
 		}
 	}
 	
@@ -162,6 +181,8 @@ public abstract class Menu extends BasicGameState implements Resizable, Translat
 		{
 			button.scale(scale);
 		}
+		
+		//TODO scale labels
 	}
 
 	public Image getBackgroundImage()
@@ -176,5 +197,7 @@ public abstract class Menu extends BasicGameState implements Resizable, Translat
 		{
 			button.updateTranslation();
 		}
+		
+		//TODO update labels
 	}
 }
