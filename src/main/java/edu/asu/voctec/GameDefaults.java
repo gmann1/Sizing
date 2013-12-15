@@ -16,6 +16,9 @@ public interface GameDefaults
 		public static final String BACK_BUTTON = "resources/default/img/arrow-left.png";
 		public static final String LANGUAGE_BUTTON = "resources/default/img/testButton.png";
 		
+		// Labels
+		public static final String BASE_LABEL = "resources/default/img/testButton.png";
+		
 		// Minigame Resources
 		public static final String APPLIANCE_GOOD = "resources/default/img/minigames/appliance1Good.jpg";
 		public static final String APPLIANCE_BAD = "resources/default/img/minigames/appliance1.jpg";
@@ -33,6 +36,23 @@ public interface GameDefaults
 		public static final String TILE_3x0 = "resources/default/img/minigames/tile3x0.jpg";
 		public static final String TILE_3x1 = "resources/default/img/minigames/tile3x1.jpg";
 		public static final String TILE_3x2 = "resources/default/img/minigames/tile3x2.jpg";
+		
+		// Critical Design Month Resources
+		public static final String BATTERY = "resources/default/img/minigames/criticalDesign/battery.png";
+		public static final String BATTERY_CHARGE = "resources/default/img/minigames/criticalDesign/battery.png";
+		public static final String INTRO_BACKGROUND = "resources/default/img/minigames/criticalDesign/introSplash.png";
+		public static final String LIGHT_BACKGROUND = "resources/default/img/minigames/criticalDesign/lightback.png";
+		public static final String CRITICAL_BACKGROUND = "resources/default/img/minigames/criticalDesign/criticalBck.png";
+		public static final String DARK_BACKGROUND = "resources/default/img/minigames/criticalDesign/darkBack.png";
+		public static final String PANEL = "resources/default/img/minigames/criticalDesign/panel.png";
+		public static final String SUN = "resources/default/img/minigames/criticalDesign/sun.png";
+		public static final String SUN_BEAM = "resources/default/img/minigames/criticalDesign/sunBeam.png";
+	}
+	
+	public interface SoundPaths
+	{
+		// Critical Design Month Resources
+		public static final String CHARGE = "resources/default/sounds/charge.wav";
 	}
 	
 	public interface XMLPaths

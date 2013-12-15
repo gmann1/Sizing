@@ -5,11 +5,12 @@ import java.awt.Point;
 import org.newdawn.slick.SlickException;
 
 import edu.asu.voctec.GameDefaults;
+import edu.asu.voctec.minigames.CriticalDesignMonthGame;
 import edu.asu.voctec.minigames.EnergyAssesmentGame;
 
 public class NewGameButton extends TransitionButton implements GameDefaults
 {
-	public static int TRANSITION_SCREEN = EnergyAssesmentGame.ID; //ScenarioHub.ID;
+	public static int TRANSITION_SCREEN = CriticalDesignMonthGame.ID;//EnergyAssesmentGame.ID; //ScenarioHub.ID;
 	
 	/**
 	 * Constructor. Sets the button image to the default image.

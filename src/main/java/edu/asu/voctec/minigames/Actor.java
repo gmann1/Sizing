@@ -1,6 +1,7 @@
 package edu.asu.voctec.minigames;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -46,10 +47,17 @@ public abstract class Actor implements GameDefaults
 	
 	public void draw(Graphics graphics)
 	{
-		graphics.drawImage(image, (int) xLocation, (int) yLocation);
+		if (this.image != null)
+			graphics.drawImage(image, (int) xLocation, (int) yLocation);
 	}
 	
 	public void setLocation(int xLocation, int yLocation)
+	{
+		this.xLocation = xLocation;
+		this.yLocation = yLocation;
+	}
+	
+	public void setLocation(double xLocation, double yLocation)
 	{
 		this.xLocation = xLocation;
 		this.yLocation = yLocation;
@@ -94,5 +102,17 @@ public abstract class Actor implements GameDefaults
 								relativeMouseLocation.y >= maximumY);
 		
 		return !outOfBounds;
+	}
+	
+	public boolean intersects(Actor otherActor)
+	{
+		Rectangle boundingBoxA = new Rectangle 
+				(this.getxLocation(), this.getyLocation(), 
+				 this.image.getWidth(), this.image.getHeight());
+		Rectangle boundingBoxB = new Rectangle 
+				(otherActor.getxLocation(), otherActor.getyLocation(), 
+				 otherActor.image.getWidth(), otherActor.image.getHeight());
+		
+		return boundingBoxA.intersects(boundingBoxB);
 	}
 }

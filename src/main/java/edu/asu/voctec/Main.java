@@ -120,6 +120,4 @@ public class Main
 		
 		System.out.println("Language Updates Complete.");
 	}
-	
-	
 }

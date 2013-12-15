@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Rectangle;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.GUIContext;
 import org.newdawn.slick.gui.TextField;
@@ -12,7 +13,7 @@ import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.Main;
 import edu.asu.voctec.utilities.Translatable;
 
-public class TranslatableLabel extends TextField implements Translatable, GameDefaults
+public class TranslatableLabel extends TextField implements Translatable, GameDefaults, GUIElement
 {
 	public static final Font DEFAULT_AWT_FONT = new Font("Meiryo", Font.BOLD, Fonts.FONT_SIZE);
 	public static final TrueTypeFont DEFAULT_TRUE_TYPE_FONT = 
@@ -58,6 +59,12 @@ public class TranslatableLabel extends TextField implements Translatable, GameDe
 	public void updateTranslation()
 	{
 		this.setText(label.getTranslation());
+	}
+
+	@Override
+	public void draw(Graphics graphics)
+	{
+		super.render(Main.getGameContainer(), graphics);
 	}
 	
 }

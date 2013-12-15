@@ -13,7 +13,7 @@ import edu.asu.voctec.GameDefaults.Fonts;
 import edu.asu.voctec.Main;
 import edu.asu.voctec.utilities.Translatable;
 
-public abstract class Button implements Translatable
+public abstract class Button implements Translatable, GUIElement
 {
 	public static enum LayoutOption
 	{
