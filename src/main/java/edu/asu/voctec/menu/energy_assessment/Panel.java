@@ -62,7 +62,8 @@ public class Panel
 		return successful;
 	}
 	
-	public int normalize(int angle)
+	// TODO move to utilities
+	public static int normalize(int angle)
 	{
 		int normalizedAngle = 0;
 		
@@ -74,5 +75,30 @@ public class Panel
 			normalizedAngle = 360 - ((-1*angle) % 360);
 		
 		return normalizedAngle;
+	}
+
+	public Image getBaseImage() {
+		return baseImage;
+	}
+
+	public Image getCurrentImage() {
+		return currentImage;
+	}
+
+	public int getCurrentRotation() {
+		return currentRotation;
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+	
+	public double getAngle()
+	{
+		return Panel.normalize(this.currentRotation);
 	}
 }

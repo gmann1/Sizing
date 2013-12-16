@@ -13,6 +13,7 @@ public interface GameDefaults
 		public static final String BLACK_BACKGROUND = "resources/default/img/blackBackground.jpg";
 		
 		// Buttons
+		public static final String BASE_BUTTON = "resources/default/img/testButton.png";
 		public static final String NEW_GAME_BUTTON = "resources/default/img/testButton.png";
 		public static final String OPTIONS_BUTTON = "resources/default/img/testButton.png";
 		public static final String INSTRUCTOR_CONTROL_PANEL_BUTTON = "resources/default/img/Horo - Square.png";
@@ -49,7 +50,9 @@ public interface GameDefaults
 		public static final String DARK_BACKGROUND = "resources/default/img/minigames/criticalDesign/darkBack.png";
 		public static final String PANEL = "resources/default/img/minigames/criticalDesign/panel.png";
 		public static final String SUN = "resources/default/img/minigames/criticalDesign/sun.png";
-		public static final String SUN_BEAM = "resources/default/img/minigames/criticalDesign/sunBeam.png";
+		public static final String SUN_BEAM = "resources/default/img/minigames/criticalDesign/beam.png";
+		public static final String SUN_BEAM_MEDIUM = "resources/default/img/minigames/criticalDesign/beammed.png";
+		public static final String SUN_BEAM_SMALL = "resources/default/img/minigames/criticalDesign/beamsmall.png";
 	}
 	
 	public interface SoundPaths
@@ -78,6 +81,17 @@ public interface GameDefaults
 			public static final LabelName exit = new LabelName("criticalDesignExit", "Exit");
 			public static final LabelName instructionsLine1 = new LabelName("criticalDesignInstructionsLn1", "Welcome!");
 			public static final LabelName instructionsLine2 = new LabelName("criticalDesignInstructionsLn2", "Collect Energy with your solar panel.");
+			public static final LabelName instructionsLine3 = new LabelName("criticalDesignInstructionsLn3", "Controls:");
+			public static final LabelName instructionsLine4 = new LabelName("criticalDesignInstructionsLn4", "Move Left: left arrow");
+			public static final LabelName instructionsLine5 = new LabelName("criticalDesignInstructionsLn5", "Move Right: right arrow");
+			public static final LabelName instructionsLine6 = new LabelName("criticalDesignInstructionsLn6", "Rotate Panel: 'q' and 'r' keys");
+		}
+		
+		// Generic Exit Screen Labels
+		public interface ExitScreen
+		{
+			public static final LabelName instructionsLine1 = new LabelName("criticalDesignInstructionsLn1", "Complete!");
+			public static final LabelName instructionsLine2 = new LabelName("criticalDesignInstructionsLn2", "Score:");
 			public static final LabelName instructionsLine3 = new LabelName("criticalDesignInstructionsLn3", "Controls:");
 			public static final LabelName instructionsLine4 = new LabelName("criticalDesignInstructionsLn4", "Move Left: left arrow");
 			public static final LabelName instructionsLine5 = new LabelName("criticalDesignInstructionsLn5", "Move Right: right arrow");

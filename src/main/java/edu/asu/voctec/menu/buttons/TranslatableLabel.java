@@ -20,6 +20,7 @@ public class TranslatableLabel extends TextField implements Translatable, GameDe
 			new TrueTypeFont(DEFAULT_AWT_FONT, Fonts.ANTI_ALLIAS, Dictionary.getExtraCharacters());
 	
 	protected final LabelName label;
+	public boolean noTranslate = false;
 	
 	public TranslatableLabel(LabelName label, GUIContext container, org.newdawn.slick.Font font, 
 			int x, int y, int width, int height)
@@ -68,7 +69,8 @@ public class TranslatableLabel extends TextField implements Translatable, GameDe
 	
 	public void updateTranslation()
 	{
-		this.setText(label.getTranslation());
+		if (!noTranslate)
+			this.setText(label.getTranslation());
 	}
 
 	@Override

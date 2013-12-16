@@ -12,6 +12,8 @@ public class Watts extends Actor
     public static Watts watt2 = new Watts("20 Watts");
     public static Watts watt3 = new Watts("30 Watts"); 
     public static Watts watt4 = new Watts("40 Watts");
+    
+    public static Watts[] watts = {watt1, watt2, watt3, watt4};
 
     //TODO add support for custom text locations
     static Point relativeTextLocation = new Point(45, 50);
@@ -56,6 +58,11 @@ public class Watts extends Actor
 	@Override
 	public void actOnMouseClick()
 	{
+	}
+	
+	public boolean isConnected()
+	{
+		return this.connected;
 	}
     
 }

@@ -51,4 +51,18 @@ public class Sun
 		else
 			return false;
 	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+	
+	
 }

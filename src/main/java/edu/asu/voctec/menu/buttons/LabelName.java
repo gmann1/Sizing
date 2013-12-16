@@ -9,6 +9,8 @@ public class LabelName
 	private static HashMap<String, LabelName> labelsByXMLListing = new HashMap<>();
 	public static final LabelName startButton = new LabelName("startButton", "Start");
 	public static final LabelName optionsButton = new LabelName("optionsButton", "Options");
+	public static final LabelName replayButton = new LabelName("replayButton", "Replay");
+	public static final LabelName returnButton = new LabelName("returnButton", "Return");
 	
 	public final String xmlListing;
 	public final String defaultTranslation;

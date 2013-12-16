@@ -31,6 +31,7 @@ public class Wire extends Actor
 		row = newRow;
 		column = newColumn;
 		this.setImage(image);
+		setRotation(rotationValue * 90);
 	}
 
 	// run state

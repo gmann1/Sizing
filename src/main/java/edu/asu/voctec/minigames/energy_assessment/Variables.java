@@ -17,13 +17,14 @@ public abstract class Variables extends Actor
     
     //A matrix to hold the diffrent rotation values for the wires
         //rows/columns
-    static int[][] matrix = new int[4][3]
-    /*{
+    //static int[][] matrix = new int[4][3];
+    static int[][] matrix =
+    {
 	    {1,2,3},
 	    {2,2,1},
 	    {3,1,0},
 	    {2,0,2}
-    }*/;
+    };
     
     //set the Matrix values
     public static void setMatrixValue(int row, int column, int value)

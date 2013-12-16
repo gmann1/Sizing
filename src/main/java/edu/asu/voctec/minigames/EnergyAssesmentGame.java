@@ -1,29 +1,39 @@
 package edu.asu.voctec.minigames;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import edu.asu.voctec.ModifiedGameState;
+import edu.asu.voctec.Game;
+import edu.asu.voctec.GameDefaults.ImagePaths;
+import edu.asu.voctec.ScenarioHub;
+import edu.asu.voctec.menu.Menu;
+import edu.asu.voctec.menu.buttons.Button;
+import edu.asu.voctec.menu.buttons.Button.LayoutOption;
+import edu.asu.voctec.menu.buttons.TransitionButton;
+import edu.asu.voctec.menu.energy_assessment.ExitScreen;
 import edu.asu.voctec.minigames.energy_assessment.Watts;
 import edu.asu.voctec.minigames.energy_assessment.Wire;
 import edu.asu.voctec.minigames.energy_assessment.appliance1;
 import edu.asu.voctec.minigames.energy_assessment.appliance2;
 import edu.asu.voctec.minigames.energy_assessment.appliance3;
 import edu.asu.voctec.minigames.energy_assessment.appliance4;
-import edu.asu.voctec.utilities.Greenfoot;
 
-public class EnergyAssesmentGame extends ModifiedGameState
+public class EnergyAssesmentGame extends Menu
 {
 	public static final int ID = 80;
 	public static final int xOffset = -72;
 	public static final int yOffset = -70;
 	private ArrayList<Actor> actors = new ArrayList<>();
+	
+	private int endDelay = 10000;
 	
 	public EnergyAssesmentGame()
 	{
@@ -59,7 +69,13 @@ public class EnergyAssesmentGame extends ModifiedGameState
 		addObject(Wire.wire3x2, 540 + xOffset, 510 + yOffset);
 	}
 	
-	//TODO replace Object with Actor
+	public void end()
+	{
+		// TODO act on vicotry
+		System.out.println("Completed EnergyAssesment");
+		Game.getCurrentGame().enterState(ExitScreen.ID);
+	}
+	
 	public void addObject(Actor actor, int xLocation, int yLocation)
 	{
 		actor.setLocation(xLocation, yLocation);
@@ -91,14 +107,21 @@ public class EnergyAssesmentGame extends ModifiedGameState
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
+		initializeBackgroundImage(new Image(ImagePaths.BLACK_BACKGROUND));
 		// TODO Auto-generated method stub
-
+		Button backButton = new TransitionButton(ImagePaths.BACK_BUTTON,
+				 10, -10, ScenarioHub.ID,
+				 LayoutOption.BOTTOM_LEFT_ALIGN);
+		
+		addButton(backButton);
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics graphics)
 			throws SlickException
 	{
+		super.render(container, game, graphics);
+		
 		// TODO Auto-generated method stub
 		for (Actor actor : actors)
 		{
@@ -116,7 +139,25 @@ public class EnergyAssesmentGame extends ModifiedGameState
 			actor.act();
 		}
 		
-		Greenfoot.currentMouseEvent = null;
+		// TODO replace with listener
+		// Check victory conditions
+		boolean complete = true;
+		for (Watts watt : Watts.watts)
+		{
+			if (!watt.isConnected())
+			{
+				complete = false;
+				break;
+			}
+		}
+		
+		if (complete)
+		{
+			endDelay -= delta;
+		}
+		
+		if (endDelay <= 0)
+			this.end();
 	}
 
 	@Override
@@ -129,6 +170,8 @@ public class EnergyAssesmentGame extends ModifiedGameState
 	@Override
 	public void mousePressed(int buttonType, int x, int y)
 	{
+		super.mousePressed(buttonType, x, y);
+		
 		boolean leftButtonPressed = (buttonType == Input.MOUSE_LEFT_BUTTON);
 		
 		if (leftButtonPressed)
@@ -144,5 +187,11 @@ public class EnergyAssesmentGame extends ModifiedGameState
 				}
 			}
 		}
+	}
+
+	@Override
+	public Dimension getDesignResolution() {
+		// TODO Auto-generated method stub
+		return new Dimension(800, 600);
 	}
 }
