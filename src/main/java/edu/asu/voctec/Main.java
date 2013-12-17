@@ -6,10 +6,11 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 
-import edu.asu.voctec.AspectRatio.ResolutionNotSupportedException;
 import edu.asu.voctec.menu.buttons.Dictionary;
 import edu.asu.voctec.utilities.Resizable;
+import edu.asu.voctec.utilities.ScreenResolution;
 import edu.asu.voctec.utilities.Translatable;
+import edu.asu.voctec.utilities.AspectRatio.ResolutionNotSupportedException;
 
 public class Main
 {

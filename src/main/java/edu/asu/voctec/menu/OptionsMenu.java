@@ -8,16 +8,16 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import edu.asu.voctec.AspectRatio.ResolutionNotSupportedException;
 import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.Main;
-import edu.asu.voctec.ScreenResolution;
 import edu.asu.voctec.menu.buttons.Button;
 import edu.asu.voctec.menu.buttons.Button.LayoutOption;
 import edu.asu.voctec.menu.buttons.Dictionary;
 import edu.asu.voctec.menu.buttons.LabelName;
 import edu.asu.voctec.menu.buttons.LanguageButton;
 import edu.asu.voctec.menu.buttons.TransitionButton;
+import edu.asu.voctec.utilities.ScreenResolution;
+import edu.asu.voctec.utilities.AspectRatio.ResolutionNotSupportedException;
 
 public class OptionsMenu extends Menu implements GameDefaults
 {

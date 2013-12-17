@@ -24,8 +24,8 @@ public class Dictionary extends HashMap<LabelName, String> implements GameDefaul
 	protected static final HashMap<String, Dictionary> supportedLanguages = new HashMap<>();
 	
 	protected final String languageName;
-	private static ArrayList<Character> extraCharacters = new ArrayList<>('‚ß');
-	private static char[] extraCharactersArray = {'‚ß'};
+	private static ArrayList<Character> extraCharacters = new ArrayList<>();
+	private static char[] extraCharactersArray = {};
 	
 	private Dictionary(String languageName)
 	{
@@ -110,6 +110,7 @@ public class Dictionary extends HashMap<LabelName, String> implements GameDefaul
 				Dictionary.constructDictionary(languageName);
 				System.out.println("Supported Language: " + languageName);
 			}
+			
 			
 			// Parse labelNodes and add each translation to the appropriate dictionary
 			for(int labelIndex = 0; labelIndex < labelNodes.getLength(); labelIndex++)

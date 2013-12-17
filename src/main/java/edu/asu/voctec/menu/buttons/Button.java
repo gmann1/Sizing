@@ -199,27 +199,29 @@ public abstract class Button implements Translatable, GUIElement
 	public void scaleAndCenterLabel(float scale)
 	{
 		//TODO add support for custom positioning
-		
-		//scale font size & update labelFont
-		int labelFontSize = (int) (this.baseLabelFontSize * scale);
-		this.labelFont = new TrueTypeFont(new Font(Fonts.FONT_NAME, Font.BOLD, 
-				labelFontSize), Fonts.ANTI_ALLIAS, Dictionary.getExtraCharacters());
-		//TODO replace defaults with variables
-		
-		//scale label boundary
-		this.labelBoundary = getScaledLabelBoundary(scale);
-		
-		//center label boundary
-		Rectangle buttonBoundary = new Rectangle(0, 0, this.image.getWidth(),
-				this.image.getHeight());
-		centerRectangleVertically(buttonBoundary, this.labelBoundary);
-		
-		//get label position relative to the screen
-		Rectangle labelPosition = getTranslatedRectangle(this.labelBoundary, this.relativeLocation);
-		
-		//create the scaled label, and set it as this button's label
 		if (this.labelName != null)
-			this.buttonLabel = new TranslatableLabel(labelName, this.labelFont, labelPosition);
+		{
+			//scale font size & update labelFont
+			int labelFontSize = (int) (this.baseLabelFontSize * scale);
+			this.labelFont = new TrueTypeFont(new Font(Fonts.FONT_NAME, Font.BOLD, 
+					labelFontSize), Fonts.ANTI_ALLIAS, Dictionary.getExtraCharacters());
+			//TODO replace defaults with variables
+			
+			//scale label boundary
+			this.labelBoundary = getScaledLabelBoundary(scale);
+			
+			//center label boundary
+			Rectangle buttonBoundary = new Rectangle(0, 0, this.image.getWidth(),
+					this.image.getHeight());
+			centerRectangleVertically(buttonBoundary, this.labelBoundary);
+			
+			//get label position relative to the screen
+			Rectangle labelPosition = getTranslatedRectangle(this.labelBoundary, this.relativeLocation);
+		
+			//create the scaled label, and set it as this button's label
+			if (this.labelName != null)
+				this.buttonLabel = new TranslatableLabel(labelName, this.labelFont, labelPosition);
+		}
 		else
 			this.buttonLabel = null;
 	}

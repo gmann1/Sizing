@@ -1,11 +1,11 @@
 package edu.asu.voctec.minigames.critical_design_month;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import edu.asu.voctec.minigames.Actor;
 import edu.asu.voctec.minigames.PortedGameState;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Write a description of class Sun here.
@@ -18,18 +18,13 @@ public class Sun extends Actor {
 	 * Act - do whatever the Sun wants to do. This method is called whenever the
 	 * 'Act' or 'Run' button gets pressed in the environment.
 	 */
-	private boolean forward = true;
 	private int frequency = 200;
 	private int inc = 0;
 	private int currentRot;
 	private int currentx;
 	private int randomx;
-	private int xc = 0;
-	private int yc = 0;
 	private int beam_x;
 	private int beam_y;
-	private int init_x;
-	private int init_y;
 	private int season;
 	private int counter = 0;
 	private int rotation;

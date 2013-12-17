@@ -33,7 +33,7 @@ public class EnergyAssesmentGame extends Menu
 	public static final int yOffset = -70;
 	private ArrayList<Actor> actors = new ArrayList<>();
 	
-	private int endDelay = 10000;
+	private int endDelay = 3*1000;
 	
 	public EnergyAssesmentGame()
 	{

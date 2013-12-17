@@ -79,12 +79,12 @@ public interface GameDefaults
 		{
 			public static final LabelName start = new LabelName("criticalDesignStart", "Start");
 			public static final LabelName exit = new LabelName("criticalDesignExit", "Exit");
-			public static final LabelName instructionsLine1 = new LabelName("criticalDesignInstructionsLn1", "Welcome!");
-			public static final LabelName instructionsLine2 = new LabelName("criticalDesignInstructionsLn2", "Collect Energy with your solar panel.");
-			public static final LabelName instructionsLine3 = new LabelName("criticalDesignInstructionsLn3", "Controls:");
-			public static final LabelName instructionsLine4 = new LabelName("criticalDesignInstructionsLn4", "Move Left: left arrow");
-			public static final LabelName instructionsLine5 = new LabelName("criticalDesignInstructionsLn5", "Move Right: right arrow");
-			public static final LabelName instructionsLine6 = new LabelName("criticalDesignInstructionsLn6", "Rotate Panel: 'q' and 'r' keys");
+			public static final LabelName instructionsLine1 = LabelName.instructionsLine1;
+			public static final LabelName instructionsLine2 = LabelName.instructionsLine2;
+			public static final LabelName instructionsLine3 = LabelName.instructionsLine3;
+			public static final LabelName instructionsLine4 = LabelName.instructionsLine4;
+			public static final LabelName instructionsLine5 = LabelName.instructionsLine5;
+			public static final LabelName instructionsLine6 = LabelName.instructionsLine6;
 		}
 		
 		// Generic Exit Screen Labels

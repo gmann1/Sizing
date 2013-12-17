@@ -2,6 +2,8 @@ package edu.asu.voctec.menu;
 
 import java.awt.Dimension;
 
+import javax.swing.JFrame;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;

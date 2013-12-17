@@ -13,14 +13,14 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import edu.asu.voctec.AspectRatio;
-import edu.asu.voctec.AspectRatio.ResolutionNotSupportedException;
 import edu.asu.voctec.menu.buttons.Button;
 import edu.asu.voctec.menu.buttons.TranslatableLabel;
+import edu.asu.voctec.utilities.AspectRatio;
 import edu.asu.voctec.utilities.Resizable;
+import edu.asu.voctec.utilities.ScreenResolution;
 import edu.asu.voctec.utilities.Translatable;
+import edu.asu.voctec.utilities.AspectRatio.ResolutionNotSupportedException;
 import edu.asu.voctec.Main;
-import edu.asu.voctec.ScreenResolution;
 
 public abstract class Menu extends BasicGameState implements Resizable, Translatable
 {
@@ -199,5 +199,9 @@ public abstract class Menu extends BasicGameState implements Resizable, Translat
 		}
 		
 		//TODO update labels
+		for (TranslatableLabel label : labels)
+		{
+			label.updateTranslation();
+		}
 	}
 }

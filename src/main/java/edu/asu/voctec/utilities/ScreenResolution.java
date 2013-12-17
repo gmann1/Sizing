@@ -1,10 +1,10 @@
-package edu.asu.voctec;
+package edu.asu.voctec.utilities;
 
 import java.awt.Dimension;
 
 import org.newdawn.slick.Image;
 
-import edu.asu.voctec.AspectRatio.ResolutionNotSupportedException;
+import edu.asu.voctec.utilities.AspectRatio.ResolutionNotSupportedException;
 
 public class ScreenResolution extends Dimension
 {

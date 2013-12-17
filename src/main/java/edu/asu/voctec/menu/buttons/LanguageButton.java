@@ -1,7 +1,5 @@
 package edu.asu.voctec.menu.buttons;
 
-import java.awt.Point;
-
 import org.newdawn.slick.SlickException;
 
 import edu.asu.voctec.GameDefaults;

@@ -4,7 +4,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import edu.asu.voctec.GameDefaults.ImagePaths;
 import edu.asu.voctec.menu.buttons.LabelName;
 import edu.asu.voctec.minigames.Actor;
 /**
