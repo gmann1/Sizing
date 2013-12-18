@@ -25,6 +25,7 @@ public class MainMenu extends Menu implements GameDefaults
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
+		System.out.println("Initializing Main Menu...");
 		//TODO replace absolute positioning with ButtonBlock class
 		//TODO declare & instantiate all buttons
 		//TODO move setLabel() call to button constructor
@@ -52,6 +53,8 @@ public class MainMenu extends Menu implements GameDefaults
 		
 		//ensure the appropriate language is being used
 		updateTranslation();
+		
+		System.out.println("Initialization Complete: Main Menu");
 	}
 	
 	@Override
