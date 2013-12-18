@@ -25,31 +25,31 @@ public class CircularList<E>
 		}
 	}
 
-	public ListElement<E> getFirstElement()
+	public E getFirstElement()
 	{
-		return firstElement;
+		return firstElement.data;
 	}
 
-	public ListElement<E> getLastElement()
+	public E getLastElement()
 	{
-		return lastElement;
+		return lastElement.data;
 	}
 
-	public ListElement<E> getCurrentElement()
+	public E getCurrentElement()
 	{
-		return currentElement;
+		return currentElement.data;
 	}
 	
-	public ListElement<E> next()
+	public E next()
 	{
 		currentElement = currentElement.nextElement;
-		return currentElement;
+		return currentElement.data;
 	}
 	
-	public ListElement<E> previous()
+	public E previous()
 	{
 		currentElement = currentElement.previousElement;
-		return currentElement;
+		return currentElement.data;
 	}
 	
 	public void addFirst(E element)

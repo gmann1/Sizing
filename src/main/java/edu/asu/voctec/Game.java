@@ -116,13 +116,6 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new ExitScreen());
 		//TODO add all other states
 		
-		//Initialize all the game states
-		for (int stateID : Game.GAME_STATES)
-		{
-			GameState g = this.getState(stateID);
-			g.init(container, this);
-		}
-		
 		//Move to the default game state
 		this.enterState(Game.DEFAULT_GAME_STATE);
 	}
