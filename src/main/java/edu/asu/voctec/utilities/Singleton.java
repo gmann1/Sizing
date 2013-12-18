@@ -3,18 +3,19 @@ package edu.asu.voctec.utilities;
 public interface Singleton
 {
 	/**
-	 * Exception thrown when an attempt is made to create multiple instances
-	 * of a singleton class.
+	 * Exception thrown when an attempt is made to create multiple instances of
+	 * a singleton class.
 	 * 
 	 * @author Zach Moore
 	 */
 	public static class DuplicateInstantiationException extends Exception
 	{
-		private static final long serialVersionUID = 1L;
+		private static final long	serialVersionUID	= 1L;
 		
 		/**
-		 * Constructor. 
-		 * @see	DuplicateInstantiationException#DuplicateInstantiationException(String)
+		 * Constructor.
+		 * 
+		 * @see DuplicateInstantiationException#DuplicateInstantiationException(String)
 		 */
 		public DuplicateInstantiationException()
 		{
@@ -22,8 +23,9 @@ public interface Singleton
 		}
 		
 		/**
-		 * Constructor. 
-		 * @see	Exception#Exception(String)
+		 * Constructor.
+		 * 
+		 * @see Exception#Exception(String)
 		 */
 		public DuplicateInstantiationException(String message)
 		{
@@ -31,10 +33,12 @@ public interface Singleton
 		}
 		
 		/**
-		 * Constructor. 
-		 * @see	Exception#Exception(String, Throwable)
+		 * Constructor.
+		 * 
+		 * @see Exception#Exception(String, Throwable)
 		 */
-		public DuplicateInstantiationException(String message, Throwable throwable)
+		public DuplicateInstantiationException(String message,
+				Throwable throwable)
 		{
 			super(message, throwable);
 		}

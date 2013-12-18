@@ -6,7 +6,7 @@ import edu.asu.voctec.menu.buttons.TransitionButton;
 
 public class TaskData
 {
-	private ArrayList<AttemptData> listOfAttempts;
-	private int associatedTaskScreenID;
-	private TransitionButton taskIcon;
+	private ArrayList<AttemptData>	listOfAttempts;
+	private int						associatedTaskScreenID;
+	private TransitionButton		taskIcon;
 }

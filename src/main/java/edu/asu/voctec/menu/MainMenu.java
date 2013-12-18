@@ -18,40 +18,40 @@ import edu.asu.voctec.menu.buttons.TransitionButton;
 
 public class MainMenu extends Menu implements GameDefaults
 {
-	public static final int ID = 0;
-	public static final Dimension DesignResolution = new Dimension(1280, 720);
+	public static final int			ID					= 0;
+	public static final Dimension	DesignResolution	= new Dimension(1280,
+																720);
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
 		System.out.println("Initializing Main Menu...");
-		//TODO replace absolute positioning with ButtonBlock class
-		//TODO declare & instantiate all buttons
-		//TODO move setLabel() call to button constructor
-		Button newGameButton = new NewGameButton(0, 248, LayoutOption.CENTER_HORIZONTALLY);
+		// TODO replace absolute positioning with ButtonBlock class
+		// TODO declare & instantiate all buttons
+		// TODO move setLabel() call to button constructor
+		Button newGameButton = new NewGameButton(0, 248,
+				LayoutOption.CENTER_HORIZONTALLY);
 		newGameButton.setLabel(LabelName.startButton);
 		
-		Button optionsButton = new TransitionButton(ImagePaths.OPTIONS_BUTTON, 
-													0, 348, 
-													OptionsMenu.ID,
-													LayoutOption.CENTER_HORIZONTALLY);
+		Button optionsButton = new TransitionButton(ImagePaths.OPTIONS_BUTTON,
+				0, 348, OptionsMenu.ID, LayoutOption.CENTER_HORIZONTALLY);
 		optionsButton.setLabel(LabelName.optionsButton);
 		
-		//TODO add all buttons
+		// TODO add all buttons
 		addButton(newGameButton);
 		addButton(optionsButton);
 		
-		//TODO initialize all resources
+		// TODO initialize all resources
 		
-		//initialize background image
+		// initialize background image
 		Image background = new Image(ImagePaths.MainMenuBackground);
 		super.initializeBackgroundImage(background);
 		
-		//ensure the appropriate scale is being used
+		// ensure the appropriate scale is being used
 		resize();
 		
-		//ensure the appropriate language is being used
+		// ensure the appropriate language is being used
 		updateTranslation();
 		
 		System.out.println("Initialization Complete: Main Menu");
@@ -61,19 +61,19 @@ public class MainMenu extends Menu implements GameDefaults
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException
 	{
-		//mouse events are handled by superclass in mousePressed()
+		// mouse events are handled by superclass in mousePressed()
 	}
-
+	
 	@Override
 	public int getID()
 	{
 		return ID;
 	}
-
+	
 	@Override
 	public Dimension getDesignResolution()
 	{
 		return DesignResolution;
 	}
-
+	
 }

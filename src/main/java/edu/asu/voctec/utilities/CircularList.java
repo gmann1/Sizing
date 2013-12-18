@@ -1,40 +1,40 @@
 package edu.asu.voctec.utilities;
 
-
 public class CircularList<E>
 {
-	private ListElement<E> firstElement;
-	private ListElement<E> lastElement;
-	private ListElement<E> currentElement;
+	private ListElement<E>	firstElement;
+	private ListElement<E>	lastElement;
+	private ListElement<E>	currentElement;
 	
 	private static class ListElement<E>
 	{
-		E data;
-		ListElement<E> nextElement;
-		ListElement<E> previousElement;
+		E				data;
+		ListElement<E>	nextElement;
+		ListElement<E>	previousElement;
 		
 		public ListElement(E element)
 		{
 			this.data = element;
 		}
 		
-		public void setLinks(ListElement<E> previousElement, ListElement<E> nextElement)
+		public void setLinks(ListElement<E> previousElement,
+				ListElement<E> nextElement)
 		{
 			this.nextElement = nextElement;
 			this.previousElement = previousElement;
 		}
 	}
-
+	
 	public E getFirstElement()
 	{
 		return firstElement.data;
 	}
-
+	
 	public E getLastElement()
 	{
 		return lastElement.data;
 	}
-
+	
 	public E getCurrentElement()
 	{
 		return currentElement.data;

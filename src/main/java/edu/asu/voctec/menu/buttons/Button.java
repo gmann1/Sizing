@@ -17,35 +17,100 @@ public abstract class Button implements Translatable, GUIElement
 {
 	public static enum LayoutOption
 	{
-		CENTER_VERTICALLY,
-		CENTER_HORIZONTALLY,
-		TOP_LEFT_ALIGN,
-		TOP_RIGHT_ALIGN,
-		BOTTOM_LEFT_ALIGN,
-		BOTTOM_RIGHT_ALIGN;
+		CENTER_VERTICALLY, CENTER_HORIZONTALLY, TOP_LEFT_ALIGN, TOP_RIGHT_ALIGN, BOTTOM_LEFT_ALIGN, BOTTOM_RIGHT_ALIGN;
 	}
 	
 	/** Default location of textLabel, relative to the button object */
-	public static final int DEFAULT_LABEL_BORDER = 5;
+	public static final int		DEFAULT_LABEL_BORDER	= 5;
 	
-	protected final Image baseImage; //initial image to maintain quality throughout modifications
-	protected Image image; //image displayed to user
-	protected Rectangle baseLabelBoundary; //location of this button's text label, relative to this button's location and base size.
-	protected Rectangle labelBoundary;  //same as baseLabelBoundary but relative to this button's CURRENT size and location
-	protected int baseLabelFontSize = TranslatableLabel.DEFAULT_AWT_FONT.getSize();
-	protected TrueTypeFont labelFont; //current font used by this button's label
-	protected LabelName labelName = null; //text to display next to the button
-	protected TranslatableLabel buttonLabel; //object to display labelName text
-	protected Point relativeLocation; //location relative to the container/menu holding this button.
-	protected Point absoluteOffset; //amount by which to offset image //Applies only to ALIGN layouts
-	protected LayoutOption[] layoutOptions;
+	protected final Image		baseImage;									// initial
+																			// image
+																			// to
+																			// maintain
+																			// quality
+																			// throughout
+																			// modifications
+	protected Image				image;										// image
+																			// displayed
+																			// to
+																			// user
+	protected Rectangle			baseLabelBoundary;							// location
+																			// of
+																			// this
+																			// button's
+																			// text
+																			// label,
+																			// relative
+																			// to
+																			// this
+																			// button's
+																			// location
+																			// and
+																			// base
+																			// size.
+	protected Rectangle			labelBoundary;								// same
+																			// as
+																			// baseLabelBoundary
+																			// but
+																			// relative
+																			// to
+																			// this
+																			// button's
+																			// CURRENT
+																			// size
+																			// and
+																			// location
+	protected int				baseLabelFontSize		= TranslatableLabel.DEFAULT_AWT_FONT
+																.getSize();
+	protected TrueTypeFont		labelFont;									// current
+																			// font
+																			// used
+																			// by
+																			// this
+																			// button's
+																			// label
+	protected LabelName			labelName				= null;			// text
+																			// to
+																			// display
+																			// next
+																			// to
+																			// the
+																			// button
+	protected TranslatableLabel	buttonLabel;								// object
+																			// to
+																			// display
+																			// labelName
+																			// text
+	protected Point				relativeLocation;							// location
+																			// relative
+																			// to
+																			// the
+																			// container/menu
+																			// holding
+																			// this
+																			// button.
+	protected Point				absoluteOffset;							// amount
+																			// by
+																			// which
+																			// to
+																			// offset
+																			// image
+																			// //Applies
+																			// only
+																			// to
+																			// ALIGN
+																			// layouts
+	protected LayoutOption[]	layoutOptions;
 	
-	//TODO update javadoc
+	// TODO update javadoc
 	/**
-	 * @param image				image of this button
-	 * @param relativeLocation	location of this button relative to it's container
+	 * @param image
+	 *            image of this button
+	 * @param relativeLocation
+	 *            location of this button relative to it's container
 	 */
-	public Button(Image image, Point relativeLocation, LayoutOption... layoutOptions)
+	public Button(Image image, Point relativeLocation,
+			LayoutOption... layoutOptions)
 	{
 		this.baseImage = image;
 		this.image = image;
@@ -56,14 +121,18 @@ public abstract class Button implements Translatable, GUIElement
 		this.format();
 	}
 	
-	//TODO update javadoc
+	// TODO update javadoc
 	/**
-	 * @param imagePath			path to the desired image of this button
-	 * @param relativeLocation	location of this button relative to it's container
-	 * @throws SlickException	Indicates a failure to load the image
+	 * @param imagePath
+	 *            path to the desired image of this button
+	 * @param relativeLocation
+	 *            location of this button relative to it's container
+	 * @throws SlickException
+	 *             Indicates a failure to load the image
 	 * @see Image#Image(String)
 	 */
-	public Button(String imagePath, Point relativeLocation, LayoutOption... layoutOptions) throws SlickException
+	public Button(String imagePath, Point relativeLocation,
+			LayoutOption... layoutOptions) throws SlickException
 	{
 		this(new Image(imagePath), relativeLocation, layoutOptions);
 	}
@@ -89,29 +158,36 @@ public abstract class Button implements Translatable, GUIElement
 	private void align(LayoutOption layout)
 	{
 		if (layout == LayoutOption.TOP_LEFT_ALIGN)
-			relativeLocation = new Point (0, 0);
+			relativeLocation = new Point(0, 0);
 		else if (layout == LayoutOption.TOP_RIGHT_ALIGN)
-			relativeLocation = new Point (Main.getCurrentScreenDimension().width - image.getWidth(), 0);
+			relativeLocation = new Point(Main.getCurrentScreenDimension().width
+					- image.getWidth(), 0);
 		else if (layout == LayoutOption.BOTTOM_LEFT_ALIGN)
-			relativeLocation = new Point (0, Main.getCurrentScreenDimension().height - image.getHeight());
+			relativeLocation = new Point(0,
+					Main.getCurrentScreenDimension().height - image.getHeight());
 		else if (layout == LayoutOption.BOTTOM_RIGHT_ALIGN)
-			relativeLocation = new Point (Main.getCurrentScreenDimension().width - image.getWidth(), Main.getCurrentScreenDimension().height - image.getHeight());
+			relativeLocation = new Point(Main.getCurrentScreenDimension().width
+					- image.getWidth(), Main.getCurrentScreenDimension().height
+					- image.getHeight());
 		
-		//TODO scale translation - low priority
-		//offset location by the amount specified by this object
-		relativeLocation.translate(this.absoluteOffset.x, this.absoluteOffset.y);
+		// TODO scale translation - low priority
+		// offset location by the amount specified by this object
+		relativeLocation
+				.translate(this.absoluteOffset.x, this.absoluteOffset.y);
 	}
 	
 	public void centerHorizontaly()
 	{
-		int relativeX = (Main.getCurrentScreenDimension().width / 2) - (image.getWidth() / 2);
+		int relativeX = (Main.getCurrentScreenDimension().width / 2)
+				- (image.getWidth() / 2);
 		
 		this.relativeLocation.setLocation(relativeX, this.relativeLocation.y);
 	}
 	
 	public void centerVertically()
 	{
-		int relativeY = (Main.getCurrentScreenDimension().height / 2) - (image.getHeight() / 2);
+		int relativeY = (Main.getCurrentScreenDimension().height / 2)
+				- (image.getHeight() / 2);
 		
 		this.relativeLocation.setLocation(this.relativeLocation.x, relativeY);
 	}
@@ -124,36 +200,36 @@ public abstract class Button implements Translatable, GUIElement
 		int maximumY = minimumY + image.getHeight();
 		
 		// Determine if mouse location is outside of this button object
-		boolean outOfBounds =  (relativeMouseLocation.x <= minimumX ||
-								relativeMouseLocation.x >= maximumX ||
-								relativeMouseLocation.y <= minimumY ||
-								relativeMouseLocation.y >= maximumY);
+		boolean outOfBounds = (relativeMouseLocation.x <= minimumX
+				|| relativeMouseLocation.x >= maximumX
+				|| relativeMouseLocation.y <= minimumY || relativeMouseLocation.y >= maximumY);
 		
 		return !outOfBounds;
 	}
-
+	
 	/**
-	 * @return	a copy of this button's relativeLocation
+	 * @return a copy of this button's relativeLocation
 	 */
 	public Point getRelativeLocation()
 	{
 		return new Point(relativeLocation.x, relativeLocation.y);
 	}
-
+	
 	/**
 	 * Set new location for this button.
 	 * 
-	 * @param relativeLocation	new location
+	 * @param relativeLocation
+	 *            new location
 	 */
 	public void setRelativeLocation(Point relativeLocation)
 	{
 		this.relativeLocation = relativeLocation;
-		//TODO verify new location
-		//TODO ensure new location is on screen
+		// TODO verify new location
+		// TODO ensure new location is on screen
 	}
 	
 	/**
-	 * @return	x location of this button relative to it's container
+	 * @return x location of this button relative to it's container
 	 */
 	public int getX()
 	{
@@ -161,13 +237,13 @@ public abstract class Button implements Translatable, GUIElement
 	}
 	
 	/**
-	 * @return	y location of this button relative to it's container
+	 * @return y location of this button relative to it's container
 	 */
 	public int getY()
 	{
 		return this.relativeLocation.y;
 	}
-
+	
 	public Image getImage()
 	{
 		return image;
@@ -175,80 +251,88 @@ public abstract class Button implements Translatable, GUIElement
 	
 	public Image scale(float scale)
 	{
-		//scale image
+		// scale image
 		this.image = baseImage.getScaledCopy(scale);
 		
-		//scale position
-		this.relativeLocation = new Point((int) (scale * absoluteOffset.x), (int) (scale * absoluteOffset.y));
+		// scale position
+		this.relativeLocation = new Point((int) (scale * absoluteOffset.x),
+				(int) (scale * absoluteOffset.y));
 		
-		//reposition button according to format settings
+		// reposition button according to format settings
 		this.format();
 		
-		//scale label only if this button has a label
+		// scale label only if this button has a label
 		if (this.labelName != null)
 			scaleAndCenterLabel(scale);
 		
-		//return image
+		// return image
 		return this.image;
 	}
-
-	public LabelName getLabel() {
+	
+	public LabelName getLabel()
+	{
 		return labelName;
 	}
 	
 	public void scaleAndCenterLabel(float scale)
 	{
-		//TODO add support for custom positioning
+		// TODO add support for custom positioning
 		if (this.labelName != null)
 		{
-			//scale font size & update labelFont
+			// scale font size & update labelFont
 			int labelFontSize = (int) (this.baseLabelFontSize * scale);
-			this.labelFont = new TrueTypeFont(new Font(Fonts.FONT_NAME, Font.BOLD, 
-					labelFontSize), Fonts.ANTI_ALLIAS, Dictionary.getExtraCharacters());
-			//TODO replace defaults with variables
+			this.labelFont = new TrueTypeFont(new Font(Fonts.FONT_NAME,
+					Font.BOLD, labelFontSize), Fonts.ANTI_ALLIAS,
+					Dictionary.getExtraCharacters());
+			// TODO replace defaults with variables
 			
-			//scale label boundary
+			// scale label boundary
 			this.labelBoundary = getScaledLabelBoundary(scale);
 			
-			//center label boundary
-			Rectangle buttonBoundary = new Rectangle(0, 0, this.image.getWidth(),
-					this.image.getHeight());
+			// center label boundary
+			Rectangle buttonBoundary = new Rectangle(0, 0,
+					this.image.getWidth(), this.image.getHeight());
 			centerRectangleVertically(buttonBoundary, this.labelBoundary);
 			
-			//get label position relative to the screen
-			Rectangle labelPosition = getTranslatedRectangle(this.labelBoundary, this.relativeLocation);
-		
-			//create the scaled label, and set it as this button's label
+			// get label position relative to the screen
+			Rectangle labelPosition = getTranslatedRectangle(
+					this.labelBoundary, this.relativeLocation);
+			
+			// create the scaled label, and set it as this button's label
 			if (this.labelName != null)
-				this.buttonLabel = new TranslatableLabel(labelName, this.labelFont, labelPosition);
+				this.buttonLabel = new TranslatableLabel(labelName,
+						this.labelFont, labelPosition);
 		}
 		else
 			this.buttonLabel = null;
 	}
-
+	
 	public void setLabel(LabelName labelName)
 	{
 		this.labelName = labelName;
 		
-		//TODO account for instances where the current scale is not 1.0
-		//create full sized label and set it as this button's label
+		// TODO account for instances where the current scale is not 1.0
+		// create full sized label and set it as this button's label
 		scaleAndCenterLabel(1);
 	}
 	
 	private Rectangle getScaledLabelBoundary(float scale)
 	{
 		int labelBorder = (int) (DEFAULT_LABEL_BORDER * scale);
-		//calculate base label boundary, relative to this button
+		// calculate base label boundary, relative to this button
 		int x = labelBorder;
 		int y = labelBorder;
-			//account for the border when determining width and height
-			//there will be a square section reserved for an icon on the right-side of this button
-			//	as such, width accounts for a section equal to the height of the image.
-		int width = (int) ((baseImage.getWidth() - (2 * DEFAULT_LABEL_BORDER) - baseImage.getHeight()) * scale);
+		// account for the border when determining width and height
+		// there will be a square section reserved for an icon on the right-side
+		// of this button
+		// as such, width accounts for a section equal to the height of the
+		// image.
+		int width = (int) ((baseImage.getWidth() - (2 * DEFAULT_LABEL_BORDER) - baseImage
+				.getHeight()) * scale);
 		int maxHeight = (int) ((baseImage.getHeight() - (2 * DEFAULT_LABEL_BORDER)) * scale);
 		int textHeight = this.labelFont.getHeight(labelName.getTranslation());
-			//adjust height in order to center text
-		int height = (textHeight < maxHeight) ? textHeight:maxHeight;
+		// adjust height in order to center text
+		int height = (textHeight < maxHeight) ? textHeight : maxHeight;
 		
 		return new Rectangle(x, y, width, height);
 	}
@@ -260,17 +344,20 @@ public abstract class Button implements Translatable, GUIElement
 			this.buttonLabel.render(Main.getGameContainer(), graphics);
 	}
 	
-	//TODO move to utilities class
-	public static void centerRectangleVertically(final Rectangle container, Rectangle moveableRectangle)
+	// TODO move to utilities class
+	public static void centerRectangleVertically(final Rectangle container,
+			Rectangle moveableRectangle)
 	{
 		int x = moveableRectangle.x;
-		int y = container.y + ((container.height - moveableRectangle.height) / 2);
+		int y = container.y
+				+ ((container.height - moveableRectangle.height) / 2);
 		
 		moveableRectangle.setLocation(x, y);
 	}
 	
-	//TODO move to utilities class
-	public static Rectangle getTranslatedRectangle(Rectangle baseRectangle, Point translationAmount)
+	// TODO move to utilities class
+	public static Rectangle getTranslatedRectangle(Rectangle baseRectangle,
+			Point translationAmount)
 	{
 		int x = baseRectangle.x + translationAmount.x;
 		int y = baseRectangle.y + translationAmount.y;
@@ -280,8 +367,9 @@ public abstract class Button implements Translatable, GUIElement
 		return new Rectangle(x, y, width, height);
 	}
 	
-	//TODO move to utilities class
-	public static Rectangle getScaledRectangle(Rectangle baseRectangle, float scale)
+	// TODO move to utilities class
+	public static Rectangle getScaledRectangle(Rectangle baseRectangle,
+			float scale)
 	{
 		int x = (int) (baseRectangle.x * scale);
 		int y = (int) (baseRectangle.y * scale);

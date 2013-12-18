@@ -21,20 +21,20 @@ import edu.asu.voctec.utilities.AspectRatio.ResolutionNotSupportedException;
 
 public class OptionsMenu extends Menu implements GameDefaults
 {
-	public static final int ID = 2;
-	public static final Dimension DesignResolution = new Dimension(1280, 720);
+	public static final int			ID					= 2;
+	public static final Dimension	DesignResolution	= new Dimension(1280,
+																720);
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
-
-		//TODO remove sizing test
-		//resizing TEST
-		addButton(new Button(ImagePaths.NEW_GAME_BUTTON,
-				  new Point(-10, -10),
-				  LayoutOption.BOTTOM_RIGHT_ALIGN){
-
+		
+		// TODO remove sizing test
+		// resizing TEST
+		addButton(new Button(ImagePaths.NEW_GAME_BUTTON, new Point(-10, -10),
+				LayoutOption.BOTTOM_RIGHT_ALIGN) {
+			
 			@Override
 			public void actOnMouseClick()
 			{
@@ -51,54 +51,56 @@ public class OptionsMenu extends Menu implements GameDefaults
 					e.printStackTrace();
 				}
 				
-				//TODO improve algorithm to work with user-definaed resolutions
+				// TODO improve algorithm to work with user-definaed resolutions
 				if (Main.getCurrentScreenDimension().equals(d1280))
 					Main.resize(d800);
 				else if (Main.getCurrentScreenDimension().equals(d800))
 					Main.resize(d1280);
 			}
 			
-		}); //end resizing TEST
-
-		//TODO replace absolute positioning with ButtonBlock class
-		//TODO declare & instantiate all buttons
-		//TODO move setLabel() call to button constructor
-		Button languageOptionButtonEnglish = 
-				new LanguageButton(0, 222, Dictionary.getDictionary("English"),
+		}); // end resizing TEST
+		
+		// TODO replace absolute positioning with ButtonBlock class
+		// TODO declare & instantiate all buttons
+		// TODO move setLabel() call to button constructor
+		Button languageOptionButtonEnglish = new LanguageButton(0, 222,
+				Dictionary.getDictionary("English"),
 				LayoutOption.CENTER_HORIZONTALLY);
-		languageOptionButtonEnglish.setLabel(LabelName.getLabelNameByXMLListing("English"));
+		languageOptionButtonEnglish.setLabel(LabelName
+				.getLabelNameByXMLListing("English"));
 		
-		Button languageOptionButtonSpanish = 
-				new LanguageButton(0, 322, Dictionary.getDictionary("Espanol"),
+		Button languageOptionButtonSpanish = new LanguageButton(0, 322,
+				Dictionary.getDictionary("Espanol"),
 				LayoutOption.CENTER_HORIZONTALLY);
-		languageOptionButtonSpanish.setLabel(LabelName.getLabelNameByXMLListing("Espanol"));
+		languageOptionButtonSpanish.setLabel(LabelName
+				.getLabelNameByXMLListing("Espanol"));
 		
-		Button languageOptionButtonJapanese = 
-				new LanguageButton(0, 422, Dictionary.getDictionary("日本語"),
+		Button languageOptionButtonJapanese = new LanguageButton(0, 422,
+				Dictionary.getDictionary("日本語"),
 				LayoutOption.CENTER_HORIZONTALLY);
-		languageOptionButtonJapanese.setLabel(LabelName.getLabelNameByXMLListing("日本語"));
+		languageOptionButtonJapanese.setLabel(LabelName
+				.getLabelNameByXMLListing("日本語"));
 		
-		Button backButton = new TransitionButton(ImagePaths.BACK_BUTTON,
-				 10, 10, MainMenu.ID,
-				 LayoutOption.TOP_LEFT_ALIGN);
+		Button backButton = new TransitionButton(ImagePaths.BACK_BUTTON, 10,
+				10, MainMenu.ID, LayoutOption.TOP_LEFT_ALIGN);
 		
-		//TODO add all buttons
-		//TODO move adding code to Button constructor
+		// TODO add all buttons
+		// TODO move adding code to Button constructor
 		addButton(languageOptionButtonEnglish);
 		addButton(languageOptionButtonSpanish);
 		addButton(languageOptionButtonJapanese);
 		addButton(backButton);
 		
-		//TODO initialize all resources
+		// TODO initialize all resources
 		
-		//initialize background image
+		// initialize background image
 		Image background = new Image(ImagePaths.MainMenuBackground);
 		super.initializeBackgroundImage(background);
 		
-		//ensure the appropriate scale is being used
+		// ensure the appropriate scale is being used
 		resize();
 		
-		//ensure the appropriate language is being used
+		// ensure the appropriate language is being used
 		updateTranslation();
 	}
 	
@@ -108,13 +110,13 @@ public class OptionsMenu extends Menu implements GameDefaults
 	{
 		
 	}
-
+	
 	@Override
 	public int getID()
 	{
 		return ID;
 	}
-
+	
 	@Override
 	public Dimension getDesignResolution()
 	{
