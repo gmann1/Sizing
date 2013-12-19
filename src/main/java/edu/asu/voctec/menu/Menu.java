@@ -22,15 +22,16 @@ import edu.asu.voctec.utilities.Translatable;
 import edu.asu.voctec.utilities.AspectRatio.ResolutionNotSupportedException;
 import edu.asu.voctec.Main;
 
-public abstract class Menu extends BasicGameState implements Resizable, Translatable
+public abstract class Menu extends BasicGameState implements Resizable,
+		Translatable
 {
-	private ScreenResolution baseResolution;
-	private Image baseBackgroundImage;
-	private Image backgroundImage;
-	//TODO combine to GUIElements
-	protected final ArrayList<Button> buttons = new ArrayList<>();
-	protected final ArrayList<TranslatableLabel> labels = new ArrayList<>();
-	protected float scale;
+	private ScreenResolution						baseResolution;
+	private Image									baseBackgroundImage;
+	private Image									backgroundImage;
+	// TODO combine to GUIElements
+	protected final ArrayList<Button>				buttons	= new ArrayList<>();
+	protected final ArrayList<TranslatableLabel>	labels	= new ArrayList<>();
+	protected float									scale;
 	
 	public abstract Dimension getDesignResolution();
 	
@@ -44,7 +45,7 @@ public abstract class Menu extends BasicGameState implements Resizable, Translat
 		catch (ResolutionNotSupportedException e)
 		{
 			e.printStackTrace();
-			//TODO resize image to design resolution
+			// TODO resize image to design resolution
 		}
 		
 		this.backgroundImage = backgroundImage;
@@ -53,13 +54,14 @@ public abstract class Menu extends BasicGameState implements Resizable, Translat
 	
 	/**
 	 * Adds a button to this menu, and ensures that no duplicate buttons are
-	 * added. More specifically, If this menu already contains a button e
-	 * such that e.equals(button), then the provided button will not be added
-	 * and this method will return false.
+	 * added. More specifically, If this menu already contains a button e such
+	 * that e.equals(button), then the provided button will not be added and
+	 * this method will return false.
 	 * 
-	 * @param button	the button to add to this menu
-	 * @return			whether or not the provided button was added successfully.
-	 * @see 			ArrayList#add(Object)
+	 * @param button
+	 *            the button to add to this menu
+	 * @return whether or not the provided button was added successfully.
+	 * @see ArrayList#add(Object)
 	 */
 	public boolean addButton(Button button)
 	{
@@ -77,13 +79,16 @@ public abstract class Menu extends BasicGameState implements Resizable, Translat
 			return labels.add(label);
 	}
 	
-	/** 
+	/**
 	 * This method contains actions to take during a mousePressed event. Should
 	 * only be called to notify this object of a mousePressed event.
 	 * 
-	 * @param button 	The index of the button (starting at 0)
-	 * @param x 		The x position of the mouse when the button was pressed
-	 * @param y 		The y position of the mouse when the button was pressed
+	 * @param button
+	 *            The index of the button (starting at 0)
+	 * @param x
+	 *            The x position of the mouse when the button was pressed
+	 * @param y
+	 *            The y position of the mouse when the button was pressed
 	 */
 	@Override
 	public void mousePressed(int buttonType, int x, int y)
@@ -92,10 +97,10 @@ public abstract class Menu extends BasicGameState implements Resizable, Translat
 		
 		if (leftButtonPressed)
 		{
-			//check buttons
+			// check buttons
 			for (Button button : buttons)
 			{
-				if (button.checkClicked(new Point(x,y)))
+				if (button.checkClicked(new Point(x, y)))
 				{
 					button.actOnMouseClick();
 					break;
@@ -105,27 +110,28 @@ public abstract class Menu extends BasicGameState implements Resizable, Translat
 	}
 	
 	@Override
-	public void render(GameContainer container, StateBasedGame game, Graphics graphics)
-			throws SlickException
+	public void render(GameContainer container, StateBasedGame game,
+			Graphics graphics) throws SlickException
 	{
-		//TODO account for different aspect ratios
-		//draw background
+		// TODO account for different aspect ratios
+		// draw background
 		if (this.backgroundImage == null)
-			System.out.println("Menu background failed to load: BackgroundImageNull");
+			System.out
+					.println("Menu background failed to load: BackgroundImageNull");
 		else
 			graphics.drawImage(this.backgroundImage, 0, 0);
 		
-		//TODO implement change tracking
-		//TODO draw only buttons that have been changed
-		//draw all buttons
+		// TODO implement change tracking
+		// TODO draw only buttons that have been changed
+		// draw all buttons
 		for (Button button : buttons)
 		{
 			button.draw(graphics);
 		}
 		
-		//TODO implement change tracking
-		//TODO draw only labels that have been changed
-		//draw all labels
+		// TODO implement change tracking
+		// TODO draw only labels that have been changed
+		// draw all labels
 		for (TranslatableLabel label : labels)
 		{
 			label.draw(graphics);
@@ -144,12 +150,12 @@ public abstract class Menu extends BasicGameState implements Resizable, Translat
 			try
 			{
 				// Define rectangle to crop image to new aspectRatio
-				//TODO fix getSubSection algorithm
+				// TODO fix getSubSection algorithm
 				Rectangle croppedSubSection = AspectRatio.getSubSection(
 						this.baseResolution, newDimension.getAspectRatio());
 				// Crop image to new aspectRatio
 				Image croppedImage = this.baseBackgroundImage.getSubImage(
-						croppedSubSection.x, croppedSubSection.y, 
+						croppedSubSection.x, croppedSubSection.y,
 						croppedSubSection.width, croppedSubSection.height);
 				
 				// Scale cropped section to new dimension
@@ -166,25 +172,27 @@ public abstract class Menu extends BasicGameState implements Resizable, Translat
 			}
 		}
 		
-		// Update metadata of this map (regarding size) and all buttons in this menu
+		// Update metadata of this map (regarding size) and all buttons in this
+		// menu
 		this.rescale();
 		
-		//if no errors occurred, return true
+		// if no errors occurred, return true
 		return true;
 	}
 	
 	public void rescale()
 	{
-		this.scale = (float) (Main.getCurrentScreenDimension().getHeight() / getDesignResolution().getHeight());
+		this.scale = (float) (Main.getCurrentScreenDimension().getHeight() / getDesignResolution()
+				.getHeight());
 		
 		for (Button button : buttons)
 		{
 			button.scale(scale);
 		}
 		
-		//TODO scale labels
+		// TODO scale labels
 	}
-
+	
 	public Image getBackgroundImage()
 	{
 		return backgroundImage;
@@ -192,13 +200,13 @@ public abstract class Menu extends BasicGameState implements Resizable, Translat
 	
 	public void updateTranslation()
 	{
-		//TODO only translate if current language != new language
+		// TODO only translate if current language != new language
 		for (Button button : buttons)
 		{
 			button.updateTranslation();
 		}
 		
-		//TODO update labels
+		// TODO update labels
 		for (TranslatableLabel label : labels)
 		{
 			label.updateTranslation();

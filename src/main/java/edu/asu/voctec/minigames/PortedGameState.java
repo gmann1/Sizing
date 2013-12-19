@@ -15,8 +15,8 @@ import edu.asu.voctec.utilities.Greenfoot;
 
 public abstract class PortedGameState extends ModifiedGameState
 {
-	protected ArrayList<Actor> actors = new ArrayList<>();
-	protected Image backgroundImage;
+	protected ArrayList<Actor>	actors	= new ArrayList<>();
+	protected Image				backgroundImage;
 	
 	public void addObject(Actor actor, int xLocation, int yLocation)
 	{
@@ -28,31 +28,31 @@ public abstract class PortedGameState extends ModifiedGameState
 	{
 		this.actors.remove(actor);
 	}
-
+	
 	@Override
 	public boolean resize()
 	{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
 	@Override
 	public void rescale()
 	{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	public void updateTranslation()
 	{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
-	public void render(GameContainer container, StateBasedGame game, Graphics graphics)
-			throws SlickException
+	public void render(GameContainer container, StateBasedGame game,
+			Graphics graphics) throws SlickException
 	{
 		if (this.backgroundImage != null)
 			graphics.drawImage(backgroundImage, 0, 0);
@@ -63,7 +63,7 @@ public abstract class PortedGameState extends ModifiedGameState
 			actor.draw(graphics);
 		}
 	}
-
+	
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException
@@ -85,10 +85,10 @@ public abstract class PortedGameState extends ModifiedGameState
 		if (leftButtonPressed)
 		{
 			System.out.println("Left mouse pressed");
-			//check buttons
+			// check buttons
 			for (Actor actor : actors)
 			{
-				if (actor.checkClicked(new Point(x,y)))
+				if (actor.checkClicked(new Point(x, y)))
 				{
 					actor.actOnMouseClick();
 					break;

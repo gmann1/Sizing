@@ -10,22 +10,25 @@ import edu.asu.voctec.GameDefaults.ImagePaths;
 
 public class Sun
 {
-	public static final int MAX_X = 800;
-	private double deltaX;
-	private double deltaY;
-	private double yAcceleration;
-	private double x;
-	private double y;
-	private Image image;
+	public static final int	MAX_X	= 800;
+	private double			deltaX;
+	private double			deltaY;
+	private double			yAcceleration;
+	private double			x;
+	private double			y;
+	private Image			image;
 	
-	public Sun (Point risingLocation, Point settingLocation, int minHeight, double deltaX) throws SlickException
+	public Sun(Point risingLocation, Point settingLocation, int minHeight,
+			double deltaX) throws SlickException
 	{
 		int range = settingLocation.x - risingLocation.x;
 		double numberOfFrames_yTravel = (range / deltaX) / 2;
-		double numberOfFrames_yTravel_squared = Math.pow(numberOfFrames_yTravel, 2);
+		double numberOfFrames_yTravel_squared = Math.pow(
+				numberOfFrames_yTravel, 2);
 		int yDistance = risingLocation.y - minHeight;
 		
-		this.yAcceleration = -1 * ((2*yDistance) / numberOfFrames_yTravel_squared);
+		this.yAcceleration = -1
+				* ((2 * yDistance) / numberOfFrames_yTravel_squared);
 		this.deltaY = numberOfFrames_yTravel * this.yAcceleration;
 		this.deltaX = deltaX;
 		this.x = risingLocation.getX();
@@ -51,18 +54,20 @@ public class Sun
 		else
 			return false;
 	}
-
-	public double getX() {
+	
+	public double getX()
+	{
 		return x;
 	}
-
-	public double getY() {
+	
+	public double getY()
+	{
 		return y;
 	}
-
-	public Image getImage() {
+	
+	public Image getImage()
+	{
 		return image;
 	}
-	
 	
 }

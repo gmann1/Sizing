@@ -12,27 +12,28 @@ import edu.asu.voctec.GameDefaults;
 
 public abstract class Actor implements GameDefaults
 {
-    public static Color textColor = Color.magenta;
+	public static Color	textColor	= Color.magenta;
 	
-	protected double xLocation;
-	protected double yLocation;
-	protected Image baseImage;
-	protected Image image;
+	protected double	xLocation;
+	protected double	yLocation;
+	protected Image		baseImage;
+	protected Image		image;
 	
 	public abstract void act();
+	
 	public abstract void actOnMouseClick();
 	
 	public Image getImage()
 	{
 		return image;
 	}
-
+	
 	public void setImage(Image image)
 	{
 		this.image = image;
 		this.baseImage = image;
 	}
-
+	
 	public void setImage(String imagePath)
 	{
 		try
@@ -71,20 +72,24 @@ public abstract class Actor implements GameDefaults
 			this.image.rotate(rotationAmount);
 		}
 	}
-
-	public int getxLocation() {
+	
+	public int getxLocation()
+	{
 		return (int) xLocation;
 	}
-
-	public void setxLocation(double xLocation) {
+	
+	public void setxLocation(double xLocation)
+	{
 		this.xLocation = xLocation;
 	}
-
-	public int getyLocation() {
+	
+	public int getyLocation()
+	{
 		return (int) yLocation;
 	}
-
-	public void setyLocation(double yLocation) {
+	
+	public void setyLocation(double yLocation)
+	{
 		this.yLocation = yLocation;
 	}
 	
@@ -96,22 +101,21 @@ public abstract class Actor implements GameDefaults
 		int maximumY = minimumY + image.getHeight();
 		
 		// Determine if mouse location is outside of this button object
-		boolean outOfBounds =  (relativeMouseLocation.x <= minimumX ||
-								relativeMouseLocation.x >= maximumX ||
-								relativeMouseLocation.y <= minimumY ||
-								relativeMouseLocation.y >= maximumY);
+		boolean outOfBounds = (relativeMouseLocation.x <= minimumX
+				|| relativeMouseLocation.x >= maximumX
+				|| relativeMouseLocation.y <= minimumY || relativeMouseLocation.y >= maximumY);
 		
 		return !outOfBounds;
 	}
 	
 	public boolean intersects(Actor otherActor)
 	{
-		Rectangle boundingBoxA = new Rectangle 
-				(this.getxLocation(), this.getyLocation(), 
-				 this.image.getWidth(), this.image.getHeight());
-		Rectangle boundingBoxB = new Rectangle 
-				(otherActor.getxLocation(), otherActor.getyLocation(), 
-				 otherActor.image.getWidth(), otherActor.image.getHeight());
+		Rectangle boundingBoxA = new Rectangle(this.getxLocation(),
+				this.getyLocation(), this.image.getWidth(),
+				this.image.getHeight());
+		Rectangle boundingBoxB = new Rectangle(otherActor.getxLocation(),
+				otherActor.getyLocation(), otherActor.image.getWidth(),
+				otherActor.image.getHeight());
 		
 		return boundingBoxA.intersects(boundingBoxB);
 	}

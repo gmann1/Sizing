@@ -28,12 +28,12 @@ import edu.asu.voctec.minigames.energy_assessment.appliance4;
 
 public class EnergyAssesmentGame extends Menu
 {
-	public static final int ID = 80;
-	public static final int xOffset = -72;
-	public static final int yOffset = -70;
-	private ArrayList<Actor> actors = new ArrayList<>();
+	public static final int		ID			= 80;
+	public static final int		xOffset		= -72;
+	public static final int		yOffset		= -70;
+	private ArrayList<Actor>	actors		= new ArrayList<>();
 	
-	private int endDelay = 3*1000;
+	private int					endDelay	= 3 * 1000;
 	
 	public EnergyAssesmentGame()
 	{
@@ -43,25 +43,25 @@ public class EnergyAssesmentGame extends Menu
 		addObject(new appliance2(), 121 + xOffset, 250 + yOffset);
 		addObject(new appliance3(), 121 + xOffset, 390 + yOffset);
 		addObject(new appliance4(), 121 + xOffset, 530 + yOffset);
-
+		
 		// Watts
 		addObject(Watts.watt4, 680 + xOffset, 110 + yOffset);
 		addObject(Watts.watt2, 680 + xOffset, 250 + yOffset);
 		addObject(Watts.watt1, 680 + xOffset, 390 + yOffset);
 		addObject(Watts.watt3, 680 + xOffset, 530 + yOffset);
-
+		
 		// Column 1
 		addObject(Wire.wire0x0, 260 + xOffset, 90 + yOffset);
 		addObject(Wire.wire1x0, 260 + xOffset, 230 + yOffset);
 		addObject(Wire.wire2x0, 260 + xOffset, 370 + yOffset);
 		addObject(Wire.wire3x0, 260 + xOffset, 510 + yOffset);
-
+		
 		// Column 2
 		addObject(Wire.wire0x1, 400 + xOffset, 90 + yOffset);
 		addObject(Wire.wire1x1, 400 + xOffset, 230 + yOffset);
 		addObject(Wire.wire2x1, 400 + xOffset, 370 + yOffset);
 		addObject(Wire.wire3x1, 400 + xOffset, 510 + yOffset);
-
+		
 		// Column 3
 		addObject(Wire.wire0x2, 540 + xOffset, 90 + yOffset);
 		addObject(Wire.wire1x2, 540 + xOffset, 230 + yOffset);
@@ -81,44 +81,43 @@ public class EnergyAssesmentGame extends Menu
 		actor.setLocation(xLocation, yLocation);
 		this.actors.add(actor);
 	}
-
+	
 	@Override
 	public boolean resize()
 	{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
 	@Override
 	public void rescale()
 	{
 		// TODO Auto-generated method stub
-
+		
 	}
-
+	
 	@Override
 	public void updateTranslation()
 	{
 		// TODO Auto-generated method stub
-
+		
 	}
-
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
 		initializeBackgroundImage(new Image(ImagePaths.BLACK_BACKGROUND));
 		// TODO Auto-generated method stub
-		Button backButton = new TransitionButton(ImagePaths.BACK_BUTTON,
-				 10, -10, ScenarioHub.ID,
-				 LayoutOption.BOTTOM_LEFT_ALIGN);
+		Button backButton = new TransitionButton(ImagePaths.BACK_BUTTON, 10,
+				-10, ScenarioHub.ID, LayoutOption.BOTTOM_LEFT_ALIGN);
 		
 		addButton(backButton);
 	}
-
+	
 	@Override
-	public void render(GameContainer container, StateBasedGame game, Graphics graphics)
-			throws SlickException
+	public void render(GameContainer container, StateBasedGame game,
+			Graphics graphics) throws SlickException
 	{
 		super.render(container, game, graphics);
 		
@@ -128,7 +127,7 @@ public class EnergyAssesmentGame extends Menu
 			actor.draw(graphics);
 		}
 	}
-
+	
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException
@@ -159,7 +158,7 @@ public class EnergyAssesmentGame extends Menu
 		if (endDelay <= 0)
 			this.end();
 	}
-
+	
 	@Override
 	public int getID()
 	{
@@ -177,10 +176,10 @@ public class EnergyAssesmentGame extends Menu
 		if (leftButtonPressed)
 		{
 			System.out.println("Left mouse pressed");
-			//check buttons
+			// check buttons
 			for (Actor actor : actors)
 			{
-				if (actor.checkClicked(new Point(x,y)))
+				if (actor.checkClicked(new Point(x, y)))
 				{
 					actor.actOnMouseClick();
 					break;
@@ -188,9 +187,10 @@ public class EnergyAssesmentGame extends Menu
 			}
 		}
 	}
-
+	
 	@Override
-	public Dimension getDesignResolution() {
+	public Dimension getDesignResolution()
+	{
 		// TODO Auto-generated method stub
 		return new Dimension(800, 600);
 	}

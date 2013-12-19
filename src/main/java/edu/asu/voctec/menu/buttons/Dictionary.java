@@ -18,32 +18,34 @@ import org.xml.sax.SAXException;
 
 import edu.asu.voctec.GameDefaults;
 
-public class Dictionary extends HashMap<LabelName, String> implements GameDefaults
+public class Dictionary extends HashMap<LabelName, String> implements
+		GameDefaults
 {
-	private static final long serialVersionUID = 9207065977205039134L;
-	protected static final HashMap<String, Dictionary> supportedLanguages = new HashMap<>();
+	private static final long							serialVersionUID		= 9207065977205039134L;
+	protected static final HashMap<String, Dictionary>	supportedLanguages		= new HashMap<>();
 	
-	protected final String languageName;
-	private static ArrayList<Character> extraCharacters = new ArrayList<>();
-	private static char[] extraCharactersArray = {};
+	protected final String								languageName;
+	private static ArrayList<Character>					extraCharacters			= new ArrayList<>();
+	private static char[]								extraCharactersArray	= {};
 	
 	private Dictionary(String languageName)
 	{
-		//construct the desired dictionary
+		// construct the desired dictionary
 		super();
 		this.languageName = languageName.toLowerCase();
 		
-		//add dictionary to map
+		// add dictionary to map
 		supportedLanguages.put(this.languageName, this);
 		
-		//create a label name for the language (to be used by translation buttons
+		// create a label name for the language (to be used by translation
+		// buttons
 		new LabelName(this.languageName, capitalize(this.languageName));
 		
-		//ensure all characters in languageName are accounted for
+		// ensure all characters in languageName are accounted for
 		addExtraCharacters(languageName);
 	}
 	
-	//TODO move to utilities
+	// TODO move to utilities
 	public static String capitalize(String string)
 	{
 		string = string.toLowerCase();
@@ -55,9 +57,10 @@ public class Dictionary extends HashMap<LabelName, String> implements GameDefaul
 	
 	public static Dictionary constructDictionary(String languageName)
 	{
-		Dictionary matchingDictionary = supportedLanguages.get(languageName.toLowerCase());
+		Dictionary matchingDictionary = supportedLanguages.get(languageName
+				.toLowerCase());
 		
-		if(matchingDictionary == null)
+		if (matchingDictionary == null)
 			matchingDictionary = new Dictionary(languageName);
 		
 		return matchingDictionary;
@@ -85,40 +88,51 @@ public class Dictionary extends HashMap<LabelName, String> implements GameDefaul
 		System.out.println("Loading Dictionaries...");
 		boolean loadSuccessful = false;
 		
-		try 
+		try
 		{
 			// Create and parse XML document
-			DocumentBuilder documentBuilder = 
-					DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			DocumentBuilder documentBuilder = DocumentBuilderFactory
+					.newInstance().newDocumentBuilder();
 			Document dictionaryDocument = documentBuilder.parse(dictionaryFile);
-			NodeList supportedLanguageNodes; //List of nodes containing the language of each dictionary //There will be one dictionary for each supported language
-			NodeList labelNodes; //List of nodes containing the names and translations of all LabelNames
+			NodeList supportedLanguageNodes; // List of nodes containing the
+												// language of each dictionary
+												// //There will be one
+												// dictionary for each supported
+												// language
+			NodeList labelNodes; // List of nodes containing the names and
+									// translations of all LabelNames
 			
-			// Eliminate empty nodes and normalize document 
+			// Eliminate empty nodes and normalize document
 			dictionaryDocument.getDocumentElement().normalize();
 			
 			// Get supported languages and labels from document
-			supportedLanguageNodes = dictionaryDocument.getElementsByTagName(DictionaryTags.SUPPORTED_LANGUAGE);
-			labelNodes = dictionaryDocument.getElementsByTagName(DictionaryTags.LABEL_NAME);
+			supportedLanguageNodes = dictionaryDocument
+					.getElementsByTagName(DictionaryTags.SUPPORTED_LANGUAGE);
+			labelNodes = dictionaryDocument
+					.getElementsByTagName(DictionaryTags.LABEL_NAME);
 			
-			// Parse supportedLanguageNodes and create a dictionary for each supported language
-			for(int index = 0; index < supportedLanguageNodes.getLength(); index++)
+			// Parse supportedLanguageNodes and create a dictionary for each
+			// supported language
+			for (int index = 0; index < supportedLanguageNodes.getLength(); index++)
 			{
 				Node currentNode = supportedLanguageNodes.item(index);
 				Element languageElement = (Element) currentNode;
-				String languageName = languageElement.getTextContent().toLowerCase();
+				String languageName = languageElement.getTextContent()
+						.toLowerCase();
 				Dictionary.constructDictionary(languageName);
 				System.out.println("Supported Language: " + languageName);
 			}
 			
-			
-			// Parse labelNodes and add each translation to the appropriate dictionary
-			for(int labelIndex = 0; labelIndex < labelNodes.getLength(); labelIndex++)
+			// Parse labelNodes and add each translation to the appropriate
+			// dictionary
+			for (int labelIndex = 0; labelIndex < labelNodes.getLength(); labelIndex++)
 			{
 				// Parse the name of the current label
 				Node currentNode = labelNodes.item(labelIndex);
 				Element labelElement = (Element) currentNode;
-				LabelName label = LabelName.getLabelNameByXMLListing(labelElement.getAttribute("id"));
+				LabelName label = LabelName
+						.getLabelNameByXMLListing(labelElement
+								.getAttribute("id"));
 				
 				// Ignore all invalid/unsupported labels
 				if (label != null)
@@ -126,20 +140,25 @@ public class Dictionary extends HashMap<LabelName, String> implements GameDefaul
 					System.out.println("Supported Label: " + label.xmlListing);
 					// Get all translations of the current label
 					NodeList translations = labelElement.getChildNodes();
-					for(int languageIndex = 0; languageIndex < translations.getLength(); languageIndex++)
+					for (int languageIndex = 0; languageIndex < translations
+							.getLength(); languageIndex++)
 					{
 						
 						Node currentSubNode = translations.item(languageIndex);
-						String languageName = currentSubNode.getNodeName().toLowerCase();
+						String languageName = currentSubNode.getNodeName()
+								.toLowerCase();
 						String translation = currentSubNode.getTextContent();
 						
-						// For each translation, add the translation to the appropriate dictionary
+						// For each translation, add the translation to the
+						// appropriate dictionary
 						// Ignore invalid/unsupported languages
-						Dictionary correspondingDictionary = supportedLanguages.get(languageName.toLowerCase());
+						Dictionary correspondingDictionary = supportedLanguages
+								.get(languageName.toLowerCase());
 						if (correspondingDictionary != null)
 						{
 							correspondingDictionary.put(label, translation);
-							System.out.println("\t" + languageName + ": " + translation);
+							System.out.println("\t" + languageName + ": "
+									+ translation);
 						}
 					}
 				}
@@ -148,17 +167,19 @@ public class Dictionary extends HashMap<LabelName, String> implements GameDefaul
 			loadSuccessful = true;
 			System.out.println("Dictionaries Loaded Successfully.");
 			
-		} catch (ParserConfigurationException | SAXException | IOException e) 
+		}
+		catch (ParserConfigurationException | SAXException | IOException e)
 		{
 			e.printStackTrace();
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 		
 		return loadSuccessful;
 	}
-
+	
 	@Override
 	public String put(LabelName key, String translation)
 	{
@@ -185,10 +206,11 @@ public class Dictionary extends HashMap<LabelName, String> implements GameDefaul
 	{
 		boolean success = true;
 		
-		for(char character : extraCharacters)
+		for (char character : extraCharacters)
 		{
-			if((character > 256) &&
-					(!Dictionary.extraCharacters.contains((Character) character)))
+			if ((character > 256)
+					&& (!Dictionary.extraCharacters
+							.contains((Character) character)))
 				success = success && Dictionary.extraCharacters.add(character);
 		}
 		
@@ -199,10 +221,12 @@ public class Dictionary extends HashMap<LabelName, String> implements GameDefaul
 	
 	private void updateExtraCharactersArray()
 	{
-		//TODO optimize: copy existing array to new array, and add new elements only
+		// TODO optimize: copy existing array to new array, and add new elements
+		// only
 		char[] extraCharacters = new char[Dictionary.extraCharacters.size()];
 		
-		//cast each Character object in this.extraCharacters to a primitive char and add it to the extraCharacters array
+		// cast each Character object in this.extraCharacters to a primitive
+		// char and add it to the extraCharacters array
 		for (int index = 0; index < Dictionary.extraCharacters.size(); index++)
 		{
 			Character character = Dictionary.extraCharacters.get(index);
