@@ -25,27 +25,66 @@ public class CircularList<E>
 		}
 	}
 	
+	/**
+	 * Returns the first element in this list. If this list is empty, null will
+	 * be returned.
+	 * 
+	 * @return the first element in this list.
+	 */
 	public E getFirstElement()
 	{
-		return firstElement.data;
+		if (firstElement != null)
+			return firstElement.data;
+		else
+			return null;
 	}
 	
+	/**
+	 * Returns the last element in this list. If this list is empty, null will
+	 * be returned.
+	 * 
+	 * @return the last element in this list.
+	 */
 	public E getLastElement()
 	{
-		return lastElement.data;
+		if (lastElement != null)
+			return lastElement.data;
+		else
+			return null;
 	}
-	
+
+	/**
+	 * Returns the current element for this list. If this list is empty, null 
+	 * will be returned.
+	 * 
+	 * @return the current element.
+	 */
 	public E getCurrentElement()
 	{
-		return currentElement.data;
+		if (currentElement != null)
+			return currentElement.data;
+		else
+			return null;
 	}
 	
+	/**
+	 * Returns the next element in this list, and moves the current element
+	 * forward one.
+	 * 
+	 * @return the next element in this list.
+	 */
 	public E next()
 	{
 		currentElement = currentElement.nextElement;
 		return currentElement.data;
 	}
-	
+
+	/**
+	 * Returns the previous element in this list, and moves the current element
+	 * backwards one.
+	 * 
+	 * @return the previous element in this list.
+	 */
 	public E previous()
 	{
 		currentElement = currentElement.previousElement;
@@ -54,6 +93,7 @@ public class CircularList<E>
 	
 	public void addFirst(E element)
 	{
+		//TODO replace with a call to add(index, element);
 		ListElement<E> newNode = new ListElement<E>(element);
 		
 		if (firstElement == null)
@@ -66,12 +106,46 @@ public class CircularList<E>
 		}
 		else
 		{
+			// Link the newNode to the last and first element, respectively
+			newNode.setLinks(lastElement, firstElement);
+			
 			// Make the last element link to the new element
-			// Make the new element point to the former-first element
 			this.lastElement.nextElement = newNode;
+			
+			// Make the first element point (backwards) to the new element
 			this.firstElement.previousElement = newNode;
+			
 			// Replace the first element with this element;
 			this.firstElement = newNode;
+		}
+	}
+	
+	public void addLast(E element)
+	{
+		//TODO replace with a call to add(index, element);
+		ListElement<E> newNode = new ListElement<E>(element);
+		
+		if (lastElement == null)
+		{
+			// Set element as the first, last, and current element
+			firstElement = newNode;
+			lastElement = firstElement;
+			firstElement.setLinks(lastElement, lastElement);
+			currentElement = firstElement;
+		}
+		else
+		{
+			// Link the newNode to the last and first element, respectively
+			newNode.setLinks(lastElement, firstElement);
+			
+			// Make the last element link to the new element
+			this.lastElement.nextElement = newNode;
+			
+			// Make the first element point (backwards) to the new element
+			this.firstElement.previousElement = newNode;
+			
+			// Replace the last element with this element;
+			this.lastElement = newNode;
 		}
 	}
 	
@@ -80,7 +154,7 @@ public class CircularList<E>
 		boolean success;
 		try
 		{
-			addFirst(arg0);
+			addLast(arg0);
 			success = true;
 		}
 		catch (Exception e)
