@@ -101,4 +101,37 @@ public class CircularListTest
 		}
 	}
 	
+	@Test
+	public void testAddFirst()
+	{
+		try
+		{
+			CircularList<String> stringList = new CircularList<>();
+			String element1 = "first";
+			String element2 = "second";
+			String element3 = "third";
+			
+			stringList.addFirst(element1);
+			stringList.addFirst(element2);
+			stringList.addFirst(element3);
+			
+			Assert.assertEquals("current element not as expected", element1, 
+					stringList.getCurrentElement());
+			Assert.assertEquals("last element not as expected", element1, 
+					stringList.getLastElement());
+			Assert.assertEquals("element order not as expected", element3, 
+					stringList.next());
+			
+			stringList.next();
+			
+			if (stringList.getCurrentElement() == null)
+				fail("current element is null, but list is not empty");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			fail("exception thrown");
+		}
+	}
+	
 }

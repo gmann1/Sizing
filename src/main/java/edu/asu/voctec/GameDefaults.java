@@ -1,5 +1,7 @@
 package edu.asu.voctec;
 
+import java.awt.Font;
+
 import edu.asu.voctec.menu.buttons.LabelName;
 
 public interface GameDefaults
@@ -122,5 +124,7 @@ public interface GameDefaults
 															// //
 		public static final int		FONT_SIZE	= 36;
 		public static final boolean	ANTI_ALLIAS	= true;
+		
+		public static final Font			DEFAULT_AWT_FONT		= new Font(FONT_NAME, Font.BOLD, Fonts.FONT_SIZE);
 	}
 }

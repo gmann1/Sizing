@@ -92,7 +92,6 @@ public class SunBeam
 	public void delete()
 	{
 		this.image = null;
-		
 	}
 	
 	public void draw(Graphics graphics)
