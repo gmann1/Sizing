@@ -1,4 +1,4 @@
-package edu.asu.voctec.menu.energy_assessment;
+package rubbish.deprecate;
 
 import java.awt.Dimension;
 
@@ -14,15 +14,14 @@ import edu.asu.voctec.GameDefaults.Labels;
 import edu.asu.voctec.ScenarioHub;
 import edu.asu.voctec.menu.Menu;
 import edu.asu.voctec.menu.buttons.Button;
-import edu.asu.voctec.menu.buttons.Button.LayoutOption;
 import edu.asu.voctec.menu.buttons.Dictionary;
 import edu.asu.voctec.menu.buttons.LabelName;
 import edu.asu.voctec.menu.buttons.TransitionButton;
 import edu.asu.voctec.menu.buttons.TranslatableLabel;
 
-public class IntroScreen extends Menu
+public class ExitScreen extends Menu
 {
-	public static final int			ID					= 1500;
+	public static final int			ID					= 1600;
 	public static final Dimension	DesignResolution	= new Dimension(800,
 																600);
 	
@@ -41,35 +40,30 @@ public class IntroScreen extends Menu
 				Fonts.ANTI_ALLIAS, Dictionary.getExtraCharacters());
 		
 		// Add Labels
-		addLabel(new TranslatableLabel(
-				Labels.CriticalDesignMonth.instructionsLine1, font, textLeft,
-				yStart, width, height));
-		addLabel(new TranslatableLabel(
-				Labels.CriticalDesignMonth.instructionsLine2, font, textLeft,
-				yStart + 2 * yDelta, width, height));
-		addLabel(new TranslatableLabel(
-				Labels.CriticalDesignMonth.instructionsLine3, font, textLeft,
-				yStart + 3 * yDelta, width, height));
-		addLabel(new TranslatableLabel(
-				Labels.CriticalDesignMonth.instructionsLine4, font, textLeft,
-				yStart + 4 * yDelta, width, height));
-		addLabel(new TranslatableLabel(
-				Labels.CriticalDesignMonth.instructionsLine5, font, textLeft,
-				yStart + 5 * yDelta, width, height));
-		addLabel(new TranslatableLabel(
-				Labels.CriticalDesignMonth.instructionsLine6, font, textLeft,
-				yStart + 6 * yDelta, width, height));
+		addLabel(new TranslatableLabel(Labels.ExitScreen.instructionsLine1,
+				font, textLeft, yStart, width, height));
+		addLabel(new TranslatableLabel(Labels.ExitScreen.instructionsLine2,
+				font, textLeft, yStart + 2 * yDelta, width, height));
+		/*
+		 * addLabel(new
+		 * TranslatableLabel(Labels.CriticalDesignMonth.instructionsLine3, font,
+		 * textLeft, yStart + 3*yDelta, width, height)); addLabel(new
+		 * TranslatableLabel(Labels.CriticalDesignMonth.instructionsLine4, font,
+		 * textLeft, yStart + 4*yDelta, width, height)); addLabel(new
+		 * TranslatableLabel(Labels.CriticalDesignMonth.instructionsLine5, font,
+		 * textLeft, yStart + 5*yDelta, width, height)); addLabel(new
+		 * TranslatableLabel(Labels.CriticalDesignMonth.instructionsLine6, font,
+		 * textLeft, yStart + 6*yDelta, width, height));
+		 */
 		
 		// Add buttons
-		Button startButton = new TransitionButton(ImagePaths.NEW_GAME_BUTTON,
-				textLeft, yStart + 8 * yDelta, CriticalDesignMonthGameScreen.ID);
-		startButton.setLabel(LabelName.startButton);
-		addButton(new TransitionButton(ImagePaths.BACK_BUTTON, 10, -10,
-				ScenarioHub.ID, LayoutOption.BOTTOM_LEFT_ALIGN));
-		addButton(startButton);
+		Button returnButton = new TransitionButton(ImagePaths.NEW_GAME_BUTTON,
+				textLeft, yStart + 4 * yDelta, ScenarioHub.ID);
+		returnButton.setLabel(LabelName.returnButton);
+		addButton(returnButton);
 		
 		// initialize background image
-		Image background = (new Image(ImagePaths.INTRO_BACKGROUND))
+		Image background = (new Image(ImagePaths.BLACK_BACKGROUND))
 				.getScaledCopy(DesignResolution.width, DesignResolution.height);
 		super.initializeBackgroundImage(background);
 		

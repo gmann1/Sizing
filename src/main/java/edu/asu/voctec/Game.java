@@ -9,10 +9,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.menu.MainMenu;
 import edu.asu.voctec.menu.OptionsMenu;
-import edu.asu.voctec.menu.energy_assessment.CriticalDesignMonthGameScreen;
-import edu.asu.voctec.menu.energy_assessment.ExitScreen;
-import edu.asu.voctec.menu.energy_assessment.IntroScreen;
-import edu.asu.voctec.minigames.EnergyAssesmentGame;
 import edu.asu.voctec.utilities.Singleton;
 
 /**
@@ -118,10 +114,6 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new MainMenu());
 		this.addState(new ScenarioHub());
 		this.addState(new OptionsMenu());
-		this.addState(new EnergyAssesmentGame());
-		this.addState(new IntroScreen());
-		this.addState(new CriticalDesignMonthGameScreen());
-		this.addState(new ExitScreen());
 		// TODO add all other states
 		
 		// Move to the default game state

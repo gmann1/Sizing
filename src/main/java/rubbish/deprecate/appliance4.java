@@ -1,4 +1,4 @@
-package edu.asu.voctec.minigames.energy_assessment;
+package rubbish.deprecate;
 
 import org.newdawn.slick.Graphics;
 

@@ -1,6 +1,5 @@
-package edu.asu.voctec.minigames.energy_assessment;
+package rubbish.deprecate;
 
-import edu.asu.voctec.minigames.Actor;
 
 public abstract class Variables extends Actor
 {

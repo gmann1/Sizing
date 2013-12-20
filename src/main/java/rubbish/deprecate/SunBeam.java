@@ -1,4 +1,4 @@
-package edu.asu.voctec.menu.energy_assessment;
+package rubbish.deprecate;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;

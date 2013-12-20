@@ -1,6 +1,5 @@
-package edu.asu.voctec.utilities;
+package rubbish.deprecate;
 
-import edu.asu.voctec.minigames.Actor;
 
 public class Greenfoot
 {

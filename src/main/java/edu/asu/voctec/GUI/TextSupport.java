@@ -47,8 +47,10 @@ public abstract class TextSupport
 	public static String[] clipString(TrueTypeFont font, String string,
 			int maxWidth)
 	{
+		String empty = "";
+		
 		// Array of two empty strings. Return this as the default value.
-		String[] blanks = { "", "" };
+		String[] blanks = { empty, empty };
 		
 		// Split string into individual words.
 		String[] allWords = string.split(" ");
@@ -91,12 +93,32 @@ public abstract class TextSupport
 		else
 			// If there are no leftover words, make the leftovers an empty
 			// string.
-			leftoverString = "";
+			leftoverString = empty;
 		
 		// Return a 2-element array.
 		// The first element is the clipped string. The second element is the
 		// leftover string (the portion that was clipped).
 		return new String[] { clippedString, leftoverString };
+	}
+	
+	public static String[] wrapText(TrueTypeFont font, String text,
+			int lineWidth)
+	{
+		// TODO test
+		// TODO add support for newline characters
+		ArrayList<String> lines = new ArrayList<>();
+		String remainder;
+		
+		do
+		{
+			// Clip the string to obtain a line no longer than the given
+			// lineWidth.
+			String[] clipResults = clipString(font, text, lineWidth);
+			lines.add(clipResults[0]);
+			remainder = clipResults[1];
+		} while (!remainder.isEmpty());
+		
+		return lines.toArray(new String[lines.size()]);
 	}
 	
 	public static Font getMaxScaledFont(Font font, String text,
@@ -113,18 +135,18 @@ public abstract class TextSupport
 				borderScale, searchIncrement));
 	}
 	
-	public static Font getMaxScaledFont(Font font, Rectangle bounds,
+	public static Font getMaxVerticalScaledFont(Font font, Rectangle bounds,
 			double borderScale)
 	{
-		return getMaxScaledFont(font, bounds, borderScale,
+		return getMaxVerticalScaledFont(font, bounds, borderScale,
 				DEFAULT_SEARCH_INCREMENT);
 	}
 	
-	public static Font getMaxScaledFont(Font font, Rectangle bounds,
+	public static Font getMaxVerticalScaledFont(Font font, Rectangle bounds,
 			double borderScale, int searchIncrement)
 	{
-		return font.deriveFont((float) getMaxScaledFontSize(font, bounds,
-				borderScale, searchIncrement));
+		return font.deriveFont((float) getMaxVerticalScaledFontSize(font,
+				bounds, borderScale, searchIncrement));
 	}
 	
 	public static int getMaxScaledFontSize(Font font, String text,
@@ -177,7 +199,7 @@ public abstract class TextSupport
 		return currentSize;
 	}
 	
-	public static int getMaxScaledFontSize(Font font, Rectangle bounds,
+	public static int getMaxVerticalScaledFontSize(Font font, Rectangle bounds,
 			double borderScale, int searchIncrement)
 	{
 		// TODO test

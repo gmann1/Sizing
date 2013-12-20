@@ -1,4 +1,4 @@
-package edu.asu.voctec.menu.energy_assessment;
+package rubbish.deprecate;
 
 import java.awt.Dimension;
 import java.awt.Point;

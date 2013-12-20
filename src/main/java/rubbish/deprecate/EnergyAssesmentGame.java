@@ -1,4 +1,4 @@
-package edu.asu.voctec.minigames;
+package rubbish.deprecate;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -18,13 +18,6 @@ import edu.asu.voctec.menu.Menu;
 import edu.asu.voctec.menu.buttons.Button;
 import edu.asu.voctec.menu.buttons.Button.LayoutOption;
 import edu.asu.voctec.menu.buttons.TransitionButton;
-import edu.asu.voctec.menu.energy_assessment.ExitScreen;
-import edu.asu.voctec.minigames.energy_assessment.Watts;
-import edu.asu.voctec.minigames.energy_assessment.Wire;
-import edu.asu.voctec.minigames.energy_assessment.appliance1;
-import edu.asu.voctec.minigames.energy_assessment.appliance2;
-import edu.asu.voctec.minigames.energy_assessment.appliance3;
-import edu.asu.voctec.minigames.energy_assessment.appliance4;
 
 public class EnergyAssesmentGame extends Menu
 {

@@ -1,8 +1,6 @@
-package edu.asu.voctec.minigames.energy_assessment;
+package rubbish.deprecate;
 
 import java.awt.Point;
-
-import edu.asu.voctec.minigames.Actor;
 
 public abstract class Appliance extends Actor
 {

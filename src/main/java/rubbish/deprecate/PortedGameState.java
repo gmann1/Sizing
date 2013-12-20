@@ -1,4 +1,4 @@
-package edu.asu.voctec.minigames;
+package rubbish.deprecate;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -11,7 +11,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.ModifiedGameState;
-import edu.asu.voctec.utilities.Greenfoot;
 
 public abstract class PortedGameState extends ModifiedGameState
 {

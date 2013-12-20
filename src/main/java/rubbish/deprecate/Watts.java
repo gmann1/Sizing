@@ -1,10 +1,8 @@
-package edu.asu.voctec.minigames.energy_assessment;
+package rubbish.deprecate;
 
 import java.awt.Point;
 
 import org.newdawn.slick.Graphics;
-
-import edu.asu.voctec.minigames.Actor;
 
 public class Watts extends Actor
 {

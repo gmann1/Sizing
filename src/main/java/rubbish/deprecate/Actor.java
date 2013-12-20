@@ -1,4 +1,4 @@
-package edu.asu.voctec.minigames;
+package rubbish.deprecate;
 
 import java.awt.Point;
 import java.awt.Rectangle;
