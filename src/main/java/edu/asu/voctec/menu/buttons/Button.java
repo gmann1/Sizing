@@ -11,6 +11,8 @@ import org.newdawn.slick.TrueTypeFont;
 
 import edu.asu.voctec.GameDefaults.Fonts;
 import edu.asu.voctec.Main;
+import edu.asu.voctec.language.Dictionary;
+import edu.asu.voctec.language.LabelName;
 import edu.asu.voctec.utilities.Translatable;
 
 public abstract class Button implements Translatable, GUIElementInterface

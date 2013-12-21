@@ -1,4 +1,4 @@
-package edu.asu.voctec;
+package edu.asu.voctec.utilities;
 
 /**
  * Represents an object that can be finalized. In other words, the user can call

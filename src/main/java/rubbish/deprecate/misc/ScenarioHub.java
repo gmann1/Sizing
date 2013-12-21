@@ -1,4 +1,4 @@
-package edu.asu.voctec;
+package rubbish.deprecate.misc;
 
 import java.awt.Dimension;
 
@@ -7,9 +7,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import rubbish.deprecate.voctec.menu.MainMenu;
+import rubbish.deprecate.voctec.menu.Menu;
 import edu.asu.voctec.GameDefaults.ImagePaths;
-import edu.asu.voctec.menu.MainMenu;
-import edu.asu.voctec.menu.Menu;
 import edu.asu.voctec.menu.buttons.Button;
 import edu.asu.voctec.menu.buttons.Button.LayoutOption;
 import edu.asu.voctec.menu.buttons.TransitionButton;
