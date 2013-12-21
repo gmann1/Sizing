@@ -14,17 +14,17 @@ import edu.asu.voctec.utilities.AspectRatio.ResolutionNotSupportedException;
 
 public class Main
 {
-	public static final int			TARGET_FRAME_RATE		= 30;
-	public static final String		GAME_TITLE				= "Sizing";
-	public static final boolean		SHOW_FPS				= false;
-	public static final String		DEFAULT_LANGUAGE		= "english";
+	public static final int TARGET_FRAME_RATE = 30;
+	public static final String GAME_TITLE = "Sizing";
+	public static final boolean SHOW_FPS = false;
+	public static final String DEFAULT_LANGUAGE = "english";
 	
-	private static final int		DEFAULT_WINDOW_WIDTH	= 800;
-	private static final int		DEFAULT_WINDOW_HEIGHT	= 600;
-	private static ScreenResolution	currentScreenDimension;
-	private static AppGameContainer	gameContainer;
-	private static Dictionary		currentLanguage			= Dictionary
-																	.constructDictionary("default");
+	private static final int DEFAULT_WINDOW_WIDTH = 800;
+	private static final int DEFAULT_WINDOW_HEIGHT = 600;
+	private static ScreenResolution currentScreenDimension;
+	private static AppGameContainer gameContainer;
+	private static Dictionary currentLanguage = Dictionary
+			.constructDictionary("default");
 	
 	public static void main(String[] args) throws SlickException,
 			ResolutionNotSupportedException

@@ -13,4 +13,10 @@ public class PositionedObject<T> extends Point
 		super(x, y);
 		this.data = data;
 	}
+	
+	public PositionedObject(T data, Point relativeLocation)
+	{
+		super(relativeLocation.x, relativeLocation.y);
+		this.data = data;
+	}
 }

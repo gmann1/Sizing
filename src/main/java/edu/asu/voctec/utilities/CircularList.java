@@ -103,8 +103,13 @@ public class CircularList<E>
 	 */
 	public E next()
 	{
-		currentElement = currentElement.nextElement;
-		return currentElement.data;
+		if (numberOfElements != 0)
+		{
+			currentElement = currentElement.nextElement;
+			return currentElement.data;
+		}
+		else
+			return null;
 	}
 	
 	/**
@@ -115,8 +120,13 @@ public class CircularList<E>
 	 */
 	public E previous()
 	{
-		currentElement = currentElement.previousElement;
-		return currentElement.data;
+		if (numberOfElements != 0)
+		{
+			currentElement = currentElement.previousElement;
+			return currentElement.data;
+		}
+		else
+			return null;
 	}
 	
 	public void addFirst(E element)
@@ -179,6 +189,43 @@ public class CircularList<E>
 		}
 		
 		numberOfElements++;
+	}
+	
+	public boolean addCurrent(E element)
+	{
+		boolean success;
+		// TODO replace with a call to add(index, element);
+		ListElement<E> newNode = new ListElement<E>(element);
+		
+		if (currentElement == null)
+		{
+			// Set element as the first, last, and current element
+			firstElement = newNode;
+			lastElement = firstElement;
+			firstElement.setLinks(lastElement, lastElement);
+			currentElement = firstElement;
+			
+			success = true;
+		}
+		else
+		{
+			// Link the newNode to the previous and next nodes, respectively
+			newNode.setLinks(currentElement.previousElement, currentElement.nextElement);
+			
+			// Make the previous element link to the new element
+			this.currentElement.previousElement.nextElement = newNode;
+			
+			// Make the next element point (backwards) to the new element
+			this.currentElement.nextElement.previousElement = newNode;
+			
+			// Replace the current element with this element;
+			this.currentElement = newNode;
+			
+			success = true;
+		}
+		
+		numberOfElements++;
+		return success;
 	}
 	
 	public boolean add(E arg0)
@@ -253,5 +300,17 @@ public class CircularList<E>
 	public int size()
 	{
 		return this.numberOfElements;
+	}
+	
+	public E pop()
+	{
+		if (numberOfElements > 0)
+		{
+			E element = currentElement.data;
+			removeCurrentNode();
+			return element;
+		}
+		else
+			return null;
 	}
 }

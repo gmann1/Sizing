@@ -1,6 +1,8 @@
 package edu.asu.voctec;
 
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Point;
 
 import edu.asu.voctec.menu.buttons.LabelName;
 
@@ -55,6 +57,13 @@ public interface GameDefaults
 		public static final String	SUN_BEAM						= "resources/default/img/minigames/criticalDesign/beam.png";
 		public static final String	SUN_BEAM_MEDIUM					= "resources/default/img/minigames/criticalDesign/beammed.png";
 		public static final String	SUN_BEAM_SMALL					= "resources/default/img/minigames/criticalDesign/beamsmall.png";
+		
+		// Selector Resources
+		public static final String ARROW_LEFT = "resources/default/img/selector/ArrowLeft.png";
+		public static final String ARROW_RIGHT = "resources/default/img/selector/ArrowRight.png";
+		public static final String SELECTOR_LARGE = "resources/default/img/selector/SelectorLarge.png";
+		public static final String SELECTOR_SMALL = "resources/default/img/selector/SelectorSmall.png";
+		public static final String SELECTOR_SHADOW = "resources/default/img/selector/SelectorShadow.png";
 	}
 	
 	public interface SoundPaths
@@ -121,10 +130,24 @@ public interface GameDefaults
 	public interface Fonts
 	{
 		public static final String	FONT_NAME	= "Meiryo"; // "Hiragino Kaku Gothic Pro";
-															// //
 		public static final int		FONT_SIZE	= 36;
 		public static final boolean	ANTI_ALLIAS	= true;
 		
 		public static final Font			DEFAULT_AWT_FONT		= new Font(FONT_NAME, Font.BOLD, Fonts.FONT_SIZE);
+	}
+	
+	public interface SelectorDefaults
+	{
+		public static Dimension ARROW_SIZE = new Dimension(41, 123);
+		public static Dimension PRIMARY_SELECTION_SIZE = new Dimension(183, 184);
+		public static Dimension SECONDARY_SELECTION_SIZE = new Dimension(124, 123);
+		public static Dimension SHADOW_SIZE = new Dimension(494, 122);
+		
+		public static Point ARROW_LOCATION_LEFT = new Point(0, 91);
+		public static Point ARROW_LOCATION_RIGHT = new Point(535, 91);
+		public static Point PRIMARY_SELECTION_LOCATION = new Point(196, 0);
+		public static Point SECONDARY_SELECTION_LOCATION_LEFT = new Point(52, 91);
+		public static Point SECONDARY_SELECTION_LOCATION_RIGHT = new Point(399, 91);
+		public static Point SHADOW_LOCATION = new Point(41, 184);
 	}
 }
