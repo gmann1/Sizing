@@ -8,18 +8,18 @@ import edu.asu.voctec.menu.MainMenu;
 
 public class LanguageButton extends TransitionButton implements GameDefaults
 {
-	public static final int TRANSITION_SCREEN = MainMenu.ID;
-	Dictionary language;
+	public static final int	TRANSITION_SCREEN	= MainMenu.ID;
+	Dictionary				language;
 	
-	public LanguageButton(int relativeX, int relativeY, 
-			Dictionary language, LayoutOption... layoutOptions) 
-					throws SlickException
+	public LanguageButton(int relativeX, int relativeY, Dictionary language,
+			LayoutOption... layoutOptions) throws SlickException
 	{
-		super(ImagePaths.LANGUAGE_BUTTON, relativeX, relativeY, TRANSITION_SCREEN, layoutOptions);
-		//TODO set label text
+		super(ImagePaths.LANGUAGE_BUTTON, relativeX, relativeY,
+				TRANSITION_SCREEN, layoutOptions);
+		// TODO set label text
 		this.language = language;
 	}
-
+	
 	@Override
 	public void actOnMouseClick()
 	{

@@ -8,28 +8,28 @@ import edu.asu.voctec.utilities.AspectRatio.ResolutionNotSupportedException;
 
 public class ScreenResolution extends Dimension
 {
-	private static final long serialVersionUID = -5575416306076775945L;
-	private AspectRatio aspectRatio;
+	private static final long	serialVersionUID	= -5575416306076775945L;
+	private AspectRatio			aspectRatio;
 	
-	public ScreenResolution(Image backgroundImage) 
+	public ScreenResolution(Image backgroundImage)
 			throws ResolutionNotSupportedException
 	{
 		this(backgroundImage.getWidth(), backgroundImage.getHeight());
 	}
 	
-	public ScreenResolution(int width, int height) 
+	public ScreenResolution(int width, int height)
 			throws ResolutionNotSupportedException
 	{
 		super(width, height);
 		this.aspectRatio = AspectRatio.getAspectRatio(width, height);
 	}
 	
-	protected void recalculateAspectRatio() 
+	protected void recalculateAspectRatio()
 			throws ResolutionNotSupportedException
 	{
 		this.aspectRatio = AspectRatio.getAspectRatio(width, height);
 	}
-
+	
 	public AspectRatio getAspectRatio()
 	{
 		return aspectRatio;

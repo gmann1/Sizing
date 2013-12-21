@@ -7,17 +7,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import edu.asu.voctec.menu.MainMenu;
-import edu.asu.voctec.menu.OptionsMenu;
-import edu.asu.voctec.menu.energy_assessment.CriticalDesignMonthGameScreen;
-import edu.asu.voctec.menu.energy_assessment.ExitScreen;
-import edu.asu.voctec.menu.energy_assessment.IntroScreen;
-import edu.asu.voctec.minigames.CriticalDesignMonthGame;
-import edu.asu.voctec.minigames.EnergyAssesmentGame;
+import edu.asu.voctec.GUI.MenuTest;
 import edu.asu.voctec.utilities.Singleton;
 
 /**
- * Singleton class representing the currently running game. 
+ * Singleton class representing the currently running game.
  * 
  * @author Zach Moore
  */
@@ -25,18 +19,23 @@ public class Game extends StateBasedGame implements Singleton
 {
 	private static Game currentGame;
 	
-	/**List of all GameState IDs that have been added. @see #addState(GameState)*/
+	/**
+	 * List of all GameState IDs that have been added. @see #addState(GameState)
+	 */
 	public static final ArrayList<Integer> GAME_STATES = new ArrayList<>();
-	/**GameState to enter upon launching the application*/
-	public static final int DEFAULT_GAME_STATE = MainMenu.ID;
-	//TODO: Class loading
+	/** GameState to enter upon launching the application */
+	public static final int DEFAULT_GAME_STATE = 0;
+	
+	// TODO: Class loading
 	
 	/**
 	 * Private constructor to enforce Singleton.
 	 * 
-	 * @param gameTitle		the name of the window this game will run in.
-	 * @throws DuplicateInstantiationException	if an attempt is made to create
-	 * 											more than one instance of this class.
+	 * @param gameTitle
+	 *            the name of the window this game will run in.
+	 * @throws DuplicateInstantiationException
+	 *             if an attempt is made to create more than one instance of
+	 *             this class.
 	 */
 	private Game(String gameTitle) throws DuplicateInstantiationException
 	{
@@ -46,18 +45,16 @@ public class Game extends StateBasedGame implements Singleton
 			Game.currentGame = this;
 		else
 			throw new DuplicateInstantiationException();
-			
 		
 		System.out.println("Game constructed successfully.");
 	}
 	
-	
 	/**
 	 * Constructs a game using the title defined in Main.
 	 * 
-	 * @return	the current Game object.
-	 * @see		#constructGame(String)
-	 * @see		edu.asu.voctec.Main
+	 * @return the current Game object.
+	 * @see #constructGame(String)
+	 * @see edu.asu.voctec.Main
 	 */
 	public static Game constructGame()
 	{
@@ -66,12 +63,13 @@ public class Game extends StateBasedGame implements Singleton
 	
 	/**
 	 * Pseudo-Constructor. If a game has already been instantiated, this method
-	 * will return that Game object. Otherwise, a new Game object will be 
+	 * will return that Game object. Otherwise, a new Game object will be
 	 * constructed and returned.
 	 * 
-	 * @param	the name of the window this game will run in.
-	 * @return	the current Game object.
-	 * @see		#Game(String)
+	 * @param the
+	 *            name of the window this game will run in.
+	 * @return the current Game object.
+	 * @see #Game(String)
 	 */
 	protected static Game constructGame(String gameTitle)
 	{
@@ -80,8 +78,8 @@ public class Game extends StateBasedGame implements Singleton
 			try
 			{
 				return new Game(gameTitle);
-			} 
-			catch(DuplicateInstantiationException exception) 
+			}
+			catch (DuplicateInstantiationException exception)
 			{
 				return Game.currentGame;
 			}
@@ -91,48 +89,44 @@ public class Game extends StateBasedGame implements Singleton
 			return Game.currentGame;
 		}
 	}
-
+	
 	/**
-	 * @return	the Game object representing the currently running game. 
+	 * @return the Game object representing the currently running game.
 	 */
 	public static Game getCurrentGame()
 	{
 		return currentGame;
 	}
-
-	/* (non-Javadoc)
-	 * Create, add, and initialize all states associated with this game
-	 * @see org.newdawn.slick.state.StateBasedGame#initStatesList(org.newdawn.slick.GameContainer)
+	
+	/*
+	 * (non-Javadoc) Create, add, and initialize all states associated with this
+	 * game
+	 * 
+	 * @see
+	 * org.newdawn.slick.state.StateBasedGame#initStatesList(org.newdawn.slick
+	 * .GameContainer)
 	 */
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException
 	{
-		//Add all GameStates
-		this.addState(new MainMenu());
+		// Add all GameStates
+		this.addState(new MenuTest());
+		/*this.addState(new MainMenu());
 		this.addState(new ScenarioHub());
-		this.addState(new OptionsMenu());
-		this.addState(new EnergyAssesmentGame());
-		this.addState(new CriticalDesignMonthGame());
-		this.addState(new IntroScreen());
-		this.addState(new CriticalDesignMonthGameScreen());
-		this.addState(new ExitScreen());
-		//TODO add all other states
+		this.addState(new OptionsMenu());*/
+		// TODO add all other states
 		
-		//Initialize all the game states
-		for (int stateID : Game.GAME_STATES)
-		{
-			GameState g = this.getState(stateID);
-			g.init(container, this);
-		}
-		
-		//Move to the default game state
+		// Move to the default game state
 		this.enterState(Game.DEFAULT_GAME_STATE);
 	}
 	
-	/* (non-Javadoc)
-	 * adds the provided GameState to the list of gameStates, and adds its id
-	 * to the list of gameStateIDs
-	 * @see org.newdawn.slick.state.StateBasedGame#addState(org.newdawn.slick.state.GameState)
+	/*
+	 * (non-Javadoc) adds the provided GameState to the list of gameStates, and
+	 * adds its id to the list of gameStateIDs
+	 * 
+	 * @see
+	 * org.newdawn.slick.state.StateBasedGame#addState(org.newdawn.slick.state
+	 * .GameState)
 	 */
 	@Override
 	public void addState(GameState state)
@@ -146,6 +140,7 @@ public class Game extends StateBasedGame implements Singleton
 	{
 		System.out.println("Switching States...");
 		super.enterState(id);
-		System.out.println("Switch Successful. Current State: " + this.getCurrentStateID());
+		System.out.println("Switch Successful. Current State: "
+				+ this.getCurrentStateID());
 	}
 }
