@@ -1,6 +1,8 @@
-package edu.asu.voctec;
+package edu.asu.voctec.information;
 
 import java.util.ArrayList;
+
+import edu.asu.voctec.utilities.Finalizable;
 
 /**
  * Contains information related to a single attempt made by a user at a 

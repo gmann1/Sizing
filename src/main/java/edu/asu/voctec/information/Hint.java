@@ -1,4 +1,4 @@
-package edu.asu.voctec;
+package edu.asu.voctec.information;
 
 /**
  * Represents a hint that the user can receive during a mini-game. In the

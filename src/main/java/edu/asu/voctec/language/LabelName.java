@@ -1,4 +1,4 @@
-package edu.asu.voctec.menu.buttons;
+package edu.asu.voctec.language;
 
 import java.util.HashMap;
 

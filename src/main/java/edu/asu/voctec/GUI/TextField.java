@@ -3,224 +3,60 @@ package edu.asu.voctec.GUI;
 import java.awt.Font;
 import java.awt.Rectangle;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.TrueTypeFont;
 
-import edu.asu.voctec.GameDefaults;
+import edu.asu.voctec.GameDefaults.Fonts;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 /**
  * Contains a single line of text that can be displayed to the screen using
  * LWJGL. A TextField object can have other options specified, such as a visible
  * border or background, font size and style, etc. Text can be automatically
- * sized or clipped, depending on the constructor used.
+ * sized or clipped, depending on the constructor input.
  * 
  * @author Moore, Zachary
- * @see #TextField(Rectangle, String, Color, boolean, boolean)
- * @see #TextField(Rectangle, String, Color, int, boolean, boolean)
- * @see #TextField(Rectangle, String, Font, Color, boolean, boolean)
- * @see #TextField(Rectangle, String, Font, int, Color, boolean, boolean)
+ * @see #TextField(Rectangle, float, Font, boolean, String, FormattingOption)
+ * @see #TextField(Rectangle, Rectangle, Font, boolean, String, FormattingOption)
  * 
  */
-public class TextField implements Displayable
+public class TextField extends TextDisplay
 {
-	public static final double BORDER_SCALE = 0.95;
-	
-	protected Rectangle bounds;
-	protected Rectangle textBounds;
 	protected String text;
-	protected Font awtFont;
-	protected TrueTypeFont font;
-	protected Color fontColor;
-	protected Color borderColor;
-	protected Color backgroundColor;
-	
+	// TODO add support for centering text
 	protected boolean center;
 	
-	public TextField(Rectangle bounds, String text, Font unsizedFont,
-			int forcedFontSize, Color fontColor, boolean antiAlias,
-			boolean center)
+	public TextField(Rectangle bounds, Rectangle textBounds, Font awtFont,
+			boolean antiAlias, String text, FormattingOption option)
 	{
-		this.bounds = bounds;
-		this.textBounds = bounds;
-		this.text = text;
-		this.fontColor = fontColor;
-		this.center = center;
-		this.backgroundColor = Color.blue;
-		this.borderColor = Color.white;
+		super(bounds, textBounds, awtFont, antiAlias);
 		
-		if (forcedFontSize > 0)
-			this.awtFont = unsizedFont.deriveFont((float) forcedFontSize);
-		else
-			this.awtFont = unsizedFont;
-		
-		this.font = new TrueTypeFont(awtFont, antiAlias);
-		
-		this.text = TextSupport.clipString(font, text,
-				(int) (bounds.width * BORDER_SCALE))[0];
-		
-		if (center)
-			centerText();
+		// Set font size based on provided formating option. 
+		// Default is the provided font size (awtFont.getSize())
+		if (option == FormattingOption.FIT_TEXT)
+			this.setFontSize(TextSupport.getMaxScaledFontSize(awtFont, text, textBounds));
+		else if (option == FormattingOption.FIT_TEXT_VERTICALLY)
+			this.setFontSize(TextSupport.getMaxVerticalScaledFontSize(awtFont, textBounds));
+
+		this.text = TextSupport.clipString(font, text, textBounds.width)[0];
 	}
 	
-	public TextField(Rectangle bounds, String text, Font awtFont,
-			Color fontColor, boolean antiAlias, boolean center)
+	public TextField(Rectangle bounds, float textBounds, Font awtFont,
+			boolean antiAlias, String text, FormattingOption option)
 	{
-		this(bounds, text, TextSupport.getMaxScaledFont(awtFont, text, bounds,
-				BORDER_SCALE), 0, fontColor, antiAlias, center);
+		this(bounds, UtilFunctions.dialateRelativeRectangle(bounds, textBounds),
+				awtFont, antiAlias, text, option);
 	}
 	
-	public TextField(Rectangle bounds, String text, Color fontColor,
-			boolean antiAlias, boolean center)
+	public TextField(Rectangle bounds, float textBounds, String text, FormattingOption option)
 	{
-		this(bounds, text, TextSupport
-				.getMaxScaledFont(GameDefaults.Fonts.DEFAULT_AWT_FONT, text,
-						bounds, BORDER_SCALE), 0, fontColor, antiAlias, center);
+		this(bounds, UtilFunctions.dialateRelativeRectangle(bounds, textBounds),
+				Defaults.AWT_FONT, Fonts.ANTI_ALLIAS, text, option);
 	}
 	
-	public TextField(Rectangle bounds, String text, Color fontColor,
-			int forcedFontSize, boolean antiAlias, boolean center)
+	protected void drawText(Graphics graphics)
 	{
-		this(bounds, text, GameDefaults.Fonts.DEFAULT_AWT_FONT, forcedFontSize,
-				fontColor, antiAlias, center);
-	}
-	
-	/* (non-Javadoc)
-	 * @see edu.asu.voctec.GUI.Displayable#draw(org.newdawn.slick.Graphics)
-	 */
-	@Override
-	public void draw(Graphics graphics)
-	{
-		Color color = graphics.getColor();
-		
-		// Draw background
-		if (backgroundColor != null)
-		{
-			graphics.setColor(backgroundColor);
-			graphics.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
-		}
-		
-		// Draw border
-		if (borderColor != null)
-		{
-			graphics.setColor(borderColor);
-			graphics.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
-		}
-		
-		// Draw text
 		graphics.setFont(font);
 		graphics.setColor(fontColor);
-		graphics.drawString(text, textBounds.x, textBounds.y);
-		
-		graphics.setColor(color);
-	}
-	
-	public void centerText()
-	{
-		Rectangle trueTextRectangle = new Rectangle(textBounds.x, textBounds.y,
-				font.getWidth(text), font.getHeight(text));
-		
-		UtilFunctions.centerRectangleHorizontally(bounds, trueTextRectangle);
-		UtilFunctions.centerRectangleVertically(bounds, trueTextRectangle);
-		
-		this.textBounds = trueTextRectangle;
-	}
-	
-	/* (non-Javadoc)
-	 * @see edu.asu.voctec.GUI.Displayable#getX()
-	 */
-	@Override
-	public int getX()
-	{
-		return bounds.x;
-	}
-	
-	/* (non-Javadoc)
-	 * @see edu.asu.voctec.GUI.Displayable#getY()
-	 */
-	@Override
-	public int getY()
-	{
-		return bounds.y;
-	}
-	
-	/* (non-Javadoc)
-	 * @see edu.asu.voctec.GUI.Displayable#getBounds()
-	 */
-	@Override
-	public Rectangle getBounds()
-	{
-		return bounds;
-	}
-	
-	@Override
-	public void setBounds(Rectangle bounds)
-	{
-		// TODO Resize text
-		// TODO Add image support
-		this.bounds = bounds;
-	}
-	
-	/**
-	 * Display a border around this text field, using the provided color. If the
-	 * borderColor parameter is null, this object's font color will be used as
-	 * the border color.
-	 * 
-	 * @param borderColor
-	 *            the desired border color.
-	 */
-	public void enableBorder(Color borderColor)
-	{
-		if (borderColor != null)
-			this.borderColor = borderColor;
-		else
-			this.borderColor = this.fontColor;
-	}
-	
-	/**
-	 * Display a border around this text field, using the current font color.
-	 */
-	public void enableBorder()
-	{
-		enableBorder(fontColor);
-	}
-	
-	/**
-	 * Display a solid-color background behind this text field, using the
-	 * backgroundColor parameter. Passing a null value as backgroundColor will
-	 * have no impact on this object's current background.
-	 * 
-	 * @param backgroundColor the desired background color.
-	 */
-	public void enableBackground(Color backgroundColor)
-	{
-		if (backgroundColor != null)
-			this.backgroundColor = backgroundColor;
-	}
-	
-	/**
-	 * Display a solid-color background behind this text field, using WHITE as
-	 * the background color.
-	 */
-	public void enableBackground()
-	{
-		enableBackground(Color.white);
-	}
-	
-	/**
-	 * Stop displaying the background of this text field.
-	 */
-	public void disableBackground()
-	{
-		this.backgroundColor = null;
-	}
-	
-	/**
-	 * Stop displaying the border of this text field.
-	 */
-	public void disableBorder()
-	{
-		this.borderColor = null;
+		graphics.drawString(text, textBounds.x + bounds.x, textBounds.y + bounds.y);
 	}
 }

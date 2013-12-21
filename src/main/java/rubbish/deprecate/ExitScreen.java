@@ -8,14 +8,14 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
+import rubbish.deprecate.misc.ScenarioHub;
+import rubbish.deprecate.voctec.menu.Menu;
 import edu.asu.voctec.GameDefaults.Fonts;
 import edu.asu.voctec.GameDefaults.ImagePaths;
 import edu.asu.voctec.GameDefaults.Labels;
-import edu.asu.voctec.ScenarioHub;
-import edu.asu.voctec.menu.Menu;
+import edu.asu.voctec.language.Dictionary;
+import edu.asu.voctec.language.LabelName;
 import edu.asu.voctec.menu.buttons.Button;
-import edu.asu.voctec.menu.buttons.Dictionary;
-import edu.asu.voctec.menu.buttons.LabelName;
 import edu.asu.voctec.menu.buttons.TransitionButton;
 import edu.asu.voctec.menu.buttons.TranslatableLabel;
 

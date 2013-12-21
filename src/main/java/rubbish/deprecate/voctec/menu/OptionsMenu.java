@@ -1,4 +1,4 @@
-package edu.asu.voctec.menu;
+package rubbish.deprecate.voctec.menu;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -10,10 +10,10 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.Main;
+import edu.asu.voctec.language.Dictionary;
+import edu.asu.voctec.language.LabelName;
 import edu.asu.voctec.menu.buttons.Button;
 import edu.asu.voctec.menu.buttons.Button.LayoutOption;
-import edu.asu.voctec.menu.buttons.Dictionary;
-import edu.asu.voctec.menu.buttons.LabelName;
 import edu.asu.voctec.menu.buttons.LanguageButton;
 import edu.asu.voctec.menu.buttons.TransitionButton;
 import edu.asu.voctec.utilities.ScreenResolution;

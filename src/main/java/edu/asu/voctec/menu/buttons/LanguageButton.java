@@ -4,11 +4,11 @@ import org.newdawn.slick.SlickException;
 
 import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.Main;
-import edu.asu.voctec.menu.MainMenu;
+import edu.asu.voctec.language.Dictionary;
 
 public class LanguageButton extends TransitionButton implements GameDefaults
 {
-	public static final int	TRANSITION_SCREEN	= MainMenu.ID;
+	public static final int	TRANSITION_SCREEN	= 0;
 	Dictionary				language;
 	
 	public LanguageButton(int relativeX, int relativeY, Dictionary language,

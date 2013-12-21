@@ -32,7 +32,4 @@ public abstract class Component implements Displayable
 		if (this.associatedGUI != null)
 			this.associatedGUI.getListenerList().add(listener);
 	}
-	
-	
-	
 }

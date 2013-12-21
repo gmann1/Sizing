@@ -47,6 +47,9 @@ public abstract class TextSupport
 	public static String[] clipString(TrueTypeFont font, String string,
 			int maxWidth)
 	{
+		//TODO add support for words that are longer than the max width
+		
+		
 		String empty = "";
 		
 		// Array of two empty strings. Return this as the default value.
@@ -63,6 +66,7 @@ public abstract class TextSupport
 		// Determine the number of words that can fit in the desired width.
 		int wordIndex;
 		int lineWidth = 0;
+		int spaceWidth = font.getWidth(" ");
 		for (wordIndex = 0; wordIndex < allWords.length; wordIndex++)
 		{
 			// Get current word, and determine its width.
@@ -78,6 +82,9 @@ public abstract class TextSupport
 				// Add the new word to the list of words that fit on this line.
 				clipedWords.add(word);
 				lineWidth += wordWidth;
+				
+				// Account for white space
+				lineWidth += spaceWidth;
 			}
 		}
 		
@@ -101,7 +108,7 @@ public abstract class TextSupport
 		return new String[] { clippedString, leftoverString };
 	}
 	
-	public static String[] wrapText(TrueTypeFont font, String text,
+	public static ArrayList<String> wrapText(TrueTypeFont font, String text,
 			int lineWidth)
 	{
 		// TODO test
@@ -118,40 +125,37 @@ public abstract class TextSupport
 			remainder = clipResults[1];
 		} while (!remainder.isEmpty());
 		
-		return lines.toArray(new String[lines.size()]);
+		return lines;
+	}
+	
+	public static Font getMaxScaledFont(Font font, String text, Rectangle bounds)
+	{
+		return getMaxScaledFont(font, text, bounds, DEFAULT_SEARCH_INCREMENT);
 	}
 	
 	public static Font getMaxScaledFont(Font font, String text,
-			Rectangle bounds, double borderScale)
+			Rectangle bounds, int searchIncrement)
 	{
-		return getMaxScaledFont(font, text, bounds, borderScale,
-				DEFAULT_SEARCH_INCREMENT);
+		return font.deriveFont((float) getMaxScaledFontSize(font, text, bounds, searchIncrement));
 	}
 	
-	public static Font getMaxScaledFont(Font font, String text,
-			Rectangle bounds, double borderScale, int searchIncrement)
+	public static Font getMaxVerticalScaledFont(Font font, Rectangle bounds)
 	{
-		return font.deriveFont((float) getMaxScaledFontSize(font, text, bounds,
-				borderScale, searchIncrement));
+		return getMaxVerticalScaledFont(font, bounds, DEFAULT_SEARCH_INCREMENT);
 	}
 	
-	public static Font getMaxVerticalScaledFont(Font font, Rectangle bounds,
-			double borderScale)
-	{
-		return getMaxVerticalScaledFont(font, bounds, borderScale,
-				DEFAULT_SEARCH_INCREMENT);
-	}
-	
-	public static Font getMaxVerticalScaledFont(Font font, Rectangle bounds,
-			double borderScale, int searchIncrement)
+	public static Font getMaxVerticalScaledFont(Font font, Rectangle bounds, int searchIncrement)
 	{
 		return font.deriveFont((float) getMaxVerticalScaledFontSize(font,
-				bounds, borderScale, searchIncrement));
+				bounds, searchIncrement));
 	}
 	
 	public static int getMaxScaledFontSize(Font font, String text,
-			Rectangle bounds, double borderScale, int searchIncrement)
+			Rectangle bounds, int searchIncrement)
 	{
+		// TODO remove borderScale
+		double borderScale = 1.0;
+		
 		// TODO test
 		System.out.println("Scaling font...");
 		int maxWidth = (int) (bounds.width * borderScale);
@@ -199,9 +203,22 @@ public abstract class TextSupport
 		return currentSize;
 	}
 	
-	public static int getMaxVerticalScaledFontSize(Font font, Rectangle bounds,
-			double borderScale, int searchIncrement)
+	public static int getMaxScaledFontSize(Font font, String text, Rectangle bounds)
 	{
+		return getMaxScaledFontSize(font, text, bounds, DEFAULT_SEARCH_INCREMENT);
+	}
+	
+	public static int getMaxVerticalScaledFontSize(Font font, Rectangle bounds)
+	{
+		return getMaxVerticalScaledFontSize(font, bounds, DEFAULT_SEARCH_INCREMENT);
+	}
+	
+	public static int getMaxVerticalScaledFontSize(Font font, Rectangle bounds,
+			int searchIncrement)
+	{
+		// TODO remove borderScale
+		double borderScale = 1.0;
+		
 		// TODO test
 		System.out.println("Scaling font (vertical)...");
 		int maxHeight = (int) (bounds.height * borderScale);

@@ -64,7 +64,7 @@ public abstract class GUI extends BasicGameState implements GameDefaults
 	}
 	
 	@Override
-	public int getID()
+	public final int getID()
 	{
 		return ID;
 	}

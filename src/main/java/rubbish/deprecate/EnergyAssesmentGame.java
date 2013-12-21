@@ -11,10 +11,10 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import rubbish.deprecate.misc.ScenarioHub;
+import rubbish.deprecate.voctec.menu.Menu;
 import edu.asu.voctec.Game;
 import edu.asu.voctec.GameDefaults.ImagePaths;
-import edu.asu.voctec.ScenarioHub;
-import edu.asu.voctec.menu.Menu;
 import edu.asu.voctec.menu.buttons.Button;
 import edu.asu.voctec.menu.buttons.Button.LayoutOption;
 import edu.asu.voctec.menu.buttons.TransitionButton;

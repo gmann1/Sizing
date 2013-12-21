@@ -13,11 +13,11 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import rubbish.deprecate.voctec.menu.Menu;
 import edu.asu.voctec.Game;
 import edu.asu.voctec.GameDefaults.ImagePaths;
-import edu.asu.voctec.menu.Menu;
+import edu.asu.voctec.language.LabelName;
 import edu.asu.voctec.menu.buttons.Button;
-import edu.asu.voctec.menu.buttons.LabelName;
 import edu.asu.voctec.menu.buttons.TranslatableLabel;
 
 public class CriticalDesignMonthGameScreen extends Menu

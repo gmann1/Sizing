@@ -1,4 +1,4 @@
-package edu.asu.voctec.menu;
+package rubbish.deprecate.voctec.menu;
 
 import java.awt.Dimension;
 import java.awt.Point;
