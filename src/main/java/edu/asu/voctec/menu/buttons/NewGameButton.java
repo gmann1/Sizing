@@ -4,8 +4,8 @@ import java.awt.Point;
 
 import org.newdawn.slick.SlickException;
 
+import rubbish.deprecate.misc.ScenarioHub;
 import edu.asu.voctec.GameDefaults;
-import edu.asu.voctec.ScenarioHub;
 
 public class NewGameButton extends TransitionButton implements GameDefaults
 {
