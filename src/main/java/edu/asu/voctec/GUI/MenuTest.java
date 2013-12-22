@@ -41,7 +41,7 @@ public class MenuTest extends GUI
 		this.addComponent(textField);
 		this.addComponent(textField2);
 		this.addComponent(textField3);
-		//this.addComponent(new Selector<SelectorIcon>(100, 100));
+		this.addComponent(new Selector<SelectorIcon>(100, 100));
 		
 		System.out
 				.println("Listeners: " + Arrays.toString(this.getListeners()));

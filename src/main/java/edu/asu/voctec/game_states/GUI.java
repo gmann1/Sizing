@@ -38,7 +38,6 @@ public abstract class GUI extends ModifiedGameState implements GameDefaults
 		{
 			component.draw(graphics);
 		}
-		
 	}
 	
 	@Override
@@ -51,7 +50,7 @@ public abstract class GUI extends ModifiedGameState implements GameDefaults
 		listen(input);
 	}
 	
-	public final void listen(Input input)
+	private final void listen(Input input)
 	{
 		ActionListener.update(input);
 		

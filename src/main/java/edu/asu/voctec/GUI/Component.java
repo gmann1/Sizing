@@ -4,6 +4,18 @@ import java.util.ArrayList;
 
 import edu.asu.voctec.game_states.GUI;
 
+/**
+ * Represents a displayable object on the screen. Components have the ability to
+ * listen for events, including mouse, keyboard, and joystick.
+ * 
+ * Note: all components should be associated with a GUI instance. The events
+ * will be fired from said GUI. A user can easily associate this button with a
+ * GUI using the associate() method.
+ * 
+ * @author Moore, Zachary
+ * @see #associate(GUI)
+ * 
+ */
 public abstract class Component implements Displayable
 {
 	protected final ArrayList<ActionListener> listeners = new ArrayList<>();
