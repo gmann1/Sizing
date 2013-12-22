@@ -10,7 +10,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import edu.asu.voctec.ModifiedGameState;
+import edu.asu.voctec.game_states.ModifiedGameState;
 
 public abstract class PortedGameState extends ModifiedGameState
 {

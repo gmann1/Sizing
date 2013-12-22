@@ -2,6 +2,8 @@ package edu.asu.voctec.GUI;
 
 import java.util.ArrayList;
 
+import edu.asu.voctec.game_states.GUI;
+
 public abstract class Component implements Displayable
 {
 	protected final ArrayList<ActionListener> listeners = new ArrayList<>();

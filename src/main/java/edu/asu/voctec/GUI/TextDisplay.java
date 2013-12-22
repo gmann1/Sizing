@@ -146,6 +146,11 @@ public abstract class TextDisplay extends Component
 		this.bounds = bounds;
 	}
 	
+	public static Rectangle defaultTextBounds(final Rectangle bounds, float textBoundScale)
+	{
+		return UtilFunctions.dialateRelativeRectangle(bounds, textBoundScale);
+	}
+	
 	/**
 	 * Display a border around this text field, using the provided color. If the
 	 * borderColor parameter is null, this object's font color will be used as

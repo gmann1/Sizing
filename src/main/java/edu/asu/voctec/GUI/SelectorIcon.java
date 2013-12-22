@@ -2,7 +2,7 @@ package edu.asu.voctec.GUI;
 
 import org.newdawn.slick.Image;
 
-public class SelectorIcon extends GUIElement
+public class SelectorIcon extends BasicComponent
 {
 	protected final String	name;
 	protected final String description;
