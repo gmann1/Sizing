@@ -4,8 +4,10 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import org.apache.commons.lang3.StringUtils;
 import org.newdawn.slick.Graphics;
 
+import edu.asu.voctec.GameDefaults.Fonts;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TextArea extends TextDisplay
@@ -27,6 +29,26 @@ public class TextArea extends TextDisplay
 	{
 		this(bounds, UtilFunctions.dialateRelativeRectangle(bounds, textBounds),
 				awtFont, antiAlias, text);
+	}
+	
+	public TextArea(Rectangle bounds, float textBounds, String text)
+	{
+		this(bounds,
+				UtilFunctions.dialateRelativeRectangle(bounds, textBounds),
+				Defaults.AWT_FONT, Fonts.ANTI_ALLIAS, text);
+	}
+	
+	public void setFontSize(float size)
+	{
+		super.setFontSize(size);
+		rewrapText();
+	}
+	
+	public void rewrapText()
+	{
+		String text = StringUtils.join(lines, " ");
+		this.lines = TextSupport.wrapText(font, text, textBounds.width);
+		this.clipedText = determineClipedText();
 	}
 	
 	protected String determineClipedText()

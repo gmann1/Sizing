@@ -5,6 +5,14 @@ import java.awt.Rectangle;
 
 import org.newdawn.slick.Input;
 
+/**
+ * Listens for a left-mouse click over the associated component. This listener
+ * will only fire an event if it has an associated component, and that component
+ * was clicked by the left-mouse button.
+ * 
+ * @author Moore, Zachary
+ *
+ */
 public abstract class ButtonListener extends ActionListener
 {
 	@Override

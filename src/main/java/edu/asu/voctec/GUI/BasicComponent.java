@@ -4,8 +4,9 @@ import java.awt.Rectangle;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
-public abstract class BasicComponent implements Displayable
+public class BasicComponent extends Component implements Displayable
 {
 	protected Image baseImage;
 	protected Image currentImage;
@@ -18,6 +19,23 @@ public abstract class BasicComponent implements Displayable
 		this.currentImage = image;
 		this.x = x;
 		this.y = y;
+	}
+	
+	public BasicComponent(String imagePath, int x, int y) throws SlickException
+	{
+		this(new Image(imagePath), x, y);
+	}
+	
+	public BasicComponent(String imagePath, int x, int y, int width, int height)
+			throws SlickException
+	{
+		this((new Image(imagePath)).getScaledCopy(width, height), x, y);
+	}
+	
+	public BasicComponent(String imagePath, Rectangle bounds)
+			throws SlickException
+	{
+		this(imagePath, bounds.x, bounds.y, bounds.width, bounds.height);
 	}
 	
 	public void draw(Graphics graphics)
@@ -74,7 +92,8 @@ public abstract class BasicComponent implements Displayable
 	{
 		this.x = bounds.x;
 		this.y = bounds.y;
-		this.currentImage = baseImage.getScaledCopy(bounds.width, bounds.height);
+		this.currentImage = baseImage
+				.getScaledCopy(bounds.width, bounds.height);
 	}
 	
 }

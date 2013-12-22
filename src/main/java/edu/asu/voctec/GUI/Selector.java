@@ -256,8 +256,13 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	@Override
 	public Rectangle getBounds()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		//TODO calculate max and min X/Y components
+		int x = this.x;
+		int y = this.y;
+		int width = this.rightArrow.x + this.rightArrow.data.getWidth();
+		int height = this.background.y + this.background.data.getHeight();
+		
+		return new Rectangle(x, y, width, height);
 	}
 	
 	@Override

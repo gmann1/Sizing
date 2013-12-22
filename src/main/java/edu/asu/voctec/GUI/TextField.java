@@ -22,25 +22,21 @@ import edu.asu.voctec.utilities.UtilFunctions;
  */
 public class TextField extends TextDisplay
 {
+	public static final FormattingOption DEFAULT_FORMAT = FormattingOption.CLIP_TEXT;
 	protected String text;
 	// TODO add support for centering text
-	protected boolean center;
+	protected FormattingOption formatting;
 	
 	public TextField(Rectangle bounds, Rectangle textBounds, Font awtFont,
 			boolean antiAlias, String text, FormattingOption option)
 	{
 		super(bounds, textBounds, awtFont, antiAlias);
 		
+		this.formatting = (option == null) ? DEFAULT_FORMAT : option;
+		this.text = text;
+
 		// Set font size based on provided formating option.
-		// Default is the provided font size (awtFont.getSize())
-		if (option == FormattingOption.FIT_TEXT)
-			this.setFontSize(TextSupport.getMaxScaledFontSize(awtFont, text,
-					textBounds));
-		else if (option == FormattingOption.FIT_TEXT_VERTICALLY)
-			this.setFontSize(TextSupport.getMaxVerticalScaledFontSize(awtFont,
-					textBounds));
-		
-		this.text = TextSupport.clipString(font, text, textBounds.width)[0];
+		formatText();
 	}
 	
 	public TextField(Rectangle bounds, float textBounds, Font awtFont,
@@ -59,12 +55,35 @@ public class TextField extends TextDisplay
 				Defaults.AWT_FONT, Fonts.ANTI_ALLIAS, text, option);
 	}
 	
+	protected void formatText()
+	{
+
+		if (formatting == FormattingOption.FIT_TEXT)
+		{
+			this.setFontSize(TextSupport.getMaxScaledFontSize(awtFont, text,
+					textBounds));
+		}
+		else if (formatting == FormattingOption.FIT_TEXT_VERTICALLY)
+		{
+			this.setFontSize(TextSupport.getMaxVerticalScaledFontSize(awtFont,
+					textBounds));
+		}
+		
+		this.text = TextSupport.clipString(font, text, textBounds.width)[0];
+	}
+	
 	protected void drawText(Graphics graphics)
 	{
 		graphics.setFont(font);
 		graphics.setColor(fontColor);
 		graphics.drawString(text, textBounds.x + bounds.x, textBounds.y
 				+ bounds.y);
+	}
+	
+	public void setText(String text)
+	{
+		this.text = text;
+		formatText();
 	}
 	
 	public void center()

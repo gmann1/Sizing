@@ -20,8 +20,13 @@ public abstract class GUI extends ModifiedGameState implements GameDefaults
 	protected Image backgroundImage;
 	protected final ArrayList<Component> components = new ArrayList<>();
 	protected final ArrayList<ActionListener> listeners = new ArrayList<>();
-	
-	public abstract Dimension getDesignResolution();
+
+	@Override
+	public Dimension getDesignResolution()
+	{
+		// TODO Auto-generated method stub
+		return new Dimension(800, 600);
+	}
 	
 	@Override
 	public void render(GameContainer container, StateBasedGame game,

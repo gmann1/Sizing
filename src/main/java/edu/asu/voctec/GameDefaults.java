@@ -20,12 +20,12 @@ public interface GameDefaults
 		public static final String BLACK_BACKGROUND = "resources/default/img/blackBackground.jpg";
 		
 		// Buttons
-		public static final String BASE_BUTTON = "resources/default/img/testButton.png";
-		public static final String NEW_GAME_BUTTON = "resources/default/img/testButton.png";
-		public static final String OPTIONS_BUTTON = "resources/default/img/testButton.png";
-		public static final String INSTRUCTOR_CONTROL_PANEL_BUTTON = "resources/default/img/Horo - Square.png";
-		public static final String BACK_BUTTON = "resources/default/img/arrow-left.png";
-		public static final String LANGUAGE_BUTTON = "resources/default/img/testButton.png";
+		public static final String BASE_BUTTON = "resources/default/img/buttons/testButton.png";
+		public static final String NEW_GAME_BUTTON = "resources/default/img/buttons/newProfileButtonR.png";
+		public static final String OPTIONS_BUTTON = "resources/default/img/buttons/optionsButtonR.png";
+		public static final String INSTRUCTOR_CONTROL_PANEL_BUTTON = "resources/default/img/buttons/optionsButtonR.png";
+		public static final String BACK_BUTTON = "resources/default/img/buttons/arrow-left.png";
+		public static final String LANGUAGE_BUTTON = "resources/default/img/buttons/languagesButtonR.png";
 		
 		// Labels
 		public static final String BASE_LABEL = "resources/default/img/testButton.png";

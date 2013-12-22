@@ -7,7 +7,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import edu.asu.voctec.GUI.MenuTest;
+import edu.asu.voctec.game_states.MainMenu;
+import edu.asu.voctec.game_states.MenuTest;
 import edu.asu.voctec.game_states.ModifiedGameState;
 import edu.asu.voctec.utilities.Singleton;
 
@@ -18,7 +19,11 @@ import edu.asu.voctec.utilities.Singleton;
  */
 public class Game extends StateBasedGame implements Singleton
 {
+	// Replace with hashMap of classes and IDs
 	public static int MainMenuID;
+	public static int TaskScreenID;
+	public static int LanguageMenuID;
+	public static int InstructorControlPanelID;
 	
 	private static Game currentGame;
 	
@@ -114,10 +119,17 @@ public class Game extends StateBasedGame implements Singleton
 	public void initStatesList(GameContainer container) throws SlickException
 	{
 		// Declare & Initialize all game states
+		ModifiedGameState mainMenu = new MainMenu();
+		Game.MainMenuID = mainMenu.getID();
+		
 		ModifiedGameState menuTest = new MenuTest();
-		Game.MainMenuID = menuTest.getID();
+		Game.TaskScreenID = menuTest.getID();
+		
+		Game.InstructorControlPanelID = 0;
+		Game.LanguageMenuID = 0;
 		
 		// Add all GameStates
+		this.addState(mainMenu);
 		this.addState(menuTest);
 		// TODO add all other states
 		

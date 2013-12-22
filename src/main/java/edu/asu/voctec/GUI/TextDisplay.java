@@ -76,6 +76,9 @@ public abstract class TextDisplay extends Component
 	
 	/** Whether or not to apply antiAliasing to this textDisplay */
 	protected boolean antiAlias;
+
+	/** Whether or not to center the text of this textDisplay */
+	protected boolean center;
 	
 	public TextDisplay(Rectangle bounds, Rectangle textBounds, Font awtFont,
 			boolean antiAlias)

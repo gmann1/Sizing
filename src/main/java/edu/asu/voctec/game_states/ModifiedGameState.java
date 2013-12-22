@@ -1,5 +1,7 @@
 package edu.asu.voctec.game_states;
 
+import java.awt.Dimension;
+
 import org.newdawn.slick.state.BasicGameState;
 
 import edu.asu.voctec.GameDefaults;
@@ -12,6 +14,8 @@ public abstract class ModifiedGameState extends BasicGameState implements
 	private static int currentID = 0;
 	
 	private int ID;
+	
+	public abstract Dimension getDesignResolution();
 	
 	public ModifiedGameState()
 	{

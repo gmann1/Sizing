@@ -5,7 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class SomeGame extends ModifiedGameState
+public class SomeGame extends GUI
 {
 
 	@Override

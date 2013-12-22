@@ -108,6 +108,17 @@ public abstract class TextSupport
 		return new String[] { clippedString, leftoverString };
 	}
 	
+	/**
+	 * Separates the provided string into a number of lines, each no longer than
+	 * the provided line width. This method is intended to take a long body of
+	 * text, and wrap it in a text display. The returned array will be in order
+	 * of how the original text appears.
+	 * 
+	 * @param font The font to consider while sizing the text.
+	 * @param text The text to wrap.
+	 * @param lineWidth The maximum length (in pixels) that each line can be.
+	 * @return An array of strings, representing all lines of the wrapped text.
+	 */
 	public static ArrayList<String> wrapText(TrueTypeFont font, String text,
 			int lineWidth)
 	{

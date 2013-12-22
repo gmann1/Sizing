@@ -1,6 +1,7 @@
 package edu.asu.voctec.GUI;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 public class SelectorIcon extends BasicComponent
 {
@@ -19,6 +20,11 @@ public class SelectorIcon extends BasicComponent
 	public SelectorIcon(Image image, int x, int y, String name, int id)
 	{
 		this(image, x, y, name, null, id);
+	}
+	
+	public SelectorIcon(String imagePath, int x, int y, String name, int id) throws SlickException
+	{
+		this(new Image(imagePath), x, y, name, null, id);
 	}
 	
 	public String getName()
