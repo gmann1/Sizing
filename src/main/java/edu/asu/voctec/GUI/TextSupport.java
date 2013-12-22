@@ -114,13 +114,13 @@ public abstract class TextSupport
 		// TODO test
 		// TODO add support for newline characters
 		ArrayList<String> lines = new ArrayList<>();
-		String remainder;
+		String remainder = text;
 		
 		do
 		{
 			// Clip the string to obtain a line no longer than the given
 			// lineWidth.
-			String[] clipResults = clipString(font, text, lineWidth);
+			String[] clipResults = clipString(font, remainder, lineWidth);
 			lines.add(clipResults[0]);
 			remainder = clipResults[1];
 		} while (!remainder.isEmpty());

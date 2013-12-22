@@ -5,14 +5,14 @@ import java.awt.Rectangle;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
-public abstract class GUIElement implements Displayable
+public abstract class BasicComponent implements Displayable
 {
 	protected Image baseImage;
 	protected Image currentImage;
 	protected double x;
 	protected double y;
 	
-	public GUIElement(Image image, int x, int y)
+	public BasicComponent(Image image, int x, int y)
 	{
 		this.baseImage = image;
 		this.currentImage = image;

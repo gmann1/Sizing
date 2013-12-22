@@ -2,7 +2,7 @@ package rubbish.deprecate.misc;
 
 import org.newdawn.slick.Image;
 
-import edu.asu.voctec.GUI.GUI;
+import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.utilities.AspectRatio.ResolutionNotSupportedException;
 import edu.asu.voctec.utilities.Resizable;
 import edu.asu.voctec.utilities.ScreenResolution;

@@ -8,6 +8,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.game_states.GUI;
+
 public class MenuTest extends GUI
 {
 	@Override
@@ -32,6 +34,9 @@ public class MenuTest extends GUI
 		textField.enableBorder();
 		textField2.enableBorder();
 		textField3.enableBorder();
+		textField.center();
+		textField2.center();
+		textField3.center();
 		
 		this.addComponent(textField);
 		this.addComponent(textField2);

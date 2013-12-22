@@ -8,6 +8,7 @@ import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.GUI.MenuTest;
+import edu.asu.voctec.game_states.ModifiedGameState;
 import edu.asu.voctec.utilities.Singleton;
 
 /**
@@ -17,12 +18,15 @@ import edu.asu.voctec.utilities.Singleton;
  */
 public class Game extends StateBasedGame implements Singleton
 {
+	public static int MainMenuID;
+	
 	private static Game currentGame;
 	
 	/**
 	 * List of all GameState IDs that have been added. @see #addState(GameState)
 	 */
 	public static final ArrayList<Integer> GAME_STATES = new ArrayList<>();
+	
 	/** GameState to enter upon launching the application */
 	public static final int DEFAULT_GAME_STATE = 0;
 	
@@ -109,11 +113,12 @@ public class Game extends StateBasedGame implements Singleton
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException
 	{
+		// Declare & Initialize all game states
+		ModifiedGameState menuTest = new MenuTest();
+		Game.MainMenuID = menuTest.getID();
+		
 		// Add all GameStates
-		this.addState(new MenuTest());
-		/*this.addState(new MainMenu());
-		this.addState(new ScenarioHub());
-		this.addState(new OptionsMenu());*/
+		this.addState(menuTest);
 		// TODO add all other states
 		
 		// Move to the default game state

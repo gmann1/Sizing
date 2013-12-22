@@ -1,4 +1,4 @@
-package edu.asu.voctec.GUI;
+package edu.asu.voctec.game_states;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -9,29 +9,17 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.GameDefaults;
+import edu.asu.voctec.GUI.ActionListener;
+import edu.asu.voctec.GUI.Component;
 
-public abstract class GUI extends BasicGameState implements GameDefaults
+public abstract class GUI extends ModifiedGameState implements GameDefaults
 {
-	private static int currentID = 0;
-	
-	private int ID;
-	
 	protected Image backgroundImage;
 	protected final ArrayList<Component> components = new ArrayList<>();
 	protected final ArrayList<ActionListener> listeners = new ArrayList<>();
-	
-	public GUI()
-	{
-		super();
-		
-		// Initialize ID. This ensures that all IDs for GUI objects are unique.
-		this.ID = currentID;
-		currentID++;
-	}
 	
 	public abstract Dimension getDesignResolution();
 	
@@ -61,12 +49,6 @@ public abstract class GUI extends BasicGameState implements GameDefaults
 		
 		// Listen for events
 		listen(input);
-	}
-	
-	@Override
-	public final int getID()
-	{
-		return ID;
 	}
 	
 	public final void listen(Input input)

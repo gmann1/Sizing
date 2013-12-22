@@ -16,7 +16,8 @@ import edu.asu.voctec.utilities.UtilFunctions;
  * 
  * @author Moore, Zachary
  * @see #TextField(Rectangle, float, Font, boolean, String, FormattingOption)
- * @see #TextField(Rectangle, Rectangle, Font, boolean, String, FormattingOption)
+ * @see #TextField(Rectangle, Rectangle, Font, boolean, String,
+ *      FormattingOption)
  * 
  */
 public class TextField extends TextDisplay
@@ -30,26 +31,31 @@ public class TextField extends TextDisplay
 	{
 		super(bounds, textBounds, awtFont, antiAlias);
 		
-		// Set font size based on provided formating option. 
+		// Set font size based on provided formating option.
 		// Default is the provided font size (awtFont.getSize())
 		if (option == FormattingOption.FIT_TEXT)
-			this.setFontSize(TextSupport.getMaxScaledFontSize(awtFont, text, textBounds));
+			this.setFontSize(TextSupport.getMaxScaledFontSize(awtFont, text,
+					textBounds));
 		else if (option == FormattingOption.FIT_TEXT_VERTICALLY)
-			this.setFontSize(TextSupport.getMaxVerticalScaledFontSize(awtFont, textBounds));
-
+			this.setFontSize(TextSupport.getMaxVerticalScaledFontSize(awtFont,
+					textBounds));
+		
 		this.text = TextSupport.clipString(font, text, textBounds.width)[0];
 	}
 	
 	public TextField(Rectangle bounds, float textBounds, Font awtFont,
 			boolean antiAlias, String text, FormattingOption option)
 	{
-		this(bounds, UtilFunctions.dialateRelativeRectangle(bounds, textBounds),
+		this(bounds,
+				UtilFunctions.dialateRelativeRectangle(bounds, textBounds),
 				awtFont, antiAlias, text, option);
 	}
 	
-	public TextField(Rectangle bounds, float textBounds, String text, FormattingOption option)
+	public TextField(Rectangle bounds, float textBounds, String text,
+			FormattingOption option)
 	{
-		this(bounds, UtilFunctions.dialateRelativeRectangle(bounds, textBounds),
+		this(bounds,
+				UtilFunctions.dialateRelativeRectangle(bounds, textBounds),
 				Defaults.AWT_FONT, Fonts.ANTI_ALLIAS, text, option);
 	}
 	
@@ -57,6 +63,35 @@ public class TextField extends TextDisplay
 	{
 		graphics.setFont(font);
 		graphics.setColor(fontColor);
-		graphics.drawString(text, textBounds.x + bounds.x, textBounds.y + bounds.y);
+		graphics.drawString(text, textBounds.x + bounds.x, textBounds.y
+				+ bounds.y);
+	}
+	
+	public void center()
+	{
+		center(true, true);
+	}
+	
+	public void center(boolean vertical, boolean horizontal)
+	{
+		int textWidth = textBounds.width;
+		int textHeight = textBounds.height;
+		int relativeTextX = textBounds.x;
+		int relativeTextY = textBounds.y;
+		
+		if (horizontal)
+		{
+			textWidth = font.getWidth(text);
+			relativeTextX = (bounds.width / 2) - (textWidth / 2);
+		}
+		
+		if (vertical)
+		{
+			textHeight = font.getHeight(text);
+			relativeTextY = (bounds.height / 2) - (textHeight / 2);
+		}
+		
+		this.textBounds =  new Rectangle(relativeTextX, relativeTextY,
+				textWidth, textHeight);
 	}
 }
