@@ -11,10 +11,12 @@ import org.newdawn.slick.gui.TextField;
 
 import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.Main;
+import edu.asu.voctec.language.Dictionary;
+import edu.asu.voctec.language.LabelName;
 import edu.asu.voctec.utilities.Translatable;
 
 public class TranslatableLabel extends TextField implements Translatable,
-		GameDefaults, GUIElement
+		GameDefaults, GUIElementInterface
 {
 	public static final Font			DEFAULT_AWT_FONT		= new Font(
 																		"Meiryo",
