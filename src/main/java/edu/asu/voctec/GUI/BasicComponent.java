@@ -1,5 +1,6 @@
 package edu.asu.voctec.GUI;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 
@@ -39,16 +40,15 @@ public class BasicComponent extends Component implements Displayable
 		this(imagePath, bounds.x, bounds.y, bounds.width, bounds.height);
 	}
 	
-	public BasicComponent(String imagePath, Point primarySelectionLocation)
+	public BasicComponent(String imagePath, Point location)
 			throws SlickException
 	{
-		this(new Image(imagePath), primarySelectionLocation.x,
-				primarySelectionLocation.y);
+		this(new Image(imagePath), location.x, location.y);
 	}
 	
-	public BasicComponent(Image image, Point primarySelectionLocation)
+	public BasicComponent(Image image, Point location)
 	{
-		this(image, primarySelectionLocation.x, primarySelectionLocation.y);
+		this(image, location.x, location.y);
 	}
 	
 	public void draw(Graphics graphics)
@@ -62,10 +62,25 @@ public class BasicComponent extends Component implements Displayable
 		return currentImage;
 	}
 	
-	public void setCurrentImage(Image currentImage)
+	public void setCurrentImage(Image currentImage, boolean maintainSize)
 	{
+		if (maintainSize)
+		{
+			// Get the current size of this component's image
+			Dimension size = new Dimension(this.currentImage.getWidth(),
+					this.currentImage.getHeight());
+			
+			// Rescale the image to match the current size
+			this.currentImage = currentImage.getScaledCopy(size.width,
+					size.height);
+		}
+		else
+		{
+			this.currentImage = currentImage;
+		}
+		
+		// Reset the base image
 		this.baseImage = currentImage;
-		this.currentImage = currentImage;
 	}
 	
 	public int getX()

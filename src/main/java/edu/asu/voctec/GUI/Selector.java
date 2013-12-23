@@ -129,12 +129,12 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		components.add(leftArrow);
 		components.add(background);
 		
-		// Listen for clicks to the left and right arrows
-		this.addActionListener(new RightArrowListener());
-		this.addActionListener(new LeftArrowListener());
-		
 		if (useDeafultActions)
 		{
+			// Listen for clicks to the left and right arrows
+			this.addActionListener(new RightArrowListener());
+			this.addActionListener(new LeftArrowListener());
+			
 			// Listen for clicks to the primary selection
 			this.addActionListener(new CurrentChoiceListener());
 		}

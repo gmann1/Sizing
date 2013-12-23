@@ -5,11 +5,13 @@ import java.awt.Rectangle;
 
 import org.newdawn.slick.Image;
 
+import edu.asu.voctec.GUI.Component;
+
 /**
  * Provides additional transformation functions for java.awt.Rectangle
  * 
  * @author Moore, Zachary
- *
+ * 
  */
 public abstract class UtilFunctions
 {
@@ -26,8 +28,7 @@ public abstract class UtilFunctions
 	public static void centerRectangleHorizontally(final Rectangle container,
 			Rectangle moveableRectangle)
 	{
-		int x = container.x
-				+ ((container.width - moveableRectangle.width) / 2);
+		int x = container.x + ((container.width - moveableRectangle.width) / 2);
 		int y = moveableRectangle.y;
 		
 		moveableRectangle.setLocation(x, y);
@@ -39,21 +40,25 @@ public abstract class UtilFunctions
 		centerRectangleHorizontally(container, moveableRectangle);
 		centerRectangleVertically(container, moveableRectangle);
 	}
-
+	
 	public static Rectangle dialateRectangle(Rectangle bounds, float scale)
 	{
-		Rectangle scaledBounds = UtilFunctions.getScaledRectangle(bounds, scale);
+		Rectangle scaledBounds = UtilFunctions
+				.getScaledRectangle(bounds, scale);
 		
-		//TODO test
-		//Rectangle relativeBounds = new Rectangle(0, 0, bounds.width, bounds.height);
+		// TODO test
+		// Rectangle relativeBounds = new Rectangle(0, 0, bounds.width,
+		// bounds.height);
 		UtilFunctions.centerRectangle(bounds, scaledBounds);
 		
 		return scaledBounds;
 	}
-
-	public static Rectangle dialateRelativeRectangle(Rectangle bounds, float scale)
+	
+	public static Rectangle dialateRelativeRectangle(Rectangle bounds,
+			float scale)
 	{
-		Rectangle relativeBounds = new Rectangle(0, 0, bounds.width, bounds.height);
+		Rectangle relativeBounds = new Rectangle(0, 0, bounds.width,
+				bounds.height);
 		
 		return dialateRectangle(relativeBounds, scale);
 	}
@@ -93,5 +98,20 @@ public abstract class UtilFunctions
 	public static Rectangle getImageBounds(Image image)
 	{
 		return new Rectangle(0, 0, image.getWidth(), image.getHeight());
+	}
+	
+	public static void translateAll(Point translationAmount,
+			Component... components)
+	{
+		translateAll(translationAmount.x, translationAmount.y);
+	}
+	
+	public static void translateAll(int horizontalAmount, int verticalAmount,
+			Component... components)
+	{
+		for (Component component : components)
+		{
+			component.translate(horizontalAmount, verticalAmount);
+		}
 	}
 }
