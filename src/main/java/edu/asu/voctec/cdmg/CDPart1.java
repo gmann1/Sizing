@@ -9,7 +9,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import edu.asu.voctec.GUI.Selector;
 import edu.asu.voctec.GUI.SelectorIcon;
 import edu.asu.voctec.game_states.GUI;
 public class CDPart1 extends GUI {
