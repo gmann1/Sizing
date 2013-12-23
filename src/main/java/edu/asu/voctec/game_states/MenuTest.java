@@ -15,6 +15,7 @@ import edu.asu.voctec.GUI.TextField;
 
 public class MenuTest extends GUI
 {
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException

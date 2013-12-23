@@ -8,15 +8,20 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-<<<<<<< HEAD
+import edu.asu.voctec.batter_sizing.BatteryExitScreen;
+import edu.asu.voctec.batter_sizing.BatteryGameScreen;
+import edu.asu.voctec.batter_sizing.BatteryIntro;
+import edu.asu.voctec.cdmg.CDExtra;
 import edu.asu.voctec.cdmg.CDIntroScreen;
 import edu.asu.voctec.cdmg.CDPart1;
-=======
+import edu.asu.voctec.cdmg.CDPart2;
+import edu.asu.voctec.cdmg.CDPart3;
 import edu.asu.voctec.game_states.InstructorControlPanel;
 import edu.asu.voctec.game_states.LanguageMenu;
->>>>>>> branch 'master' of https://github.com/gmann1/voctec_sizing.git
 import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.MenuTest;
+import edu.asu.voctec.game_states.MinigameA;
+import edu.asu.voctec.game_states.ModifiedGameState;
 import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.utilities.Singleton;
 
@@ -34,20 +39,10 @@ import edu.asu.voctec.utilities.Singleton;
  */
 public class Game extends StateBasedGame implements Singleton
 {
-<<<<<<< HEAD
-	// Replace with hashMap of classes and IDs
-	public static int MainMenuID;
-	public static int TaskScreenID;
-	public static int LanguageMenuID;
-	public static int InstructorControlPanelID;
-	public static int CDPart1ID;
-	
-=======
 	/**
 	 * Map of all GameState IDs that have been added. @see #addState(GameState)
 	 */
 	private static HashMap<Class<?>, Integer> gameStates = new HashMap<>();
->>>>>>> branch 'master' of https://github.com/gmann1/voctec_sizing.git
 	private static Game currentGame;
 	
 	/** GameState to enter upon launching the application */
@@ -139,42 +134,24 @@ public class Game extends StateBasedGame implements Singleton
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException
 	{
-<<<<<<< HEAD
-		// Declare & Initialize all game states
-		ModifiedGameState mainMenu = new MainMenu();
-		Game.MainMenuID = mainMenu.getID();
-		
-		ModifiedGameState menuTest = new MenuTest();
-		Game.TaskScreenID = menuTest.getID();
-		
-		Game.InstructorControlPanelID = 0;
-		Game.LanguageMenuID = 0;
-		
-		CDPart1 p1 = new CDPart1();
-		Game.CDPart1ID = p1.getID();
-		this.addState(p1);
-		// Add all GameStates
-		this.addState(mainMenu);
-		this.addState(menuTest);
-		// TODO add all other states
-=======
 		// Initialize & Add all GameStates
 		this.addState(new MainMenu());
 		this.addState(new MenuTest());
 		this.addState(new InstructorControlPanel());
 		this.addState(new LanguageMenu());
 		this.addState(new TaskScreen());
->>>>>>> branch 'master' of https://github.com/gmann1/voctec_sizing.git
+		this.addState(new CDPart1());
+		this.addState(new CDPart2());
+		this.addState(new CDPart3());
+		this.addState(new CDExtra());
+		this.addState(new CDIntroScreen());
+		this.addState(new BatteryExitScreen());
+		this.addState(new BatteryIntro());
+		this.addState(new BatteryGameScreen());
+		this.addState(new MinigameA());
 		
 		// Move to the default game state
-<<<<<<< HEAD
-		//this.enterState(Game.DEFAULT_GAME_STATE);
-		CDIntroScreen cd = new CDIntroScreen();
-		this.addState(cd);
-		this.enterState(cd.getID());
-=======
-		this.enterState(MainMenu.class);
->>>>>>> branch 'master' of https://github.com/gmann1/voctec_sizing.git
+		this.enterState(Game.DEFAULT_GAME_STATE);
 	}
 	
 	/*
@@ -182,6 +159,7 @@ public class Game extends StateBasedGame implements Singleton
 	 * maps the state, so it can be accessed statically.
 	 * 
 	 * @see #enterstate(Class<?>)
+	 * 
 	 * @see
 	 * org.newdawn.slick.state.StateBasedGame#addState(org.newdawn.slick.state
 	 * .GameState)

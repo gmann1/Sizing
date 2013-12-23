@@ -7,6 +7,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.GUI.Button;
+import edu.asu.voctec.batter_sizing.BatteryIntro;
 import edu.asu.voctec.cdmg.CDIntroScreen;
 import edu.asu.voctec.utilities.UtilFunctions;
 
@@ -44,7 +45,7 @@ public class TaskScreen extends GUI
 		// Task 3
 		Button batterySizing = new Button(ImagePaths.NEW_GAME_BUTTON,
 				relativeButtonBounds, relativeTextBounds, null);
-		Button.addTransitionListener(batterySizing, MainMenu.class);
+		Button.addTransitionListener(batterySizing, BatteryIntro.class);
 		
 		// Task 4
 		Button pvSizing = new Button(ImagePaths.NEW_GAME_BUTTON,
