@@ -59,7 +59,12 @@ public class CDPart1 extends GUI {
 		super.render(container, game, graphics);
 		
 		
-		graphics.drawImage(Earth, 250, 100);
+		if (Earths.get(index) != JUNE){
+			graphics.drawImage(Earth, 250, 100);
+			}
+			else{
+				graphics.drawImage(Earth, 250, 70);
+			}
 		
 	}
 	public Dimension getDesignResolution()
