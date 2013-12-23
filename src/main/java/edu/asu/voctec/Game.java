@@ -1,36 +1,42 @@
 package edu.asu.voctec;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import edu.asu.voctec.GUI.MenuTest;
-import edu.asu.voctec.game_states.ModifiedGameState;
+import edu.asu.voctec.game_states.InstructorControlPanel;
+import edu.asu.voctec.game_states.LanguageMenu;
+import edu.asu.voctec.game_states.MainMenu;
+import edu.asu.voctec.game_states.MenuTest;
+import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.utilities.Singleton;
 
 /**
- * Singleton class representing the currently running game.
+ * Singleton class representing the currently running game. The singleton Game
+ * object can be accessed statically via {@link #getCurrentGame()}. Using this
+ * object, the game state can be changed using a Class object to reference a
+ * Singleton gameState (i.e. any extension of ModifiedGameState).
  * 
  * @author Zach Moore
+ * @see #enterState(Class)
+ * @see ModifiedGameState
+ * @see Singleton
+ * @see #getCurrentGame()
  */
 public class Game extends StateBasedGame implements Singleton
 {
-	public static int MainMenuID;
-	
+	/**
+	 * Map of all GameState IDs that have been added. @see #addState(GameState)
+	 */
+	private static HashMap<Class<?>, Integer> gameStates = new HashMap<>();
 	private static Game currentGame;
 	
-	/**
-	 * List of all GameState IDs that have been added. @see #addState(GameState)
-	 */
-	public static final ArrayList<Integer> GAME_STATES = new ArrayList<>();
-	
 	/** GameState to enter upon launching the application */
-	public static final int DEFAULT_GAME_STATE = 0;
-	
-	// TODO: Class loading
+	public static final Class<?> DEFAULT_GAME_STATE = MainMenu.class;
 	
 	/**
 	 * Private constructor to enforce Singleton.
@@ -102,6 +108,11 @@ public class Game extends StateBasedGame implements Singleton
 		return currentGame;
 	}
 	
+	public static Collection<Integer> getGameStates()
+	{
+		return Game.gameStates.values();
+	}
+	
 	/*
 	 * (non-Javadoc) Create, add, and initialize all states associated with this
 	 * game
@@ -113,22 +124,22 @@ public class Game extends StateBasedGame implements Singleton
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException
 	{
-		// Declare & Initialize all game states
-		ModifiedGameState menuTest = new MenuTest();
-		Game.MainMenuID = menuTest.getID();
-		
-		// Add all GameStates
-		this.addState(menuTest);
-		// TODO add all other states
+		// Initialize & Add all GameStates
+		this.addState(new MainMenu());
+		this.addState(new MenuTest());
+		this.addState(new InstructorControlPanel());
+		this.addState(new LanguageMenu());
+		this.addState(new TaskScreen());
 		
 		// Move to the default game state
-		this.enterState(Game.DEFAULT_GAME_STATE);
+		this.enterState(MainMenu.class);
 	}
 	
 	/*
 	 * (non-Javadoc) adds the provided GameState to the list of gameStates, and
-	 * adds its id to the list of gameStateIDs
+	 * maps the state, so it can be accessed statically.
 	 * 
+	 * @see #enterstate(Class<?>)
 	 * @see
 	 * org.newdawn.slick.state.StateBasedGame#addState(org.newdawn.slick.state
 	 * .GameState)
@@ -137,7 +148,7 @@ public class Game extends StateBasedGame implements Singleton
 	public void addState(GameState state)
 	{
 		super.addState(state);
-		GAME_STATES.add(state.getID());
+		gameStates.put(state.getClass(), state.getID());
 	}
 	
 	@Override
@@ -147,5 +158,10 @@ public class Game extends StateBasedGame implements Singleton
 		super.enterState(id);
 		System.out.println("Switch Successful. Current State: "
 				+ this.getCurrentStateID());
+	}
+	
+	public void enterState(Class<?> state)
+	{
+		this.enterState(gameStates.get(state));
 	}
 }

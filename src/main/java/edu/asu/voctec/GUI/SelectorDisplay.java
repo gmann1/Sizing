@@ -1,15 +1,14 @@
 package edu.asu.voctec.GUI;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import org.newdawn.slick.Graphics;
-
-import edu.asu.voctec.utilities.CircularList;
 
 public class SelectorDisplay<T extends SelectorIcon> extends Component
 {
 	protected Selector<T> associatedSelector;
-	protected CircularList<T> elements = new CircularList<>();
+	protected ArrayList<T> elements = new ArrayList<>();
 	
 	public boolean accept(T selection)
 	{
@@ -59,10 +58,24 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	}
 
 	@Override
-	public void setBounds(Rectangle bounds)
+	public void setX(int x)
 	{
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void setY(int y)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean resize(int width, int height)
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

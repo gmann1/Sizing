@@ -4,12 +4,11 @@ import java.awt.Point;
 
 import org.newdawn.slick.SlickException;
 
-import rubbish.deprecate.misc.ScenarioHub;
 import edu.asu.voctec.GameDefaults;
 
 public class NewGameButton extends TransitionButton implements GameDefaults
 {
-	public static int	TRANSITION_SCREEN	= ScenarioHub.ID;	// EnergyAssesmentGame.ID;
+	public static int	TRANSITION_SCREEN	= 0;	// EnergyAssesmentGame.ID;
 																// //ScenarioHub.ID;
 																
 	/**

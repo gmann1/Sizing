@@ -22,25 +22,23 @@ import edu.asu.voctec.utilities.UtilFunctions;
  */
 public class TextField extends TextDisplay
 {
+	public static final FormattingOption DEFAULT_FORMAT = FormattingOption.CLIP_TEXT;
 	protected String text;
-	// TODO add support for centering text
-	protected boolean center;
+	protected FormattingOption formatting;
 	
 	public TextField(Rectangle bounds, Rectangle textBounds, Font awtFont,
 			boolean antiAlias, String text, FormattingOption option)
 	{
 		super(bounds, textBounds, awtFont, antiAlias);
 		
-		// Set font size based on provided formating option.
-		// Default is the provided font size (awtFont.getSize())
-		if (option == FormattingOption.FIT_TEXT)
-			this.setFontSize(TextSupport.getMaxScaledFontSize(awtFont, text,
-					textBounds));
-		else if (option == FormattingOption.FIT_TEXT_VERTICALLY)
-			this.setFontSize(TextSupport.getMaxVerticalScaledFontSize(awtFont,
-					textBounds));
+		// Do not allow null formatting. Treat a null format as the default.
+		this.formatting = (option != null) ? option : DEFAULT_FORMAT;
 		
-		this.text = TextSupport.clipString(font, text, textBounds.width)[0];
+		// Do not allow null text. If text is null, treat it as an empty string.
+		this.text = (text != null) ? text : "";
+		
+		// Set font size based on provided formating option.
+		formatText();
 	}
 	
 	public TextField(Rectangle bounds, float textBounds, Font awtFont,
@@ -59,12 +57,41 @@ public class TextField extends TextDisplay
 				Defaults.AWT_FONT, Fonts.ANTI_ALLIAS, text, option);
 	}
 	
+	@Override
+	protected void formatText()
+	{
+		if (text.length() > 0)
+		{
+			if (formatting == FormattingOption.FIT_TEXT)
+			{
+				this.setFontSize(TextSupport.getMaxScaledFontSize(awtFont,
+						text, textBounds));
+			}
+			else if (formatting == FormattingOption.FIT_TEXT_VERTICALLY)
+			{
+				this.setFontSize(TextSupport.getMaxVerticalScaledFontSize(
+						awtFont, textBounds));
+			}
+			
+			this.text = TextSupport.clipString(font, text, textBounds.width)[0];
+			
+			if (center)
+				center();
+		}
+	}
+	
 	protected void drawText(Graphics graphics)
 	{
 		graphics.setFont(font);
 		graphics.setColor(fontColor);
 		graphics.drawString(text, textBounds.x + bounds.x, textBounds.y
 				+ bounds.y);
+	}
+	
+	public void setText(String text)
+	{
+		this.text = text;
+		formatText();
 	}
 	
 	public void center()
@@ -91,7 +118,9 @@ public class TextField extends TextDisplay
 			relativeTextY = (bounds.height / 2) - (textHeight / 2);
 		}
 		
-		this.textBounds =  new Rectangle(relativeTextX, relativeTextY,
+		this.textBounds = new Rectangle(relativeTextX, relativeTextY,
 				textWidth, textHeight);
+		
+		this.center = vertical || horizontal;
 	}
 }

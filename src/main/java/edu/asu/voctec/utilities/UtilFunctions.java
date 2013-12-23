@@ -3,6 +3,8 @@ package edu.asu.voctec.utilities;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import org.newdawn.slick.Image;
+
 /**
  * Provides additional transformation functions for java.awt.Rectangle
  * 
@@ -24,9 +26,9 @@ public abstract class UtilFunctions
 	public static void centerRectangleHorizontally(final Rectangle container,
 			Rectangle moveableRectangle)
 	{
-		int x = moveableRectangle.x
+		int x = container.x
 				+ ((container.width - moveableRectangle.width) / 2);
-		int y = container.y;
+		int y = moveableRectangle.y;
 		
 		moveableRectangle.setLocation(x, y);
 	}
@@ -34,16 +36,17 @@ public abstract class UtilFunctions
 	public static void centerRectangle(final Rectangle container,
 			Rectangle moveableRectangle)
 	{
-		centerRectangleVertically(container, moveableRectangle);
 		centerRectangleHorizontally(container, moveableRectangle);
+		centerRectangleVertically(container, moveableRectangle);
 	}
 
 	public static Rectangle dialateRectangle(Rectangle bounds, float scale)
 	{
 		Rectangle scaledBounds = UtilFunctions.getScaledRectangle(bounds, scale);
 		
-		Rectangle relativeBounds = new Rectangle(0, 0, bounds.width, bounds.height);
-		UtilFunctions.centerRectangle(relativeBounds, scaledBounds);
+		//TODO test
+		//Rectangle relativeBounds = new Rectangle(0, 0, bounds.width, bounds.height);
+		UtilFunctions.centerRectangle(bounds, scaledBounds);
 		
 		return scaledBounds;
 	}
@@ -69,11 +72,26 @@ public abstract class UtilFunctions
 	public static Rectangle getScaledRectangle(Rectangle baseRectangle,
 			float scale)
 	{
-		int x = (int) (baseRectangle.x * scale);
-		int y = (int) (baseRectangle.y * scale);
-		int width = (int) (baseRectangle.width * scale);
-		int height = (int) (baseRectangle.height * scale);
+		return getScaledRectangle(baseRectangle, scale, scale);
+	}
+	
+	public static Rectangle getScaledRectangle(Rectangle baseRectangle,
+			float horizontalScale, float verticalScale)
+	{
+		// Scale horizontal components
+		int x = (int) (baseRectangle.x * horizontalScale);
+		int width = (int) (baseRectangle.width * horizontalScale);
 		
+		// Scale vertical components
+		int y = (int) (baseRectangle.y * verticalScale);
+		int height = (int) (baseRectangle.height * verticalScale);
+		
+		// Return a rectangle representing a scaled version of the object
 		return new Rectangle(x, y, width, height);
+	}
+	
+	public static Rectangle getImageBounds(Image image)
+	{
+		return new Rectangle(0, 0, image.getWidth(), image.getHeight());
 	}
 }

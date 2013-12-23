@@ -20,46 +20,15 @@ public interface GameDefaults
 		public static final String BLACK_BACKGROUND = "resources/default/img/blackBackground.jpg";
 		
 		// Buttons
-		public static final String BASE_BUTTON = "resources/default/img/testButton.png";
-		public static final String NEW_GAME_BUTTON = "resources/default/img/testButton.png";
-		public static final String OPTIONS_BUTTON = "resources/default/img/testButton.png";
-		public static final String INSTRUCTOR_CONTROL_PANEL_BUTTON = "resources/default/img/Horo - Square.png";
-		public static final String BACK_BUTTON = "resources/default/img/arrow-left.png";
-		public static final String LANGUAGE_BUTTON = "resources/default/img/testButton.png";
+		public static final String BASE_BUTTON = "resources/default/img/buttons/testButton.png";
+		public static final String NEW_GAME_BUTTON = "resources/default/img/buttons/newProfileButtonR.png";
+		public static final String OPTIONS_BUTTON = "resources/default/img/buttons/optionsButtonR.png";
+		public static final String INSTRUCTOR_CONTROL_PANEL_BUTTON = "resources/default/img/buttons/optionsButtonR.png";
+		public static final String BACK_BUTTON = "resources/default/img/buttons/arrow-left.png";
+		public static final String LANGUAGE_BUTTON = "resources/default/img/buttons/languagesButtonR.png";
 		
 		// Labels
 		public static final String BASE_LABEL = "resources/default/img/testButton.png";
-		
-		// Minigame Resources
-		public static final String APPLIANCE_GOOD = "resources/default/img/minigames/appliance1Good.jpg";
-		public static final String APPLIANCE_BAD = "resources/default/img/minigames/appliance1.jpg";
-		public static final String WATTAGE_GOOD = "resources/default/img/minigames/good.jpg";
-		public static final String WATTAGE_BAD = "resources/default/img/minigames/notGood.jpg";
-		public static final String TILE_0x0 = "resources/default/img/minigames/tile0x0.jpg";
-		public static final String TILE_0x1 = "resources/default/img/minigames/tile0x1.jpg";
-		public static final String TILE_0x2 = "resources/default/img/minigames/tile0x2.jpg";
-		public static final String TILE_1x0 = "resources/default/img/minigames/tile1x0.jpg";
-		public static final String TILE_1x1 = "resources/default/img/minigames/tile1x1.jpg";
-		public static final String TILE_1x2 = "resources/default/img/minigames/tile1x2.jpg";
-		public static final String TILE_2x0 = "resources/default/img/minigames/tile2x0.jpg";
-		public static final String TILE_2x1 = "resources/default/img/minigames/tile2x1.jpg";
-		public static final String TILE_2x2 = "resources/default/img/minigames/tile2x2.jpg";
-		public static final String TILE_3x0 = "resources/default/img/minigames/tile3x0.jpg";
-		public static final String TILE_3x1 = "resources/default/img/minigames/tile3x1.jpg";
-		public static final String TILE_3x2 = "resources/default/img/minigames/tile3x2.jpg";
-		
-		// Critical Design Month Resources
-		public static final String BATTERY = "resources/default/img/minigames/criticalDesign/battery.png";
-		public static final String BATTERY_CHARGE = "resources/default/img/minigames/criticalDesign/battery.png";
-		public static final String INTRO_BACKGROUND = "resources/default/img/minigames/criticalDesign/introSplash.png";
-		public static final String LIGHT_BACKGROUND = "resources/default/img/minigames/criticalDesign/lightback.png";
-		public static final String CRITICAL_BACKGROUND = "resources/default/img/minigames/criticalDesign/criticalBck.png";
-		public static final String DARK_BACKGROUND = "resources/default/img/minigames/criticalDesign/darkBack.png";
-		public static final String PANEL = "resources/default/img/minigames/criticalDesign/panel.png";
-		public static final String SUN = "resources/default/img/minigames/criticalDesign/sun.png";
-		public static final String SUN_BEAM = "resources/default/img/minigames/criticalDesign/beam.png";
-		public static final String SUN_BEAM_MEDIUM = "resources/default/img/minigames/criticalDesign/beammed.png";
-		public static final String SUN_BEAM_SMALL = "resources/default/img/minigames/criticalDesign/beamsmall.png";
 		
 		// Selector Resources
 		public static final String ARROW_LEFT = "resources/default/img/selector/ArrowLeft.png";
@@ -67,6 +36,12 @@ public interface GameDefaults
 		public static final String SELECTOR_LARGE = "resources/default/img/selector/SelectorLarge.png";
 		public static final String SELECTOR_SMALL = "resources/default/img/selector/SelectorSmall.png";
 		public static final String SELECTOR_SHADOW = "resources/default/img/selector/SelectorShadow.png";
+		
+		// Selector Icons
+		public static final String BATTERY_SIZING = "resources/default/img/selector/icons/batterySizing.png";
+		public static final String CRITICAL_DESIGN_MONTH = "resources/default/img/selector/icons/criticalDesignMonth.png";
+		public static final String PV_SIZING = "resources/default/img/selector/icons/pvSizing.png";
+		
 	}
 	
 	public interface SoundPaths

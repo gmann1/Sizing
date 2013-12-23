@@ -23,7 +23,7 @@ public abstract class TextSupport
 	 * @see #getMaxScaledFontSize(Font, Rectangle, double, int)
 	 * @see #getMaxScaledFontSize(Font, String, Rectangle, double, int)
 	 */
-	private static final int DEFAULT_SEARCH_INCREMENT = 10;
+	private static final int DEFAULT_SEARCH_INCREMENT = 5;
 	
 	/**
 	 * Removes words from a string that exceed the maximum width of the string.
@@ -108,6 +108,17 @@ public abstract class TextSupport
 		return new String[] { clippedString, leftoverString };
 	}
 	
+	/**
+	 * Separates the provided string into a number of lines, each no longer than
+	 * the provided line width. This method is intended to take a long body of
+	 * text, and wrap it in a text display. The returned array will be in order
+	 * of how the original text appears.
+	 * 
+	 * @param font The font to consider while sizing the text.
+	 * @param text The text to wrap.
+	 * @param lineWidth The maximum length (in pixels) that each line can be.
+	 * @return An array of strings, representing all lines of the wrapped text.
+	 */
 	public static ArrayList<String> wrapText(TrueTypeFont font, String text,
 			int lineWidth)
 	{
@@ -156,7 +167,7 @@ public abstract class TextSupport
 		// TODO remove borderScale
 		double borderScale = 1.0;
 		
-		// TODO test
+		// TODO optimize
 		System.out.println("Scaling font...");
 		int maxWidth = (int) (bounds.width * borderScale);
 		int maxHeight = (int) (bounds.height * borderScale);
@@ -186,10 +197,11 @@ public abstract class TextSupport
 		
 		// Shrink the size of the font until both width and height fit within
 		// the max bounds
+		searchIncrement = -1;
 		while (textWidth >= maxWidth || textHeight >= maxHeight)
 		{
 			// Decrease size
-			currentSize--;
+			currentSize += searchIncrement;
 			scaledFont = font.deriveFont((float) currentSize);
 			fontContainer = new TrueTypeFont(scaledFont, false);
 			

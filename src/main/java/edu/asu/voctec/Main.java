@@ -53,9 +53,9 @@ public class Main
 		gameContainer.start();
 	}
 	
-	public static boolean resize(ScreenResolution screenDimension)
+	public static boolean resize(final ScreenResolution screenDimension)
 	{
-		boolean resizeSuccessfull = false;
+		boolean resizeSuccessfull;
 		Game currentGame = Game.getCurrentGame();
 		
 		// Update dimension information
@@ -63,23 +63,21 @@ public class Main
 		
 		try
 		{
-			// resize gameStates
-			for (int id : Game.GAME_STATES)
+			// Resize all gameStates
+			for (int id : Game.getGameStates())
 			{
 				// Iterate through each GameState
 				GameState gameState = currentGame.getState(id);
-				// TODO only resize the current state
-				// TODO resize each state upon entry
-				// Image cropping and resizing is handled by each Resizable
-				// gameState
 				if (gameState instanceof Resizable)
-					((Resizable) gameState).resize();
+				{
+					// TODO implement resizing
+					//((Resizable) gameState).resize();
+				}
 			}
 			
-			// resize container (user window) //false indicates windowed mode
-			// (not full-screen)
-			gameContainer.setDisplayMode(Main.currentScreenDimension.width,
-					Main.currentScreenDimension.height, false);
+			// Resize container (user window)
+			gameContainer.setDisplayMode(screenDimension.width,
+					screenDimension.height, false);
 			
 			// If no exceptions were thrown while resizing, then resizing was
 			// successful
@@ -88,6 +86,7 @@ public class Main
 		catch (SlickException e)
 		{
 			e.printStackTrace();
+			resizeSuccessfull = false;
 		}
 		
 		return resizeSuccessfull;
@@ -118,7 +117,7 @@ public class Main
 		Main.currentLanguage = currentLanguage;
 		System.out.println("Updating Language...");
 		// translate gameStates
-		for (int id : Game.GAME_STATES)
+		for (int id : Game.getGameStates())
 		{
 			// Iterate through each GameState
 			GameState gameState = Game.getCurrentGame().getState(id);
