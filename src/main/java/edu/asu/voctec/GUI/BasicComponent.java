@@ -1,5 +1,6 @@
 package edu.asu.voctec.GUI;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import org.newdawn.slick.Graphics;
@@ -36,6 +37,18 @@ public class BasicComponent extends Component implements Displayable
 			throws SlickException
 	{
 		this(imagePath, bounds.x, bounds.y, bounds.width, bounds.height);
+	}
+	
+	public BasicComponent(String imagePath, Point primarySelectionLocation)
+			throws SlickException
+	{
+		this(new Image(imagePath), primarySelectionLocation.x,
+				primarySelectionLocation.y);
+	}
+	
+	public BasicComponent(Image image, Point primarySelectionLocation)
+	{
+		this(image, primarySelectionLocation.x, primarySelectionLocation.y);
 	}
 	
 	public void draw(Graphics graphics)
@@ -85,13 +98,13 @@ public class BasicComponent extends Component implements Displayable
 		// Operation was successful if no errors were thrown
 		return true;
 	}
-
+	
 	@Override
 	public void setX(int x)
 	{
 		this.x = x;
 	}
-
+	
 	@Override
 	public void setY(int y)
 	{
