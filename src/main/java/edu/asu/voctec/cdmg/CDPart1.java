@@ -23,14 +23,14 @@ public class CDPart1 extends GUI {
 	public static final String OCTOBER = "resources/default/img/minigames/criticalDesign/october.png";
 	public static final String SEPTEMBER = "resources/default/img/minigames/criticalDesign/september.png";
 	public static final String JUNE = "resources/default/img/minigames/criticalDesign/june.png";
-	
+	public static final String BACKGROUND = "resources/default/img/minigames/criticalDesign/space.jpg";
 	
 	static ArrayList<String> Earths = new ArrayList<>();
 	
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
-		this.backgroundImage = new Image("resources/default/img/minigames/criticalDesign/space.jpg");
+		this.backgroundImage = new Image(BACKGROUND);
 		Earths.add(APRIL);
 		Earths.add(FEBRUARY);
 		Earths.add(DECEMBER);
