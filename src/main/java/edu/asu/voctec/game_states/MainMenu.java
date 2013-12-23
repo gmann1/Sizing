@@ -18,12 +18,10 @@ public class MainMenu extends GUI implements GameDefaults
 			throws SlickException
 	{
 		int buttonSpacing = 15;
-		int buttonX = 100;
-		int buttonY = 100;
 		int buttonWidth = 350;
 		int buttonHeight = 75;
 		
-		Rectangle buttonBounds = new Rectangle(buttonX, buttonY, buttonWidth, buttonHeight);
+		Rectangle buttonBounds = new Rectangle(0, 0, buttonWidth, buttonHeight);
 		
 		// Declare Buttons
 		// Start Button
@@ -32,13 +30,11 @@ public class MainMenu extends GUI implements GameDefaults
 		startButton.addActionListener(new TransitionButtonListener(Game.TaskScreenID));
 		
 		// Language Button
-		buttonBounds.translate(0, (buttonSpacing + buttonHeight));
 		BasicComponent languageButton = new BasicComponent(
 				ImagePaths.LANGUAGE_BUTTON, buttonBounds);
 		languageButton.addActionListener(new TransitionButtonListener(Game.LanguageMenuID));
 		
 		// Instructor Control Panel Button
-		buttonBounds.translate(0, (buttonSpacing + buttonHeight));
 		BasicComponent instructorButton = new BasicComponent(
 				ImagePaths.INSTRUCTOR_CONTROL_PANEL_BUTTON, buttonBounds);
 		instructorButton.addActionListener(new TransitionButtonListener(Game.InstructorControlPanelID));
@@ -47,6 +43,8 @@ public class MainMenu extends GUI implements GameDefaults
 		this.addComponent(startButton);
 		this.addComponent(languageButton);
 		this.addComponent(instructorButton);
+		
+		this.centerComponentsStacked(buttonSpacing, getComponents());
 	}
 	
 }

@@ -40,7 +40,7 @@ public abstract class ModifiedGameState extends BasicGameState implements
 	}
 
 	@Override
-	public boolean resize()
+	public boolean rescale(float scale)
 	{
 		// TODO Auto-generated method stub
 		// TODO REMOVE
@@ -48,10 +48,35 @@ public abstract class ModifiedGameState extends BasicGameState implements
 	}
 
 	@Override
-	public void rescale()
+	public boolean rescale(float horizontalScale, float verticalScale)
 	{
 		// TODO Auto-generated method stub
 		// TODO REMOVE
+		return false;
+	}
+
+	@Override
+	public boolean rescale(int width, int height)
+	{
+		// TODO Auto-generated method stub
+		// TODO REMOVE
+		return false;
+	}
+
+	@Override
+	public boolean resize(int width, int height)
+	{
+		// TODO Auto-generated method stub
+		// TODO REMOVE
+		return false;
+	}
+
+	@Override
+	public boolean resize(Dimension dimension)
+	{
+		// TODO Auto-generated method stub
+		// TODO REMOVE
+		return false;
 	}
 	
 }

@@ -27,6 +27,11 @@ public class SelectorIcon extends BasicComponent
 		this(new Image(imagePath), x, y, name, null, id);
 	}
 	
+	public SelectorIcon(String imagePath, String name, int id) throws SlickException
+	{
+		this(new Image(imagePath), 0, 0, name, null, id);
+	}
+	
 	public String getName()
 	{
 		return name;

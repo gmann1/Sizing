@@ -24,9 +24,9 @@ public abstract class UtilFunctions
 	public static void centerRectangleHorizontally(final Rectangle container,
 			Rectangle moveableRectangle)
 	{
-		int x = moveableRectangle.x
+		int x = container.x
 				+ ((container.width - moveableRectangle.width) / 2);
-		int y = container.y;
+		int y = moveableRectangle.y;
 		
 		moveableRectangle.setLocation(x, y);
 	}
@@ -34,8 +34,8 @@ public abstract class UtilFunctions
 	public static void centerRectangle(final Rectangle container,
 			Rectangle moveableRectangle)
 	{
-		centerRectangleVertically(container, moveableRectangle);
 		centerRectangleHorizontally(container, moveableRectangle);
+		centerRectangleVertically(container, moveableRectangle);
 	}
 
 	public static Rectangle dialateRectangle(Rectangle bounds, float scale)
@@ -69,11 +69,21 @@ public abstract class UtilFunctions
 	public static Rectangle getScaledRectangle(Rectangle baseRectangle,
 			float scale)
 	{
-		int x = (int) (baseRectangle.x * scale);
-		int y = (int) (baseRectangle.y * scale);
-		int width = (int) (baseRectangle.width * scale);
-		int height = (int) (baseRectangle.height * scale);
+		return getScaledRectangle(baseRectangle, scale, scale);
+	}
+	
+	public static Rectangle getScaledRectangle(Rectangle baseRectangle,
+			float horizontalScale, float verticalScale)
+	{
+		// Scale horizontal components
+		int x = (int) (baseRectangle.x * horizontalScale);
+		int width = (int) (baseRectangle.width * horizontalScale);
 		
+		// Scale vertical components
+		int y = (int) (baseRectangle.y * verticalScale);
+		int height = (int) (baseRectangle.height * verticalScale);
+		
+		// Return a rectangle representing a scaled version of the object
 		return new Rectangle(x, y, width, height);
 	}
 }

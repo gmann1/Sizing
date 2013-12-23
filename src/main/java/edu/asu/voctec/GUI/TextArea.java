@@ -41,10 +41,10 @@ public class TextArea extends TextDisplay
 	public void setFontSize(float size)
 	{
 		super.setFontSize(size);
-		rewrapText();
+		wrapText();
 	}
 	
-	public void rewrapText()
+	public void wrapText()
 	{
 		String text = StringUtils.join(lines, " ");
 		this.lines = TextSupport.wrapText(font, text, textBounds.width);
@@ -95,6 +95,13 @@ public class TextArea extends TextDisplay
 			graphics.drawString(lineText, x, y);
 		}
 		
+	}
+
+	@Override
+	protected void formatText()
+	{
+		this.maximumDisplayLines = calculateMaxDisplayLines();
+		wrapText();
 	}
 	
 }

@@ -102,6 +102,8 @@ public abstract class TextDisplay extends Component
 
 	protected abstract void drawText(Graphics graphics);
 	
+	protected abstract void formatText();
+	
 	//TODO Implement
 	/*protected abstract void centerText();
 	
@@ -142,11 +144,13 @@ public abstract class TextDisplay extends Component
 	}
 	
 	@Override
-	public void setBounds(Rectangle bounds)
+	public boolean setBounds(Rectangle bounds)
 	{
 		// TODO Resize text
 		// TODO Add image support
 		this.bounds = bounds;
+		formatText();
+		return true;
 	}
 	
 	public static Rectangle defaultTextBounds(final Rectangle bounds, float textBoundScale)
@@ -305,6 +309,18 @@ public abstract class TextDisplay extends Component
 		return bounds.y;
 	}
 	
+	@Override
+	public void setX(int x)
+	{
+		bounds.setLocation(x, bounds.y);
+	}
+	
+	@Override
+	public void setY(int y)
+	{
+		bounds.setLocation(bounds.x, y);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -314,6 +330,17 @@ public abstract class TextDisplay extends Component
 	public Rectangle getBounds()
 	{
 		return bounds;
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.asu.voctec.utilities.Resizable#resize(int, int)
+	 */
+	@Override
+	public boolean resize(int width, int height)
+	{
+		this.bounds.setSize(width, height);
+		formatText();
+		return false;
 	}
 	
 }

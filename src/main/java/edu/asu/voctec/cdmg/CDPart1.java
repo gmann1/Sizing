@@ -18,7 +18,7 @@ public class CDPart1 extends GUI {
 	{
 		this.backgroundImage = new Image("resources/default/img/minigames/criticalDesign/space.jpg");
 		
-		Selector<SelectorIcon> sel = new Selector<>(120,380);
+		Selector<SelectorIcon> sel = new Selector<SelectorIcon>(120,380,true);
 	
 		
 		

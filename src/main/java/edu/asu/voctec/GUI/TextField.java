@@ -55,6 +55,7 @@ public class TextField extends TextDisplay
 				Defaults.AWT_FONT, Fonts.ANTI_ALLIAS, text, option);
 	}
 	
+	@Override
 	protected void formatText()
 	{
 
@@ -70,6 +71,9 @@ public class TextField extends TextDisplay
 		}
 		
 		this.text = TextSupport.clipString(font, text, textBounds.width)[0];
+		
+		if (center)
+			center();
 	}
 	
 	protected void drawText(Graphics graphics)
@@ -112,5 +116,7 @@ public class TextField extends TextDisplay
 		
 		this.textBounds =  new Rectangle(relativeTextX, relativeTextY,
 				textWidth, textHeight);
+		
+		this.center = vertical || horizontal;
 	}
 }

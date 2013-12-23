@@ -29,6 +29,10 @@ public interface Displayable
 	 */
 	public int getX();
 	
+	public void setX(int x);
+	
+	public void setY(int y);
+	
 	/**
 	 * @return y-location of this object, relative to the screen.
 	 */
@@ -44,11 +48,11 @@ public interface Displayable
 	public Rectangle getBounds();
 	
 	/**
-	 * Sets the bounds of this displayable object.
+	 * Define the area on the screen which the object is allowed to be visible
+	 * within. This includes the location and size of the displayable area.
 	 * 
-	 * @param bounds
-	 *            the area on the screen which the object is allowed to consume.
+	 * @return True if this operation was successful.
 	 * @see #getBounds()
 	 */
-	public void setBounds(Rectangle bounds);
+	public boolean setBounds(Rectangle bounds);
 }

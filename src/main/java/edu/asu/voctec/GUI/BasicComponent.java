@@ -60,19 +60,9 @@ public class BasicComponent extends Component implements Displayable
 		return (int) x;
 	}
 	
-	public void setX(double x)
-	{
-		this.x = x;
-	}
-	
 	public int getY()
 	{
 		return (int) y;
-	}
-	
-	public void setY(double y)
-	{
-		this.y = y;
 	}
 	
 	public Image getBaseImage()
@@ -88,12 +78,24 @@ public class BasicComponent extends Component implements Displayable
 	}
 	
 	@Override
-	public void setBounds(Rectangle bounds)
+	public boolean resize(int width, int height)
 	{
-		this.x = bounds.x;
-		this.y = bounds.y;
-		this.currentImage = baseImage
-				.getScaledCopy(bounds.width, bounds.height);
+		this.currentImage = baseImage.getScaledCopy(width, height);
+		
+		// Operation was successful if no errors were thrown
+		return true;
+	}
+
+	@Override
+	public void setX(int x)
+	{
+		this.x = x;
+	}
+
+	@Override
+	public void setY(int y)
+	{
+		this.y = y;
 	}
 	
 }

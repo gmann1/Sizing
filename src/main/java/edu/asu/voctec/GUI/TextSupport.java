@@ -23,7 +23,7 @@ public abstract class TextSupport
 	 * @see #getMaxScaledFontSize(Font, Rectangle, double, int)
 	 * @see #getMaxScaledFontSize(Font, String, Rectangle, double, int)
 	 */
-	private static final int DEFAULT_SEARCH_INCREMENT = 10;
+	private static final int DEFAULT_SEARCH_INCREMENT = 5;
 	
 	/**
 	 * Removes words from a string that exceed the maximum width of the string.
@@ -167,7 +167,7 @@ public abstract class TextSupport
 		// TODO remove borderScale
 		double borderScale = 1.0;
 		
-		// TODO test
+		// TODO optimize
 		System.out.println("Scaling font...");
 		int maxWidth = (int) (bounds.width * borderScale);
 		int maxHeight = (int) (bounds.height * borderScale);
@@ -197,10 +197,11 @@ public abstract class TextSupport
 		
 		// Shrink the size of the font until both width and height fit within
 		// the max bounds
+		searchIncrement = -1;
 		while (textWidth >= maxWidth || textHeight >= maxHeight)
 		{
 			// Decrease size
-			currentSize--;
+			currentSize += searchIncrement;
 			scaledFont = font.deriveFont((float) currentSize);
 			fontContainer = new TrueTypeFont(scaledFont, false);
 			

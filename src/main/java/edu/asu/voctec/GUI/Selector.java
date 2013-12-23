@@ -40,7 +40,8 @@ public class Selector<T extends SelectorIcon> extends Component implements
 			
 			// Remove the current selection from this list,
 			// and add it to the display
-			sendToDisplay(elements.pop());
+			/*T element = */elements.pop();
+			// TODO sendToDisplay(element);
 		}
 		
 		@Override
@@ -93,7 +94,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	 *             Indicates that the images were unable to load.
 	 * @see GameDefaults.SelectorDefaults
 	 */
-	public Selector() throws SlickException
+	public Selector(boolean useDeafultActions) throws SlickException
 	{
 		currentChoiceBackground = new PositionedObject<>(new Image(
 				ImagePaths.SELECTOR_LARGE),
@@ -115,14 +116,18 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		this.addActionListener(new RightArrowListener());
 		this.addActionListener(new LeftArrowListener());
 		
-		// Listen for clicks to the primary selection
-		this.addActionListener(new CurrentChoiceListener());
+		if (useDeafultActions)
+		{
+			// Listen for clicks to the primary selection
+			this.addActionListener(new CurrentChoiceListener());
+		}
+		
 		System.out.println("Listener count: " + this.listeners.size());
 	}
 	
-	public Selector(int x, int y) throws SlickException
+	public Selector(int x, int y, boolean useDeafultActions) throws SlickException
 	{
-		this();
+		this(useDeafultActions);
 		this.x = x;
 		this.y = y;
 	}
@@ -266,10 +271,32 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	}
 	
 	@Override
-	public void setBounds(Rectangle bounds)
+	public boolean rescale(float horizontalScale, float verticalScale)
+	{
+		Rectangle newBounds = UtilFunctions.getScaledRectangle(getBounds(),
+				horizontalScale, verticalScale);
+		return setBounds(newBounds);
+	}
+
+	@Override
+	public boolean resize(int width, int height)
 	{
 		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void setX(int x)
+	{
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void setY(int y)
+	{
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
 	}
 	
 }
