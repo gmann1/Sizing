@@ -16,6 +16,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.*;
 import edu.asu.voctec.game_states.GUI;
 
@@ -41,14 +42,16 @@ public class CDIntroScreen extends GUI
 					"Introduction stuff...",
 					TextDisplay.FormattingOption.FIT_TEXT);
 			
+			Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 500, 500, new Rectangle(50,50,300,50), "Start!");
 			
-		
+			
+			Start.addActionListener(new TransitionButtonListener(Game.CDPart1ID));
 			
 			textField2.center();
 			textField3.center();
 			
 		
-			
+			this.addComponent(Start);
 			this.addComponent(textField2);
 			this.addComponent(textField3);
 			//this.addComponent(new Selector<SelectorIcon>(100, 100));

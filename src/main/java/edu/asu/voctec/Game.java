@@ -7,6 +7,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.cdmg.CDIntroScreen;
+import edu.asu.voctec.cdmg.CDPart1;
 import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.MenuTest;
 import edu.asu.voctec.game_states.ModifiedGameState;
@@ -24,6 +26,7 @@ public class Game extends StateBasedGame implements Singleton
 	public static int TaskScreenID;
 	public static int LanguageMenuID;
 	public static int InstructorControlPanelID;
+	public static int CDPart1ID;
 	
 	private static Game currentGame;
 	
@@ -128,13 +131,19 @@ public class Game extends StateBasedGame implements Singleton
 		Game.InstructorControlPanelID = 0;
 		Game.LanguageMenuID = 0;
 		
+		CDPart1 p1 = new CDPart1();
+		Game.CDPart1ID = p1.getID();
+		this.addState(p1);
 		// Add all GameStates
 		this.addState(mainMenu);
 		this.addState(menuTest);
 		// TODO add all other states
 		
 		// Move to the default game state
-		this.enterState(Game.DEFAULT_GAME_STATE);
+		//this.enterState(Game.DEFAULT_GAME_STATE);
+		CDIntroScreen cd = new CDIntroScreen();
+		this.addState(cd);
+		this.enterState(cd.getID());
 	}
 	
 	/*
