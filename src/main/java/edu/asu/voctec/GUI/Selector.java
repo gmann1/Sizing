@@ -41,8 +41,8 @@ public class Selector<T extends SelectorIcon> extends Component implements
 			System.out.println("Icon Selected.");
 			// Remove the current selection from this list,
 			// and add it to the display
-			/* T element = */elements.pop();
-			// TODO sendToDisplay(element);
+			T element = elements.pop();
+			sendToDisplay(element);
 		}
 		
 		@Override
@@ -273,7 +273,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	
 	public boolean sendToDisplay(T data)
 	{
-		if (data != null)
+		if (associatedDisplay != null && data != null)
 			return associatedDisplay.accept(data);
 		else
 			return false;

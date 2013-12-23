@@ -3,6 +3,8 @@ package edu.asu.voctec.utilities;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import org.newdawn.slick.Image;
+
 /**
  * Provides additional transformation functions for java.awt.Rectangle
  * 
@@ -42,8 +44,9 @@ public abstract class UtilFunctions
 	{
 		Rectangle scaledBounds = UtilFunctions.getScaledRectangle(bounds, scale);
 		
-		Rectangle relativeBounds = new Rectangle(0, 0, bounds.width, bounds.height);
-		UtilFunctions.centerRectangle(relativeBounds, scaledBounds);
+		//TODO test
+		//Rectangle relativeBounds = new Rectangle(0, 0, bounds.width, bounds.height);
+		UtilFunctions.centerRectangle(bounds, scaledBounds);
 		
 		return scaledBounds;
 	}
@@ -85,5 +88,10 @@ public abstract class UtilFunctions
 		
 		// Return a rectangle representing a scaled version of the object
 		return new Rectangle(x, y, width, height);
+	}
+	
+	public static Rectangle getImageBounds(Image image)
+	{
+		return new Rectangle(0, 0, image.getWidth(), image.getHeight());
 	}
 }

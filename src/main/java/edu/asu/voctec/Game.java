@@ -16,9 +16,16 @@ import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.utilities.Singleton;
 
 /**
- * Singleton class representing the currently running game.
+ * Singleton class representing the currently running game. The singleton Game
+ * object can be accessed statically via {@link #getCurrentGame()}. Using this
+ * object, the game state can be changed using a Class object to reference a
+ * Singleton gameState (i.e. any extension of ModifiedGameState).
  * 
  * @author Zach Moore
+ * @see #enterState(Class)
+ * @see ModifiedGameState
+ * @see Singleton
+ * @see #getCurrentGame()
  */
 public class Game extends StateBasedGame implements Singleton
 {
@@ -30,8 +37,6 @@ public class Game extends StateBasedGame implements Singleton
 	
 	/** GameState to enter upon launching the application */
 	public static final Class<?> DEFAULT_GAME_STATE = MainMenu.class;
-	
-	// TODO: Class loading
 	
 	/**
 	 * Private constructor to enforce Singleton.
@@ -132,8 +137,9 @@ public class Game extends StateBasedGame implements Singleton
 	
 	/*
 	 * (non-Javadoc) adds the provided GameState to the list of gameStates, and
-	 * adds its id to the list of gameStateIDs
+	 * maps the state, so it can be accessed statically.
 	 * 
+	 * @see #enterstate(Class<?>)
 	 * @see
 	 * org.newdawn.slick.state.StateBasedGame#addState(org.newdawn.slick.state
 	 * .GameState)
