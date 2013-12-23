@@ -8,10 +8,20 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.batter_sizing.BatteryExitScreen;
+import edu.asu.voctec.batter_sizing.BatteryGameScreen;
+import edu.asu.voctec.batter_sizing.BatteryIntro;
+import edu.asu.voctec.cdmg.CDExtra;
+import edu.asu.voctec.cdmg.CDIntroScreen;
+import edu.asu.voctec.cdmg.CDPart1;
+import edu.asu.voctec.cdmg.CDPart2;
+import edu.asu.voctec.cdmg.CDPart3;
 import edu.asu.voctec.game_states.InstructorControlPanel;
 import edu.asu.voctec.game_states.LanguageMenu;
 import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.MenuTest;
+import edu.asu.voctec.game_states.MinigameA;
+import edu.asu.voctec.game_states.ModifiedGameState;
 import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.utilities.Singleton;
 
@@ -130,9 +140,18 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new InstructorControlPanel());
 		this.addState(new LanguageMenu());
 		this.addState(new TaskScreen());
+		this.addState(new CDPart1());
+		this.addState(new CDPart2());
+		this.addState(new CDPart3());
+		this.addState(new CDExtra());
+		this.addState(new CDIntroScreen());
+		this.addState(new BatteryExitScreen());
+		this.addState(new BatteryIntro());
+		this.addState(new BatteryGameScreen());
+		this.addState(new MinigameA());
 		
 		// Move to the default game state
-		this.enterState(MainMenu.class);
+		this.enterState(Game.DEFAULT_GAME_STATE);
 	}
 	
 	/*
@@ -140,6 +159,7 @@ public class Game extends StateBasedGame implements Singleton
 	 * maps the state, so it can be accessed statically.
 	 * 
 	 * @see #enterstate(Class<?>)
+	 * 
 	 * @see
 	 * org.newdawn.slick.state.StateBasedGame#addState(org.newdawn.slick.state
 	 * .GameState)
