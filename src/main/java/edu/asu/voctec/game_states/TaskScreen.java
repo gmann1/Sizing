@@ -9,6 +9,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.batter_sizing.BatteryIntro;
 import edu.asu.voctec.cdmg.CDIntroScreen;
+import edu.asu.voctec.pv_game.PVIntro;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TaskScreen extends GUI
@@ -50,7 +51,7 @@ public class TaskScreen extends GUI
 		// Task 4
 		Button pvSizing = new Button(ImagePaths.NEW_GAME_BUTTON,
 				relativeButtonBounds, relativeTextBounds, null);
-		Button.addTransitionListener(pvSizing, MainMenu.class);
+		Button.addTransitionListener(pvSizing, PVIntro.class);
 		
 		// Task 5
 		Button controllerSizing = new Button(ImagePaths.NEW_GAME_BUTTON,
