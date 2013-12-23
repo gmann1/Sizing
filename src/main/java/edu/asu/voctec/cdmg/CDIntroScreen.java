@@ -45,7 +45,7 @@ public class CDIntroScreen extends GUI
 			Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 500, 500, new Rectangle(50,50,300,50), "Start!");
 			
 			
-			Start.addActionListener(new TransitionButtonListener(Game.CDPart1ID));
+			Start.addActionListener(new TransitionButtonListener(CDPart1.class));
 			
 			textField2.center();
 			textField3.center();
