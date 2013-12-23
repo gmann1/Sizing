@@ -14,7 +14,6 @@ import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TaskScreen extends GUI
 {
-	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException

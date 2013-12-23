@@ -44,7 +44,8 @@ public class MenuTest extends GUI
 		textField2.enableBorder();
 		textField3.enableBorder();
 		textArea.enableBorder();
-		textArea.setFontSize(16f);
+		textArea.setFontSize(8f);
+		textField.setFontSize(10f);
 		textField.center();
 		textField2.center();
 		textField3.center();
