@@ -23,6 +23,9 @@ import edu.asu.voctec.game_states.MenuTest;
 import edu.asu.voctec.game_states.MinigameA;
 import edu.asu.voctec.game_states.ModifiedGameState;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.pv_game.PVExit;
+import edu.asu.voctec.pv_game.PVGame;
+import edu.asu.voctec.pv_game.PVIntro;
 import edu.asu.voctec.utilities.Singleton;
 
 /**
@@ -149,6 +152,9 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new BatteryIntro());
 		this.addState(new BatteryGameScreen());
 		this.addState(new MinigameA());
+		this.addState(new PVIntro());
+		this.addState(new PVGame());
+		this.addState(new PVExit());
 		
 		// Move to the default game state
 		this.enterState(Game.DEFAULT_GAME_STATE);
