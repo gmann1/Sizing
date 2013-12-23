@@ -270,6 +270,7 @@ public class CircularList<E>
 			currentElement = currentElement.nextElement;
 		}
 		
+		numberOfElements--;
 	}
 	
 	public ListElement<E> getNode(int index) throws IndexOutOfBoundsException

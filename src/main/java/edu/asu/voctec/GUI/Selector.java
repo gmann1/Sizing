@@ -2,6 +2,7 @@ package edu.asu.voctec.GUI;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -22,12 +23,13 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	protected CircularList<T> elements = new CircularList<>();
 	protected boolean orientLeft;
 	
-	protected PositionedObject<Image> currentChoiceBackground;
-	protected PositionedObject<Image> previousChoiceBackground;
-	protected PositionedObject<Image> nextChoiceBackground;
-	protected PositionedObject<Image> rightArrow;
-	protected PositionedObject<Image> leftArrow;
-	protected PositionedObject<Image> background;
+	protected BasicComponent currentChoiceBackground;
+	protected BasicComponent previousChoiceBackground;
+	protected BasicComponent nextChoiceBackground;
+	protected BasicComponent rightArrow;
+	protected BasicComponent leftArrow;
+	protected BasicComponent background;
+	protected ArrayList<BasicComponent> components = new ArrayList<>();
 	protected int x;
 	protected int y;
 	
@@ -37,11 +39,10 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		protected void actionPerformed()
 		{
 			System.out.println("Icon Selected.");
-			
 			// Remove the current selection from this list,
 			// and add it to the display
-			/*T element = */elements.pop();
-			// TODO sendToDisplay(element);
+			T element = elements.pop();
+			sendToDisplay(element);
 		}
 		
 		@Override
@@ -96,21 +97,32 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	 */
 	public Selector(boolean useDeafultActions) throws SlickException
 	{
-		currentChoiceBackground = new PositionedObject<>(new Image(
-				ImagePaths.SELECTOR_LARGE),
+		currentChoiceBackground = new BasicComponent(ImagePaths.SELECTOR_LARGE,
 				SelectorDefaults.PRIMARY_SELECTION_LOCATION);
-		previousChoiceBackground = new PositionedObject<>(new Image(
-				ImagePaths.SELECTOR_SMALL),
+		
+		previousChoiceBackground = new BasicComponent(
+				ImagePaths.SELECTOR_SMALL,
 				SelectorDefaults.SECONDARY_SELECTION_LOCATION_LEFT);
-		nextChoiceBackground = new PositionedObject<>(new Image(
-				ImagePaths.SELECTOR_SMALL),
+		
+		nextChoiceBackground = new BasicComponent(ImagePaths.SELECTOR_SMALL,
 				SelectorDefaults.SECONDARY_SELECTION_LOCATION_RIGHT);
-		rightArrow = new PositionedObject<>(new Image(ImagePaths.ARROW_RIGHT),
+		
+		rightArrow = new BasicComponent(new Image(ImagePaths.ARROW_RIGHT),
 				SelectorDefaults.ARROW_LOCATION_RIGHT);
-		leftArrow = new PositionedObject<>(new Image(ImagePaths.ARROW_LEFT),
+		
+		leftArrow = new BasicComponent(new Image(ImagePaths.ARROW_LEFT),
 				SelectorDefaults.ARROW_LOCATION_LEFT);
-		background = new PositionedObject<>(new Image(
-				ImagePaths.SELECTOR_SHADOW), SelectorDefaults.SHADOW_LOCATION);
+		
+		background = new BasicComponent(new Image(ImagePaths.SELECTOR_SHADOW),
+				SelectorDefaults.SHADOW_LOCATION);
+		
+		// Add all components to array
+		components.add(currentChoiceBackground);
+		components.add(previousChoiceBackground);
+		components.add(nextChoiceBackground);
+		components.add(rightArrow);
+		components.add(leftArrow);
+		components.add(background);
 		
 		// Listen for clicks to the left and right arrows
 		this.addActionListener(new RightArrowListener());
@@ -125,7 +137,8 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		System.out.println("Listener count: " + this.listeners.size());
 	}
 	
-	public Selector(int x, int y, boolean useDeafultActions) throws SlickException
+	public Selector(int x, int y, boolean useDeafultActions)
+			throws SlickException
 	{
 		this(useDeafultActions);
 		this.x = x;
@@ -153,31 +166,39 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		
 		// Draw choice icons
 		if (elements.size() >= 1)
-			drawRelatively(graphics, elements.getCurrentElement()
-					.getCurrentImage(), currentChoiceBackground.x,
-					currentChoiceBackground.y);
+			drawElement(graphics, elements.getCurrentElement(),
+					currentChoiceBackground);
 		if (elements.size() >= 2)
 		{
-			if (orientLeft || elements.size() <= 3)
-				drawRelatively(graphics, elements.getPreviousElement()
-						.getCurrentImage(), previousChoiceBackground.x,
-						previousChoiceBackground.y);
-			if (!orientLeft || elements.size() <= 3)
-				drawRelatively(graphics, elements.getNextElement()
-						.getCurrentImage(), nextChoiceBackground.x,
-						nextChoiceBackground.y);
+			if (orientLeft || elements.size() >= 3)
+				drawElement(graphics, elements.getPreviousElement(),
+						previousChoiceBackground);
+			if (!orientLeft || elements.size() >= 3)
+				drawElement(graphics, elements.getNextElement(),
+						nextChoiceBackground);
 		}
+	}
+	
+	protected void drawElement(Graphics graphics, SelectorIcon icon,
+			BasicComponent container)
+	{
+		Image scaledImage = icon.getCurrentImage().getScaledCopy(
+				container.getBounds().width, container.getBounds().height);
+		drawRelatively(graphics, scaledImage, container.getX(),
+				container.getY());
 	}
 	
 	public void cycleLeft()
 	{
-		elements.previous();
+		if (orientLeft || elements.size() >= 3)
+			elements.previous();
 		this.orientLeft = false;
 	}
 	
 	public void cycleRight()
 	{
-		elements.next();
+		if (!orientLeft || elements.size() >= 3)
+			elements.next();
 		this.orientLeft = true;
 	}
 	
@@ -185,6 +206,12 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	{
 		return new Rectangle(object.x + x, object.y + y,
 				object.data.getWidth(), object.data.getHeight());
+	}
+	
+	public Rectangle getAbsoluteBounds(Component component)
+	{
+		return UtilFunctions.getTranslatedRectangle(component.getBounds(),
+				new Point(x, y));
 	}
 	
 	public Rectangle getAbsoluteBounds(Rectangle relativeRectangle)
@@ -215,6 +242,12 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		graphics.drawImage(image.data, x + image.x, y + image.y);
 	}
 	
+	public void drawRelatively(Graphics graphics, BasicComponent component)
+	{
+		graphics.drawImage(component.getCurrentImage(), x + component.getX(), y
+				+ component.getY());
+	}
+	
 	public void drawRelatively(Graphics graphics, Image image, int relativeX,
 			int relativeY)
 	{
@@ -240,7 +273,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	
 	public boolean sendToDisplay(T data)
 	{
-		if (data != null)
+		if (associatedDisplay != null && data != null)
 			return associatedDisplay.accept(data);
 		else
 			return false;
@@ -261,11 +294,11 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	@Override
 	public Rectangle getBounds()
 	{
-		//TODO calculate max and min X/Y components
+		// TODO calculate max and min X/Y components
 		int x = this.x;
 		int y = this.y;
-		int width = this.rightArrow.x + this.rightArrow.data.getWidth();
-		int height = this.background.y + this.background.data.getHeight();
+		int width = this.rightArrow.getX() + this.rightArrow.getBounds().width;
+		int height = this.background.getY() + this.background.getBounds().height;
 		
 		return new Rectangle(x, y, width, height);
 	}
@@ -273,25 +306,40 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	@Override
 	public boolean rescale(float horizontalScale, float verticalScale)
 	{
-		Rectangle newBounds = UtilFunctions.getScaledRectangle(getBounds(),
-				horizontalScale, verticalScale);
-		return setBounds(newBounds);
+		this.x = (int) (x * horizontalScale);
+		this.y = (int) (y * verticalScale);
+		
+		boolean success = true;
+		
+		for (Component component : components)
+		{
+			success = success && component.rescale(horizontalScale, verticalScale);
+		}
+		
+		return success;
 	}
-
+	
 	@Override
 	public boolean resize(int width, int height)
 	{
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+		int originalX = this.x;
+		int originalY = this.y;
+		
+		boolean success = this.rescale(width, height);
+		
+		this.x = originalX;
+		this.y = originalY;
+		
+		return success;
 	}
-
+	
 	@Override
 	public void setX(int x)
 	{
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
-
+	
 	@Override
 	public void setY(int y)
 	{

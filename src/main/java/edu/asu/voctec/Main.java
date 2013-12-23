@@ -64,7 +64,7 @@ public class Main
 		try
 		{
 			// Resize all gameStates
-			for (int id : Game.GAME_STATES)
+			for (int id : Game.getGameStates())
 			{
 				// Iterate through each GameState
 				GameState gameState = currentGame.getState(id);
@@ -117,7 +117,7 @@ public class Main
 		Main.currentLanguage = currentLanguage;
 		System.out.println("Updating Language...");
 		// translate gameStates
-		for (int id : Game.GAME_STATES)
+		for (int id : Game.getGameStates())
 		{
 			// Iterate through each GameState
 			GameState gameState = Game.getCurrentGame().getState(id);

@@ -4,17 +4,17 @@ import edu.asu.voctec.Game;
 
 public class TransitionButtonListener extends ButtonListener
 {
-	private int transitionScreenID;
+	private Class<?> transitionScreen;
 	
-	public TransitionButtonListener(int transitionScreenID)
+	public TransitionButtonListener(Class<?> transitionScreen)
 	{
-		this.transitionScreenID = transitionScreenID;
+		this.transitionScreen = transitionScreen;
 	}
 	
 	@Override
 	protected void actionPerformed()
 	{
-		Game.getCurrentGame().enterState(transitionScreenID);
+		Game.getCurrentGame().enterState(transitionScreen);
 	}
 	
 }
