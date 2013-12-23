@@ -87,6 +87,11 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		}
 	}
 	
+	public Selector() throws SlickException
+	{
+		this(true);
+	}
+	
 	/**
 	 * Constructs the default selector object. The size, images, and position of
 	 * the new object will be determined by values in GameDefaults

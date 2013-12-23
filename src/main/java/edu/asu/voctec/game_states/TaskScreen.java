@@ -7,6 +7,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.GUI.Button;
+import edu.asu.voctec.cdmg.CDIntroScreen;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TaskScreen extends GUI
@@ -33,12 +34,12 @@ public class TaskScreen extends GUI
 		// Task 1
 		Button energyAssessment = new Button(ImagePaths.NEW_GAME_BUTTON,
 				relativeButtonBounds, relativeTextBounds, null);
-		Button.addTransitionListener(energyAssessment, MenuTest.class);
+		Button.addTransitionListener(energyAssessment, MinigameA.class);
 		
 		// Task 2
 		Button criticalDesignMonth = new Button(ImagePaths.NEW_GAME_BUTTON,
 				relativeButtonBounds, relativeTextBounds, null);
-		Button.addTransitionListener(criticalDesignMonth, MainMenu.class);
+		Button.addTransitionListener(criticalDesignMonth, CDIntroScreen.class);
 		
 		// Task 3
 		Button batterySizing = new Button(ImagePaths.NEW_GAME_BUTTON,
@@ -53,12 +54,14 @@ public class TaskScreen extends GUI
 		// Task 5
 		Button controllerSizing = new Button(ImagePaths.NEW_GAME_BUTTON,
 				relativeButtonBounds, relativeTextBounds, null);
-		Button.addTransitionListener(controllerSizing, MainMenu.class);
+		Button.addTransitionListener(controllerSizing, MenuTest.class);
 		
 		// Add buttons to this menu
 		this.addComponent(energyAssessment);
 		this.addComponent(criticalDesignMonth);
 		this.addComponent(batterySizing);
+		this.addComponent(pvSizing);
+		this.addComponent(controllerSizing);
 		
 		this.centerComponentsStacked(buttonSpacing, getComponents());
 	}
