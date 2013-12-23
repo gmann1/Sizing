@@ -41,6 +41,14 @@ public interface GameDefaults
 		public static final String BATTERY_SIZING = "resources/default/img/selector/icons/batterySizing.png";
 		public static final String CRITICAL_DESIGN_MONTH = "resources/default/img/selector/icons/criticalDesignMonth.png";
 		public static final String PV_SIZING = "resources/default/img/selector/icons/pvSizing.png";
+
+		public interface SelectorDisplayBorders
+		{
+			public static final String DEFAULT = "resources/default/img/selector/display/EmptyBox.png";
+			public static final String HIGHLIGHTED = "resources/default/img/selector/display/EmptyBoxHighlighted.png";
+			public static final String CORRECT = "resources/default/img/selector/display/EmptyBoxCorrect.png";
+			public static final String INCORRECT = "resources/default/img/selector/display/EmptyBoxWrong.png";
+		}
 		
 	}
 	

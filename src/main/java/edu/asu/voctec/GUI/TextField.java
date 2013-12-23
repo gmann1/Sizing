@@ -24,7 +24,6 @@ public class TextField extends TextDisplay
 {
 	public static final FormattingOption DEFAULT_FORMAT = FormattingOption.CLIP_TEXT;
 	protected String text;
-	// TODO add support for centering text
 	protected FormattingOption formatting;
 	
 	public TextField(Rectangle bounds, Rectangle textBounds, Font awtFont,
@@ -32,9 +31,12 @@ public class TextField extends TextDisplay
 	{
 		super(bounds, textBounds, awtFont, antiAlias);
 		
-		this.formatting = (option == null) ? DEFAULT_FORMAT : option;
-		this.text = text;
-
+		// Do not allow null formatting. Treat a null format as the default.
+		this.formatting = (option != null) ? option : DEFAULT_FORMAT;
+		
+		// Do not allow null text. If text is null, treat it as an empty string.
+		this.text = (text != null) ? text : "";
+		
 		// Set font size based on provided formating option.
 		formatText();
 	}
@@ -58,22 +60,24 @@ public class TextField extends TextDisplay
 	@Override
 	protected void formatText()
 	{
-
-		if (formatting == FormattingOption.FIT_TEXT)
+		if (text.length() > 0)
 		{
-			this.setFontSize(TextSupport.getMaxScaledFontSize(awtFont, text,
-					textBounds));
+			if (formatting == FormattingOption.FIT_TEXT)
+			{
+				this.setFontSize(TextSupport.getMaxScaledFontSize(awtFont,
+						text, textBounds));
+			}
+			else if (formatting == FormattingOption.FIT_TEXT_VERTICALLY)
+			{
+				this.setFontSize(TextSupport.getMaxVerticalScaledFontSize(
+						awtFont, textBounds));
+			}
+			
+			this.text = TextSupport.clipString(font, text, textBounds.width)[0];
+			
+			if (center)
+				center();
 		}
-		else if (formatting == FormattingOption.FIT_TEXT_VERTICALLY)
-		{
-			this.setFontSize(TextSupport.getMaxVerticalScaledFontSize(awtFont,
-					textBounds));
-		}
-		
-		this.text = TextSupport.clipString(font, text, textBounds.width)[0];
-		
-		if (center)
-			center();
 	}
 	
 	protected void drawText(Graphics graphics)
@@ -114,7 +118,7 @@ public class TextField extends TextDisplay
 			relativeTextY = (bounds.height / 2) - (textHeight / 2);
 		}
 		
-		this.textBounds =  new Rectangle(relativeTextX, relativeTextY,
+		this.textBounds = new Rectangle(relativeTextX, relativeTextY,
 				textWidth, textHeight);
 		
 		this.center = vertical || horizontal;
