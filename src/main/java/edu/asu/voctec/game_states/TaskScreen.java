@@ -6,12 +6,12 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import edu.asu.voctec.GUI.BasicComponent;
-import edu.asu.voctec.GUI.TransitionButtonListener;
+import edu.asu.voctec.GUI.Button;
+import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TaskScreen extends GUI
 {
-
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
@@ -19,17 +19,46 @@ public class TaskScreen extends GUI
 		int buttonSpacing = 15;
 		int buttonWidth = 350;
 		int buttonHeight = 75;
+		float borderScale = 0.9f;
 		
-		Rectangle buttonBounds = new Rectangle(0, 0, buttonWidth, buttonHeight);
+		// Determine text and button bounds, relative to each button
+		Rectangle relativeButtonBounds = new Rectangle(0, 0, buttonWidth,
+				buttonHeight);
+		Rectangle relativeTextBounds = new Rectangle(0, 0, buttonWidth
+				- buttonHeight, buttonHeight);
+		relativeTextBounds = UtilFunctions.dialateRectangle(relativeTextBounds,
+				borderScale);
 		
 		// Declare Buttons
-		// Start Button
-		BasicComponent startButton = new BasicComponent(
-				ImagePaths.NEW_GAME_BUTTON, buttonBounds);
-		startButton.addActionListener(new TransitionButtonListener(MenuTest.class));
-
+		// Task 1
+		Button energyAssessment = new Button(ImagePaths.NEW_GAME_BUTTON,
+				relativeButtonBounds, relativeTextBounds, null);
+		Button.addTransitionListener(energyAssessment, MenuTest.class);
+		
+		// Task 2
+		Button criticalDesignMonth = new Button(ImagePaths.NEW_GAME_BUTTON,
+				relativeButtonBounds, relativeTextBounds, null);
+		Button.addTransitionListener(criticalDesignMonth, MainMenu.class);
+		
+		// Task 3
+		Button batterySizing = new Button(ImagePaths.NEW_GAME_BUTTON,
+				relativeButtonBounds, relativeTextBounds, null);
+		Button.addTransitionListener(batterySizing, MainMenu.class);
+		
+		// Task 4
+		Button pvSizing = new Button(ImagePaths.NEW_GAME_BUTTON,
+				relativeButtonBounds, relativeTextBounds, null);
+		Button.addTransitionListener(pvSizing, MainMenu.class);
+		
+		// Task 5
+		Button controllerSizing = new Button(ImagePaths.NEW_GAME_BUTTON,
+				relativeButtonBounds, relativeTextBounds, null);
+		Button.addTransitionListener(controllerSizing, MainMenu.class);
+		
 		// Add buttons to this menu
-		this.addComponent(startButton);
+		this.addComponent(energyAssessment);
+		this.addComponent(criticalDesignMonth);
+		this.addComponent(batterySizing);
 		
 		this.centerComponentsStacked(buttonSpacing, getComponents());
 	}

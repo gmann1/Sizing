@@ -48,6 +48,13 @@ public class Button extends BasicComponent
 				bounds.x, bounds.y, relativeTextBounds, text);
 	}
 	
+	public static void addTransitionListener(Button button,
+			Class<?> transitionScreen)
+	{
+		
+		button.addActionListener(new TransitionButtonListener(transitionScreen));
+	}
+	
 	public void draw(Graphics graphics)
 	{
 		super.draw(graphics);

@@ -1,5 +1,6 @@
 package edu.asu.voctec.GUI;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import org.newdawn.slick.Graphics;
@@ -55,4 +56,8 @@ public interface Displayable
 	 * @see #getBounds()
 	 */
 	public boolean setBounds(Rectangle bounds);
+	
+	public void translate(Point amount);
+	
+	public void translate(int horizontalAmount, int verticalAmount);
 }

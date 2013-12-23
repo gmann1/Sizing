@@ -1,6 +1,7 @@
 package edu.asu.voctec.GUI;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
@@ -101,5 +102,25 @@ public abstract class Component implements Displayable, Resizable
 	public boolean resize(Dimension dimension)
 	{
 		return resize(dimension.width, dimension.height);
+	}
+	
+	@Override
+	public void translate(int horizontalAmount, int verticalAmount)
+	{
+		int x = getX() + horizontalAmount;
+		int y = getY() + verticalAmount;
+		
+		setX(x);
+		setY(y);
+	}
+	
+	@Override
+	public void translate(Point amount)
+	{
+		int x = getX() + amount.x;
+		int y = getY() + amount.y;
+		
+		setX(x);
+		setY(y);
 	}
 }
