@@ -1,15 +1,18 @@
 package edu.asu.voctec;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.game_states.InstructorControlPanel;
+import edu.asu.voctec.game_states.LanguageMenu;
 import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.MenuTest;
-import edu.asu.voctec.game_states.ModifiedGameState;
+import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.utilities.Singleton;
 
 /**
@@ -19,21 +22,14 @@ import edu.asu.voctec.utilities.Singleton;
  */
 public class Game extends StateBasedGame implements Singleton
 {
-	// Replace with hashMap of classes and IDs
-	public static int MainMenuID;
-	public static int TaskScreenID;
-	public static int LanguageMenuID;
-	public static int InstructorControlPanelID;
-	
+	/**
+	 * Map of all GameState IDs that have been added. @see #addState(GameState)
+	 */
+	private static HashMap<Class<?>, Integer> gameStates = new HashMap<>();
 	private static Game currentGame;
 	
-	/**
-	 * List of all GameState IDs that have been added. @see #addState(GameState)
-	 */
-	public static final ArrayList<Integer> GAME_STATES = new ArrayList<>();
-	
 	/** GameState to enter upon launching the application */
-	public static final int DEFAULT_GAME_STATE = 0;
+	public static final Class<?> DEFAULT_GAME_STATE = MainMenu.class;
 	
 	// TODO: Class loading
 	
@@ -107,6 +103,11 @@ public class Game extends StateBasedGame implements Singleton
 		return currentGame;
 	}
 	
+	public static Collection<Integer> getGameStates()
+	{
+		return Game.gameStates.values();
+	}
+	
 	/*
 	 * (non-Javadoc) Create, add, and initialize all states associated with this
 	 * game
@@ -118,23 +119,15 @@ public class Game extends StateBasedGame implements Singleton
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException
 	{
-		// Declare & Initialize all game states
-		ModifiedGameState mainMenu = new MainMenu();
-		Game.MainMenuID = mainMenu.getID();
-		
-		ModifiedGameState menuTest = new MenuTest();
-		Game.TaskScreenID = menuTest.getID();
-		
-		Game.InstructorControlPanelID = 0;
-		Game.LanguageMenuID = 0;
-		
-		// Add all GameStates
-		this.addState(mainMenu);
-		this.addState(menuTest);
-		// TODO add all other states
+		// Initialize & Add all GameStates
+		this.addState(new MainMenu());
+		this.addState(new MenuTest());
+		this.addState(new InstructorControlPanel());
+		this.addState(new LanguageMenu());
+		this.addState(new TaskScreen());
 		
 		// Move to the default game state
-		this.enterState(Game.DEFAULT_GAME_STATE);
+		this.enterState(MainMenu.class);
 	}
 	
 	/*
@@ -149,7 +142,7 @@ public class Game extends StateBasedGame implements Singleton
 	public void addState(GameState state)
 	{
 		super.addState(state);
-		GAME_STATES.add(state.getID());
+		gameStates.put(state.getClass(), state.getID());
 	}
 	
 	@Override
@@ -159,5 +152,10 @@ public class Game extends StateBasedGame implements Singleton
 		super.enterState(id);
 		System.out.println("Switch Successful. Current State: "
 				+ this.getCurrentStateID());
+	}
+	
+	public void enterState(Class<?> state)
+	{
+		this.enterState(gameStates.get(state));
 	}
 }
