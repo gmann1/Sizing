@@ -29,7 +29,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	protected BasicComponent rightArrow;
 	protected BasicComponent leftArrow;
 	protected BasicComponent background;
-	protected ArrayList<BasicComponent> components = new ArrayList<>();
+	protected ArrayList<Component> components = new ArrayList<>();
 	protected int x;
 	protected int y;
 	
@@ -153,21 +153,9 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	@Override
 	public void draw(Graphics graphics)
 	{
-		// Draw background and arrows
-		if (background != null)
-			drawRelatively(graphics, background);
-		if (rightArrow != null)
-			drawRelatively(graphics, rightArrow);
-		if (leftArrow != null)
-			drawRelatively(graphics, leftArrow);
-		
-		// Draw choice backgrounds
-		if (currentChoiceBackground != null)
-			drawRelatively(graphics, currentChoiceBackground);
-		if (previousChoiceBackground != null)
-			drawRelatively(graphics, previousChoiceBackground);
-		if (nextChoiceBackground != null)
-			drawRelatively(graphics, nextChoiceBackground);
+		// Draw all components
+		for (Component component : components)
+			drawRelatively(graphics, component);
 		
 		// Draw choice icons
 		if (elements.size() >= 1)
@@ -184,6 +172,16 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		}
 	}
 	
+	public boolean addComponent(Component component)
+	{
+		return this.components.add(component);
+	}
+	
+	public boolean removeComponent(Component component)
+	{
+		return this.components.remove(component);
+	}
+
 	protected void drawElement(Graphics graphics, SelectorIcon icon,
 			BasicComponent container)
 	{
@@ -247,10 +245,11 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		graphics.drawImage(image.data, x + image.x, y + image.y);
 	}
 	
-	public void drawRelatively(Graphics graphics, BasicComponent component)
+	public void drawRelatively(Graphics graphics, Component component)
 	{
-		graphics.drawImage(component.getCurrentImage(), x + component.getX(), y
-				+ component.getY());
+		component.translate(x, y);
+		component.draw(graphics);
+		component.translate(-x, -y);
 	}
 	
 	public void drawRelatively(Graphics graphics, Image image, int relativeX,
