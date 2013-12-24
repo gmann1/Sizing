@@ -47,4 +47,8 @@ public class SelectorIcon extends BasicComponent
 		return id;
 	}
 	
+	public String toString()
+	{
+		return ("id=" + id + "; name=" + name + "; description=" + description);
+	}
 }

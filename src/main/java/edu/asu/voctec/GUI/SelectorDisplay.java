@@ -15,12 +15,13 @@ import edu.asu.voctec.utilities.UtilFunctions;
 
 public class SelectorDisplay<T extends SelectorIcon> extends Component
 {
-	protected static Rectangle borderBounds;
+	protected static Rectangle defaultBorderBounds;
 	protected static Image defaultBorder;
 	protected static Image highlightedBorder;
 	protected static Image correctBorder;
 	protected static Image incorrectBorder;
 	
+	protected Rectangle borderBounds;
 	protected BasicComponent[] choiceBorders;
 	protected ArrayList<T> elements;
 	protected Selector<T> associatedSelector;
@@ -33,8 +34,6 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		@Override
 		protected void actionPerformed()
 		{
-			System.out.println("Choice Border Clicked.");
-			
 			// Determine which choiceBorder was clicked
 			int index = Arrays.asList(choiceBorders).indexOf(
 					(BasicComponent) this.associatedComponent);
@@ -59,16 +58,16 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		try
 		{
 			defaultBorder = new Image(ImagePaths.SelectorDisplayBorders.DEFAULT);
-			borderBounds = UtilFunctions.getImageBounds(defaultBorder);
+			defaultBorderBounds = UtilFunctions.getImageBounds(defaultBorder);
 			
 			highlightedBorder = new Image(
 					ImagePaths.SelectorDisplayBorders.HIGHLIGHTED)
-					.getScaledCopy(borderBounds.width, borderBounds.height);
+					.getScaledCopy(defaultBorderBounds.width, defaultBorderBounds.height);
 			correctBorder = new Image(ImagePaths.SelectorDisplayBorders.CORRECT)
-					.getScaledCopy(borderBounds.width, borderBounds.height);
+					.getScaledCopy(defaultBorderBounds.width, defaultBorderBounds.height);
 			incorrectBorder = new Image(
 					ImagePaths.SelectorDisplayBorders.INCORRECT).getScaledCopy(
-					borderBounds.width, borderBounds.height);
+					defaultBorderBounds.width, defaultBorderBounds.height);
 		}
 		catch (SlickException e)
 		{
@@ -82,6 +81,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		this.x = x;
 		this.y = y;
 		this.capacity = capacity;
+		this.borderBounds = defaultBorderBounds;
 		elements = new ArrayList<>(capacity);
 		
 		for (int index = 0; index < capacity; index++)
@@ -191,7 +191,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 			
 			elements.set(currentIndex, element);
 			accepted = true;
-			System.out.println("SelectorDisplay: Element Accepted.");
+			System.out.println("SelectorDisplay: Element Accepted.\n");
 		}
 		else
 		{
@@ -310,6 +310,25 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		}
 		
 		return success;
+	}
+	
+	@Override
+	public boolean rescale(float horizontalScale, float verticalScale)
+	{
+		this.x = (int) (x * horizontalScale);
+		this.y = (int) (y * verticalScale);
+		
+		for (Component component : choiceBorders)
+			component.rescale(horizontalScale, verticalScale);
+		
+		for (Component component : this.elements)
+		{
+			if (component != null)
+				component.rescale(horizontalScale, verticalScale);
+		}
+		
+		this.borderBounds = UtilFunctions.getScaledRectangle(borderBounds, horizontalScale, verticalScale);
+		return true;
 	}
 	
 }

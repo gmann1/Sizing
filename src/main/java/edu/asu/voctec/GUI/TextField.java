@@ -135,4 +135,11 @@ public class TextField extends TextDisplay
 		
 		this.center = vertical || horizontal;
 	}
+
+	public void setFormatting(FormattingOption formatting)
+	{
+		this.formatting = formatting;
+	}
+	
+	
 }
