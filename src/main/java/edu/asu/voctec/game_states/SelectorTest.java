@@ -32,8 +32,8 @@ public class SelectorTest extends GUI
 		this.addComponent(selector);
 
 		SelectorDisplay<SelectorIcon> selectorDisplay = new SelectorDisplay<>(
-				100, 0, true);
-		selectorDisplay.rescale(0.75f);
+				10, 10, true);
+		selectorDisplay.rescale(0.90f);
 		selectorDisplay.link(selector);
 		this.addComponent(selectorDisplay);
 		
