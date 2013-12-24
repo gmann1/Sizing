@@ -209,14 +209,14 @@ public class CircularList<E>
 		}
 		else
 		{
-			// Link the newNode to the previous and next nodes, respectively
-			newNode.setLinks(currentElement.previousElement, currentElement.nextElement);
+			// Link the newNode to the previous and current nodes, respectively
+			newNode.setLinks(currentElement.previousElement, currentElement);
 			
 			// Make the previous element link to the new element
 			this.currentElement.previousElement.nextElement = newNode;
 			
-			// Make the next element point (backwards) to the new element
-			this.currentElement.nextElement.previousElement = newNode;
+			// Make the current element point (backwards) to the new element
+			this.currentElement.previousElement = newNode;
 			
 			// Replace the current element with this element;
 			this.currentElement = newNode;

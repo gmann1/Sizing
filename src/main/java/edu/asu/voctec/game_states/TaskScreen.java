@@ -14,7 +14,6 @@ import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TaskScreen extends GUI
 {
-	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
@@ -56,7 +55,7 @@ public class TaskScreen extends GUI
 		// Task 5
 		Button controllerSizing = new Button(ImagePaths.NEW_GAME_BUTTON,
 				relativeButtonBounds, relativeTextBounds, null);
-		Button.addTransitionListener(controllerSizing, MenuTest.class);
+		Button.addTransitionListener(controllerSizing, SelectorTest.class);
 		
 		// Add buttons to this menu
 		this.addComponent(energyAssessment);
