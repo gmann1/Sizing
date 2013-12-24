@@ -1,12 +1,15 @@
 package edu.asu.voctec.cdmg;
 
+import java.awt.Rectangle;
+
 import org.newdawn.slick.SlickException;
 
+import edu.asu.voctec.GUI.Component;
 import edu.asu.voctec.GUI.Selector;
 import edu.asu.voctec.GUI.SelectorIcon;
 import edu.asu.voctec.cdmg.CDPart1;
 
-public class ChildSelectorTest<T extends SelectorIcon> extends Selector<T> {
+public class CDSelector<T extends SelectorIcon> extends Selector<T> {
 	public class RightListener extends RightArrowListener {
 		@Override
 		protected void actionPerformed() {
@@ -33,7 +36,17 @@ public class ChildSelectorTest<T extends SelectorIcon> extends Selector<T> {
 		}
 	}
 
-	public ChildSelectorTest(int x, int y) throws SlickException {
+	public Rectangle getMainBounds(){
+		return getAbsoluteBounds(currentChoiceBackground);
+	}
+	public Rectangle getLeftBounds(){
+		return getAbsoluteBounds(previousChoiceBackground);
+	}
+	public Rectangle getRightBounds(){
+		return getAbsoluteBounds(nextChoiceBackground);
+	}
+	
+	public CDSelector(int x, int y) throws SlickException {
 		super(x, y, false);
 		this.addActionListener(new RightListener());
 		this.addActionListener(new LeftListener());
