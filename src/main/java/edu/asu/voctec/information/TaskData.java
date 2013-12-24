@@ -13,7 +13,6 @@ public class TaskData
 	protected Class<?> associatedHub;
 	protected Class<?> associatedTaskScreen;
 	protected ArrayList<AttemptData> listOfAttempts;
-	protected int numberOfHints;
 	protected boolean complete;
 	protected boolean accessible;
 	protected BasicComponent taskIcon;
@@ -22,7 +21,6 @@ public class TaskData
 	{
 		this.associatedTaskScreen = associatedTaskScreen;
 		this.listOfAttempts = new ArrayList<>();
-		this.numberOfHints = 0;
 		this.complete = false;
 		this.accessible = false;
 		this.taskIcon = new BasicComonent(buttonImageInaccessible, 0, 0);
