@@ -55,6 +55,7 @@ public class TextArea extends TextDisplay
 	{
 		this.lines.clear();
 		this.clipedText = "";
+		lines.add(text);
 		
 		wrapText();
 	}

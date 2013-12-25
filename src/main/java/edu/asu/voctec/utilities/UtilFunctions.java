@@ -166,4 +166,12 @@ public abstract class UtilFunctions
 			currentY += componentBounds.height + spaceBetweenComponents;
 		}
 	}
+	
+	public static float[] getScales(Rectangle bounds, int width, int height)
+	{
+		float horizontalScale = ((float) width) / ((float) bounds.width);
+		float verticalScale = ((float) height) / ((float) bounds.height);
+		
+		return new float[]{horizontalScale, verticalScale};
+	}
 }
