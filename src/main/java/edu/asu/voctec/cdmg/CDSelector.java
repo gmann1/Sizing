@@ -4,52 +4,67 @@ import java.awt.Rectangle;
 
 import org.newdawn.slick.SlickException;
 
-import edu.asu.voctec.GUI.Component;
 import edu.asu.voctec.GUI.Selector;
 import edu.asu.voctec.GUI.SelectorIcon;
-import edu.asu.voctec.cdmg.CDPart1;
 
-public class CDSelector<T extends SelectorIcon> extends Selector<T> {
-	public class RightListener extends RightArrowListener {
+public class CDSelector<T extends SelectorIcon> extends Selector<T>
+{
+	public class RightListener extends RightArrowListener
+	{
 		@Override
-		protected void actionPerformed() {
+		protected void actionPerformed()
+		{
 			super.actionPerformed();
-			try {
+			try
+			{
 				CDPart1.changeImage(true);
-			} catch (SlickException e) {
-
+			}
+			catch (SlickException e)
+			{
+				
 				e.printStackTrace();
 			}
 		}
-	}
-
-	public class LeftListener extends LeftArrowListener {
-		@Override
-		protected void actionPerformed() {
-			super.actionPerformed();
-			try {
-				CDPart1.changeImage(false);
-			} catch (SlickException e) {
-
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public Rectangle getMainBounds(){
-		return getAbsoluteBounds(currentChoiceBackground);
-	}
-	public Rectangle getLeftBounds(){
-		return getAbsoluteBounds(previousChoiceBackground);
-	}
-	public Rectangle getRightBounds(){
-		return getAbsoluteBounds(nextChoiceBackground);
 	}
 	
-	public CDSelector(int x, int y) throws SlickException {
+	public class LeftListener extends LeftArrowListener
+	{
+		@Override
+		protected void actionPerformed()
+		{
+			super.actionPerformed();
+			try
+			{
+				CDPart1.changeImage(false);
+			}
+			catch (SlickException e)
+			{
+				
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public CDSelector(int x, int y) throws SlickException
+	{
 		super(x, y, false);
 		this.addActionListener(new RightListener());
 		this.addActionListener(new LeftListener());
 	}
-
+	
+	public Rectangle getMainBounds()
+	{
+		return getAbsoluteBounds(currentChoiceBackground);
+	}
+	
+	public Rectangle getLeftBounds()
+	{
+		return getAbsoluteBounds(previousChoiceBackground);
+	}
+	
+	public Rectangle getRightBounds()
+	{
+		return getAbsoluteBounds(nextChoiceBackground);
+	}
+	
 }

@@ -3,6 +3,7 @@ package edu.asu.voctec.GUI;
 import java.awt.Font;
 import java.awt.Rectangle;
 
+import org.apache.commons.lang3.StringUtils;
 import org.newdawn.slick.Graphics;
 
 import edu.asu.voctec.GameDefaults.Fonts;
@@ -62,22 +63,45 @@ public class TextField extends TextDisplay
 	{
 		if (text.length() > 0)
 		{
+			if (this.clipedText != null)
+				this.text = StringUtils.join(new String[]{text, clipedText}, " ");
+			
 			if (formatting == FormattingOption.FIT_TEXT)
 			{
-				this.setFontSize(TextSupport.getMaxScaledFontSize(awtFont,
+				super.setFontSize(TextSupport.getMaxScaledFontSize(awtFont,
 						text, textBounds));
 			}
 			else if (formatting == FormattingOption.FIT_TEXT_VERTICALLY)
 			{
-				this.setFontSize(TextSupport.getMaxVerticalScaledFontSize(
+				super.setFontSize(TextSupport.getMaxVerticalScaledFontSize(
 						awtFont, textBounds));
 			}
 			
-			this.text = TextSupport.clipString(font, text, textBounds.width)[0];
+			String[] clippings = TextSupport.clipString(font, text, textBounds.width);
+			this.text = clippings[0];
+			this.clipedText = clippings[1];
 			
 			if (center)
 				center();
 		}
+	}
+
+	@Override
+	public void setFontSize(float size)
+	{
+		this.setFontSize(size, true);
+	}
+	
+	public void setFontSize(float size, boolean ensureSize)
+	{
+		super.setFontSize(size);
+		
+		// Ensure the text does not get resized
+		if (ensureSize)
+			this.setFormatting(TextDisplay.FormattingOption.CLIP_TEXT);
+		
+		// Re-format text
+		formatText();
 	}
 	
 	protected void drawText(Graphics graphics)
@@ -123,4 +147,11 @@ public class TextField extends TextDisplay
 		
 		this.center = vertical || horizontal;
 	}
+
+	public void setFormatting(FormattingOption formatting)
+	{
+		this.formatting = formatting;
+	}
+	
+	
 }

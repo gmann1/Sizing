@@ -41,7 +41,8 @@ public abstract class Component implements Displayable, Resizable
 		this.associatedGUI = associatedGUI;
 		
 		// Make GUI listen for all listeners associated with this component.
-		associatedGUI.getListenerList().addAll(listeners);
+		if (associatedGUI != null)
+			associatedGUI.getListenerList().addAll(listeners);
 	}
 	
 	public void addActionListener(ActionListener listener)
@@ -71,7 +72,7 @@ public abstract class Component implements Displayable, Resizable
 		
 		return success;
 	}
-
+	
 	@Override
 	public boolean rescale(float scale)
 	{
@@ -81,13 +82,19 @@ public abstract class Component implements Displayable, Resizable
 	@Override
 	public boolean rescale(int width, int height)
 	{
+		float[] scales = getScales(width, height);
+		return rescale(scales[0], scales[1]);
+	}
+	
+	public float[] getScales(int width, int height)
+	{
 		int currentWidth = getBounds().width;
 		int currentHeight = getBounds().height;
-
+		
 		float horizontalScale = ((float) width) / ((float) currentWidth);
 		float verticalScale = ((float) height) / ((float) currentHeight);
 		
-		return rescale(horizontalScale, verticalScale);
+		return new float[]{horizontalScale, verticalScale};
 	}
 	
 	@Override
@@ -97,7 +104,7 @@ public abstract class Component implements Displayable, Resizable
 				horizontalScale, verticalScale);
 		return setBounds(newBounds);
 	}
-
+	
 	@Override
 	public boolean resize(Dimension dimension)
 	{

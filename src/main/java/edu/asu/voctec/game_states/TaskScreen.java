@@ -3,6 +3,7 @@ package edu.asu.voctec.game_states;
 import java.awt.Rectangle;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -14,7 +15,6 @@ import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TaskScreen extends GUI
 {
-	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
@@ -56,7 +56,7 @@ public class TaskScreen extends GUI
 		// Task 5
 		Button controllerSizing = new Button(ImagePaths.NEW_GAME_BUTTON,
 				relativeButtonBounds, relativeTextBounds, null);
-		Button.addTransitionListener(controllerSizing, MenuTest.class);
+		Button.addTransitionListener(controllerSizing, SelectorTest.class);
 		
 		// Add buttons to this menu
 		this.addComponent(energyAssessment);
@@ -66,6 +66,9 @@ public class TaskScreen extends GUI
 		this.addComponent(controllerSizing);
 		
 		this.centerComponentsStacked(buttonSpacing, getComponents());
+		
+		Image background = new Image(ImagePaths.TaskHubBackground);
+		setBackgroundImage(background.getScaledCopy(800, 600));
 	}
 	
 }

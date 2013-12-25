@@ -1,5 +1,9 @@
 package edu.asu.voctec.utilities;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
 public class CircularList<E>
 {
 	private ListElement<E> firstElement;
@@ -209,14 +213,14 @@ public class CircularList<E>
 		}
 		else
 		{
-			// Link the newNode to the previous and next nodes, respectively
-			newNode.setLinks(currentElement.previousElement, currentElement.nextElement);
+			// Link the newNode to the previous and current nodes, respectively
+			newNode.setLinks(currentElement.previousElement, currentElement);
 			
 			// Make the previous element link to the new element
 			this.currentElement.previousElement.nextElement = newNode;
 			
-			// Make the next element point (backwards) to the new element
-			this.currentElement.nextElement.previousElement = newNode;
+			// Make the current element point (backwards) to the new element
+			this.currentElement.previousElement = newNode;
 			
 			// Replace the current element with this element;
 			this.currentElement = newNode;
@@ -313,5 +317,50 @@ public class CircularList<E>
 		}
 		else
 			return null;
+	}
+	
+	public ArrayList<E> toArrayList()
+	{
+		ArrayList<E> arrayList = new ArrayList<>();
+		
+		if (this.numberOfElements > 0)
+		{
+			arrayList.add(this.currentElement.data);
+			
+			ListElement<E> iterativeNode = this.currentElement.nextElement;
+			while (iterativeNode != this.currentElement)
+			{
+				arrayList.add(iterativeNode.data);
+				iterativeNode = iterativeNode.nextElement;
+			}
+		}
+		
+		return arrayList;
+	}
+	
+	public boolean addAll(Collection<? extends E> arg0)
+	{
+		for (E element : arg0)
+		{
+			this.add(element);
+		}
+		
+		return true;
+	}
+	
+	public void clearList()
+	{
+		while (this.numberOfElements > 0)
+		{
+			this.removeCurrentNode();
+		}
+	}
+	
+	public void shuffle()
+	{
+		ArrayList<E> arrayList = this.toArrayList();
+		Collections.shuffle(arrayList);
+		this.clearList();
+		this.addAll(arrayList);
 	}
 }

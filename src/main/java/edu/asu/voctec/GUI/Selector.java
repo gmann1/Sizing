@@ -33,6 +33,8 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	protected int x;
 	protected int y;
 	
+	protected boolean updated;
+	
 	public class CurrentChoiceListener extends ButtonListener
 	{
 		@Override
@@ -103,6 +105,8 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	 */
 	public Selector(boolean useDeafultActions) throws SlickException
 	{
+		updated = true;
+		
 		currentChoiceBackground = new BasicComponent(ImagePaths.SELECTOR_LARGE,
 				SelectorDefaults.PRIMARY_SELECTION_LOCATION);
 		
@@ -184,6 +188,26 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		return this.components.remove(component);
 	}
 
+	/*protected void drawElement(Graphics graphics, SelectorIcon icon,
+			BasicComponent container)
+	{
+		if(updated)
+		{
+			int x = container.getBounds().x;
+			int y = container.getBounds().y;
+			int width = container.getBounds().width;
+			int height = container.getBounds().height;
+			icon.setX(0);
+			icon.setY(0);
+			
+			icon.rescale(width, height);
+			icon.translate(x + this.x, y + this.y);
+			updated = false;
+		}
+		
+		icon.draw(graphics);
+	}*/
+	
 	protected void drawElement(Graphics graphics, SelectorIcon icon,
 			BasicComponent container)
 	{
@@ -195,6 +219,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	
 	public void cycleLeft()
 	{
+		updated = true;
 		if (orientLeft || elements.size() >= 3)
 			elements.previous();
 		this.orientLeft = false;
@@ -202,6 +227,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	
 	public void cycleRight()
 	{
+		updated = true;
 		if (!orientLeft || elements.size() >= 3)
 			elements.next();
 		this.orientLeft = true;
@@ -268,9 +294,25 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	
 	public boolean accept(T selection)
 	{
+		boolean accepted;
 		// Accept should always return true
-		// TODO handle cases where addCurrent returns false
-		return elements.addCurrent(selection);
+		System.out.println("Selector: size=" + elements.size());
+		System.out.println("\tSelector: previous=" + elements.getPreviousElement());
+		System.out.println("\tSelector: current=" + elements.getCurrentElement());
+		System.out.println("\tSelector: next=" + elements.getNextElement());
+		System.out.println("Selector: element=" + selection);
+		
+		System.out.println("Selector: adding...");
+		accepted = elements.addCurrent(selection);
+		System.out.println("\tSelector: previous=" + elements.getPreviousElement());
+		System.out.println("\tSelector: current=" + elements.getCurrentElement());
+		System.out.println("\tSelector: next=" + elements.getNextElement());
+		
+		if (accepted)
+			System.out.println("Selector: Element Accepted.\n");
+		else
+			System.out.println("Selector: Element Rejected.\n");
+		return accepted;
 	}
 	
 	public void associate(SelectorDisplay<T> associatedDisplay)
@@ -343,15 +385,18 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	@Override
 	public void setX(int x)
 	{
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+		this.x = x;
 	}
 	
 	@Override
 	public void setY(int y)
 	{
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+		this.y = y;
+	}
+	
+	public void shuffle()
+	{
+		this.elements.shuffle();
 	}
 	
 }

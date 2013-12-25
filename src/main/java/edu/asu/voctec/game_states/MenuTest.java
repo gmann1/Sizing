@@ -12,6 +12,7 @@ import edu.asu.voctec.GUI.SelectorIcon;
 import edu.asu.voctec.GUI.TextArea;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
+import edu.asu.voctec.GameDefaults.ImagePaths.SelectorIcons;
 
 public class MenuTest extends GUI
 {
@@ -44,7 +45,8 @@ public class MenuTest extends GUI
 		textField2.enableBorder();
 		textField3.enableBorder();
 		textArea.enableBorder();
-		textArea.setFontSize(16f);
+		textArea.setFontSize(8f);
+		textField.setFontSize(10f);
 		textField.center();
 		textField2.center();
 		textField3.center();
@@ -55,9 +57,12 @@ public class MenuTest extends GUI
 		this.addComponent(textArea);
 		
 		Selector<SelectorIcon> selector = new Selector<>(100, 290, true);
-		selector.add(new SelectorIcon(ImagePaths.BATTERY_SIZING, "Step 1", 0));
-		selector.add(new SelectorIcon(ImagePaths.PV_SIZING, "Step 2", 1));
-		selector.add(new SelectorIcon(ImagePaths.CRITICAL_DESIGN_MONTH, "Step 3", 2));
+		selector.add(new SelectorIcon(SelectorIcons.ENERGY_ASSESSMENT,
+				"Energy Assessment", 0));
+		selector.add(new SelectorIcon(SelectorIcons.CRITICAL_DESIGN_MONTH,
+				"Determine the Critical Design Month", 1));
+		selector.add(new SelectorIcon(SelectorIcons.BATTERY_SIZING,
+				"Size the Battery", 2));
 		this.addComponent(selector);
 		
 		System.out
