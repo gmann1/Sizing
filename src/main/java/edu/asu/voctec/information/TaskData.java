@@ -2,7 +2,9 @@ package edu.asu.voctec.information;
 
 import java.util.ArrayList;
 
-import edu.asu.voctec.menu.buttons.TransitionButton;
+import org.newdawn.slick.Image;
+
+import edu.asu.voctec.GUI.BasicComponent;
 
 public class TaskData
 {
@@ -23,17 +25,17 @@ public class TaskData
 		this.listOfAttempts = new ArrayList<>();
 		this.complete = false;
 		this.accessible = false;
-		this.taskIcon = new BasicComonent(buttonImageInaccessible, 0, 0);
+		this.taskIcon = new BasicComponent(buttonImageInaccessible, 0, 0);
 	}
 	
 	protected void updateImage()
 	{
 		if (complete)
-			this.taskIcon.setImage(buttonImageComplete);
+			this.taskIcon.setCurrentImage(buttonImageComplete, true);
 		else if (accessible)
-			this.taskIcon.setImage(buttonImageAccessible);
+			this.taskIcon.setCurrentImage(buttonImageAccessible, true);
 		else
-			this.taskIcon.setImage(buttonImageInaccessible);
+			this.taskIcon.setCurrentImage(buttonImageInaccessible, true);
 	}
 	
 	public void setComplete(boolean complete)
@@ -48,7 +50,7 @@ public class TaskData
 	
 	public void setAccessible(boolean accessible)
 	{
-		boolean accessible = (this.accessible != accessible);
+		boolean update = (this.accessible != accessible);
 		
 		this.accessible = accessible;
 		
