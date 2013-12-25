@@ -38,6 +38,7 @@ public class SelectorTest extends GUI
 		selector.add(new SelectorIcon(SelectorIcons.CONTROLLER_SIZING,
 				"Size the Controllers", 4));
 		selector.shuffle();
+		selector.displayLabel();
 		this.addComponent(selector);
 		
 		SelectorDisplay<SelectorIcon> selectorDisplay = new SelectorDisplay<>(

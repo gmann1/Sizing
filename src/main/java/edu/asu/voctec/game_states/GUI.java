@@ -59,60 +59,14 @@ public abstract class GUI extends ModifiedGameState implements GameDefaults
 		listen(input);
 	}
 	
-	public void centerComponentsStacked(int spaceBetweenComponents,
-			Component... components)
+	public void centerComponentsStacked(int spaceBetweenComponents)
 	{
-		// Variables for the bounds of a rectangle that encompasses all give
-		// components
-		int width = 0;
-		int height = 0;
-		
-		// Determine the bounds for a rectangle that encompasses all give
-		// components
-		for (Component component : components)
-		{
-			int componentMaxX = component.getX() + component.getBounds().width;
-			width = (componentMaxX > width) ? componentMaxX : width;
-			height += component.getBounds().height;
-		}
-		
-		// Account for the space between components
-		height += spaceBetweenComponents * (components.length - 1);
-		
-		// Create rectangle that encompasses all give components
-		Rectangle groupBounds = new Rectangle(0, 0, width, height);
-		System.out.println("groupBounds: " + groupBounds.toString());
-		
 		// Define the bounds of this GUI
 		Rectangle guiBounds = new Rectangle(new Point(0, 0),
 				Main.getCurrentScreenDimension());
-		System.out.println("guiBounds: " + guiBounds.toString());
-		
-		// Center the rectangle (groupBounds) relative to this GUI
-		UtilFunctions.centerRectangle(guiBounds, groupBounds);
-		System.out.println("groupBounds Centered: " + groupBounds.toString());
-		
-		// Set the location of each component
-		int currentY = groupBounds.y;
-		for (int componentIndex = 0; componentIndex < components.length; componentIndex++)
-		{
-			// Define the current component
-			Component currentComponent = components[componentIndex];
-			
-			// Define the bounds of the current component
-			Rectangle componentBounds = new Rectangle(0, currentY,
-					currentComponent.getBounds().width,
-					currentComponent.getBounds().height);
-
-			// Center the current component horizontally
-			UtilFunctions.centerRectangleHorizontally(groupBounds, componentBounds);
-			
-			// Update the component
-			currentComponent.setBounds(componentBounds);
-			
-			// Account for space between components
-			currentY += componentBounds.height + spaceBetweenComponents;
-		}
+		UtilFunctions.centerComponentsStacked(guiBounds,
+				spaceBetweenComponents,
+				components.toArray(new Component[components.size()]));
 	}
 	
 	private final void listen(Input input)

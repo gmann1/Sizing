@@ -3,6 +3,7 @@ package edu.asu.voctec;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
@@ -25,7 +26,7 @@ public interface GameDefaults
 		public static final String NEW_GAME_BUTTON = "resources/default/img/buttons/newProfileButtonR.png";
 		public static final String OPTIONS_BUTTON = "resources/default/img/buttons/optionsButtonR.png";
 		public static final String INSTRUCTOR_CONTROL_PANEL_BUTTON = "resources/default/img/buttons/optionsButtonR.png";
-		public static final String BACK_BUTTON = "resources/default/img/buttons/arrow-left.png";
+		public static final String BACK_BUTTON = "resources/default/img/buttons/backButton.png";
 		public static final String LANGUAGE_BUTTON = "resources/default/img/buttons/languagesButtonR.png";
 		public static final String READY_BUTTON = "resources/default/img/buttons/readyButton.png";
 		
@@ -138,5 +139,6 @@ public interface GameDefaults
 		public static Point SECONDARY_SELECTION_LOCATION_LEFT = new Point(52, 91);
 		public static Point SECONDARY_SELECTION_LOCATION_RIGHT = new Point(399, 91);
 		public static Point SHADOW_LOCATION = new Point(41, 184);
+		public static Rectangle ICON_LABEL_BOUNDS = new Rectangle(0, 200, 183, 75);
 	}
 }
