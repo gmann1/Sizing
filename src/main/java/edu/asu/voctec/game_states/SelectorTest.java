@@ -3,9 +3,11 @@ package edu.asu.voctec.game_states;
 import java.awt.Rectangle;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.GameDefaults.ImagePaths;
 import edu.asu.voctec.GameDefaults.ImagePaths.SelectorIcons;
 import edu.asu.voctec.Main;
 import edu.asu.voctec.GUI.ButtonListener;
@@ -73,5 +75,9 @@ public class SelectorTest extends GUI
 		
 		// Create and add a new ReadyButton
 		//Button readyButton = new Button();
+		
+		// Set background
+		Image background = new Image(ImagePaths.MainMenuBackground);
+		setBackgroundImage(background.getScaledCopy(800, 600));
 	}
 }

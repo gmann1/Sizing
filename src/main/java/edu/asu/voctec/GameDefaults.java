@@ -32,6 +32,7 @@ public interface GameDefaults
 		
 		// Labels
 		public static final String BASE_LABEL = "resources/default/img/testButton.png";
+		public static final String HINT_BOX = "resources/default/img/misc/hintBox.png";
 		
 		// Selector Resources
 		public static final String ARROW_LEFT = "resources/default/img/selector/ArrowLeft.png";
@@ -39,6 +40,17 @@ public interface GameDefaults
 		public static final String SELECTOR_LARGE = "resources/default/img/selector/SelectorLarge.png";
 		public static final String SELECTOR_SMALL = "resources/default/img/selector/SelectorSmall.png";
 		public static final String SELECTOR_SHADOW = "resources/default/img/selector/SelectorShadow.png";
+		
+		public interface Buttons
+		{
+			public static final String BASE = "resources/default/img/buttons/testButton.png";
+			public static final String NEW_GAME = "resources/default/img/buttons/newProfileButtonR.png";
+			public static final String OPTIONS = "resources/default/img/buttons/optionsButtonR.png";
+			public static final String INSTRUCTOR_CONTROL_PANEL = "resources/default/img/buttons/optionsButtonR.png";
+			public static final String BACK = "resources/default/img/buttons/backButton.png";
+			public static final String LANGUAGE = "resources/default/img/buttons/languagesButtonR.png";
+			public static final String READY = "resources/default/img/buttons/readyButton.png";
+		}
 		
 		public interface TaskScreen
 		{

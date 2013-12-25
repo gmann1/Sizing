@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.TrueTypeFont;
 
 import edu.asu.voctec.GameDefaults.Fonts;
@@ -78,6 +79,9 @@ public abstract class TextDisplay extends Component
 	/** Whether or not to center the text of this textDisplay */
 	protected boolean center;
 	
+	protected Image baseImage;
+	protected Image currentImage;
+	
 	public TextDisplay(Rectangle bounds, Rectangle textBounds, Font awtFont,
 			boolean antiAlias)
 	{
@@ -132,7 +136,9 @@ public abstract class TextDisplay extends Component
 			graphics.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
 		}
 		
-		// TODO Draw background image
+		// Draw background image
+		if (currentImage != null)
+			graphics.drawImage(currentImage, bounds.x, bounds.y);
 		
 		// Draw text
 		drawText(graphics);
@@ -161,12 +167,13 @@ public abstract class TextDisplay extends Component
 		this.textBounds.setSize(bounds.width, bounds.height);
 		this.bounds.setSize(bounds.width, bounds.height);
 		
+		// Resize image
+		if (this.currentImage != null)
+			this.currentImage = this.baseImage.getScaledCopy(bounds.width, bounds.height);
+		
 		// Reformat text
 		formatText();
 		
-		/*
-		 * // TODO Add image support this.bounds = bounds;
-		 */
 		return true;
 	}
 	
@@ -361,5 +368,22 @@ public abstract class TextDisplay extends Component
 		Rectangle newBounds = new Rectangle(bounds.x, bounds.y, width, height);
 		return setBounds(newBounds);
 	}
+
+	public Image getCurrentImage()
+	{
+		return currentImage;
+	}
+
+	public void setCurrentImage(Image currentImage, boolean maintainSize)
+	{
+		this.baseImage = currentImage;
+		
+		if (maintainSize)
+			this.currentImage = this.baseImage.getScaledCopy(currentImage.getWidth(), currentImage.getHeight());
+		else
+			this.currentImage = this.baseImage.copy();
+	}
+	
+	
 	
 }
