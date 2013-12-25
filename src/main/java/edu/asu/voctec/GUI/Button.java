@@ -94,17 +94,6 @@ public class Button extends BasicComponent
 	}
 	
 	@Override
-	public boolean rescale(float horizontalScale, float verticalScale)
-	{
-		boolean success = super.rescale(horizontalScale, verticalScale);
-		if (textField != null)
-			success = success
-					&& textField.rescale(horizontalScale, verticalScale);
-		
-		return success;
-	}
-	
-	@Override
 	public boolean resize(int width, int height)
 	{
 		boolean success;

@@ -30,7 +30,7 @@ public class SelectorTest extends GUI
 		selector.add(new SelectorIcon(SelectorIcons.ENERGY_ASSESSMENT,
 				"Energy Assessment", 0));
 		selector.add(new SelectorIcon(SelectorIcons.CRITICAL_DESIGN_MONTH,
-				"Determine the Critical Design Month", 1));
+				"Critical Design Month", 1));
 		selector.add(new SelectorIcon(SelectorIcons.BATTERY_SIZING,
 				"Size the Battery", 2));
 		selector.add(new SelectorIcon(SelectorIcons.PV_SIZING,
