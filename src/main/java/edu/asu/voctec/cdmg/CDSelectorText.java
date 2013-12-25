@@ -12,6 +12,12 @@ import edu.asu.voctec.GUI.SelectorIcon;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.utilities.UtilFunctions;
 
+/**
+ * 
+ * @author Gabriel Mann
+ *	NOTE: CLASS NOT USED!!
+ */
+
 public class CDSelectorText extends SelectorIcon
 {
 	public static final String TRANSPARENT_IMAGE_PATH = "resources/default/img/minigames/criticalDesign/transparent.png";

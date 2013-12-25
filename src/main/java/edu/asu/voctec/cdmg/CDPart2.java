@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
@@ -14,14 +14,21 @@ import edu.asu.voctec.GUI.BasicComponent;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.TextArea;
-import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TextDisplay;
+import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
 
-import org.newdawn.slick.Image;
+/**
+ * 
+ * @author Gabriel Mann
+ *
+ */
+
 
 public class CDPart2 extends GUI {
+	
+	private boolean correctAnswer = false;
 
 	public static final float SMALL_FONT_SIZE = 8f;
 	public static final float MEDIUM_FONT_SIZE = 12f;
@@ -41,6 +48,7 @@ public class CDPart2 extends GUI {
 	public TextField angle;
 	public String s;
 	public Image panel1;
+	public Button Continue;
 
 	ArrayList<String> genericHints = new ArrayList<>();
 
@@ -72,7 +80,7 @@ public class CDPart2 extends GUI {
 		TextArea HintBox = new TextArea(
 				new Rectangle(525, 25, 250, 350),
 				.95f,
-				"Now that you know the critical design month is December, determine the tilt and position of the solar panel.");
+				"Now that you know the critical design month is December, determine the tilt and position of the solar panel. Use up and down arrow to adjust the tilt.");
 		HintBox.setFontSize(MEDIUM_FONT_SIZE);
 		HintBox.setFontColor(FONT_COLOR);
 		// Hints
@@ -87,8 +95,7 @@ public class CDPart2 extends GUI {
 
 		// Initialize Header
 		Rectangle headerLocation = criticalMonth.getBounds();
-		TextArea header = new TextArea(headerLocation, .95f,
-				"");
+		TextArea header = new TextArea(headerLocation, .95f, "");
 		header.setFontSize(10f);
 		header.setFontColor(Color.white);
 		header.setText("Location: Niger, Niamey - Latitude: 13°31 N, Longitude: 2°6 E");
@@ -114,11 +121,11 @@ public class CDPart2 extends GUI {
 		angle.setFontColor(FONT_COLOR);
 
 		// Back Button
-		Button Start = new Button(new Image(ImagePaths.BACK_BUTTON), 0, 0,
+		Button Back = new Button(new Image(ImagePaths.BACK_BUTTON), 0, 0,
 				new Rectangle(0, 0, 50, 25), "Back");
-		Start.addActionListener(new TransitionButtonListener(CDPart1.class));
-		Start.rescale(.6f);
-		Start.setFontColor(FONT_COLOR1);
+		Back.addActionListener(new TransitionButtonListener(CDPart1.class));
+		Back.rescale(.6f);
+		Back.setFontColor(FONT_COLOR1);
 		// Ready Button
 		Button Ready = new Button(new Image(ImagePaths.READY_BUTTON), 650, 460,
 				new Rectangle(0, 0, 50, 25), "");
@@ -127,6 +134,14 @@ public class CDPart2 extends GUI {
 		Ready.setX(640);
 		Ready.setY(510);
 		Ready.setFontColor(FONT_COLOR1);
+		// Continue Button
+		Continue = new Button(new Image(ImagePaths.READY_BUTTON), 850, 650,
+				new Rectangle(0, 0, 50, 25), "");
+		Continue.addActionListener(new TransitionButtonListener(CDExtra.class));
+		Continue.rescale(.75f, .75f);
+		Continue.setX(850);
+		Continue.setY(660);
+		Continue.setFontColor(FONT_COLOR);
 		// Hint Button
 		Button Hint = new Button(new Image(ImagePaths.SELECTOR_SMALL), 650,
 				320, new Rectangle(0, 0, 90, 75), "HINT");
@@ -141,7 +156,7 @@ public class CDPart2 extends GUI {
 
 		genericHints.add("generic hint 1");
 		genericHints.add("generic hint 2");
-
+	
 		HintBox.enableBorder();
 		this.addComponent(HintBox);
 		this.addComponent(theHints);
@@ -149,10 +164,11 @@ public class CDPart2 extends GUI {
 		this.addComponent(panel);
 		this.addComponent(pole);
 		this.addComponent(angle);
-		this.addComponent(Start);
+		this.addComponent(Back);
 		this.addComponent(Hint);
 		this.addComponent(Ready);
 		this.addComponent(header);
+		this.addComponent(Continue);
 
 	}
 
@@ -160,14 +176,18 @@ public class CDPart2 extends GUI {
 		if (hCount == 0) {
 			theHints.setText(genericHints.get(0));
 			++hintCount;
-			++CDPart1.hints;
+			if (!correctAnswer){
+				++CDPart1.hints;
+			}
 			System.out.println("Generic Hint1 shown, total hints: "
 					+ CDPart1.hints);
 		}
 		if (hCount == 1) {
 			theHints.setText(genericHints.get(1));
 			++hintCount;
-			++CDPart1.hints;
+			if (!correctAnswer){
+				++CDPart1.hints;
+			}
 			System.out.println("Generic Hint2 shown, total hints: "
 					+ CDPart1.hints);
 		}
@@ -185,12 +205,15 @@ public class CDPart2 extends GUI {
 		}
 
 	}
-	
-	private void winConditional(){
-		if ((panel1.getRotation()+45 > (51.8 - 5)) && (panel1.getRotation()+45 < (51.8 + 5))){
-			System.out.println("You Win!");
-		}
-		else{
+
+	private void winConditional() {
+		if ((panel1.getRotation() + 45 > (51.8 - 5))
+				&& (panel1.getRotation() + 45 < (51.8 + 5))) {
+			theHints.setText("Good job!");
+			Continue.setX(640);
+			Continue.setY(320);
+			correctAnswer = true;
+		} else {
 			displayHint(hintCount);
 		}
 	}
@@ -205,14 +228,14 @@ public class CDPart2 extends GUI {
 			if (panel1.getRotation() + 45 < 90) {
 				panel1.rotate(.2f);
 			}
-			s = String.format("Angle: %d°", (int) (panel1.getRotation() + 45));
+			s = String.format("Angle: %.1f°", (panel1.getRotation() + 45));
 			angle.setText(s);
 		}
 		if (container.getInput().isKeyDown(Input.KEY_UP)) {
 			if (panel1.getRotation() + 45 > 0) {
 				panel1.rotate(-.2f);
 			}
-			s = String.format("Angle: %d°", (int) (panel1.getRotation() + 45));
+			s = String.format("Angle: %.1f°", (panel1.getRotation() + 45));
 			angle.setText(s);
 
 		}
