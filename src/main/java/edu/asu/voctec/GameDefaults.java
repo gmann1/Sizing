@@ -3,6 +3,7 @@ package edu.asu.voctec;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
@@ -138,5 +139,6 @@ public interface GameDefaults
 		public static Point SECONDARY_SELECTION_LOCATION_LEFT = new Point(52, 91);
 		public static Point SECONDARY_SELECTION_LOCATION_RIGHT = new Point(399, 91);
 		public static Point SHADOW_LOCATION = new Point(41, 184);
+		public static Rectangle ICON_LABEL_BOUNDS = new Rectangle(0, 200, 183, 75);
 	}
 }
