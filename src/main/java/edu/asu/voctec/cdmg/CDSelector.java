@@ -2,6 +2,12 @@ package edu.asu.voctec.cdmg;
 
 import java.awt.Rectangle;
 
+/**
+ * 
+ * @author Gabriel Mann
+ *
+ */
+
 import org.newdawn.slick.SlickException;
 
 import edu.asu.voctec.GUI.Selector;

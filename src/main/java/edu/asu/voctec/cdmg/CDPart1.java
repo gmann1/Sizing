@@ -17,11 +17,17 @@ import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.SelectorIcon;
 import edu.asu.voctec.GUI.TextArea;
-import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TextDisplay;
+import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.utilities.UtilFunctions;
+
+/**
+ * 
+ * @author Gabriel Mann
+ *
+ */
 
 public class CDPart1 extends GUI {
 	static Image Earth;
@@ -29,6 +35,7 @@ public class CDPart1 extends GUI {
 	private static int index = 0;
 	public static int hints = 0;
 	private int hintCount = 0;
+	private boolean correctAnswer = false;
 	
 	private static final Color FONT_COLOR = Color.darkGray;
 	private static final Color FONT_COLOR1 = Color.white;
@@ -257,12 +264,12 @@ public class CDPart1 extends GUI {
 		theHints.setFontSize(MEDIUM_FONT_SIZE);
 		theHints.setFontColor(FONT_COLOR1);
 		// Back Button
-		Button Start = new Button(new Image(
+		Button Back = new Button(new Image(
 				ImagePaths.BACK_BUTTON), 0, 0, new Rectangle(0,
 				0, 50, 25), "Back");
-		Start.addActionListener(new TransitionButtonListener(
+		Back.addActionListener(new TransitionButtonListener(
 				CDIntroScreen.class));
-		Start.setFontColor(FONT_COLOR);
+		Back.setFontColor(FONT_COLOR);
 		// Ready Button
 		Button Ready = new Button(new Image(ImagePaths.READY_BUTTON), 650, 460,
 				new Rectangle(0, 0, 50, 25), "");
@@ -307,7 +314,7 @@ public class CDPart1 extends GUI {
 		this.addComponent(HintBox);
 		this.addComponent(theHints);
 		this.addComponent(header);
-		this.addComponent(Start);
+		this.addComponent(Back);
 		this.addComponent(Ready);
 		this.addComponent(Continue);
 		this.addComponent(Hint);
@@ -318,7 +325,7 @@ public class CDPart1 extends GUI {
 	private void userAnswer(int i) throws SlickException {
 		if (i == 0) {
 			theHints.setText(monthlyHints.get(i));
-			if (!ap){
+			if (!ap && !correctAnswer){
 				++hints;
 				ap = true;
 			}
@@ -326,7 +333,7 @@ public class CDPart1 extends GUI {
 		}
 		if (i == 1) {
 			theHints.setText(monthlyHints.get(i));
-			if (!fe){
+			if (!fe && !correctAnswer){
 				++hints;
 				ap = true;
 			}
@@ -336,11 +343,12 @@ public class CDPart1 extends GUI {
 			theHints.setText(monthlyHints.get(i));
 			Continue.setX(640);
 			Continue.setY(320);
+			correctAnswer = true;
 			System.out.println("Correct answer gotten after " + hints + " hints.");
 		}
 		if (i == 3) {
 			theHints.setText(monthlyHints.get(i));
-			if (!oc){
+			if (!oc && !correctAnswer){
 				++hints;
 				ap = true;
 			}
@@ -348,7 +356,7 @@ public class CDPart1 extends GUI {
 		}
 		if (i == 4) {
 			theHints.setText(monthlyHints.get(i));
-			if (!se){
+			if (!se && !correctAnswer){
 				++hints;
 				ap = true;
 			}
@@ -356,7 +364,7 @@ public class CDPart1 extends GUI {
 		}
 		if (i == 5) {
 			theHints.setText(monthlyHints.get(i));
-			if (!ju){
+			if (!ju && !correctAnswer){
 				++hints;
 				ap = true;
 			}
@@ -366,16 +374,20 @@ public class CDPart1 extends GUI {
 	}
 
 	private void displayHint(int hCount) {
-		if (hCount == 0) {
+		if (hCount == 0 ) {
 			theHints.setText(genericHints.get(0));
 			++hintCount;
-			++hints;
+			if (!correctAnswer){
+				++hints;
+			}
 			System.out.println("Generic Hint1 shown, total hints: " + hints);
 		}
 		if (hCount == 1) {
 			theHints.setText(genericHints.get(1));
 			++hintCount;
-			++hints;
+			if (!correctAnswer){
+				++hints;
+			}
 			System.out.println("Generic Hint2 shown, total hints: " + hints);
 		}
 		if (hCount > 1){
