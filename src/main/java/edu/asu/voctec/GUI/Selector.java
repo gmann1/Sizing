@@ -50,6 +50,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		@Override
 		protected boolean verify(Input input)
 		{
+			
 			Rectangle absoluteBounds = getAbsoluteBounds(currentChoiceBackground);
 			return verify(input, absoluteBounds);
 		}
@@ -157,6 +158,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	@Override
 	public void draw(Graphics graphics)
 	{
+		
 		// Draw all components
 		for (Component component : components)
 			drawRelatively(graphics, component);
@@ -273,6 +275,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	
 	public void drawRelatively(Graphics graphics, Component component)
 	{
+		
 		component.translate(x, y);
 		component.draw(graphics);
 		component.translate(-x, -y);
