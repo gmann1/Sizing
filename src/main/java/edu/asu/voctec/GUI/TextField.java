@@ -115,6 +115,7 @@ public class TextField extends TextDisplay
 	public void setText(String text)
 	{
 		this.text = text;
+		this.clipedText = "";
 		formatText();
 	}
 	
