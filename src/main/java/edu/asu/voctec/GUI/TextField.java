@@ -153,6 +153,4 @@ public class TextField extends TextDisplay
 	{
 		this.formatting = formatting;
 	}
-	
-	
 }

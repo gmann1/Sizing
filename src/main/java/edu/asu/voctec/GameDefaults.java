@@ -25,7 +25,7 @@ public interface GameDefaults
 		public static final String NEW_GAME_BUTTON = "resources/default/img/buttons/newProfileButtonR.png";
 		public static final String OPTIONS_BUTTON = "resources/default/img/buttons/optionsButtonR.png";
 		public static final String INSTRUCTOR_CONTROL_PANEL_BUTTON = "resources/default/img/buttons/optionsButtonR.png";
-		public static final String BACK_BUTTON = "resources/default/img/buttons/arrow-left.png";
+		public static final String BACK_BUTTON = "resources/default/img/buttons/backButton.png";
 		public static final String LANGUAGE_BUTTON = "resources/default/img/buttons/languagesButtonR.png";
 		public static final String READY_BUTTON = "resources/default/img/buttons/readyButton.png";
 		

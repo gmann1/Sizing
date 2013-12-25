@@ -58,7 +58,7 @@ public class MainMenu extends GUI implements GameDefaults
 		this.addComponent(languageButton);
 		this.addComponent(instructorButton);
 		
-		this.centerComponentsStacked(buttonSpacing, getComponents());
+		this.centerComponentsStacked(buttonSpacing);
 		
 		Image background = new Image(ImagePaths.MainMenuBackground);
 		setBackgroundImage(background.getScaledCopy(800, 600));

@@ -65,7 +65,9 @@ public class TaskScreen extends GUI
 		this.addComponent(pvSizing);
 		this.addComponent(controllerSizing);
 		
-		this.centerComponentsStacked(buttonSpacing, getComponents());
+		// Define the rectangle that holds the taskButtons
+		Rectangle taskButtonContainer = new Rectangle(0, 0, 200, 600);
+		UtilFunctions.centerComponentsStacked(taskButtonContainer, buttonSpacing, getComponents());
 		
 		Image background = new Image(ImagePaths.TaskHubBackground);
 		setBackgroundImage(background.getScaledCopy(800, 600));
