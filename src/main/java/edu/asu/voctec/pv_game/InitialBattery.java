@@ -1,4 +1,4 @@
-package edu.asu.voctec.batter_sizing;
+package edu.asu.voctec.pv_game;
 
 import org.newdawn.slick.Image;
 
@@ -7,12 +7,12 @@ import edu.asu.voctec.GUI.BasicComponent;
 public class InitialBattery extends BatteryControl {
 	
 	private int voltage, capacity, initialX, initialY;
-	private  static BatteryGameScreen gameWorld;
+	private  static PVGame gameWorld;
 	private Image image;
 	private static BasicComponent horizontalLine;
 	private static boolean firstBattery = true;
 	
-    public InitialBattery(int voltage, int capacity, int initialX, int initialY, Image image, int x, int y, BatteryGameScreen batteryGameWorld)
+    public InitialBattery(int voltage, int capacity, int initialX, int initialY, Image image, int x, int y, PVGame batteryGameWorld)
     {
         super(image, x, y);
     	this.voltage = voltage;
@@ -59,7 +59,7 @@ public class InitialBattery extends BatteryControl {
     
     public static void addHorizontalLine()
     {
-    	horizontalLine = new BasicComponent(BatteryGameScreen.getHorizontalLineImage(),25,120);
+    	horizontalLine = new BasicComponent(PVGame.getHorizontalLineImage(),25,120);
     	gameWorld.addComponent(horizontalLine);
     	firstBattery = false;
     }
