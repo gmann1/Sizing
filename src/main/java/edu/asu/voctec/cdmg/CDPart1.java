@@ -1,10 +1,12 @@
 package edu.asu.voctec.cdmg;
 
+
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -25,9 +27,12 @@ public class CDPart1 extends GUI {
 	static Image Earth;
 
 	private static int index = 0;
-	private static int hints = 0;
+	public static int hints = 0;
 	private int hintCount = 0;
-
+	
+	private static final Color FONT_COLOR = Color.darkGray;
+	private static final Color FONT_COLOR1 = Color.white;
+	
 	public static final String APRIL = "resources/default/img/minigames/criticalDesign/april.png";
 	public static final String FEBRUARY = "resources/default/img/minigames/criticalDesign/february.png";
 	public static final String DECEMBER = "resources/default/img/minigames/criticalDesign/december.png";
@@ -162,15 +167,18 @@ public class CDPart1 extends GUI {
 		main2 = new TextField(textLocation, 0.95f, "",
 				TextDisplay.FormattingOption.CLIP_TEXT);
 		main2.setFontSize(LARGE_FONT_SIZE);
+		main2.setFontColor(FONT_COLOR);
 		textLocation.y = textLocation.y - textLocation.height;
 		main1 = new TextField(textLocation, 0.95f, "",
 				TextDisplay.FormattingOption.CLIP_TEXT);
 		textLocation.y = textLocation.y + textLocation.height;
 		textLocation.y = textLocation.y + textLocation.height;
 		main1.setFontSize(LARGE_FONT_SIZE);
+		main1.setFontColor(FONT_COLOR);
 		main3 = new TextField(textLocation, 0.95f, "",
 				TextDisplay.FormattingOption.CLIP_TEXT);
 		main3.setFontSize(MEDIUM_FONT_SIZE);
+		main3.setFontColor(FONT_COLOR);
 		main1.setText(months.get(index).get(0));
 		main2.setText(months.get(index).get(1));
 		main3.setText(months.get(index).get(2));
@@ -185,6 +193,7 @@ public class CDPart1 extends GUI {
 				"Fit Text Field ... CLIP CLIP CLIP",
 				TextDisplay.FormattingOption.CLIP_TEXT);
 		right2.setFontSize(MEDIUM_FONT_SIZE);
+		right2.setFontColor(FONT_COLOR);
 		textLocation.y = textLocation.y - textLocation.height;
 		right1 = new TextField(textLocation, 0.95f,
 				"Fit Text Field ... CLIP CLIP CLIP",
@@ -192,10 +201,12 @@ public class CDPart1 extends GUI {
 		textLocation.y = textLocation.y + textLocation.height;
 		textLocation.y = textLocation.y + textLocation.height;
 		right1.setFontSize(MEDIUM_FONT_SIZE);
+		right1.setFontColor(FONT_COLOR);
 		right3 = new TextField(textLocation, 0.95f,
 				"Fit Text Field ... CLIP CLIP CLIP",
 				TextDisplay.FormattingOption.CLIP_TEXT);
 		right3.setFontSize(SMALL_FONT_SIZE);
+		right3.setFontColor(FONT_COLOR);
 		right1.setText(months.get(index + 1).get(0));
 		right2.setText(months.get(index + 1).get(1));
 		right3.setText(months.get(index + 1).get(2));
@@ -210,6 +221,7 @@ public class CDPart1 extends GUI {
 				"Fit Text Field ... CLIP CLIP CLIP",
 				TextDisplay.FormattingOption.CLIP_TEXT);
 		left2.setFontSize(MEDIUM_FONT_SIZE);
+		left2.setFontColor(FONT_COLOR);
 		textLocation.y = textLocation.y - textLocation.height;
 		left1 = new TextField(textLocation, 0.95f,
 				"Fit Text Field ... CLIP CLIP CLIP",
@@ -217,10 +229,12 @@ public class CDPart1 extends GUI {
 		textLocation.y = textLocation.y + textLocation.height;
 		textLocation.y = textLocation.y + textLocation.height;
 		left1.setFontSize(MEDIUM_FONT_SIZE);
+		left1.setFontColor(FONT_COLOR);
 		left3 = new TextField(textLocation, 0.95f,
 				"Fit Text Field ... CLIP CLIP CLIP",
 				TextDisplay.FormattingOption.CLIP_TEXT);
 		left3.setFontSize(SMALL_FONT_SIZE);
+		left3.setFontColor(FONT_COLOR);
 		left1.setText(months.get(5).get(0));
 		left2.setText(months.get(5).get(1));
 		left3.setText(months.get(5).get(2));
@@ -230,21 +244,25 @@ public class CDPart1 extends GUI {
 		TextArea header = new TextArea(headerLocation, .95f,
 				"Location: Niger, Niamey - Latitude: 13°31 N, Longitude: 2°6 E");
 		header.setFontSize(MEDIUM_FONT_SIZE);
+		header.setFontColor(FONT_COLOR1);
 		// HintBox
 		TextArea HintBox = new TextArea(
 				new Rectangle(525, 25, 250, 350),
 				.95f,
 				"Based on the fact that the PV system you are designing has a year-round constant load and fixed tilt(the panel is never adjusted), select the critical design month.");
 		HintBox.setFontSize(MEDIUM_FONT_SIZE);
+		HintBox.setFontColor(FONT_COLOR1);
 		// Hints
 		theHints = new TextArea(new Rectangle(525, 150, 250, 225), .95f, "");
 		theHints.setFontSize(MEDIUM_FONT_SIZE);
+		theHints.setFontColor(FONT_COLOR1);
 		// Back Button
 		Button Start = new Button(new Image(
 				ImagePaths.BACK_BUTTON), 0, 0, new Rectangle(0,
 				0, 50, 25), "Back");
 		Start.addActionListener(new TransitionButtonListener(
 				CDIntroScreen.class));
+		Start.setFontColor(FONT_COLOR);
 		// Ready Button
 		Button Ready = new Button(new Image(ImagePaths.READY_BUTTON), 650, 460,
 				new Rectangle(0, 0, 50, 25), "");
@@ -252,6 +270,7 @@ public class CDPart1 extends GUI {
 		Ready.rescale(.75f, .75f);
 		Ready.setX(640);
 		Ready.setY(510);
+		Ready.setFontColor(FONT_COLOR);
 		// Continue Button
 		Continue = new Button(new Image(ImagePaths.READY_BUTTON), 850, 650,
 				new Rectangle(0, 0, 50, 25), "");
@@ -260,15 +279,19 @@ public class CDPart1 extends GUI {
 		Continue.rescale(.75f, .75f);
 		Continue.setX(850);
 		Continue.setY(660);
+		Continue.setFontColor(FONT_COLOR);
 		// Hint Button
 		Button Hint = new Button(new Image(ImagePaths.SELECTOR_SMALL), 650,
-				320, new Rectangle(0, 0, 50, 25), "HINT");
+				320, new Rectangle(0, 0, 90, 75), "HINT");
 		Hint.addActionListener(new CDHintListener());
 		Hint.rescale(.5f, .25f);
+		
 		Hint.setX(540);
 		Hint.setY(510);
+		Hint.setFontColor(FONT_COLOR);
+		//TextField Hint1 = new TextField(new Rectangle(540, ))
 
-		sel.shuffle();
+		
 		// initialize
 		HintBox.enableBorder();
 		this.addComponent(sel);
