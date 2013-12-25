@@ -3,6 +3,7 @@ package edu.asu.voctec.GUI;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -20,8 +21,18 @@ public class Button extends BasicComponent
 		
 		if (relativeTextBounds != null)
 		{
+			Rectangle buttonBounds = new Rectangle(x, y, image.getWidth(),
+					image.getHeight());
+			
+			// Determine textBounds relative to the screen
 			Rectangle absoluteTextBounds = UtilFunctions
 					.getTranslatedRectangle(relativeTextBounds, new Point(x, y));
+			
+			// Center text bounds vertically, with respect to this button
+			UtilFunctions.centerRectangleVertically(buttonBounds,
+					absoluteTextBounds);
+			
+			// Create and format text field
 			this.textField = new TextField(absoluteTextBounds, 1.0f, text,
 					TextDisplay.FormattingOption.FIT_TEXT);
 			this.textField.center();
@@ -64,27 +75,22 @@ public class Button extends BasicComponent
 	
 	public void setX(int x)
 	{
-		super.setX(x);
 		if (textField != null)
-			textField.setX(x);
+		{
+			int deltaX = x - (int)this.x;
+			textField.translate(deltaX, 0);
+		}
+		super.setX(x);
 	}
 	
 	public void setY(int y)
 	{
+		if (textField != null)
+		{
+			int deltaY = y - (int)this.y;
+			textField.translate(0, deltaY);
+		}
 		super.setY(y);
-		if (textField != null)
-			textField.setY(y);
-	}
-	
-	@Override
-	public boolean rescale(float horizontalScale, float verticalScale)
-	{
-		boolean success = super.rescale(horizontalScale, verticalScale);
-		if (textField != null)
-			success = success
-					&& textField.rescale(horizontalScale, verticalScale);
-		
-		return success;
 	}
 	
 	@Override
@@ -98,9 +104,12 @@ public class Button extends BasicComponent
 			textField.setX(textField.getX() - (int) this.x);
 			textField.setY(textField.getY() - (int) this.y);
 			
+			// Deterime horizontal and vertical scales, for resizing the text
+			float[] scales = getScales(width, height);
+			
 			// Resize this button, and rescale the relative text field
 			success = super.resize(width, height)
-					&& textField.rescale(width, height);
+					&& textField.rescale(scales[0], scales[1]);
 			
 			// Give textField an absolute location
 			textField.setX(textField.getX() + (int) this.x);
@@ -110,6 +119,17 @@ public class Button extends BasicComponent
 			success = super.resize(width, height);
 		
 		return success;
+	}
+	
+	public TextField getTextField()
+	{
+		return textField;
+	}
+	
+	public void setFontColor(Color color)
+	{
+
+		this.textField.setFontColor(color);
 	}
 	
 }

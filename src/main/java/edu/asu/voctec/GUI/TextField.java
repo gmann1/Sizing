@@ -26,6 +26,7 @@ public class TextField extends TextDisplay
 	public static final FormattingOption DEFAULT_FORMAT = FormattingOption.CLIP_TEXT;
 	protected String text;
 	protected FormattingOption formatting;
+	protected Rectangle trueTextBounds;
 	
 	public TextField(Rectangle bounds, Rectangle textBounds, Font awtFont,
 			boolean antiAlias, String text, FormattingOption option)
@@ -37,6 +38,8 @@ public class TextField extends TextDisplay
 		
 		// Do not allow null text. If text is null, treat it as an empty string.
 		this.text = (text != null) ? text : "";
+		
+		this.trueTextBounds = textBounds;
 		
 		// Set font size based on provided formating option.
 		formatText();
@@ -85,10 +88,22 @@ public class TextField extends TextDisplay
 				center();
 		}
 	}
-	
+
+	@Override
 	public void setFontSize(float size)
 	{
+		this.setFontSize(size, true);
+	}
+	
+	public void setFontSize(float size, boolean ensureSize)
+	{
 		super.setFontSize(size);
+		
+		// Ensure the text does not get resized
+		if (ensureSize)
+			this.setFormatting(TextDisplay.FormattingOption.CLIP_TEXT);
+		
+		// Re-format text
 		formatText();
 	}
 	
@@ -96,13 +111,14 @@ public class TextField extends TextDisplay
 	{
 		graphics.setFont(font);
 		graphics.setColor(fontColor);
-		graphics.drawString(text, textBounds.x + bounds.x, textBounds.y
+		graphics.drawString(text, trueTextBounds.x + bounds.x, trueTextBounds.y
 				+ bounds.y);
 	}
 	
 	public void setText(String text)
 	{
 		this.text = text;
+		this.clipedText = "";
 		formatText();
 	}
 	
@@ -130,7 +146,7 @@ public class TextField extends TextDisplay
 			relativeTextY = (bounds.height / 2) - (textHeight / 2);
 		}
 		
-		this.textBounds = new Rectangle(relativeTextX, relativeTextY,
+		this.trueTextBounds = new Rectangle(relativeTextX, relativeTextY,
 				textWidth, textHeight);
 		
 		this.center = vertical || horizontal;
@@ -140,6 +156,4 @@ public class TextField extends TextDisplay
 	{
 		this.formatting = formatting;
 	}
-	
-	
 }

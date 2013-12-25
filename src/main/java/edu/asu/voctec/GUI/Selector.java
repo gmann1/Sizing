@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
@@ -19,9 +20,11 @@ import edu.asu.voctec.utilities.UtilFunctions;
 public class Selector<T extends SelectorIcon> extends Component implements
 		Displayable
 {
+	public static final String emptyText = "All Components Selected";
 	protected SelectorDisplay<T> associatedDisplay;
 	protected CircularList<T> elements = new CircularList<>();
 	protected boolean orientLeft;
+	protected boolean displayLabel;
 	
 	protected BasicComponent currentChoiceBackground;
 	protected BasicComponent previousChoiceBackground;
@@ -29,6 +32,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	protected BasicComponent rightArrow;
 	protected BasicComponent leftArrow;
 	protected BasicComponent background;
+	protected TextField choiceLabel;
 	protected ArrayList<Component> components = new ArrayList<>();
 	protected int x;
 	protected int y;
@@ -50,6 +54,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		@Override
 		protected boolean verify(Input input)
 		{
+			
 			Rectangle absoluteBounds = getAbsoluteBounds(currentChoiceBackground);
 			return verify(input, absoluteBounds);
 		}
@@ -133,6 +138,27 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		components.add(leftArrow);
 		components.add(background);
 		
+		// Setup choice label
+		choiceLabel = new TextField(SelectorDefaults.ICON_LABEL_BOUNDS, 0.99f,
+				emptyText, TextDisplay.FormattingOption.FIT_TEXT);
+		
+		// Define relative bounds for this selector
+		int width = this.rightArrow.getX() + this.rightArrow.getBounds().width;
+		int height = this.background.getY()
+				+ this.background.getBounds().height;
+		Rectangle relativeBounds = new Rectangle(0, 0, width, height);
+		
+		// Create centered bounds for choiceLabel
+		Rectangle choiceLabelBounds = new Rectangle(choiceLabel.getBounds());
+		UtilFunctions.centerRectangleHorizontally(relativeBounds,
+				choiceLabelBounds);
+		choiceLabel.setBounds(choiceLabelBounds);
+		
+		// Format choiceLabel
+		choiceLabel.center();
+		choiceLabel.setFontColor(Color.white);
+		components.add(choiceLabel);
+		
 		if (useDeafultActions)
 		{
 			// Listen for clicks to the left and right arrows
@@ -157,9 +183,13 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	@Override
 	public void draw(Graphics graphics)
 	{
+		
 		// Draw all components
 		for (Component component : components)
-			drawRelatively(graphics, component);
+		{
+			if(component != choiceLabel)
+				drawRelatively(graphics, component);
+		}
 		
 		// Draw choice icons
 		if (elements.size() >= 1)
@@ -174,6 +204,9 @@ public class Selector<T extends SelectorIcon> extends Component implements
 				drawElement(graphics, elements.getNextElement(),
 						nextChoiceBackground);
 		}
+		
+		if (displayLabel && this.choiceLabel != null)
+			drawRelatively(graphics, choiceLabel);
 	}
 	
 	public boolean addComponent(Component component)
@@ -185,26 +218,27 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	{
 		return this.components.remove(component);
 	}
-
-	/*protected void drawElement(Graphics graphics, SelectorIcon icon,
-			BasicComponent container)
+	
+	public void updateChoiceLabel()
 	{
-		if(updated)
+		if (displayLabel && choiceLabel != null)
 		{
-			int x = container.getBounds().x;
-			int y = container.getBounds().y;
-			int width = container.getBounds().width;
-			int height = container.getBounds().height;
-			icon.setX(0);
-			icon.setY(0);
-			
-			icon.rescale(width, height);
-			icon.translate(x + this.x, y + this.y);
-			updated = false;
+			choiceLabel.setText(elements.getCurrentElement().getName());
 		}
-		
-		icon.draw(graphics);
-	}*/
+	}
+	
+	/*
+	 * protected void drawElement(Graphics graphics, SelectorIcon icon,
+	 * BasicComponent container) { if(updated) { int x =
+	 * container.getBounds().x; int y = container.getBounds().y; int width =
+	 * container.getBounds().width; int height = container.getBounds().height;
+	 * icon.setX(0); icon.setY(0);
+	 * 
+	 * icon.rescale(width, height); icon.translate(x + this.x, y + this.y);
+	 * updated = false; }
+	 * 
+	 * icon.draw(graphics); }
+	 */
 	
 	protected void drawElement(Graphics graphics, SelectorIcon icon,
 			BasicComponent container)
@@ -221,6 +255,8 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		if (orientLeft || elements.size() >= 3)
 			elements.previous();
 		this.orientLeft = false;
+		
+		updateChoiceLabel();
 	}
 	
 	public void cycleRight()
@@ -229,6 +265,8 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		if (!orientLeft || elements.size() >= 3)
 			elements.next();
 		this.orientLeft = true;
+		
+		updateChoiceLabel();
 	}
 	
 	public Rectangle getAbsoluteBounds(PositionedObject<Image> object)
@@ -273,6 +311,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	
 	public void drawRelatively(Graphics graphics, Component component)
 	{
+		
 		component.translate(x, y);
 		component.draw(graphics);
 		component.translate(-x, -y);
@@ -294,15 +333,19 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		boolean accepted;
 		// Accept should always return true
 		System.out.println("Selector: size=" + elements.size());
-		System.out.println("\tSelector: previous=" + elements.getPreviousElement());
-		System.out.println("\tSelector: current=" + elements.getCurrentElement());
+		System.out.println("\tSelector: previous="
+				+ elements.getPreviousElement());
+		System.out.println("\tSelector: current="
+				+ elements.getCurrentElement());
 		System.out.println("\tSelector: next=" + elements.getNextElement());
 		System.out.println("Selector: element=" + selection);
 		
 		System.out.println("Selector: adding...");
 		accepted = elements.addCurrent(selection);
-		System.out.println("\tSelector: previous=" + elements.getPreviousElement());
-		System.out.println("\tSelector: current=" + elements.getCurrentElement());
+		System.out.println("\tSelector: previous="
+				+ elements.getPreviousElement());
+		System.out.println("\tSelector: current="
+				+ elements.getCurrentElement());
 		System.out.println("\tSelector: next=" + elements.getNextElement());
 		
 		if (accepted)
@@ -344,7 +387,8 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		int x = this.x;
 		int y = this.y;
 		int width = this.rightArrow.getX() + this.rightArrow.getBounds().width;
-		int height = this.background.getY() + this.background.getBounds().height;
+		int height = this.background.getY()
+				+ this.background.getBounds().height;
 		
 		return new Rectangle(x, y, width, height);
 	}
@@ -359,7 +403,8 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		
 		for (Component component : components)
 		{
-			success = success && component.rescale(horizontalScale, verticalScale);
+			success = success
+					&& component.rescale(horizontalScale, verticalScale);
 		}
 		
 		return success;
@@ -389,6 +434,22 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	public void setY(int y)
 	{
 		this.y = y;
+	}
+	
+	public void shuffle()
+	{
+		this.elements.shuffle();
+	}
+	
+	public void displayLabel(boolean displayLabel)
+	{
+		this.displayLabel = displayLabel;
+		updateChoiceLabel();
+	}
+	
+	public void displayLabel()
+	{
+		displayLabel(true);
 	}
 	
 }

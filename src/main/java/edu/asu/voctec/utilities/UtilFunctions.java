@@ -114,4 +114,64 @@ public abstract class UtilFunctions
 			component.translate(horizontalAmount, verticalAmount);
 		}
 	}
+	
+	public static void centerComponentsStacked(final Rectangle container,
+			int spaceBetweenComponents, Component... components)
+	{
+		// Variables for the bounds of a rectangle that encompasses all give
+		// components
+		int width = 0;
+		int height = 0;
+		
+		// Determine the bounds for a rectangle that encompasses all give
+		// components
+		for (Component component : components)
+		{
+			int componentMaxX = component.getX() + component.getBounds().width;
+			width = (componentMaxX > width) ? componentMaxX : width;
+			height += component.getBounds().height;
+		}
+		
+		// Account for the space between components
+		height += spaceBetweenComponents * (components.length - 1);
+		
+		// Create rectangle that encompasses all give components
+		Rectangle groupBounds = new Rectangle(0, 0, width, height);
+		System.out.println("groupBounds: " + groupBounds.toString());
+		
+		// Center the rectangle (groupBounds) relative to the given container
+		UtilFunctions.centerRectangle(container, groupBounds);
+		System.out.println("groupBounds Centered: " + groupBounds.toString());
+		
+		// Set the location of each component
+		int currentY = groupBounds.y;
+		for (int componentIndex = 0; componentIndex < components.length; componentIndex++)
+		{
+			// Define the current component
+			Component currentComponent = components[componentIndex];
+			
+			// Define the bounds of the current component
+			Rectangle componentBounds = new Rectangle(0, currentY,
+					currentComponent.getBounds().width,
+					currentComponent.getBounds().height);
+			
+			// Center the current component horizontally
+			UtilFunctions.centerRectangleHorizontally(groupBounds,
+					componentBounds);
+			
+			// Update the component
+			currentComponent.setBounds(componentBounds);
+			
+			// Account for space between components
+			currentY += componentBounds.height + spaceBetweenComponents;
+		}
+	}
+	
+	public static float[] getScales(Rectangle bounds, int width, int height)
+	{
+		float horizontalScale = ((float) width) / ((float) bounds.width);
+		float verticalScale = ((float) height) / ((float) bounds.height);
+		
+		return new float[]{horizontalScale, verticalScale};
+	}
 }
