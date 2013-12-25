@@ -26,6 +26,7 @@ public class TextField extends TextDisplay
 	public static final FormattingOption DEFAULT_FORMAT = FormattingOption.CLIP_TEXT;
 	protected String text;
 	protected FormattingOption formatting;
+	protected Rectangle trueTextBounds;
 	
 	public TextField(Rectangle bounds, Rectangle textBounds, Font awtFont,
 			boolean antiAlias, String text, FormattingOption option)
@@ -37,6 +38,8 @@ public class TextField extends TextDisplay
 		
 		// Do not allow null text. If text is null, treat it as an empty string.
 		this.text = (text != null) ? text : "";
+		
+		this.trueTextBounds = textBounds;
 		
 		// Set font size based on provided formating option.
 		formatText();
@@ -108,7 +111,7 @@ public class TextField extends TextDisplay
 	{
 		graphics.setFont(font);
 		graphics.setColor(fontColor);
-		graphics.drawString(text, textBounds.x + bounds.x, textBounds.y
+		graphics.drawString(text, trueTextBounds.x + bounds.x, trueTextBounds.y
 				+ bounds.y);
 	}
 	
@@ -143,7 +146,7 @@ public class TextField extends TextDisplay
 			relativeTextY = (bounds.height / 2) - (textHeight / 2);
 		}
 		
-		this.textBounds = new Rectangle(relativeTextX, relativeTextY,
+		this.trueTextBounds = new Rectangle(relativeTextX, relativeTextY,
 				textWidth, textHeight);
 		
 		this.center = vertical || horizontal;
