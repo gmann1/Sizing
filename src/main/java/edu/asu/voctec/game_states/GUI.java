@@ -156,6 +156,11 @@ public abstract class GUI extends ModifiedGameState implements GameDefaults
 		return listeners;
 	}
 	
+	public void setBackgroundImage(Image backgroundImage)
+	{
+		this.backgroundImage = backgroundImage;
+	}
+	
 	public Image getBackgroundImage()
 	{
 		return backgroundImage;

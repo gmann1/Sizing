@@ -85,10 +85,22 @@ public class TextField extends TextDisplay
 				center();
 		}
 	}
-	
+
+	@Override
 	public void setFontSize(float size)
 	{
+		this.setFontSize(size, true);
+	}
+	
+	public void setFontSize(float size, boolean ensureSize)
+	{
 		super.setFontSize(size);
+		
+		// Ensure the text does not get resized
+		if (ensureSize)
+			this.setFormatting(TextDisplay.FormattingOption.CLIP_TEXT);
+		
+		// Re-format text
 		formatText();
 	}
 	

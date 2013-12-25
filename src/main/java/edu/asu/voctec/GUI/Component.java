@@ -82,13 +82,19 @@ public abstract class Component implements Displayable, Resizable
 	@Override
 	public boolean rescale(int width, int height)
 	{
+		float[] scales = getScales(width, height);
+		return rescale(scales[0], scales[1]);
+	}
+	
+	public float[] getScales(int width, int height)
+	{
 		int currentWidth = getBounds().width;
 		int currentHeight = getBounds().height;
 		
 		float horizontalScale = ((float) width) / ((float) currentWidth);
 		float verticalScale = ((float) height) / ((float) currentHeight);
 		
-		return rescale(horizontalScale, verticalScale);
+		return new float[]{horizontalScale, verticalScale};
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package edu.asu.voctec.game_states;
 import java.awt.Rectangle;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -65,6 +66,9 @@ public class TaskScreen extends GUI
 		this.addComponent(controllerSizing);
 		
 		this.centerComponentsStacked(buttonSpacing, getComponents());
+		
+		Image background = new Image(ImagePaths.TaskHubBackground);
+		setBackgroundImage(background.getScaledCopy(800, 600));
 	}
 	
 }

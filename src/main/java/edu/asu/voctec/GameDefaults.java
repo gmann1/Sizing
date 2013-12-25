@@ -14,9 +14,10 @@ public interface GameDefaults
 	public interface ImagePaths
 	{
 		// Backgrounds
-		public static final String MainMenuBackground = "resources/default/img/dualAspectBackground.jpg";
-		public static final String OptionsMenuBackground = "resources/default/img/blackBackground.jpg";
-		public static final String ScenarioHubBackground = "resources/default/img/dualAspectBackground.jpg";
+		public static final String MainMenuBackground = "resources/default/img/backgrounds/mainMenu.png";
+		public static final String OptionsMenuBackground = "resources/default/img//backgrounds/mainMenu.png";
+		public static final String ScenarioHubBackground = "resources/default/img//backgrounds/mainMenu.png";
+		public static final String TaskHubBackground = "resources/default/img//backgrounds/taskScreen.png";
 		public static final String BLACK_BACKGROUND = "resources/default/img/blackBackground.jpg";
 		
 		// Buttons
@@ -37,10 +38,14 @@ public interface GameDefaults
 		public static final String SELECTOR_SMALL = "resources/default/img/selector/SelectorSmall.png";
 		public static final String SELECTOR_SHADOW = "resources/default/img/selector/SelectorShadow.png";
 		
-		// Selector Icons
-		public static final String BATTERY_SIZING = "resources/default/img/selector/icons/batterySizing.png";
-		public static final String CRITICAL_DESIGN_MONTH = "resources/default/img/selector/icons/criticalDesignMonth.png";
-		public static final String PV_SIZING = "resources/default/img/selector/icons/pvSizing.png";
+		public interface SelectorIcons
+		{
+			public static final String ENERGY_ASSESSMENT = "resources/default/img/selector/icons/energyAssessment.png";
+			public static final String CRITICAL_DESIGN_MONTH = "resources/default/img/selector/icons/criticalDesignMonth.png";
+			public static final String BATTERY_SIZING = "resources/default/img/selector/icons/batterySizing.png";
+			public static final String PV_SIZING = "resources/default/img/selector/icons/pvSizing.png";
+			public static final String CONTROLLER_SIZING = "resources/default/img/selector/icons/controllerSizing.png";
+		}
 
 		public interface SelectorDisplayBorders
 		{

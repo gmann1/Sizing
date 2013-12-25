@@ -1,5 +1,9 @@
 package edu.asu.voctec.utilities;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
 public class CircularList<E>
 {
 	private ListElement<E> firstElement;
@@ -313,5 +317,50 @@ public class CircularList<E>
 		}
 		else
 			return null;
+	}
+	
+	public ArrayList<E> toArrayList()
+	{
+		ArrayList<E> arrayList = new ArrayList<>();
+		
+		if (this.numberOfElements > 0)
+		{
+			arrayList.add(this.currentElement.data);
+			
+			ListElement<E> iterativeNode = this.currentElement.nextElement;
+			while (iterativeNode != this.currentElement)
+			{
+				arrayList.add(iterativeNode.data);
+				iterativeNode = iterativeNode.nextElement;
+			}
+		}
+		
+		return arrayList;
+	}
+	
+	public boolean addAll(Collection<? extends E> arg0)
+	{
+		for (E element : arg0)
+		{
+			this.add(element);
+		}
+		
+		return true;
+	}
+	
+	public void clearList()
+	{
+		while (this.numberOfElements > 0)
+		{
+			this.removeCurrentNode();
+		}
+	}
+	
+	public void shuffle()
+	{
+		ArrayList<E> arrayList = this.toArrayList();
+		Collections.shuffle(arrayList);
+		this.clearList();
+		this.addAll(arrayList);
 	}
 }

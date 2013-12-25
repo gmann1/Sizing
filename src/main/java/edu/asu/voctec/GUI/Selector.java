@@ -391,4 +391,9 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		this.y = y;
 	}
 	
+	public void shuffle()
+	{
+		this.elements.shuffle();
+	}
+	
 }
