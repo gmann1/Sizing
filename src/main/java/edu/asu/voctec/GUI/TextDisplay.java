@@ -13,11 +13,11 @@ import edu.asu.voctec.utilities.UtilFunctions;
 /**
  * A container for text that can be drawn to the screen. All text displays have
  * customizable text, borders, backgroundImage, fillColor, and relative text
- * location. Support is included for automatic formatting, including sizing
- * and clipping support.
+ * location. Support is included for automatic formatting, including sizing and
+ * clipping support.
  * 
  * @author Moore, Zachary
- *
+ * 
  */
 public abstract class TextDisplay extends Component
 {
@@ -33,9 +33,7 @@ public abstract class TextDisplay extends Component
 	
 	public static enum FormattingOption
 	{
-		CLIP_TEXT,
-		FIT_TEXT,
-		FIT_TEXT_VERTICALLY;
+		CLIP_TEXT, FIT_TEXT, FIT_TEXT_VERTICALLY;
 	}
 	
 	/** Describes the area of the screen on which this text will display */
@@ -76,7 +74,7 @@ public abstract class TextDisplay extends Component
 	
 	/** Whether or not to apply antiAliasing to this textDisplay */
 	protected boolean antiAlias;
-
+	
 	/** Whether or not to center the text of this textDisplay */
 	protected boolean center;
 	
@@ -84,8 +82,10 @@ public abstract class TextDisplay extends Component
 			boolean antiAlias)
 	{
 		super();
-		this.bounds = new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height);
-		this.textBounds = new Rectangle(textBounds.x, textBounds.y, textBounds.width, textBounds.height);
+		this.bounds = new Rectangle(bounds.x, bounds.y, bounds.width,
+				bounds.height);
+		this.textBounds = new Rectangle(textBounds.x, textBounds.y,
+				textBounds.width, textBounds.height);
 		this.awtFont = awtFont;
 		this.font = new TrueTypeFont(awtFont, antiAlias);
 		this.antiAlias = antiAlias;
@@ -99,21 +99,23 @@ public abstract class TextDisplay extends Component
 	{
 		this(bounds, textBounds, Defaults.AWT_FONT, Fonts.ANTI_ALLIAS);
 	}
-
+	
 	protected abstract void drawText(Graphics graphics);
 	
 	protected abstract void formatText();
 	
-	//TODO Implement
-	/*protected abstract void centerText();
-	
-	protected abstract void alignTextLeft();
-	
-	protected abstract void alignTextRight();
-	
-	protected abstract void resizeText(FormattingOption option);
-	
-	protected abstract void resizeText(float size);*/
+	// TODO Implement
+	/*
+	 * protected abstract void centerText();
+	 * 
+	 * protected abstract void alignTextLeft();
+	 * 
+	 * protected abstract void alignTextRight();
+	 * 
+	 * protected abstract void resizeText(FormattingOption option);
+	 * 
+	 * protected abstract void resizeText(float size);
+	 */
 	
 	/*
 	 * (non-Javadoc)
@@ -146,14 +148,30 @@ public abstract class TextDisplay extends Component
 	@Override
 	public boolean setBounds(Rectangle bounds)
 	{
-		// TODO Resize text
-		// TODO Add image support
-		this.bounds = bounds;
+		// Record current location
+		int x = this.bounds.x;
+		int y = this.bounds.y;
+		
+		// Translate all bounds to (0, 0), keeping relative locations
+		// Translate all bounds to newBounds location, keeping relativity
+		this.textBounds.translate(bounds.x - x, bounds.y - y);
+		this.bounds.translate(bounds.x - x, bounds.y - y);
+		
+		// Resize bounds
+		this.textBounds.setSize(bounds.width, bounds.height);
+		this.bounds.setSize(bounds.width, bounds.height);
+		
+		// Reformat text
 		formatText();
+		
+		/*
+		 * // TODO Add image support this.bounds = bounds;
+		 */
 		return true;
 	}
 	
-	public static Rectangle defaultTextBounds(final Rectangle bounds, float textBoundScale)
+	public static Rectangle defaultTextBounds(final Rectangle bounds,
+			float textBoundScale)
 	{
 		return UtilFunctions.dialateRelativeRectangle(bounds, textBoundScale);
 	}
@@ -231,62 +249,62 @@ public abstract class TextDisplay extends Component
 	{
 		return textBounds;
 	}
-
+	
 	public void setTextBounds(Rectangle textBounds)
 	{
 		this.textBounds = textBounds;
 	}
-
+	
 	public void scaleTextBounds(float scale)
 	{
 		this.textBounds = UtilFunctions.dialateRelativeRectangle(bounds, scale);
 	}
-
+	
 	public Color getFontColor()
 	{
 		return fontColor;
 	}
-
+	
 	public void setFontColor(Color fontColor)
 	{
 		this.fontColor = fontColor;
 	}
-
+	
 	public Color getBorderColor()
 	{
 		return borderColor;
 	}
-
+	
 	public void setBorderColor(Color borderColor)
 	{
 		this.borderColor = borderColor;
 	}
-
+	
 	public Color getFillColor()
 	{
 		return fillColor;
 	}
-
+	
 	public void setFillColor(Color fillColor)
 	{
 		this.fillColor = fillColor;
 	}
-
+	
 	public Font getAwtFont()
 	{
 		return awtFont;
 	}
-
+	
 	public TrueTypeFont getFont()
 	{
 		return font;
 	}
-
+	
 	public String getClipedText()
 	{
 		return clipedText;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -331,16 +349,17 @@ public abstract class TextDisplay extends Component
 	{
 		return bounds;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see edu.asu.voctec.utilities.Resizable#resize(int, int)
 	 */
 	@Override
 	public boolean resize(int width, int height)
 	{
-		this.bounds.setSize(width, height);
-		formatText();
-		return false;
+		Rectangle newBounds = new Rectangle(bounds.x, bounds.y, width, height);
+		return setBounds(newBounds);
 	}
 	
 }

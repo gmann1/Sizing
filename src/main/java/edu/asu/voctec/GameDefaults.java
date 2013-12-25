@@ -16,9 +16,9 @@ public interface GameDefaults
 	{
 		// Backgrounds
 		public static final String MainMenuBackground = "resources/default/img/backgrounds/mainMenu.png";
-		public static final String OptionsMenuBackground = "resources/default/img//backgrounds/mainMenu.png";
-		public static final String ScenarioHubBackground = "resources/default/img//backgrounds/mainMenu.png";
-		public static final String TaskHubBackground = "resources/default/img//backgrounds/taskScreen.png";
+		public static final String OptionsMenuBackground = "resources/default/img/backgrounds/mainMenu.png";
+		public static final String ScenarioHubBackground = "resources/default/img/backgrounds/mainMenu.png";
+		public static final String TaskHubBackground = "resources/default/img/backgrounds/taskScreen2.png";
 		public static final String BLACK_BACKGROUND = "resources/default/img/blackBackground.jpg";
 		
 		// Buttons
@@ -39,6 +39,27 @@ public interface GameDefaults
 		public static final String SELECTOR_LARGE = "resources/default/img/selector/SelectorLarge.png";
 		public static final String SELECTOR_SMALL = "resources/default/img/selector/SelectorSmall.png";
 		public static final String SELECTOR_SHADOW = "resources/default/img/selector/SelectorShadow.png";
+		
+		public interface TaskScreen
+		{
+			public static final String STEP_ONE = "resources/default/img/taskScreen/Task1.png";
+			public static final String STEP_TWO = "resources/default/img/taskScreen/Task2.png";
+			public static final String STEP_THREE = "resources/default/img/taskScreen/Task3.png";
+			public static final String STEP_FOUR = "resources/default/img/taskScreen/Task4.png";
+			public static final String STEP_FIVE = "resources/default/img/taskScreen/Task5.png";
+
+			public static final String STEP_ONE_COMPLETE = "resources/default/img/taskScreen/Task1Complete.png";
+			public static final String STEP_TWO_COMPLETE = "resources/default/img/taskScreen/Task2Complete.png";
+			public static final String STEP_THREE_COMPLETE = "resources/default/img/taskScreen/Task3Complete.png";
+			public static final String STEP_FOUR_COMPLETE = "resources/default/img/taskScreen/Task4Complete.png";
+			public static final String STEP_FIVE_COMPLETE = "resources/default/img/taskScreen/Task5Complete.png";
+
+			public static final String STEP_ONE_SELECTED = "resources/default/img/taskScreen/Task1Current.png";
+			public static final String STEP_TWO_SELECTED = "resources/default/img/taskScreen/Task2Current.png";
+			public static final String STEP_THREE_SELECTED = "resources/default/img/taskScreen/Task3Current.png";
+			public static final String STEP_FOUR_SELECTED = "resources/default/img/taskScreen/Task4Current.png";
+			public static final String STEP_FIVE_SELECTED = "resources/default/img/taskScreen/Task5Current.png";
+		}
 		
 		public interface SelectorIcons
 		{

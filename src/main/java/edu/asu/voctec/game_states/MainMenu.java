@@ -22,7 +22,7 @@ public class MainMenu extends GUI implements GameDefaults
 		int buttonSpacing = 15;
 		int buttonWidth = 350;
 		int buttonHeight = 75;
-		float borderScale = 0.99f;
+		float borderScale = 0.9f;
 		
 		// Determine text and button bounds, relative to each button
 		Rectangle buttonBounds = new Rectangle(0, 0, buttonWidth, buttonHeight);

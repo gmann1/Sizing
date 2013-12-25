@@ -75,27 +75,22 @@ public class Button extends BasicComponent
 	
 	public void setX(int x)
 	{
-		super.setX(x);
 		if (textField != null)
-			textField.setX(x);
+		{
+			int deltaX = x - (int)this.x;
+			textField.translate(deltaX, 0);
+		}
+		super.setX(x);
 	}
 	
 	public void setY(int y)
 	{
+		if (textField != null)
+		{
+			int deltaY = y - (int)this.y;
+			textField.translate(0, deltaY);
+		}
 		super.setY(y);
-		if (textField != null)
-			textField.setY(y);
-	}
-	
-	@Override
-	public boolean rescale(float horizontalScale, float verticalScale)
-	{
-		boolean success = super.rescale(horizontalScale, verticalScale);
-		if (textField != null)
-			success = success
-					&& textField.rescale(horizontalScale, verticalScale);
-		
-		return success;
 	}
 	
 	@Override

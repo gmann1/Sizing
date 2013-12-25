@@ -102,6 +102,8 @@ public abstract class Component implements Displayable, Resizable
 	{
 		Rectangle newBounds = UtilFunctions.getScaledRectangle(getBounds(),
 				horizontalScale, verticalScale);
+
+		System.out.println("Receieved Bounds: " + newBounds);
 		return setBounds(newBounds);
 	}
 	
