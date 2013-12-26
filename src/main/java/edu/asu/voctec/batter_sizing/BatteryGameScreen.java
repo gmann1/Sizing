@@ -46,6 +46,8 @@ public class BatteryGameScreen extends GUI
 	public static List<BatteryControl> objectsArray = new ArrayList<BatteryControl>();
 	private List<InitialBattery> initialBatteries = new ArrayList<InitialBattery>();
 	private static final int RequiredCapacity = 174, RequiredVoltage = 12;
+	private boolean firstRoundOfHints = true;
+	public static int totalNumberOfHintsUsed = 0;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -150,8 +152,13 @@ public class BatteryGameScreen extends GUI
 	private void showNextHintText()
 	{
 		hintsText.setText(hintsTextArray[currentHintText]);
+		if(firstRoundOfHints)
+			totalNumberOfHintsUsed++;
 		if(currentHintText == (hintsTextArray.length-1))
+		{
 			currentHintText = 0;
+			firstRoundOfHints = false;
+		}
 		else
 			currentHintText++;
 	}
@@ -230,27 +237,27 @@ public class BatteryGameScreen extends GUI
 			{
 				if(Battery.getNumberOfBatteries() > 2)
 				{
-					BatteryExitScreen.passEndGameMessage("Congratulations...",
-							"You have successfully completed the Battery Sizing Game.",
-							"However, you could have used fewer number of batteries to solve the game.", Color.red);
+					BatteryExitScreen.passEndGameMessage("Sorry...",
+							"You were not successful in completing this Game.",
+							"You could have used fewer number of batteries to solve the game.", Color.red);
 				}
 				else if(Battery.getNumberOfBatteries() <= 2)
 				{
 					if(Battery.batteryArray.get(0).size() == 2)
 					{
-						BatteryExitScreen.passEndGameMessage("Congratulations...",
+						BatteryExitScreen.passEndGameMessage("Nice Job...",
 								"You have successfully completed the Battery Sizing Game.",
 								"However, This solution is not recommended.", Color.red);
 					}
 					else if(Battery.getTotalVoltage()>12)
 					{
-						BatteryExitScreen.passEndGameMessage("Congratulations...",
-								"You have successfully completed the Battery Sizing Game.",
-								"However, you could have used fewer number of batteries to solve the game.", Color.red);
+						BatteryExitScreen.passEndGameMessage("Sorry...",
+								"You were not successful in completing this Game.",
+								"You could have used fewer number of batteries to solve the game.", Color.red);
 					}
 					else
 					{
-						BatteryExitScreen.passEndGameMessage("Congratulations...",
+						BatteryExitScreen.passEndGameMessage("Well Done...",
 								"You have successfully completed the Battery Sizing Game.",
 								"You were able to solve the game in an optimal combination.", Color.blue);
 					}
@@ -259,10 +266,7 @@ public class BatteryGameScreen extends GUI
 			}
 			else
 			{
-				BatteryExitScreen.passEndGameMessage("Sorry...",
-													"You were not able to solve the Battery Sizing Game correctly.",
-													"Try using another method next time.", Color.black);
-				Game.getCurrentGame().enterState(BatteryExitScreen.class);
+				hintsText.setText("Sorry, You were not able to solve the Battery Sizing Game correctly. Try Again.");
 			}
 		}
 	}
