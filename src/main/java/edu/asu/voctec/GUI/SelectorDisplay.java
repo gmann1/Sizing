@@ -54,6 +54,10 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 				// Return icon to selector
 				sendToSelector(icon);
 				
+				// Ensure the box border is appropriate
+				if (icon.baseImage != defaultBorder)
+					icon.setCurrentImage(defaultBorder, true);
+				
 				// Free the space in this display
 				elements.set(index, null);
 			}
@@ -176,12 +180,39 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	public void updateChoiceBorders()
 	{
 		// TODO
+		for (int index = 0; index < capacity; index++)
+		{
+			T element = elements.get(index);
+			
+			if (element == null)
+				this.choiceBorders[index].setCurrentImage(defaultBorder, true);
+			else if (element.getId() == index)
+				this.choiceBorders[index].setCurrentImage(correctBorder, true);
+			else
+				this.choiceBorders[index].setCurrentImage(incorrectBorder, true);
+		}
+		
 	}
 	
-	public ArrayList<String> verifyChoices()
+	public boolean verifyChoices(boolean updateBorders)
 	{
-		// TODO
-		return deriveHints();
+		// TODO Test
+		boolean correctChoices = true;
+		
+		for (int index = 0; index < capacity; index++)
+		{
+			T element = elements.get(index);
+			if (element == null || element.getId() != index)
+			{
+				correctChoices = false;
+				break;
+			}
+		}
+		
+		if (updateBorders)
+			updateChoiceBorders();
+		
+		return correctChoices;
 	}
 	
 	public ArrayList<String> deriveHints()
