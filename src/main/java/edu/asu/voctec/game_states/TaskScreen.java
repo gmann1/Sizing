@@ -12,6 +12,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.batter_sizing.BatteryIntro;
 import edu.asu.voctec.cdmg.CDIntroScreen;
+import edu.asu.voctec.energy_assessment.EAPart1IntroScreen;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.pv_game.PVIntro;
 import edu.asu.voctec.utilities.UtilFunctions;
@@ -47,7 +48,7 @@ public class TaskScreen extends GUI
 		
 		// Declare Buttons
 		// Task 1
-		TaskData energyAssessment = new TaskData(MinigameA.class,
+		TaskData energyAssessment = new TaskData(EAPart1IntroScreen.class,
 				"Energy Assessment");
 		energyAssessment.setImages(ImagePaths.TaskScreen.STEP_ONE,
 				ImagePaths.TaskScreen.STEP_ONE_COMPLETE,

@@ -29,6 +29,7 @@ public class SelectorTest extends GUI
 		{
 			// TODO Auto-generated method stub
 			System.out.println("Ready!");
+			selectorDisplay.verifyChoices(true);
 		}
 		
 	}
