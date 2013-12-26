@@ -116,6 +116,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	public SelectorDisplay(int x, int y, boolean useDefaults)
 	{
 		this(x, y, 5);
+		
 		if (useDefaults)
 		{
 			int spacing = 29; // Minimum space between choiceBorders
