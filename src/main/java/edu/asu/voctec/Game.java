@@ -71,7 +71,6 @@ public class Game extends StateBasedGame implements Singleton
 	private Game(String gameTitle) throws DuplicateInstantiationException
 	{
 		super(gameTitle);
-		
 		if (Game.currentGame == null)
 			Game.currentGame = this;
 		else
