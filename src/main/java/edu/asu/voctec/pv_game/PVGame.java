@@ -45,6 +45,8 @@ public class PVGame extends GUI
 	public static List<BatteryControl> objectsArray = new ArrayList<BatteryControl>();
 	private List<InitialBattery> initialBatteries = new ArrayList<InitialBattery>();
 	private static final int RequiredCapacity = 127, RequiredVoltage = 12;
+	private boolean firstRoundOfHints = true;
+	public static int totalNumberOfHintsUsed = 0;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -149,8 +151,13 @@ public class PVGame extends GUI
 	private void showNextHintText()
 	{
 		hintsText.setText(hintsTextArray[currentHintText]);
+		if(firstRoundOfHints)
+			totalNumberOfHintsUsed++;
 		if(currentHintText == (hintsTextArray.length-1))
+		{
 			currentHintText = 0;
+			firstRoundOfHints = false;
+		}
 		else
 			currentHintText++;
 	}
@@ -229,21 +236,21 @@ public class PVGame extends GUI
 			{
 				if(Battery.getNumberOfBatteries() > 2)
 				{
-					PVExit.passEndGameMessage("Congratulations...",
-							"You have successfully completed the PV Array Sizing Game.",
-							"However, you could have used fewer number of PV panels to solve the game.", Color.red);
+					PVExit.passEndGameMessage("Sorry...",
+							"You were not successful in completing this Game.",
+							"You could have used fewer number of PV panels to solve the game.", Color.red);
 				}
 				else if(Battery.getNumberOfBatteries() <= 2)
 				{
 					if(Battery.batteryArray.size() == 2)
 					{
-						PVExit.passEndGameMessage("Congratulations...",
-								"You have successfully completed the PV Array Sizing Game.",
-								"However, you could have used fewer number of PV panels to solve the game.", Color.red);
+						PVExit.passEndGameMessage("Sorry...",
+								"You were not successful in completing this Game.",
+								"You could have used fewer number of PV panels to solve the game.", Color.red);
 					}
 					else
 					{
-						PVExit.passEndGameMessage("Congratulations...",
+						PVExit.passEndGameMessage("Well Done...",
 								"You have successfully completed the PV Array Sizing Game.",
 								"You were able to solve the game in an optimal combination.", Color.blue);
 					}
@@ -252,10 +259,7 @@ public class PVGame extends GUI
 			}
 			else
 			{
-				PVExit.passEndGameMessage("Sorry...",
-													"You were not able to solve the PV Array Sizing Game correctly.",
-													"Try using another method next time.", Color.black);
-				Game.getCurrentGame().enterState(PVExit.class);
+				hintsText.setText("Sorry, You were not able to solve the PV Array Sizing Game correctly. Try Again.");
 			}
 
 		}
