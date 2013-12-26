@@ -26,6 +26,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	protected boolean orientLeft;
 	protected boolean displayLabel;
 	
+	// TODO simplify
 	protected BasicComponent currentChoiceBackground;
 	protected BasicComponent previousChoiceBackground;
 	protected BasicComponent nextChoiceBackground;

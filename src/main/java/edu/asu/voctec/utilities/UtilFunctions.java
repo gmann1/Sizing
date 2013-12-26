@@ -2,6 +2,7 @@ package edu.asu.voctec.utilities;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import org.newdawn.slick.Image;
 
@@ -115,6 +116,13 @@ public abstract class UtilFunctions
 		}
 	}
 	
+	public static void translateAll(int horizontalAmount, int verticalAmount,
+			ArrayList<Component> components)
+	{
+		UtilFunctions.translateAll(horizontalAmount, verticalAmount,
+				components.toArray(new Component[components.size()]));
+	}
+	
 	public static void centerComponentsStacked(final Rectangle container,
 			int spaceBetweenComponents, Component... components)
 	{
@@ -172,6 +180,6 @@ public abstract class UtilFunctions
 		float horizontalScale = ((float) width) / ((float) bounds.width);
 		float verticalScale = ((float) height) / ((float) bounds.height);
 		
-		return new float[]{horizontalScale, verticalScale};
+		return new float[] { horizontalScale, verticalScale };
 	}
 }

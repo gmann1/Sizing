@@ -1,4 +1,4 @@
-package edu.asu.voctec.batter_sizing;
+package edu.asu.voctec.pv_game;
 
 import org.newdawn.slick.Image;
 
@@ -13,9 +13,9 @@ public class Battery extends BatteryControl{
 	public static List<BasicComponent> parallelLinesArray = new ArrayList<BasicComponent>();
     private int voltage, capacity, seriesIndex, parallelIndex;
     private static final int batteryImageWidth = 60, batteryImageHeight = 60;
-    private static BatteryGameScreen gameWorld;
+    private static PVGame gameWorld;
 	
-	public Battery(Image image, int x, int y, BatteryGameScreen gameWorld) {
+	public Battery(Image image, int x, int y, PVGame gameWorld) {
 		super(image, x, y);
 		this.gameWorld = gameWorld;
 	}
@@ -146,7 +146,7 @@ public class Battery extends BatteryControl{
     
     private void addParallelLines(int x, int y)
     {
-    	BasicComponent parallelLines = new BasicComponent(BatteryGameScreen.getVerticalLinesImage(),60+(x*90),12+(y*90));
+    	BasicComponent parallelLines = new BasicComponent(PVGame.getVerticalLinesImage(),60+(x*90),12+(y*90));
     	gameWorld.addComponent(parallelLines);
 		parallelLinesArray.add(parallelLines);
     }
@@ -275,7 +275,7 @@ public class Battery extends BatteryControl{
     	{
     		if(allParallelsHaveSameVoltage() && allSeriesHaveSameCapacity())
     		{
-    			if(getTotalCapacity(batteryArray.get(0))>= BatteryGameScreen.getRequiredCapacity() && getTotalVoltage()>= BatteryGameScreen.getRequiredVoltage())
+    			if(getTotalCapacity(batteryArray.get(0))== PVGame.getRequiredCapacity() && getTotalVoltage()== PVGame.getRequiredVoltage())
     				return true;
     		}
     	} 

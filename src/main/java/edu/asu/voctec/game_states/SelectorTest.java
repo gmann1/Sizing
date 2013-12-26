@@ -3,11 +3,13 @@ package edu.asu.voctec.game_states;
 import java.awt.Rectangle;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.GameDefaults.ImagePaths.SelectorIcons;
 import edu.asu.voctec.Main;
+import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.Selector;
 import edu.asu.voctec.GUI.SelectorDisplay;
@@ -26,7 +28,8 @@ public class SelectorTest extends GUI
 		protected void actionPerformed()
 		{
 			// TODO Auto-generated method stub
-			
+			System.out.println("Ready!");
+			selectorDisplay.verifyChoices(true);
 		}
 		
 	}
@@ -43,7 +46,7 @@ public class SelectorTest extends GUI
 		Rectangle centered = new Rectangle(selector.getBounds());
 		UtilFunctions.centerRectangleHorizontally(
 				new Rectangle(Main.getCurrentScreenDimension()), centered);
-		selector.translate(centered.x, 600 - centered.height);
+		selector.translate(centered.x - 75, 600 - centered.height);
 		
 		// Add each of 5 steps to the selector
 		selector.add(new SelectorIcon(SelectorIcons.ENERGY_ASSESSMENT,
@@ -64,14 +67,23 @@ public class SelectorTest extends GUI
 		
 		// Setup a new selector display, and link it to the selector
 		selectorDisplay = new SelectorDisplay<>(
-				10, 10, true);
-		selectorDisplay.rescale(0.90f);
+				38, 28, true);
+		selectorDisplay.rescale(0.80f);
 		selectorDisplay.link(selector);
 		
 		// Add the display to this screen
 		this.addComponent(selectorDisplay);
 		
 		// Create and add a new ReadyButton
-		//Button readyButton = new Button();
+		Image readyButtonImage = new Image(ImagePaths.READY_BUTTON);
+		Rectangle textBounds = UtilFunctions.getImageBounds(readyButtonImage);
+		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.80f);
+		Button readyButton = new Button(readyButtonImage, 600, 500, textBounds, null);
+		readyButton.addActionListener(new ReadyButtonListener());
+		this.addComponent(readyButton);
+		
+		// Set background
+		Image background = new Image(ImagePaths.MainMenuBackground);
+		setBackgroundImage(background.getScaledCopy(800, 600));
 	}
 }

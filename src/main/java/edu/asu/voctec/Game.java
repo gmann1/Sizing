@@ -16,11 +16,16 @@ import edu.asu.voctec.cdmg.CDIntroScreen;
 import edu.asu.voctec.cdmg.CDPart1;
 import edu.asu.voctec.cdmg.CDPart2;
 import edu.asu.voctec.cdmg.CDPart3;
+import edu.asu.voctec.energy_assessment.EAPart1;
+import edu.asu.voctec.energy_assessment.EAPart1IntroScreen;
+import edu.asu.voctec.energy_assessment.EAPart1ScoreScreen;
+import edu.asu.voctec.energy_assessment.EAPart2;
+import edu.asu.voctec.energy_assessment.EAPart2IntroScreen;
+import edu.asu.voctec.energy_assessment.EAPart2ScoreScreen;
 import edu.asu.voctec.game_states.InstructorControlPanel;
 import edu.asu.voctec.game_states.LanguageMenu;
 import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.MenuTest;
-import edu.asu.voctec.game_states.MinigameA;
 import edu.asu.voctec.game_states.ModifiedGameState;
 import edu.asu.voctec.game_states.SelectorTest;
 import edu.asu.voctec.game_states.TaskScreen;
@@ -154,11 +159,18 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new BatteryExitScreen());
 		this.addState(new BatteryIntro());
 		this.addState(new BatteryGameScreen());
-		this.addState(new MinigameA());
 		this.addState(new PVIntro());
 		this.addState(new PVGame());
 		this.addState(new PVExit());
 		this.addState(new SelectorTest());
+		this.addState(new EAPart1IntroScreen());
+		this.addState(new EAPart1());
+		this.addState(new EAPart1ScoreScreen());
+		this.addState(new EAPart2());
+		this.addState(new EAPart2IntroScreen());
+		this.addState(new EAPart2ScoreScreen());
+		
+		
 		
 		// Move to the default game state
 		this.enterState(Game.DEFAULT_GAME_STATE);
