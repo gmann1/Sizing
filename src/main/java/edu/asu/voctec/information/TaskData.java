@@ -143,5 +143,22 @@ public class TaskData
 	{
 		listOfAttempts.add(attemptData);
 	}
+
+	public ArrayList<AttemptData> getListOfAttempts()
+	{
+		return listOfAttempts;
+	}
+
+	public boolean isComplete()
+	{
+		return complete;
+	}
+
+	public boolean isAccessible()
+	{
+		return accessible;
+	}
+	
+	
 	
 }
