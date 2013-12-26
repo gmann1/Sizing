@@ -128,4 +128,10 @@ public class TaskData
 		return taskIcon;
 	}
 	
+	public AttemptData getCurrentAttempt()
+	{
+		// TODO account for null
+		return listOfAttempts.get(listOfAttempts.size() - 1);
+	}
+	
 }
