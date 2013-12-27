@@ -19,6 +19,7 @@ public class TextArea extends TextDisplay
 			boolean antiAlias, String text)
 	{
 		super(bounds, textBounds, awtFont, antiAlias);
+		if (text == null) text = "";
 		this.lines = TextSupport.wrapText(font, text, textBounds.width);
 		this.maximumDisplayLines = calculateMaxDisplayLines();
 		this.clipedText = determineClipedText();
@@ -46,6 +47,8 @@ public class TextArea extends TextDisplay
 	
 	public void wrapText()
 	{
+		this.maximumDisplayLines = calculateMaxDisplayLines();
+		
 		String text = StringUtils.join(lines, " ");
 		this.lines = TextSupport.wrapText(font, text, textBounds.width);
 		this.clipedText = determineClipedText();
@@ -68,7 +71,7 @@ public class TextArea extends TextDisplay
 		{
 			//TODO test
 			StringBuilder clip = new StringBuilder();
-			int startingIndex = 2*lines.size() - maximumDisplayLines;
+			int startingIndex = maximumDisplayLines;
 			for (int lineIndex = startingIndex; lineIndex < lines.size(); lineIndex++)
 			{
 				clip.append(lines.get(lineIndex) + " ");
@@ -109,7 +112,6 @@ public class TextArea extends TextDisplay
 	@Override
 	protected void formatText()
 	{
-		this.maximumDisplayLines = calculateMaxDisplayLines();
 		wrapText();
 	}
 	

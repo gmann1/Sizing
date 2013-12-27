@@ -10,6 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.GUI.Button;
+import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.utilities.UtilFunctions;
 
@@ -59,6 +60,9 @@ public class MainMenu extends GUI implements GameDefaults
 		this.addComponent(instructorButton);
 		
 		this.centerComponentsStacked(buttonSpacing);
+		
+		TextAreaX fieldTest = new TextAreaX(new Rectangle(0,0,800,600), 0.8f, "This\nis\na\nNewLine\nTest");
+		this.addComponent(fieldTest);
 		
 		Image background = new Image(ImagePaths.MainMenuBackground);
 		setBackgroundImage(background.getScaledCopy(800, 600));
