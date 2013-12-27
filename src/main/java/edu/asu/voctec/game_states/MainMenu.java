@@ -10,6 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.GUI.Button;
+import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.utilities.UtilFunctions;
 

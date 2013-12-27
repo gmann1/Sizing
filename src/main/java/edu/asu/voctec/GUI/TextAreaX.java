@@ -177,4 +177,24 @@ public class TextAreaX extends TextArea
 		return textBounds.height / lineHeight;
 	}
 	
+	public void append(String text)
+	{
+		ArrayList<String> textBlocks = getTextBlocks(text);
+		
+		for (String textBlock : textBlocks)
+		{
+			lines.addAll(TextSupport.wrapText(font, textBlock, textBounds.width));
+			lines.add(null);
+		}
+		
+		// One extra "null" will have been added; Remove it
+		lines.remove(lines.size() - 1);
+	}
+	
+	public void addLine(String text)
+	{
+		lines.add(null);
+		append(text);
+	}
+	
 }
