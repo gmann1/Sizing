@@ -2,6 +2,7 @@ package edu.asu.voctec.game_states;
 
 import java.awt.Rectangle;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -14,16 +15,19 @@ import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.Selector;
 import edu.asu.voctec.GUI.SelectorDisplay;
 import edu.asu.voctec.GUI.SelectorIcon;
+import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class SelectorTest extends GUI
 {
 	private SelectorDisplay<SelectorIcon> selectorDisplay;
 	private Selector<SelectorIcon> selector;
+	private TextAreaX hintBox;
+	private TextAreaX instructionsLabel;
 	
 	public class ReadyButtonListener extends ButtonListener
 	{
-
+		
 		@Override
 		protected void actionPerformed()
 		{
@@ -38,6 +42,7 @@ public class SelectorTest extends GUI
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
+		// Selector
 		// Create and size a new selector object
 		selector = new Selector<>(0, 0, true);
 		selector.rescale(0.75f);
@@ -65,20 +70,41 @@ public class SelectorTest extends GUI
 		selector.displayLabel();
 		this.addComponent(selector);
 		
+		// Selector Display
 		// Setup a new selector display, and link it to the selector
-		selectorDisplay = new SelectorDisplay<>(
-				38, 28, true);
+		selectorDisplay = new SelectorDisplay<>(38, 28, true);
 		selectorDisplay.rescale(0.80f);
 		selectorDisplay.link(selector);
 		
 		// Add the display to this screen
 		this.addComponent(selectorDisplay);
 		
+		// Hint box
+		Rectangle hintBounds = new Rectangle(398, 42, 365, 303);
+		Rectangle hintTextBounds = new Rectangle(398, 103, 365, 242);
+		Rectangle instructionTextBounds = new Rectangle(398, 42, 365, 61);
+		hintBox = new TextAreaX(hintBounds, hintTextBounds, null);
+		instructionsLabel = new TextAreaX(instructionTextBounds,
+				instructionTextBounds, null);
+		Image hintBoxBackground = new Image(ImagePaths.Selector.HINT_BOX_BACKGROUND);
+		hintBox.setCurrentImage(hintBoxBackground, true);
+		
+		// Format hint box
+		hintBox.setFontSize(16f);
+		instructionsLabel.setFontSize(16f);
+		hintBox.setFontColor(Color.darkGray);
+		instructionsLabel.setFontColor(Color.darkGray);
+		
+		// Add hint box to this screen
+		this.addComponent(hintBox);
+		this.addComponent(instructionsLabel);
+		
 		// Create and add a new ReadyButton
 		Image readyButtonImage = new Image(ImagePaths.READY_BUTTON);
 		Rectangle textBounds = UtilFunctions.getImageBounds(readyButtonImage);
 		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.80f);
-		Button readyButton = new Button(readyButtonImage, 600, 500, textBounds, null);
+		Button readyButton = new Button(readyButtonImage, 600, 500, textBounds,
+				null);
 		readyButton.addActionListener(new ReadyButtonListener());
 		this.addComponent(readyButton);
 		
