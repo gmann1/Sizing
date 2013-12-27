@@ -90,7 +90,7 @@ public interface GameDefaults
 			public static final String INCORRECT = "resources/default/img/selector/display/EmptyBoxWrong.png";
 
 			public static final String SMALL_ARROW = "resources/default/img/selector/display/smallArrow.png";
-			public static final String LARGE_ARROW = "resources/default/img/selector/display/smallArrow.png";
+			public static final String LARGE_ARROW = "resources/default/img/selector/display/largeArrow.png";
 		}
 		
 	}
