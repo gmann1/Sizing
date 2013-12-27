@@ -202,5 +202,19 @@ public interface GameDefaults
 					"sixth");
 		}
 		
+		public interface Step0
+		{
+			public static final LabelName INSTRUCTIONS1 = new LabelName(
+					"instructions1", "Select which step to complete");
+			public static final LabelName INSTRUCTIONS2 = new LabelName(
+					"instructions2", ".");
+			public static final LabelName INSTRUCTIONS_RED = new LabelName(
+					"instructionsRed", "Click the red icons to deselect them.");
+			public static final LabelName INSTRUCTIONS_INCOMPLETE = new LabelName(
+					"instructionsIncomplete", "There are still more steps!");
+			public static final LabelName INSTRUCTIONS_COMPLETE = new LabelName(
+					"instructionsIncomplete",
+					"Press the redy button to verify your choices.");
+		}
 	}
 }

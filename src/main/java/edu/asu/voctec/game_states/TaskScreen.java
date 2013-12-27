@@ -25,11 +25,16 @@ public class TaskScreen extends GUI
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
+		System.out.println("\nTaskScreen: Initializing...");
+		
 		tasks = new ArrayList<>();
 		setDefaultTasks();
+		System.out.println("TaskScreen: Defaults Set.");
 		
 		Image background = new Image(ImagePaths.TaskHubBackground);
 		setBackgroundImage(background.getScaledCopy(800, 600));
+		
+		System.out.println("TaskScreen: Initialization Finished.\n");
 	}
 	
 	public void setDefaultTasks() throws SlickException

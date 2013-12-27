@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
@@ -14,8 +15,11 @@ import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.Selector;
 import edu.asu.voctec.GUI.SelectorDisplay;
+import edu.asu.voctec.GUI.TextDisplay;
+import edu.asu.voctec.GUI.SelectorDisplay.DisplayIsFullException;
 import edu.asu.voctec.GUI.SelectorIcon;
 import edu.asu.voctec.GUI.TextAreaX;
+import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class SelectorTest extends GUI
@@ -23,7 +27,7 @@ public class SelectorTest extends GUI
 	private SelectorDisplay<SelectorIcon> selectorDisplay;
 	private Selector<SelectorIcon> selector;
 	private TextAreaX hintBox;
-	private TextAreaX instructionsLabel;
+	private TextField instructionsLabel;
 	
 	public class ReadyButtonListener extends ButtonListener
 	{
@@ -42,6 +46,8 @@ public class SelectorTest extends GUI
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
+		System.out.println("\nSelectorTest: Initializing...");
+		
 		// Selector
 		// Create and size a new selector object
 		selector = new Selector<>(0, 0, true);
@@ -79,21 +85,25 @@ public class SelectorTest extends GUI
 		// Add the display to this screen
 		this.addComponent(selectorDisplay);
 		
-		// Hint box
-		Rectangle hintBounds = new Rectangle(398, 42, 365, 303);
-		Rectangle hintTextBounds = new Rectangle(398, 103, 365, 242);
-		Rectangle instructionTextBounds = new Rectangle(398, 42, 365, 61);
-		hintBox = new TextAreaX(hintBounds, hintTextBounds, null);
-		instructionsLabel = new TextAreaX(instructionTextBounds,
-				instructionTextBounds, null);
-		Image hintBoxBackground = new Image(ImagePaths.Selector.HINT_BOX_BACKGROUND);
+		// Hint Bounds
+		Rectangle hintBounds = new Rectangle(398, 62, 365, 303);
+		Rectangle relativeHintTextBounds = new Rectangle(0, 0, 365, 303);
+		Rectangle instructionBounds = new Rectangle(398, 0, 365, 62);
+		//Rectangle relativeInstructionTextBounds = new Rectangle(0, 0, 365, 61);
+		
+		// Hint Box Initialization
+		hintBox = new TextAreaX(hintBounds, relativeHintTextBounds, null);
+		instructionsLabel = new TextField(instructionBounds,
+				0.95f, null, TextDisplay.FormattingOption.FIT_TEXT);
+		Image hintBoxBackground = new Image(
+				ImagePaths.Selector.HINT_BOX_BACKGROUND);
 		hintBox.setCurrentImage(hintBoxBackground, true);
 		
 		// Format hint box
-		hintBox.setFontSize(16f);
-		instructionsLabel.setFontSize(16f);
-		hintBox.setFontColor(Color.darkGray);
-		instructionsLabel.setFontColor(Color.darkGray);
+		hintBox.setFontSize(10f);
+		instructionsLabel.center();
+		hintBox.setFontColor(Color.white);
+		instructionsLabel.setFontColor(Color.white);
 		
 		// Add hint box to this screen
 		this.addComponent(hintBox);
@@ -111,5 +121,39 @@ public class SelectorTest extends GUI
 		// Set background
 		Image background = new Image(ImagePaths.MainMenuBackground);
 		setBackgroundImage(background.getScaledCopy(800, 600));
+		
+		updateInstructions();
+		
+		System.out.println("SelectorTest: Initialization Finished.\n");
+	}
+	
+	public void render(GameContainer container, StateBasedGame game,
+			Graphics graphics) throws SlickException
+	{
+		super.render(container, game, graphics);
+	}
+	
+	public void updateInstructions()
+	{
+		try
+		{
+			// Determine which step is to be decided next
+			int firstEmpty = this.selectorDisplay.getCurrentIndex() + 1;
+			
+			// Convert integer to an ordinal string
+			String ordinalNumber = UtilFunctions
+					.getOrdinalRepresentation(firstEmpty);
+			
+			// Set instructions label text
+			String instructions = Labels.Step0.INSTRUCTIONS1.getTranslation()
+					+ " " + ordinalNumber
+					+ Labels.Step0.INSTRUCTIONS2.getTranslation();
+			this.instructionsLabel.setText(instructions);
+			System.out.println("Update Instructions: " + instructions);
+		}
+		catch (DisplayIsFullException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

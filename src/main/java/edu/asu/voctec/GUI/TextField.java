@@ -61,13 +61,21 @@ public class TextField extends TextDisplay
 				Defaults.AWT_FONT, Fonts.ANTI_ALLIAS, text, option);
 	}
 	
+	public TextField(Rectangle bounds, Rectangle textBounds, String text,
+			FormattingOption option)
+	{
+		this(bounds, textBounds, Defaults.AWT_FONT, Fonts.ANTI_ALLIAS, text,
+				option);
+	}
+	
 	@Override
 	protected void formatText()
 	{
 		if (text.length() > 0)
 		{
 			if (this.clipedText != null)
-				this.text = StringUtils.join(new String[]{text, clipedText}, " ");
+				this.text = StringUtils.join(new String[] { text, clipedText },
+						" ");
 			
 			if (formatting == FormattingOption.FIT_TEXT)
 			{
@@ -80,7 +88,8 @@ public class TextField extends TextDisplay
 						awtFont, textBounds));
 			}
 			
-			String[] clippings = TextSupport.clipString(font, text, textBounds.width);
+			String[] clippings = TextSupport.clipString(font, text,
+					textBounds.width);
 			this.text = clippings[0];
 			this.clipedText = clippings[1];
 			
@@ -88,7 +97,7 @@ public class TextField extends TextDisplay
 				center();
 		}
 	}
-
+	
 	@Override
 	public void setFontSize(float size)
 	{
@@ -151,7 +160,7 @@ public class TextField extends TextDisplay
 		
 		this.center = vertical || horizontal;
 	}
-
+	
 	public void setFormatting(FormattingOption formatting)
 	{
 		this.formatting = formatting;
