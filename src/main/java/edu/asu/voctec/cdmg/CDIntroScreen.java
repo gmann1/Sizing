@@ -57,7 +57,7 @@ public class CDIntroScreen extends GUI {
 		introduction
 				.setText("In this step you will be determining the critical design month. This step evaluates the month with the worst sun light to energy-use ratio. "
 						+ "By designing the system to meet the requirements of the "
-						+ "‘worst’ month, it will be able to deliver energy requirements year-round.");
+						+ "worst month, it will be able to deliver energy requirements year-round.");
 		introduction.setFontColor(FONT_COLOR);
 
 		// start button

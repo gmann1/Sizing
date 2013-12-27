@@ -55,8 +55,8 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 				sendToSelector(icon);
 				
 				// Ensure the box border is appropriate
-				if (icon.baseImage != defaultBorder)
-					icon.setCurrentImage(defaultBorder, true);
+				if (choiceBorders[index].baseImage != defaultBorder)
+					choiceBorders[index].setCurrentImage(defaultBorder, true);
 				
 				// Free the space in this display
 				elements.set(index, null);
@@ -116,6 +116,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	public SelectorDisplay(int x, int y, boolean useDefaults)
 	{
 		this(x, y, 5);
+		
 		if (useDefaults)
 		{
 			int spacing = 29; // Minimum space between choiceBorders

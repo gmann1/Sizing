@@ -46,10 +46,19 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		protected void actionPerformed()
 		{
 			System.out.println("Icon Selected.");
-			// Remove the current selection from this list,
-			// and add it to the display
-			T element = elements.pop();
-			sendToDisplay(element);
+			
+			// Define the clicked element
+			T element = elements.getCurrentElement();
+			
+			// Send the current selector to the associated display
+			if (sendToDisplay(element));
+			{
+				// If the display accepted the element
+				// Remove the element from this selector
+				elements.pop();
+			}
+			
+			updateChoiceLabel();
 		}
 		
 		@Override
@@ -188,7 +197,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		// Draw all components
 		for (Component component : components)
 		{
-			if(component != choiceLabel)
+			if (component != choiceLabel)
 				drawRelatively(graphics, component);
 		}
 		
@@ -224,7 +233,12 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	{
 		if (displayLabel && choiceLabel != null)
 		{
-			choiceLabel.setText(elements.getCurrentElement().getName());
+			T currentIcon = elements.getCurrentElement();
+			
+			if (currentIcon == null)
+				choiceLabel.setText(emptyText);
+			else
+				choiceLabel.setText(currentIcon.getName());
 		}
 	}
 	
@@ -348,6 +362,9 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		System.out.println("\tSelector: current="
 				+ elements.getCurrentElement());
 		System.out.println("\tSelector: next=" + elements.getNextElement());
+		
+		// Ensure the current label is accurate
+		updateChoiceLabel();
 		
 		if (accepted)
 			System.out.println("Selector: Element Accepted.\n");
