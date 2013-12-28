@@ -213,8 +213,11 @@ public interface GameDefaults
 			public static final LabelName INSTRUCTIONS_INCOMPLETE = new LabelName(
 					"instructionsIncomplete", "There are still more steps!");
 			public static final LabelName INSTRUCTIONS_COMPLETE = new LabelName(
-					"instructionsIncomplete",
+					"instructionsComplete",
 					"Press the redy button to verify your choices.");
+			public static final LabelName INSTRUCTIONS_CORRECT = new LabelName(
+					"instructionsCorrect",
+					"Press ready to continue.");
 		}
 	}
 }

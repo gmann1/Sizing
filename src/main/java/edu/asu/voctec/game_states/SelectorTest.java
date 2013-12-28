@@ -28,6 +28,7 @@ public class SelectorTest extends GUI
 	private Selector<SelectorIcon> selector;
 	private TextAreaX hintBox;
 	private TextField instructionsLabel;
+	private boolean complete;
 	
 	public class ReadyButtonListener extends ButtonListener
 	{
@@ -35,9 +36,28 @@ public class SelectorTest extends GUI
 		@Override
 		protected void actionPerformed()
 		{
-			// TODO Auto-generated method stub
 			System.out.println("Ready!");
-			selectorDisplay.verifyChoices(true);
+			if (complete)
+			{
+				// TODO transition to score screen
+			}
+			else
+			{
+				if (!selectorDisplay.isFull())
+				{
+					instructionsLabel
+							.setText(Labels.Step0.INSTRUCTIONS_INCOMPLETE
+									.getTranslation());
+				}
+				else
+				{
+					complete = selectorDisplay.verifyChoices(true);
+					updateInstructions();
+					if (!complete)
+						instructionsLabel.setText(Labels.Step0.INSTRUCTIONS_RED
+								.getTranslation());
+				}
+			}
 		}
 		
 	}
@@ -89,12 +109,13 @@ public class SelectorTest extends GUI
 		Rectangle hintBounds = new Rectangle(398, 62, 365, 303);
 		Rectangle relativeHintTextBounds = new Rectangle(0, 0, 365, 303);
 		Rectangle instructionBounds = new Rectangle(398, 0, 365, 62);
-		//Rectangle relativeInstructionTextBounds = new Rectangle(0, 0, 365, 61);
+		// Rectangle relativeInstructionTextBounds = new Rectangle(0, 0, 365,
+		// 61);
 		
 		// Hint Box Initialization
 		hintBox = new TextAreaX(hintBounds, relativeHintTextBounds, null);
-		instructionsLabel = new TextField(instructionBounds,
-				0.95f, null, TextDisplay.FormattingOption.FIT_TEXT);
+		instructionsLabel = new TextField(instructionBounds, 0.95f, null,
+				TextDisplay.FormattingOption.FIT_TEXT);
 		Image hintBoxBackground = new Image(
 				ImagePaths.Selector.HINT_BOX_BACKGROUND);
 		hintBox.setCurrentImage(hintBoxBackground, true);
@@ -153,7 +174,13 @@ public class SelectorTest extends GUI
 		}
 		catch (DisplayIsFullException e)
 		{
-			e.printStackTrace();
+			// Determine instruction text
+			String instructions;
+			instructions = Labels.Step0.INSTRUCTIONS_COMPLETE.getTranslation();
+			
+			// Set instructions label text
+			this.instructionsLabel.setText(instructions);
+			System.out.println("Update Instructions: " + instructions);
 		}
 	}
 }
