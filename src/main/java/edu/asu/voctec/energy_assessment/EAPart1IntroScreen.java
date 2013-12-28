@@ -58,8 +58,12 @@ public class EAPart1IntroScreen extends GUI
 			System.out.println("EAPart1IntroScreen");
 			
 			Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 750, 0, new Rectangle(50,50,300,50), "Start!");
+			System.out.println("EAPart1IntroScreen: Start Button Initialize.");
 			Start.addActionListener(new TransitionButtonListener(EAPart1.class));
+			System.out.println("EAPart1IntroScreen: Start Button Listener Added.");
 			this.addComponent(Start);
+			System.out.println("EAPart1IntroScreen: Start Button Added.");
+			System.out.println("EAPart1IntroScreen: Initialization Complete.\n");
 		}
 		
 		

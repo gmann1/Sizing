@@ -46,7 +46,7 @@ public class EAPart1ScoreScreen extends GUI
 		this.addComponent(Next);
 		
 		////Testing Stuff can be deleted later////
-		System.out.println("EAPart1IntroScreen");
+		System.out.println("EAPart1ScoreScreen");
 					
 		Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 750, 0, new Rectangle(50,50,300,50), "Start!");
 		Start.addActionListener(new TransitionButtonListener(EAPart2IntroScreen.class));
