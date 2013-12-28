@@ -144,7 +144,7 @@ public abstract class TextSupport
 			String[] clipResults = clipString(font, remainder, lineWidth);
 			lines.add(clipResults[0]);
 			remainder = clipResults[1];
-		} while (!remainder.isEmpty());
+		} while (!(remainder.isEmpty() || remainder.length() < 1));
 		
 		return lines;
 	}

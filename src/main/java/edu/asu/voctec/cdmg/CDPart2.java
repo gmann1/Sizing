@@ -22,12 +22,11 @@ import edu.asu.voctec.game_states.GUI;
 /**
  * 
  * @author Gabriel Mann
- *
+ * 
  */
 
-
 public class CDPart2 extends GUI {
-	
+
 	private boolean correctAnswer = false;
 
 	public static final float SMALL_FONT_SIZE = 8f;
@@ -98,7 +97,7 @@ public class CDPart2 extends GUI {
 		TextArea header = new TextArea(headerLocation, .95f, "");
 		header.setFontSize(10f);
 		header.setFontColor(Color.white);
-		header.setText("Location: Niger, Niamey - Latitude: 13°31 N, Longitude: 2°6 E");
+		header.setText("Location: Niger, Niamey - Latitude: 13° 31 N, Longitude: 2° 6 E");
 
 		BasicComponent pole = new BasicComponent(new Image(POLE), 300, 300);
 		pole.rescale(.75f);
@@ -154,9 +153,9 @@ public class CDPart2 extends GUI {
 		// Image("resources/default/img/minigames/criticalDesign/dot.png"),
 		// panel.getX() + 11,panel.getY() + 30);
 
-		genericHints.add("generic hint 1");
-		genericHints.add("generic hint 2");
-	
+		genericHints.add("Point the solar panel in the direction that captures the most sun. ");
+		genericHints.add("Make adjustments due to the latitude and the tilt of the earth.");
+
 		HintBox.enableBorder();
 		this.addComponent(HintBox);
 		this.addComponent(theHints);
@@ -176,7 +175,7 @@ public class CDPart2 extends GUI {
 		if (hCount == 0) {
 			theHints.setText(genericHints.get(0));
 			++hintCount;
-			if (!correctAnswer){
+			if (!correctAnswer) {
 				++CDPart1.hints;
 			}
 			System.out.println("Generic Hint1 shown, total hints: "
@@ -185,7 +184,7 @@ public class CDPart2 extends GUI {
 		if (hCount == 1) {
 			theHints.setText(genericHints.get(1));
 			++hintCount;
-			if (!correctAnswer){
+			if (!correctAnswer) {
 				++CDPart1.hints;
 			}
 			System.out.println("Generic Hint2 shown, total hints: "
@@ -207,9 +206,14 @@ public class CDPart2 extends GUI {
 	}
 
 	private void winConditional() {
-		if ((panel1.getRotation() + 45 > (51.8 - 5))
-				&& (panel1.getRotation() + 45 < (51.8 + 5))) {
-			theHints.setText("Good job!");
+		if ((panel1.getRotation() + 45 > (28.3 - 5))
+				&& (panel1.getRotation() + 45 < (28.3 + 5))) {
+			if ((int)((panel1.getRotation() +45)*10) == 283){
+				theHints.setText("Great Job! You got the correct answer exactly.");
+			}
+			else{
+				theHints.setText("Good job! However, the precise answer is 28.3 degrees (latitude + 15 degrees)");
+			}
 			Continue.setX(640);
 			Continue.setY(320);
 			correctAnswer = true;
@@ -226,14 +230,28 @@ public class CDPart2 extends GUI {
 
 		if (container.getInput().isKeyDown(Input.KEY_DOWN)) {
 			if (panel1.getRotation() + 45 < 90) {
-				panel1.rotate(.2f);
+				if ((int)panel1.getRotation() + 45 == 0) {
+					panel1.rotate(.1f);
+
+				} else if (panel1.getRotation() + 45 >= (float)89.9) {
+					panel1.rotate(.1f);
+				} else {
+					panel1.rotate(.2f);
+				}
 			}
 			s = String.format("Angle: %.1f°", (panel1.getRotation() + 45));
 			angle.setText(s);
 		}
 		if (container.getInput().isKeyDown(Input.KEY_UP)) {
 			if (panel1.getRotation() + 45 > 0) {
-				panel1.rotate(-.2f);
+				if ((int)panel1.getRotation() + 45 == 90) {
+					panel1.rotate(-.1f);
+				} else if (panel1.getRotation() + 45 <= (float).1) {
+					panel1.rotate(-.1f);
+				} else {
+					panel1.rotate(-.2f);
+				}
+				
 			}
 			s = String.format("Angle: %.1f°", (panel1.getRotation() + 45));
 			angle.setText(s);

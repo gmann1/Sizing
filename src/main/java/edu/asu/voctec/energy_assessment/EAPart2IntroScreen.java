@@ -54,7 +54,7 @@ public class EAPart2IntroScreen extends GUI
 			
 			
 			////Testing Stuff can be deleted later////
-			System.out.println("EAPart1IntroScreen");
+			System.out.println("EAPart2IntroScreen");
 					
 			Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 750, 0, new Rectangle(50,50,300,50), "Start!");
 			Start.addActionListener(new TransitionButtonListener(EAPart2.class));

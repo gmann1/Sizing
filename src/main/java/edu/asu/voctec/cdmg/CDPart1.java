@@ -151,15 +151,16 @@ public class CDPart1 extends GUI {
 		June.add("\tSummer");
 		June.add("\t6.64 PSH/Day");
 
-		monthlyHints.add("April Hint");
-		monthlyHints.add("February Hint");
+		monthlyHints.add("Sorry, April is not the critical design month. Try again.");
+		monthlyHints.add("Sorry, February is not the critical design month. Try again.");
 		monthlyHints.add("Good Job! The critical design month is the month with the highest ratio of load to solar insolation.");
-		monthlyHints.add("October Hint");
-		monthlyHints.add("September Hint");
-		monthlyHints.add("June Hint");
+		monthlyHints.add("Sorry, October is not the critical design month. Try again.");
+		monthlyHints.add("Sorry, September is not the critical design month. Try again.");
+		monthlyHints.add("Sorry, June is not the critical design month. Try again.");
 
-		genericHints.add("generic hint 1");
-		genericHints.add("generic hint 2");
+		genericHints.add("The Earth has a tilt of 23.5 degrees. Because of this, different parts of the Earth are tilted closer to the Sun during different times of the year. This is why we have seasons.");
+		genericHints.add("PSH or peak sun-hours is a measure of the amount of solar insolation being received. ");
+		genericHints.add("The critical design month is the month with the lowest solar insolation.");
 
 		Earth = new Image(Earths.get(index));
 		sel = new CDSelector<SelectorIcon>(50, 520);
@@ -249,7 +250,7 @@ public class CDPart1 extends GUI {
 		// Initialize Header
 		Rectangle headerLocation = new Rectangle(50, 25, 600, 500);
 		TextArea header = new TextArea(headerLocation, .95f,
-				"Location: Niger, Niamey - Latitude: 13°31 N, Longitude: 2°6 E");
+				"Location: Niger, Niamey - Latitude: 13° 31 N, Longitude: 2° 6 E");
 		header.setFontSize(MEDIUM_FONT_SIZE);
 		header.setFontColor(FONT_COLOR1);
 		// HintBox
@@ -260,7 +261,7 @@ public class CDPart1 extends GUI {
 		HintBox.setFontSize(MEDIUM_FONT_SIZE);
 		HintBox.setFontColor(FONT_COLOR1);
 		// Hints
-		theHints = new TextArea(new Rectangle(525, 150, 250, 225), .95f, "");
+		theHints = new TextArea(new Rectangle(525, 150, 250, 450), .95f, "");
 		theHints.setFontSize(MEDIUM_FONT_SIZE);
 		theHints.setFontColor(FONT_COLOR1);
 		// Back Button
@@ -335,7 +336,7 @@ public class CDPart1 extends GUI {
 			theHints.setText(monthlyHints.get(i));
 			if (!fe && !correctAnswer){
 				++hints;
-				ap = true;
+				fe = true;
 			}
 			System.out.println("February Hint shown, total hints: " + hints);
 		}
@@ -350,7 +351,7 @@ public class CDPart1 extends GUI {
 			theHints.setText(monthlyHints.get(i));
 			if (!oc && !correctAnswer){
 				++hints;
-				ap = true;
+				oc = true;
 			}
 			System.out.println("October Hint shown, total hints: " + hints);
 		}
@@ -358,7 +359,7 @@ public class CDPart1 extends GUI {
 			theHints.setText(monthlyHints.get(i));
 			if (!se && !correctAnswer){
 				++hints;
-				ap = true;
+				se = true;
 			}
 			System.out.println("September Hint shown, total hints: " + hints);
 		}
@@ -366,7 +367,7 @@ public class CDPart1 extends GUI {
 			theHints.setText(monthlyHints.get(i));
 			if (!ju && !correctAnswer){
 				++hints;
-				ap = true;
+				ju = true;
 			}
 			System.out.println("June Hint shown, total hints: " + hints);
 		}
@@ -390,14 +391,29 @@ public class CDPart1 extends GUI {
 			}
 			System.out.println("Generic Hint2 shown, total hints: " + hints);
 		}
-		if (hCount > 1){
-			if (hCount%2 == 0){
+		if (hCount == 2) {
+			theHints.setText(genericHints.get(2));
+			++hintCount;
+			if (!correctAnswer){
+				++hints;
+			}
+			System.out.println("Generic Hint2 shown, total hints: " + hints);
+		}
+		if (hCount > 2){
+			
+			if (hCount == 3){
 				theHints.setText(genericHints.get(0));
 			}
-			else{
+			else if (hCount == 4){
 				theHints.setText(genericHints.get(1));
 			}
+			else{
+				theHints.setText(genericHints.get(2));
+			}
 			++hintCount;
+			if (hintCount == 6){
+				hintCount = 3;
+			}
 			System.out.println("User requested more hints, none to give. total hints: " + hints);
 			
 		}

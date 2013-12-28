@@ -41,6 +41,10 @@ import edu.asu.voctec.utilities.Singleton;
  * object, the game state can be changed using a Class object to reference a
  * Singleton gameState (i.e. any extension of ModifiedGameState).
  * 
+ * All states added to this game should implement Singleton, and extend
+ * ModifiedGameState. States that do not meet these requirements will not be
+ * added to the state list of this game.
+ * 
  * @author Zach Moore
  * @see #enterState(Class)
  * @see ModifiedGameState
@@ -161,15 +165,13 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new PVIntro());
 		this.addState(new PVGame());
 		this.addState(new PVExit());
-		this.addState(new SelectorTest());
 		this.addState(new EAPart1IntroScreen());
 		this.addState(new EAPart1());
 		this.addState(new EAPart1ScoreScreen());
 		this.addState(new EAPart2());
 		this.addState(new EAPart2IntroScreen());
 		this.addState(new EAPart2ScoreScreen());
-		
-		
+		this.addState(new SelectorTest());
 		
 		// Move to the default game state
 		this.enterState(Game.DEFAULT_GAME_STATE);
@@ -205,16 +207,15 @@ public class Game extends StateBasedGame implements Singleton
 	{
 		this.enterState(gameStates.get(state));
 	}
-
+	
 	public static TaskData getCurrentTask()
 	{
 		return currentTask;
 	}
-
+	
 	public static void setCurrentTask(TaskData currentTask)
 	{
 		Game.currentTask = currentTask;
 	}
-	
 	
 }

@@ -19,6 +19,11 @@ public class TextAreaX extends TextArea
 		setText(text);
 		System.out.println("Lines: " + Arrays.toString(lines.toArray(new String[lines.size()])));
 	}
+	
+	public TextAreaX(Rectangle bounds, Rectangle textBounds, String text)
+	{
+		this(bounds, textBounds, Defaults.AWT_FONT, Fonts.ANTI_ALLIAS, text);
+	}
 
 	public TextAreaX(Rectangle bounds, float textBounds, Font awtFont,
 			boolean antiAlias, String text)
@@ -76,7 +81,8 @@ public class TextAreaX extends TextArea
 		}
 		
 		// One extra "null" will have been added; Remove it
-		wrappedText.remove(wrappedText.size() - 1);
+		if (wrappedText.size() > 0)
+			wrappedText.remove(wrappedText.size() - 1);
 		
 		lines.clear();
 		lines.addAll(wrappedText);
@@ -87,13 +93,22 @@ public class TextAreaX extends TextArea
 	{
 		this.lines.clear();
 		this.clipedText = "";
-		lines.addAll(getTextBlocks(text));
+		
+		if (text != null)
+			lines.addAll(getTextBlocks(text));
 		
 		formatText();
 	}
 	
 	protected ArrayList<String> getTextBlocks(String text)
 	{
+		if (text == null)
+		{
+			ArrayList<String> nullStringBlock = new ArrayList<>();
+			nullStringBlock.add(null);
+			return nullStringBlock;
+		}
+		
 		String[] brokenString = text.split("\n");
 		ArrayList<String> blocks = new ArrayList<>();
 		
@@ -179,22 +194,31 @@ public class TextAreaX extends TextArea
 	
 	public void append(String text)
 	{
+		boolean extraNull = false;
 		ArrayList<String> textBlocks = getTextBlocks(text);
 		
 		for (String textBlock : textBlocks)
 		{
 			lines.addAll(TextSupport.wrapText(font, textBlock, textBounds.width));
 			lines.add(null);
+			extraNull = true;
 		}
 		
 		// One extra "null" will have been added; Remove it
-		lines.remove(lines.size() - 1);
+		if (extraNull)
+			lines.remove(lines.size() - 1);
 	}
 	
 	public void addLine(String text)
 	{
 		lines.add(null);
 		append(text);
+	}
+	
+	public void clear()
+	{
+		lines.clear();
+		this.clipedText = "";
 	}
 	
 }
