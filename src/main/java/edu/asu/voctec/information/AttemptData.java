@@ -1,7 +1,5 @@
 package edu.asu.voctec.information;
 
-import java.util.ArrayList;
-
 import edu.asu.voctec.utilities.Finalizable;
 
 /**
@@ -13,7 +11,7 @@ import edu.asu.voctec.utilities.Finalizable;
  */
 public class AttemptData implements Comparable<AttemptData>, Finalizable
 {
-	protected ArrayList<Hint> hintsUsed;
+	protected int numberOfUniqueHints;
 	protected long timeSpent; //in milliseconds
 	protected int score;
 	protected int maximumPossibleScore;

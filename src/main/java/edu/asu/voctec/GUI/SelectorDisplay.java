@@ -12,6 +12,7 @@ import org.newdawn.slick.SlickException;
 
 import edu.asu.voctec.GameDefaults.ImagePaths;
 import edu.asu.voctec.game_states.GUI;
+import edu.asu.voctec.game_states.SelectorTest;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class SelectorDisplay<T extends SelectorIcon> extends Component
@@ -55,12 +56,24 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 				sendToSelector(icon);
 				
 				// Ensure the box border is appropriate
-				if (icon.baseImage != defaultBorder)
-					icon.setCurrentImage(defaultBorder, true);
+				if (choiceBorders[index].baseImage != defaultBorder)
+					choiceBorders[index].setCurrentImage(defaultBorder, true);
 				
 				// Free the space in this display
 				elements.set(index, null);
+				
+				updateInstructions();
 			}
+		}
+	}
+	
+	public static class DisplayIsFullException extends Exception
+	{
+		private static final long serialVersionUID = 5948362100760330981L;
+		
+		public DisplayIsFullException(String message)
+		{
+			super(message);
 		}
 	}
 	
@@ -116,6 +129,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	public SelectorDisplay(int x, int y, boolean useDefaults)
 	{
 		this(x, y, 5);
+		
 		if (useDefaults)
 		{
 			int spacing = 29; // Minimum space between choiceBorders
@@ -138,6 +152,12 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 			// Position arrows
 			setupAethsteticComponents(true);
 		}
+	}
+	
+	protected void updateInstructions()
+	{
+		if (this.associatedGUI instanceof SelectorTest)
+			((SelectorTest) associatedGUI).updateInstructions();
 	}
 	
 	protected void setupChoiceBorders(boolean positionComponents)
@@ -314,6 +334,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 			System.out.println("SelectorDisplay: Element Rejected.");
 		}
 		
+		updateInstructions();
 		return accepted;
 	}
 	
@@ -469,6 +490,22 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		this.borderBounds = UtilFunctions.getScaledRectangle(borderBounds,
 				horizontalScale, verticalScale);
 		return true;
+	}
+	
+	public boolean isFull()
+	{
+		int firstNull = elements.indexOf(null);
+		return (firstNull < 0 || firstNull > capacity);
+	}
+	
+	public int getCurrentIndex() throws DisplayIsFullException
+	{
+		int currentIndex = elements.indexOf(null);
+		
+		if (currentIndex < 0 || currentIndex > capacity)
+			throw new DisplayIsFullException("case not handled");
+		
+		return currentIndex;
 	}
 	
 }

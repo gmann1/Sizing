@@ -12,39 +12,38 @@ import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.TextArea;
-import edu.asu.voctec.GUI.TextDisplay;
-import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.TaskScreen;
 
 public class BatteryExitScreen extends GUI
 {
 
-	private static TextArea congratulation3;
+	//private static TextField congratulation;
+	private static TextArea congratulation, congratulation2, congratulation3;
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
 		this.backgroundImage = new Image("resources/default/img/minigames/BatterySizing/WhiteBackground.jpg");
 			
-		Rectangle textLocation = new Rectangle(25, 25, 400, 400);
-		TextField congratulation = new TextField(textLocation, 0.95f,
-				"Congratulations...",
-				TextDisplay.FormattingOption.FIT_TEXT);
+		Rectangle textLocation = new Rectangle(25, 25, 600, 600);
+		congratulation = new TextArea(textLocation, 0.95f,
+				"");
+		congratulation.setFontSize(40);
 		congratulation.setFontColor(Color.black);
 		this.addComponent(congratulation);
 		
 		Rectangle textLocation2 = new Rectangle(25, 120, 500, 500);
-		TextArea congratulation2 = new TextArea(textLocation2, 0.95f,
-				"You have successfully completed the Battery Sizing Game.");
-		congratulation2.setFontSize(40);
+		congratulation2 = new TextArea(textLocation2, 0.95f,
+				"");
+		congratulation2.setFontSize(25);
 		congratulation2.setFontColor(Color.black);
 		this.addComponent(congratulation2);
 		
-		Rectangle textLocation3 = new Rectangle(25, 320, 700, 700);
+		Rectangle textLocation3 = new Rectangle(25, 280, 700, 700);
 		congratulation3 = new TextArea(textLocation3, 0.95f,
 				"");
-		congratulation3.setFontSize(40);
+		congratulation3.setFontSize(30);
 		congratulation3.setFontColor(Color.black);
 		this.addComponent(congratulation3);
 		
@@ -84,18 +83,12 @@ public class BatteryExitScreen extends GUI
 		}
 	}
 	
-	public static void passNumberOfBatteriesUsed()
+	public static void passEndGameMessage(String gameStatusHeadline, String gameStatusMessage, String personalizedMessage, Color personalizedMessageColor)
 	{
-		if(Battery.getNumberOfBatteries() > 9)
-		{
-			//congratulation3.setText("However, you could have used fewer number of batteries to solve the game.");
-			//congratulation3.setFontColor(Color.red);
-		}
-		else
-		{
-			//congratulation3.setText("You were able to achieve the best possible combination of batteries.");
-			//congratulation3.setFontColor(Color.blue);
-		}
+		congratulation.setText(gameStatusHeadline);
+		congratulation2.setText(gameStatusMessage);
+		congratulation3.setText(personalizedMessage);
+		congratulation3.setFontColor(personalizedMessageColor);
 	}
 	
 }

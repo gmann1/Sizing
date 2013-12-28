@@ -25,11 +25,16 @@ public class TaskScreen extends GUI
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
+		System.out.println("\nTaskScreen: Initializing...");
+		
 		tasks = new ArrayList<>();
 		setDefaultTasks();
+		System.out.println("TaskScreen: Defaults Set.");
 		
 		Image background = new Image(ImagePaths.TaskHubBackground);
 		setBackgroundImage(background.getScaledCopy(800, 600));
+		
+		System.out.println("TaskScreen: Initialization Finished.\n");
 	}
 	
 	public void setDefaultTasks() throws SlickException
@@ -55,13 +60,15 @@ public class TaskScreen extends GUI
 				ImagePaths.TaskScreen.STEP_ONE_SELECTED);
 		
 		// Task 2
-		TaskData criticalDesignMonth = new TaskData(CDIntroScreen.class, "Critical Design Month");
+		TaskData criticalDesignMonth = new TaskData(CDIntroScreen.class,
+				"Critical Design Month");
 		criticalDesignMonth.setImages(ImagePaths.TaskScreen.STEP_TWO,
 				ImagePaths.TaskScreen.STEP_TWO_COMPLETE,
 				ImagePaths.TaskScreen.STEP_TWO_SELECTED);
 		
 		// Task 3
-		TaskData batterySizing = new TaskData(BatteryIntro.class, "Size Battery");
+		TaskData batterySizing = new TaskData(BatteryIntro.class,
+				"Size Battery");
 		batterySizing.setImages(ImagePaths.TaskScreen.STEP_THREE,
 				ImagePaths.TaskScreen.STEP_THREE_COMPLETE,
 				ImagePaths.TaskScreen.STEP_THREE_SELECTED);
@@ -73,7 +80,8 @@ public class TaskScreen extends GUI
 				ImagePaths.TaskScreen.STEP_FOUR_SELECTED);
 		
 		// Task 5
-		TaskData controllerSizing = new TaskData(SelectorTest.class, "Size Controllers");
+		TaskData controllerSizing = new TaskData(SelectorTest.class,
+				"Size Controllers");
 		controllerSizing.setImages(ImagePaths.TaskScreen.STEP_FIVE,
 				ImagePaths.TaskScreen.STEP_FIVE_COMPLETE,
 				ImagePaths.TaskScreen.STEP_FIVE_SELECTED);
@@ -112,6 +120,20 @@ public class TaskScreen extends GUI
 		// Center the task buttons in their container
 		UtilFunctions.centerComponentsStacked(taskButtonContainer,
 				buttonSpacing, getComponents());
+	}
+	
+	public void setNextAccessible()
+	{
+		for (int index = 0; index < tasks.size(); index++)
+		{
+			TaskData task = tasks.get(index);
+			
+			if (!task.isComplete())
+			{
+				task.setAccessible(true);
+				break;
+			}
+		}
 	}
 	
 }

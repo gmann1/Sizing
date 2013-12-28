@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Image;
 
+import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.GUI.Component;
 
 /**
@@ -181,5 +182,34 @@ public abstract class UtilFunctions
 		float verticalScale = ((float) height) / ((float) bounds.height);
 		
 		return new float[] { horizontalScale, verticalScale };
+	}
+	
+	public static String getOrdinalRepresentation(int number)
+	{
+		String ordinalRepresentation = Integer.toString(number);
+		
+		switch (number)
+		{
+			case 1:
+				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.FIRST.getTranslation();
+				break;
+			case 2:
+				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.SECOND.getTranslation();
+				break;
+			case 3:
+				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.THIRD.getTranslation();
+				break;
+			case 4:
+				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.FOURTH.getTranslation();
+				break;
+			case 5:
+				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.FIFTH.getTranslation();
+				break;
+			case 6:
+				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.SIXTH.getTranslation();
+				break;
+		}
+		
+		return ordinalRepresentation;
 	}
 }

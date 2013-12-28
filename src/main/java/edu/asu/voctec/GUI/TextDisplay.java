@@ -119,6 +119,8 @@ public abstract class TextDisplay extends Component
 	 * protected abstract void resizeText(FormattingOption option);
 	 * 
 	 * protected abstract void resizeText(float size);
+	 * 
+	 * protected abstract void clear();
 	 */
 	
 	/*
@@ -379,7 +381,7 @@ public abstract class TextDisplay extends Component
 		this.baseImage = currentImage;
 		
 		if (maintainSize)
-			this.currentImage = this.baseImage.getScaledCopy(currentImage.getWidth(), currentImage.getHeight());
+			this.currentImage = this.baseImage.getScaledCopy(bounds.width, bounds.height);
 		else
 			this.currentImage = this.baseImage.copy();
 	}

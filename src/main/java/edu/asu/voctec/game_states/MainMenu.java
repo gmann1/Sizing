@@ -19,6 +19,8 @@ public class MainMenu extends GUI implements GameDefaults
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
+		System.out.println("\nMainMenu: Initializing...");
+		
 		int buttonSpacing = 15;
 		int buttonWidth = 350;
 		int buttonHeight = 75;
@@ -62,6 +64,8 @@ public class MainMenu extends GUI implements GameDefaults
 		
 		Image background = new Image(ImagePaths.MainMenuBackground);
 		setBackgroundImage(background.getScaledCopy(800, 600));
+		
+		System.out.println("MainMenu: Initialization Finished.\n");
 	}
 	
 	private void setButtonFontColor(Color color, Button... buttons)

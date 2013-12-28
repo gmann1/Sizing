@@ -126,6 +126,14 @@ public abstract class TextSupport
 	{
 		// TODO test
 		// TODO add support for newline characters
+		
+		if (text == null)
+		{
+			ArrayList<String> splitNullString = new ArrayList<>();
+			splitNullString.add(null);
+			return splitNullString;
+		}
+		
 		ArrayList<String> lines = new ArrayList<>();
 		String remainder = text;
 		
@@ -136,7 +144,7 @@ public abstract class TextSupport
 			String[] clipResults = clipString(font, remainder, lineWidth);
 			lines.add(clipResults[0]);
 			remainder = clipResults[1];
-		} while (!remainder.isEmpty());
+		} while (!(remainder.isEmpty() || remainder.length() < 1));
 		
 		return lines;
 	}

@@ -176,20 +176,22 @@ public class Battery extends BatteryControl{
     
     public static void reset()
     {
-    	for(int indexRows = 0; indexRows<batteryArray.size(); indexRows++)
+    	if(!batteryArray.isEmpty())
     	{
-    		for(int indexColumn = 0; indexColumn<batteryArray.get(indexRows).size(); indexColumn++)
-        	{
-    			Battery removedBattery = batteryArray.get(indexRows).get(indexColumn);
-    			gameWorld.removeObject(removedBattery);
-        	}
+	    	for(int indexRows = 0; indexRows<batteryArray.size(); indexRows++)
+	    	{
+	    		for(int indexColumn = 0; indexColumn<batteryArray.get(indexRows).size(); indexColumn++)
+	        	{
+	    			Battery removedBattery = batteryArray.get(indexRows).get(indexColumn);
+	    			gameWorld.removeObject(removedBattery);
+	        	}
+	    	}
+	    	batteryArray.clear();
+	    	InitialBattery.removeHorizontalLine();
+	    	calculateSystemVoltage();
+	    	calculateTotalCapacity();
+	    	removeLines();
     	}
-    	
-    	batteryArray.clear();
-    	InitialBattery.removeHorizontalLine();
-    	calculateSystemVoltage();
-    	calculateTotalCapacity();
-    	removeLines();
     }
     
     private static void calculateSystemVoltage()
@@ -221,7 +223,7 @@ public class Battery extends BatteryControl{
         return true;
     }
     
-    private static int getTotalVoltage()
+    static int getTotalVoltage()
     {
         int totalVoltage = 0;
         for(int indexInSeries = 0; indexInSeries < batteryArray.size(); indexInSeries++)

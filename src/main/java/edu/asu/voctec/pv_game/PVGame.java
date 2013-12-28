@@ -10,6 +10,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.TextArea;
@@ -35,18 +36,17 @@ public class PVGame extends GUI
 	
 	private static final String[] hintsTextArray = {"Parallel PV panels should share the same voltage but can have different power.",
 													"Sets of PV panels connected in series should have the same power but can have different voltage values",
-													"The array consists of at least 9 PV panels in total.",
-													"There are at least 3 sets of parallel PV panels connected in series.",
-													"Each set of parallel PV panels consists of at least 3 panels."};
+													"The array can be solved using 1 or 2 PV panels.",
+													"Two panels could be connected in parallel to solve the game."};
 	
 	private  TextField currentVoltage, currentCapacity;
 	private static TextArea hintsText;
 	private static int currentHintText = 0;
 	public static List<BatteryControl> objectsArray = new ArrayList<BatteryControl>();
-	private InitialBattery battery1, battery2, battery3, battery4;
-	private static final int RequiredCapacity = 960, RequiredVoltage = 42;
-	private Button doneButton;
-	private boolean doneButtonAvailable = false;
+	private List<InitialBattery> initialBatteries = new ArrayList<InitialBattery>();
+	private static final int RequiredCapacity = 127, RequiredVoltage = 12;
+	private boolean firstRoundOfHints = true;
+	public static int totalNumberOfHintsUsed = 0;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -56,17 +56,17 @@ public class PVGame extends GUI
 		verticalLinesImage = new Image(VerticalLines);
 		horizontalLineImage = new Image(HorizontalLine);
 		
-		battery1 = new InitialBattery(6, 320, 20, 520, new Image(BlueBattery), 20, 520, this);
-		battery2 = new InitialBattery(6, 640, 170, 520, new Image(YellowBattery), 170, 520, this);
-		battery3 = new InitialBattery(12, 320, 320, 520, new Image(RedBattery), 320, 520, this);
-		battery4 = new InitialBattery(12, 640, 470, 520, new Image(GreenBattery), 470, 520, this);
+		initialBatteries.add(new InitialBattery(12, 65, 20, 520, new Image(BlueBattery), 20, 520, this));
+		initialBatteries.add(new InitialBattery(12, 130, 170, 520, new Image(YellowBattery), 170, 520, this));
+		//initialBatteries.add(new InitialBattery(12, 320, 320, 520, new Image(RedBattery), 320, 520, this));
+		//initialBatteries.add(new InitialBattery(12, 640, 470, 520, new Image(GreenBattery), 470, 520, this));
 		
 		initializeText();
 		
-		addObject(battery1);
-		addObject(battery2);
-		addObject(battery3);
-		addObject(battery4);
+		for(InitialBattery addInitialBattery :initialBatteries)
+		{
+			addObject(addInitialBattery);
+		}
 		
 		Button backButton = new Button(new Image("resources/default/img/buttons/backButton.png"), 1, 1,
 			    new Rectangle(1, 1, 40, 40), "Back");
@@ -74,9 +74,10 @@ public class PVGame extends GUI
 		backButton.addActionListener(new TransitionButtonListener(PVIntro.class));	  
 		this.addComponent(backButton);
 		
-		doneButton = new Button(new Image("resources/default/img/minigames/BatterySizing/DoneButton.png"), 660, 350,
+		Button doneButton = new Button(new Image("resources/default/img/minigames/BatterySizing/DoneButton.png"), 660, 350,
 			    new Rectangle(660, 350, 83, 30), "");
-		doneButton.addActionListener(new TransitionButtonListener(PVExit.class));
+		doneButton.addActionListener(new DoneButtonListener());
+		this.addComponent(doneButton);
 		
 		Button hintButton = new Button(new Image("resources/default/img/minigames/BatterySizing/HintButton.png"), 660, 403,
 			    new Rectangle(660, 403, 83, 30), "");
@@ -106,18 +107,6 @@ public class PVGame extends GUI
 		{
 			BatteryControl invokedObject = objectsArray.get(index);
 			invokedObject.update();
-		}
-		
-		if(Battery.isGameOver() && !doneButtonAvailable)
-		{
-			this.addComponent(doneButton);
-			doneButtonAvailable = true;
-			PVExit.passNumberOfBatteriesUsed();
-		}
-		else if(!Battery.isGameOver() && doneButtonAvailable)
-		{
-			this.removeComponent(doneButton);
-			doneButtonAvailable = false;
 		}
 	}
 
@@ -162,8 +151,13 @@ public class PVGame extends GUI
 	private void showNextHintText()
 	{
 		hintsText.setText(hintsTextArray[currentHintText]);
-		if(currentHintText == 4)
+		if(firstRoundOfHints)
+			totalNumberOfHintsUsed++;
+		if(currentHintText == (hintsTextArray.length-1))
+		{
 			currentHintText = 0;
+			firstRoundOfHints = false;
+		}
 		else
 			currentHintText++;
 	}
@@ -198,61 +192,23 @@ public class PVGame extends GUI
 		currentVoltage.setFontColor(Color.black);
 		this.addComponent(currentVoltage);
 		
-		Rectangle textLocation5 = new Rectangle(85, 525, 80, 30);
-		TextField battery1Capacity = new TextField(textLocation5, 0.95f,
-				battery1.getCapacity()+" Watts",
-				TextDisplay.FormattingOption.FIT_TEXT);
-		battery1Capacity.setFontColor(Color.black);
-		this.addComponent(battery1Capacity);
-		
-		Rectangle textLocation6 = new Rectangle(85, 550, 80, 30);
-		TextField battery1Voltage = new TextField(textLocation6, 0.95f,
-				battery1.getVoltage()+" V",
-				TextDisplay.FormattingOption.FIT_TEXT);
-		battery1Voltage.setFontColor(Color.black);
-		this.addComponent(battery1Voltage);
-		
-		Rectangle textLocation7 = new Rectangle(235, 525, 80, 30);
-		TextField battery2Capacity = new TextField(textLocation7, 0.95f,
-				battery2.getCapacity()+" Watts",
-				TextDisplay.FormattingOption.FIT_TEXT);
-		battery2Capacity.setFontColor(Color.black);
-		this.addComponent(battery2Capacity);
-		
-		Rectangle textLocation8 = new Rectangle(235, 550, 80, 30);
-		TextField battery2Voltage = new TextField(textLocation8, 0.95f,
-				battery2.getVoltage()+" V",
-				TextDisplay.FormattingOption.FIT_TEXT);
-		battery2Voltage.setFontColor(Color.black);
-		this.addComponent(battery2Voltage);
-		
-		Rectangle textLocation9 = new Rectangle(385, 525, 80, 30);
-		TextField battery3Capacity = new TextField(textLocation9, 0.95f,
-				battery3.getCapacity()+" Watts",
-				TextDisplay.FormattingOption.FIT_TEXT);
-		battery3Capacity.setFontColor(Color.black);
-		this.addComponent(battery3Capacity);
-		
-		Rectangle textLocation10 = new Rectangle(385, 550, 80, 30);
-		TextField battery3Voltage = new TextField(textLocation10, 0.95f,
-				battery3.getVoltage()+" V",
-				TextDisplay.FormattingOption.FIT_TEXT);
-		battery3Voltage.setFontColor(Color.black);
-		this.addComponent(battery3Voltage);
-		
-		Rectangle textLocation11 = new Rectangle(535, 525, 80, 30);
-		TextField battery4Capacity = new TextField(textLocation11, 0.95f,
-				battery4.getCapacity()+" Watts",
-				TextDisplay.FormattingOption.FIT_TEXT);
-		battery4Capacity.setFontColor(Color.black);
-		this.addComponent(battery4Capacity);
-		
-		Rectangle textLocation12 = new Rectangle(535, 550, 80, 30);
-		TextField battery4Voltage = new TextField(textLocation12, 0.95f,
-				battery4.getVoltage()+" V",
-				TextDisplay.FormattingOption.FIT_TEXT);
-		battery4Voltage.setFontColor(Color.black);
-		this.addComponent(battery4Voltage);
+		for(int index = 0; index<initialBatteries.size(); index++)
+		{
+			InitialBattery addInitialBattery = initialBatteries.get(index);
+			Rectangle textLocation5 = new Rectangle((85+(index*150)), 525, 80, 30);
+			TextField battery1Capacity = new TextField(textLocation5, 0.95f,
+					addInitialBattery.getCapacity()+" Watts",
+					TextDisplay.FormattingOption.FIT_TEXT);
+			battery1Capacity.setFontColor(Color.black);
+			this.addComponent(battery1Capacity);
+			
+			Rectangle textLocation6 = new Rectangle((85+(index*150)), 550, 80, 30);
+			TextField battery1Voltage = new TextField(textLocation6, 0.95f,
+					addInitialBattery.getVoltage()+" V",
+					TextDisplay.FormattingOption.FIT_TEXT);
+			battery1Voltage.setFontColor(Color.black);
+			this.addComponent(battery1Voltage);
+		}
 		
 		Rectangle textLocation13 = new Rectangle(609, 433, 191, 300);
 		hintsText = new TextArea(textLocation13, 0.95f,
@@ -270,6 +226,45 @@ public class PVGame extends GUI
 			showNextHintText();
 		}
 	}
+	
+	public class DoneButtonListener extends ButtonListener
+	{
+		@Override
+		protected void actionPerformed()
+		{
+			if(Battery.isGameOver())
+			{
+				if(Battery.getNumberOfBatteries() > 2)
+				{
+					PVExit.passEndGameMessage("Sorry...",
+							"You were not successful in completing this Game.",
+							"You could have used fewer number of PV panels to solve the game.", Color.red);
+				}
+				else if(Battery.getNumberOfBatteries() <= 2)
+				{
+					if(Battery.batteryArray.size() == 2)
+					{
+						PVExit.passEndGameMessage("Sorry...",
+								"You were not successful in completing this Game.",
+								"You could have used fewer number of PV panels to solve the game.", Color.red);
+					}
+					else
+					{
+						PVExit.passEndGameMessage("Well Done...",
+								"You have successfully completed the PV Array Sizing Game.",
+								"You were able to solve the game in an optimal combination.", Color.blue);
+					}
+				}	
+				Game.getCurrentGame().enterState(PVExit.class);
+			}
+			else
+			{
+				hintsText.setText("Sorry, You were not able to solve the PV Array Sizing Game correctly. Try Again.");
+			}
+
+		}
+	}
+
 	
 	public static void reset()
 	{
