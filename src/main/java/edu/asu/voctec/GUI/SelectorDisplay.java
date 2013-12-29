@@ -83,8 +83,8 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		{
 			defaultBorder = new Image(ImagePaths.SelectorDisplayBorders.DEFAULT);
 			defaultBorderBounds = UtilFunctions.getImageBounds(defaultBorder);
-			smallArrowDimension = new Dimension(29, 29);
-			largeArrowDimension = new Dimension(164, 109);
+			smallArrowDimension = new Dimension(39, 39);
+			largeArrowDimension = new Dimension(169, 109);
 			
 			highlightedBorder = new Image(
 					ImagePaths.SelectorDisplayBorders.HIGHLIGHTED)
@@ -274,14 +274,14 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		// Small arrows
 		// Step 2-3
 		relativeLocation.setLocation(borders.get(2).getX()
-				+ borders.get(2).getBounds().width, borders.get(2).getY()
-				- spacing);
+				+ borders.get(2).getBounds().width - 5, borders.get(2).getY()
+				- spacing - 5);
 		extraComponentContainer.add(new BasicComponent(smallArrow,
 				relativeLocation));
 		// Step 3-4
 		relativeLocation.setLocation(borders.get(3).getX()
-				+ borders.get(3).getBounds().width, borders.get(3).getY()
-				- spacing);
+				+ borders.get(3).getBounds().width - 5, borders.get(3).getY()
+				- spacing - 5);
 		extraComponentContainer.add(new BasicComponent(smallArrow,
 				relativeLocation));
 		
