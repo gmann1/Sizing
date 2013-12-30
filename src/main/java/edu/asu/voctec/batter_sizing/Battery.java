@@ -17,7 +17,7 @@ public class Battery extends BatteryControl{
 	
 	public Battery(Image image, int x, int y, BatteryGameScreen gameWorld) {
 		super(image, x, y);
-		this.gameWorld = gameWorld;
+		Battery.gameWorld = gameWorld;
 	}
 
 	@Override
@@ -207,7 +207,7 @@ public class Battery extends BatteryControl{
         }
     }
     
-    private static boolean allParallelsHaveSameVoltage()
+    public static boolean allParallelsHaveSameVoltage()
     {
         for(int indexInSeries = 0; indexInSeries < batteryArray.size(); indexInSeries++)
         {
@@ -248,7 +248,7 @@ public class Battery extends BatteryControl{
         }
     }
     
-    private static boolean allSeriesHaveSameCapacity()
+    public static boolean allSeriesHaveSameCapacity()
     {
         for(int indexInSeries = 0; indexInSeries < batteryArray.size()-1; indexInSeries++)
         {
