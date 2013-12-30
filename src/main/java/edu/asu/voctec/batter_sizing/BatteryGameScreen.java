@@ -34,9 +34,7 @@ public class BatteryGameScreen extends GUI
 	public static final String VerticalLines = "resources/default/img/minigames/BatterySizing/TwoLines.png";
 	private static Image verticalLinesImage;
 	
-	private static final String[] hintsTextArray = {"Parallel batteries should share the same voltage but can have different capacities.",
-													"Sets of batteries connected in series should have the same capacity but can have different voltage values",
-													"The array can be solved using 1 or 2 batteries.",
+	private static final String[] hintsTextArray = {"The array can be solved using 1 or 2 batteries.",
 													"Two batteries could be connected in series to solve the game.",
 													"Connecting two batteries in parallel is not recommended but could solve the game."};
 	
@@ -46,8 +44,8 @@ public class BatteryGameScreen extends GUI
 	public static List<BatteryControl> objectsArray = new ArrayList<BatteryControl>();
 	private List<InitialBattery> initialBatteries = new ArrayList<InitialBattery>();
 	private static final int RequiredCapacity = 174, RequiredVoltage = 12;
-	private boolean firstRoundOfHints = true;
-	public static int totalNumberOfHintsUsed = 0;
+	private boolean firstRoundOfHints = true, parallelHintNOtDisplayed = true, seriesHintNOtDisplayed = true;;
+	public static int totalNumberOfHintsUsed = 0, doneButtonCounter = 0;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -151,16 +149,78 @@ public class BatteryGameScreen extends GUI
 	
 	private void showNextHintText()
 	{
-		hintsText.setText(hintsTextArray[currentHintText]);
-		if(firstRoundOfHints)
-			totalNumberOfHintsUsed++;
-		if(currentHintText == (hintsTextArray.length-1))
+		if(!Battery.allParallelsHaveSameVoltage())
 		{
-			currentHintText = 0;
-			firstRoundOfHints = false;
+			hintsText.setText("Parallel batteries should share the same voltage but can have different capacities.");
+			hintsText.setFontColor(Color.black);
+			if(parallelHintNOtDisplayed)
+			{
+				totalNumberOfHintsUsed++;
+				parallelHintNOtDisplayed = false;
+			}
+		}
+		else if(!Battery.allSeriesHaveSameCapacity())
+		{
+			hintsText.setText("Batteries connected in series should share the same capacity but can have different voltages.");
+			hintsText.setFontColor(Color.black);
+			if(seriesHintNOtDisplayed)
+			{
+				totalNumberOfHintsUsed++;
+				seriesHintNOtDisplayed = false;
+			}
 		}
 		else
-			currentHintText++;
+		{
+			hintsText.setText(hintsTextArray[currentHintText]);
+			hintsText.setFontColor(Color.black);
+			if(firstRoundOfHints)
+				totalNumberOfHintsUsed++;
+			if(currentHintText == (hintsTextArray.length-1))
+			{
+				currentHintText = 0;
+				firstRoundOfHints = false;
+			}
+			else
+				currentHintText++;
+		}
+	}
+	
+	private void showNextHintText(String doneButtonMessage)
+	{
+		if(!Battery.allParallelsHaveSameVoltage())
+		{
+			hintsText.setText(doneButtonMessage+"Parallel batteries should share the same voltage but can have different capacities.");
+			hintsText.setFontColor(Color.black);
+			if(parallelHintNOtDisplayed)
+			{
+				totalNumberOfHintsUsed++;
+				parallelHintNOtDisplayed = false;
+			}
+		}
+		else if(!Battery.allSeriesHaveSameCapacity())
+		{
+			hintsText.setText(doneButtonMessage+"Batteries connected in series should share the same capacity but can have different voltages.");
+			hintsText.setFontColor(Color.black);
+			if(seriesHintNOtDisplayed)
+			{
+				totalNumberOfHintsUsed++;
+				seriesHintNOtDisplayed = false;
+			}
+		}
+		else
+		{
+			hintsText.setText(doneButtonMessage+hintsTextArray[currentHintText]);
+			hintsText.setFontColor(Color.black);
+			if(firstRoundOfHints)
+				totalNumberOfHintsUsed++;
+			if(currentHintText == (hintsTextArray.length-1))
+			{
+				currentHintText = 0;
+				firstRoundOfHints = false;
+			}
+			else
+				currentHintText++;
+		}
 	}
 	
 	private void initializeText()
@@ -237,9 +297,8 @@ public class BatteryGameScreen extends GUI
 			{
 				if(Battery.getNumberOfBatteries() > 2)
 				{
-					BatteryExitScreen.passEndGameMessage("Sorry...",
-							"You were not successful in completing this Game.",
-							"You could have used fewer number of batteries to solve the game.", Color.red);
+					hintsText.setText("You were not able to solve the Battery Sizing Game correctly. You need to use fewer number of batteries.");
+					hintsText.setFontColor(Color.red);
 				}
 				else if(Battery.getNumberOfBatteries() <= 2)
 				{
@@ -248,26 +307,34 @@ public class BatteryGameScreen extends GUI
 						BatteryExitScreen.passEndGameMessage("Nice Job...",
 								"You have successfully completed the Battery Sizing Game.",
 								"However, This solution is not recommended.", Color.red);
+						Game.getCurrentGame().enterState(BatteryExitScreen.class);
 					}
 					else if(Battery.getTotalVoltage()>12)
 					{
-						BatteryExitScreen.passEndGameMessage("Sorry...",
-								"You were not successful in completing this Game.",
-								"You could have used fewer number of batteries to solve the game.", Color.red);
+						hintsText.setText("You were not able to solve the Battery Sizing Game correctly. You need to use fewer number of batteries.");
+						hintsText.setFontColor(Color.red);
 					}
 					else
 					{
 						BatteryExitScreen.passEndGameMessage("Well Done...",
 								"You have successfully completed the Battery Sizing Game.",
 								"You were able to solve the game in an optimal combination.", Color.blue);
+						Game.getCurrentGame().enterState(BatteryExitScreen.class);
 					}
-				}	
-				Game.getCurrentGame().enterState(BatteryExitScreen.class);
+				}
 			}
 			else
 			{
-				hintsText.setText("Sorry, You were not able to solve the Battery Sizing Game correctly. Try Again.");
+				showNextHintText("You didn't solve the Game correctly. Remember: ");
 			}
+			
+			if(doneButtonCounter >= 5)
+			{
+				hintsText.setText("Using a 200Ah and 12V battery will solve the game.");
+				hintsText.setFontColor(Color.red);
+			}
+			
+				doneButtonCounter++;
 		}
 	}
 	
@@ -275,6 +342,7 @@ public class BatteryGameScreen extends GUI
 	{
 		hintsText.setText("");
 		currentHintText = 0;
+		doneButtonCounter = 0;
 		Battery.reset();
 	}
 }
