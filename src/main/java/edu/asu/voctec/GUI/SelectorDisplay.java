@@ -37,6 +37,14 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	protected int x;
 	protected int y;
 	
+	/**
+	 * Listener for the choice borders of a SelectorDisplay. If any border is
+	 * clicked while it is not empty, the element it currently contains will be
+	 * sent to the associated Selector (if possible).
+	 * 
+	 * @author Moore, Zachary
+	 * 
+	 */
 	public class ChoiceListener extends ButtonListener
 	{
 		@Override
@@ -67,6 +75,13 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		}
 	}
 	
+	/**
+	 * Indicates that an action cannot be completed because a selector display
+	 * has reached its capacity.
+	 * 
+	 * @author Moore, Zachary
+	 * 
+	 */
 	public static class DisplayIsFullException extends Exception
 	{
 		private static final long serialVersionUID = 5948362100760330981L;
@@ -77,15 +92,23 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		}
 	}
 	
+	/**
+	 * Instantiate all static variables, and handle errors in instantiation.
+	 */
 	static
 	{
+		// Attempt to instantiate all static variables
 		try
 		{
+			// Load & Instantiate DefaultBoder Image
 			defaultBorder = new Image(ImagePaths.SelectorDisplayBorders.DEFAULT);
+			
+			// Declare default bounds and sizes
 			defaultBorderBounds = UtilFunctions.getImageBounds(defaultBorder);
 			smallArrowDimension = new Dimension(39, 39);
 			largeArrowDimension = new Dimension(169, 109);
 			
+			// Load & Instantiate Border Images
 			highlightedBorder = new Image(
 					ImagePaths.SelectorDisplayBorders.HIGHLIGHTED)
 					.getScaledCopy(defaultBorderBounds.width,
@@ -97,6 +120,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 					ImagePaths.SelectorDisplayBorders.INCORRECT).getScaledCopy(
 					defaultBorderBounds.width, defaultBorderBounds.height);
 			
+			// Instantiate Arrow Images (Aesthetic Components)
 			smallArrow = new Image(
 					ImagePaths.SelectorDisplayBorders.SMALL_ARROW)
 					.getScaledCopy(smallArrowDimension.width,
@@ -108,10 +132,24 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		}
 		catch (SlickException e)
 		{
+			System.out.println("Selector Display: Static Block: ");
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Base constructor. All other constructors will call this. Protected to
+	 * force all instantiations to explicitly state if the default borders and
+	 * actions should be used.
+	 * 
+	 * @param x
+	 *            -location of this component
+	 * @param y
+	 *            -location of this component
+	 * @param capacity
+	 *            How many elements can this display hold.
+	 * @see #SelectorDisplay(int, int, boolean)
+	 */
 	protected SelectorDisplay(int x, int y, int capacity)
 	{
 		super();
@@ -199,17 +237,19 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	
 	public void updateChoiceBorders()
 	{
-		// TODO
+		// Determine if each element is in the proper position
 		for (int index = 0; index < capacity; index++)
 		{
 			T element = elements.get(index);
 			
+			// Each element's ID should correspond to its index (if correct)
 			if (element == null)
 				this.choiceBorders[index].setCurrentImage(defaultBorder, true);
 			else if (element.getId() == index)
 				this.choiceBorders[index].setCurrentImage(correctBorder, true);
 			else
-				this.choiceBorders[index].setCurrentImage(incorrectBorder, true);
+				this.choiceBorders[index]
+						.setCurrentImage(incorrectBorder, true);
 		}
 		
 	}
@@ -357,6 +397,14 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		associatedSelector.associate(this);
 	}
 	
+	/**
+	 * Attempts to send the provided data to the selector associated with this
+	 * display. Returns true if the data was accepted by the selector.
+	 * 
+	 * @param data
+	 *            Object to send to this display's associated selector.
+	 * @return True if the data was accepted by the selector.
+	 */
 	public boolean sendToSelector(T data)
 	{
 		if (data != null)
@@ -477,7 +525,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		
 		for (Component component : choiceBorders)
 			component.rescale(horizontalScale, verticalScale);
-
+		
 		for (Component component : aethsteticComponents)
 			component.rescale(horizontalScale, verticalScale);
 		
@@ -492,12 +540,27 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		return true;
 	}
 	
+	/**
+	 * Returns true if this selector display has reached its capacity (i.e. has
+	 * no empty spaces).
+	 * 
+	 * @return True if this display is currently full.
+	 */
 	public boolean isFull()
 	{
 		int firstNull = elements.indexOf(null);
 		return (firstNull < 0 || firstNull > capacity);
 	}
 	
+	/**
+	 * Determine the index of the first empty display border (i.e. where the
+	 * next element will be placed when it is received).
+	 * 
+	 * @return The index of the first empty space.
+	 * @throws DisplayIsFullException
+	 *             Indicates that this display has reached its capacity, and all
+	 *             display borders have been filled already.
+	 */
 	public int getCurrentIndex() throws DisplayIsFullException
 	{
 		int currentIndex = elements.indexOf(null);

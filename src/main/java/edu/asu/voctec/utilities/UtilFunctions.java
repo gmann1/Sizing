@@ -186,7 +186,7 @@ public abstract class UtilFunctions
 	
 	public static String getOrdinalRepresentation(int number)
 	{
-		String ordinalRepresentation = Integer.toString(number);
+		String ordinalRepresentation;
 		
 		switch (number)
 		{
@@ -207,6 +207,9 @@ public abstract class UtilFunctions
 				break;
 			case 6:
 				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.SIXTH.getTranslation();
+				break;
+			default:
+				ordinalRepresentation = Integer.toString(number);
 				break;
 		}
 		

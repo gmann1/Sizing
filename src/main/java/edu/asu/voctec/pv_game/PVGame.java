@@ -34,10 +34,9 @@ public class PVGame extends GUI
 	public static final String VerticalLines = "resources/default/img/minigames/BatterySizing/TwoLines.png";
 	private static Image verticalLinesImage;
 	
-	private static final String[] hintsTextArray = {"Parallel PV panels should share the same voltage but can have different power.",
-													"Sets of PV panels connected in series should have the same power but can have different voltage values",
-													"The array can be solved using 1 or 2 PV panels.",
-													"Two panels could be connected in parallel to solve the game."};
+	private static final String[] hintsTextArray = {"The array can be solved using 1 or 2 PV panels.",
+													"Two panels could be connected in parallel to solve the game.",
+													"The game could be solved using only one PV panel."};
 	
 	private  TextField currentVoltage, currentCapacity;
 	private static TextArea hintsText;
@@ -45,8 +44,8 @@ public class PVGame extends GUI
 	public static List<BatteryControl> objectsArray = new ArrayList<BatteryControl>();
 	private List<InitialBattery> initialBatteries = new ArrayList<InitialBattery>();
 	private static final int RequiredCapacity = 127, RequiredVoltage = 12;
-	private boolean firstRoundOfHints = true;
-	public static int totalNumberOfHintsUsed = 0;
+	private boolean firstRoundOfHints = true, parallelHintNOtDisplayed = true, seriesHintNOtDisplayed = true;
+	public static int totalNumberOfHintsUsed = 0, doneButtonCounter = 0;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -150,16 +149,78 @@ public class PVGame extends GUI
 	
 	private void showNextHintText()
 	{
-		hintsText.setText(hintsTextArray[currentHintText]);
-		if(firstRoundOfHints)
-			totalNumberOfHintsUsed++;
-		if(currentHintText == (hintsTextArray.length-1))
+		if(!Battery.allParallelsHaveSameVoltage())
 		{
-			currentHintText = 0;
-			firstRoundOfHints = false;
+			hintsText.setText("Parallel PV panels should share the same voltage but can have different power.");
+			hintsText.setFontColor(Color.black);
+			if(parallelHintNOtDisplayed)
+			{
+				totalNumberOfHintsUsed++;
+				parallelHintNOtDisplayed = false;
+			}
+		}
+		else if(!Battery.allSeriesHaveSameCapacity())
+		{
+			hintsText.setText("PV panels connected in series should have the same power but can have different voltage values.");
+			hintsText.setFontColor(Color.black);
+			if(seriesHintNOtDisplayed)
+			{
+				totalNumberOfHintsUsed++;
+				seriesHintNOtDisplayed = false;
+			}
 		}
 		else
-			currentHintText++;
+		{
+			hintsText.setText(hintsTextArray[currentHintText]);
+			hintsText.setFontColor(Color.black);
+			if(firstRoundOfHints)
+				totalNumberOfHintsUsed++;
+			if(currentHintText == (hintsTextArray.length-1))
+			{
+				currentHintText = 0;
+				firstRoundOfHints = false;
+			}
+			else
+				currentHintText++;
+		}
+	}
+	
+	private void showNextHintText(String doneButtonMessage)
+	{
+		if(!Battery.allParallelsHaveSameVoltage())
+		{
+			hintsText.setText(doneButtonMessage+"Parallel PV panels should share the same voltage but can have different power.");
+			hintsText.setFontColor(Color.black);
+			if(parallelHintNOtDisplayed)
+			{
+				totalNumberOfHintsUsed++;
+				parallelHintNOtDisplayed = false;
+			}
+		}
+		else if(!Battery.allSeriesHaveSameCapacity())
+		{
+			hintsText.setText(doneButtonMessage+"PV panels connected in series should have the same power but can have different voltage values.");
+			hintsText.setFontColor(Color.black);
+			if(seriesHintNOtDisplayed)
+			{
+				totalNumberOfHintsUsed++;
+				seriesHintNOtDisplayed = false;
+			}
+		}
+		else
+		{
+			hintsText.setText(doneButtonMessage+hintsTextArray[currentHintText]);
+			hintsText.setFontColor(Color.black);
+			if(firstRoundOfHints)
+				totalNumberOfHintsUsed++;
+			if(currentHintText == (hintsTextArray.length-1))
+			{
+				currentHintText = 0;
+				firstRoundOfHints = false;
+			}
+			else
+				currentHintText++;
+		}
 	}
 	
 	private void initializeText()
@@ -236,32 +297,37 @@ public class PVGame extends GUI
 			{
 				if(Battery.getNumberOfBatteries() > 2)
 				{
-					PVExit.passEndGameMessage("Sorry...",
-							"You were not successful in completing this Game.",
-							"You could have used fewer number of PV panels to solve the game.", Color.red);
+					hintsText.setText("You were not able to solve the PV Array Sizing Game correctly. You need to use fewer number of PV panels to solve the game.");
+					hintsText.setFontColor(Color.red);
 				}
 				else if(Battery.getNumberOfBatteries() <= 2)
 				{
 					if(Battery.batteryArray.size() == 2)
 					{
-						PVExit.passEndGameMessage("Sorry...",
-								"You were not successful in completing this Game.",
-								"You could have used fewer number of PV panels to solve the game.", Color.red);
+						hintsText.setText("You were not able to solve the PV Array Sizing Game correctly. You need to use fewer number of PV panels to solve the game.");
+						hintsText.setFontColor(Color.red);
 					}
 					else
 					{
 						PVExit.passEndGameMessage("Well Done...",
 								"You have successfully completed the PV Array Sizing Game.",
-								"You were able to solve the game in an optimal combination.", Color.blue);
+								"You were able to solve the game in an optimal combination.", Color.blue);	
+						Game.getCurrentGame().enterState(PVExit.class);
 					}
-				}	
-				Game.getCurrentGame().enterState(PVExit.class);
+				}
 			}
 			else
 			{
-				hintsText.setText("Sorry, You were not able to solve the PV Array Sizing Game correctly. Try Again.");
+				showNextHintText("You didn't solve the Game correctly. Remember: ");
 			}
-
+			
+			if(doneButtonCounter >= 5)
+			{
+				hintsText.setText("Using a 130Watts and 12V PV panel will solve the game.");
+				hintsText.setFontColor(Color.red);
+			}
+			
+			doneButtonCounter++;
 		}
 	}
 
@@ -270,6 +336,7 @@ public class PVGame extends GUI
 	{
 		hintsText.setText("");
 		currentHintText = 0;
+		doneButtonCounter = 0;
 		Battery.reset();
 	}
 }
