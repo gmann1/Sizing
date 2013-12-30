@@ -25,6 +25,8 @@ import edu.asu.voctec.game_states.TaskScreen;
 
 public class EAPart2IntroScreen extends GUI
 {
+	private static final String CONTINUE = "resources/default/img/minigames/energyAssessment/continueButton.png";
+	private static final String EXIT = "resources/default/img/minigames/energyAssessment/exitButton.png";
 	private static final String BACKGROUND = "resources/default/img/minigames/energyAssessment/background.png";
 	
 		@Override
@@ -41,24 +43,22 @@ public class EAPart2IntroScreen extends GUI
 			this.addComponent(topTextField);
 			
 			//intro text
-			Rectangle introTextLocation = new Rectangle(50, 100, 700, 350);
+			Rectangle introTextLocation = new Rectangle(50, 100, 700, 400);
 			TextField introTextField = new TextField(introTextLocation, 0.90f, "Information...", null);
 			introTextField.setFontColor(Color.black);
 			introTextField.setFillColor(Color.white);
 			this.addComponent(introTextField);
 			
 			//Next Button
-			Button Next = new Button(new Image(ImagePaths.ARROW_RIGHT), 700, 465, new Rectangle(50,50,300,50), "Next");
+			Button Next = new Button(new Image(CONTINUE), 575, 500, new Rectangle(50,50,300,50), "");
 			Next.addActionListener(new TransitionButtonListener(EAPart2.class));
 			this.addComponent(Next);
 			
+			//Exit Button
+			Button exit = new Button(new Image(EXIT), 50, 500, new Rectangle(50,50,300,50), "");
+			exit.addActionListener(new TransitionButtonListener(TaskScreen.class));
+			this.addComponent(exit);
 			
-			////Testing Stuff can be deleted later////
-			System.out.println("EAPart1IntroScreen");
-					
-			Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 750, 0, new Rectangle(50,50,300,50), "Start!");
-			Start.addActionListener(new TransitionButtonListener(EAPart2.class));
-			this.addComponent(Start);
 		}
 		
 		

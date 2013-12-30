@@ -14,6 +14,9 @@ import edu.asu.voctec.game_states.GUI;
 
 public class EAPart2 extends GUI
 {
+	private static final String READY = "resources/default/img/minigames/energyAssessment/readyButton.png";
+	private static final String NOTREADY = "resources/default/img/minigames/energyAssessment/readyButtonGray.png";
+	private static final String BACK = "resources/default/img/minigames/energyAssessment/backButton.png";
 	private static final String BACKGROUND = "resources/default/img/minigames/energyAssessment/background.png";
 	
 	@Override
@@ -21,6 +24,15 @@ public class EAPart2 extends GUI
 	{
 		this.backgroundImage = new Image(BACKGROUND);
 		
+		////Ready Button////
+		Button ready = new Button(new Image(READY), 575, 500, new Rectangle(50,50,300,50), "");
+		ready.addActionListener(new TransitionButtonListener(EAPart2ScoreScreen.class));
+		this.addComponent(ready);
+		
+		//Back Button
+		Button back = new Button(new Image(BACK), 50, 500, new Rectangle(50,50,300,50), "");
+		back.addActionListener(new TransitionButtonListener(EAPart2IntroScreen.class));
+		this.addComponent(back);
 		
 		////Testing Stuff can be deleted later////
 		System.out.println("EAPart1IntroScreen");
