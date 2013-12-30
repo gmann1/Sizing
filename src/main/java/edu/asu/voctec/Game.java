@@ -16,7 +16,10 @@ import edu.asu.voctec.cdmg.CDIntroScreen;
 import edu.asu.voctec.cdmg.CDPart1;
 import edu.asu.voctec.cdmg.CDPart2;
 import edu.asu.voctec.cdmg.CDPart3;
+import edu.asu.voctec.controller_sizing.ControllerSizingExit;
 import edu.asu.voctec.controller_sizing.ControllerSizingIntroScreen;
+import edu.asu.voctec.controller_sizing.ControllerSizingPart1;
+import edu.asu.voctec.controller_sizing.ControllerSizingPart2;
 import edu.asu.voctec.energy_assessment.EAPart1;
 import edu.asu.voctec.energy_assessment.EAPart1IntroScreen;
 import edu.asu.voctec.energy_assessment.EAPart1ScoreScreen;
@@ -174,6 +177,9 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new EAPart2ScoreScreen());
 		this.addState(new SelectorTest());
 		this.addState(new ControllerSizingIntroScreen());
+		this.addState(new ControllerSizingExit());
+		this.addState(new ControllerSizingPart1());
+		this.addState(new ControllerSizingPart2());
 		
 		// Move to the default game state
 		this.enterState(Game.DEFAULT_GAME_STATE);

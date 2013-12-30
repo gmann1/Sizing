@@ -256,7 +256,6 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	
 	public boolean verifyChoices(boolean updateBorders)
 	{
-		// TODO Test
 		boolean correctChoices = true;
 		
 		for (int index = 0; index < capacity; index++)
@@ -416,18 +415,21 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	@Override
 	public void draw(Graphics graphics)
 	{
+		// Draw choice borders
 		for (Component border : this.choiceBorders)
 		{
 			if (border != null)
 				border.draw(graphics);
 		}
 		
+		// Draw choice icons
 		for (Component element : this.elements)
 		{
 			if (element != null)
 				element.draw(graphics);
 		}
 		
+		// Draw arrows and other aethstetic components
 		for (Component component : this.aethsteticComponents)
 		{
 			if (component != null)
@@ -460,6 +462,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	@Override
 	public void setX(int x)
 	{
+		// TODO replace with delta translations
 		// Make choiceBorder positions relative to this component
 		UtilFunctions.translateAll(-this.x, -y, aethsteticComponents);
 		UtilFunctions.translateAll(-this.x, -y, choiceBorders);
@@ -474,6 +477,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	@Override
 	public void setY(int y)
 	{
+		// TODO replace with delta translations
 		// Make choiceBorder positions relative to this component
 		UtilFunctions.translateAll(-x, -this.y, aethsteticComponents);
 		UtilFunctions.translateAll(-x, -this.y, choiceBorders);
