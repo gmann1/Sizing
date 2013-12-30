@@ -217,7 +217,7 @@ public interface GameDefaults
 					"Press the redy button to verify your choices.");
 			public static final LabelName INSTRUCTIONS_CORRECT = new LabelName(
 					"instructionsCorrect",
-					"Press ready to continue.");
+					"Correct! Press ready to continue.");
 		}
 	}
 }

@@ -30,6 +30,15 @@ public class SelectorTest extends GUI
 	private TextField instructionsLabel;
 	private boolean complete;
 	
+	/**
+	 * Listener for the ready button. If the button is pressed before all
+	 * choices have been made, a message will be displayed asking the user to
+	 * complete his/her selections. Otherwise, the user's choices will be
+	 * verified and the instructions and hints will be updated accordingly.
+	 * 
+	 * @author Moore, Zachary
+	 * 
+	 */
 	public class ReadyButtonListener extends ButtonListener
 	{
 		
@@ -40,6 +49,7 @@ public class SelectorTest extends GUI
 			if (complete)
 			{
 				// TODO transition to score screen
+				System.out.println("Transfer");
 			}
 			else
 			{
@@ -176,7 +186,12 @@ public class SelectorTest extends GUI
 		{
 			// Determine instruction text
 			String instructions;
-			instructions = Labels.Step0.INSTRUCTIONS_COMPLETE.getTranslation();
+			if (complete)
+				instructions = Labels.Step0.INSTRUCTIONS_CORRECT
+						.getTranslation();
+			else
+				instructions = Labels.Step0.INSTRUCTIONS_COMPLETE
+						.getTranslation();
 			
 			// Set instructions label text
 			this.instructionsLabel.setText(instructions);
