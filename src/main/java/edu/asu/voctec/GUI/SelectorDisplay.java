@@ -5,12 +5,15 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Random;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import edu.asu.voctec.GameDefaults.ImagePaths;
+import edu.asu.voctec.GameDefaults.Labels.Step0;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.SelectorTest;
 import edu.asu.voctec.utilities.UtilFunctions;
@@ -276,8 +279,94 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	
 	public ArrayList<String> deriveHints()
 	{
-		// TODO
-		throw new UnsupportedOperationException();
+		return deriveHints(false);
+	}
+	
+	public ArrayList<String> deriveHints(boolean shuffle)
+	{
+		ArrayList<String> hints = new ArrayList<>();
+		ArrayList<T> orderedElements = generateOrderedElementsArray();
+		ArrayList<T> misplacedElements = determineMisplacedElements(elements);
+		
+		for (T misplacedElement : misplacedElements)
+			hints.add(deriveHint(misplacedElement, orderedElements));
+		
+		if (shuffle)
+			Collections.shuffle(hints);
+		
+		return hints;
+	}
+	
+	protected String deriveHint(T element, ArrayList<T> orderedElements)
+	{
+		if (element == null)
+			throw new NullPointerException("Hint cannot be derived from null!");
+		else if (orderedElements == null)
+			throw new NullPointerException("Ordered Array Required");
+		
+		String hint;
+		int actualIndex = this.elements.indexOf(element);
+		int properIndex = element.getId();
+		
+		if (actualIndex == properIndex)
+		{
+			hint = element.getName() + " " + Step0.Hints.CORRECT_STEP;
+		}
+		else
+		{
+			Random random = new Random();
+			int rootIndex = random.nextInt() % orderedElements.size();
+			
+			// Choose an element other than the misplaced element
+			while (rootIndex == properIndex)
+				rootIndex = random.nextInt() % orderedElements.size();
+			
+			rootIndex = (rootIndex < 0) ? -rootIndex : rootIndex;
+			T root = orderedElements.get(rootIndex);
+			int order = actualIndex - rootIndex;
+			String keyWord;
+			
+			if (order < 0)
+				keyWord = Step0.Hints.BEFORE.getTranslation();
+			else
+				keyWord = Step0.Hints.AFTER.getTranslation();
+			
+			hint = element.getName() + " " + Step0.Hints.HINT_BODY.getTranslation() + " "
+					+ keyWord + " " + root.getName() + ".";
+		}
+		
+		return hint;
+	}
+	
+	public static <E extends SelectorIcon> ArrayList<E> determineMisplacedElements(
+			ArrayList<E> elements)
+	{
+		ArrayList<E> misplacedElements = new ArrayList<>();
+		
+		for (int index = 0; index < elements.size(); index++)
+		{
+			E element = elements.get(index);
+			
+			if (element != null && element.getId() != index)
+				misplacedElements.add(element);
+		}
+		
+		return misplacedElements;
+	}
+	
+	protected ArrayList<T> generateOrderedElementsArray()
+	{
+		ArrayList<T> sortedElements = new ArrayList<>(capacity);
+		UtilFunctions.populateNull(sortedElements, capacity);
+		
+		for (T element : elements)
+		{
+			// Add each element to the index specified by its ID
+			if (element != null)
+				sortedElements.set(element.getId(), element);
+		}
+		
+		return sortedElements;
 	}
 	
 	protected ArrayList<BasicComponent> generateDefaultFormation(int spacing,

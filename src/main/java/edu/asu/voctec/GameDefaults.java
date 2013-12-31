@@ -204,6 +204,18 @@ public interface GameDefaults
 		
 		public interface Step0
 		{
+			public interface Hints
+			{
+				public static final LabelName CORRECT_STEP = new LabelName(
+						"correctStep", "is placed correctly!");
+				public static final LabelName BEFORE = new LabelName(
+						"before", "before");
+				public static final LabelName AFTER = new LabelName(
+						"after", "after");
+				public static final LabelName HINT_BODY = new LabelName(
+						"hintBody", "should be completed");
+			}
+			
 			public static final LabelName INSTRUCTIONS1 = new LabelName(
 					"instructions1", "Select which step to complete");
 			public static final LabelName INSTRUCTIONS2 = new LabelName(

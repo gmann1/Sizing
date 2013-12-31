@@ -155,7 +155,7 @@ public class Game extends StateBasedGame implements Singleton
 		// Initialize & Add all GameStates
 		this.addState(new MainMenu());
 		this.addState(new MenuTest());
-		this.addState(new InstructorControlPanel());
+		/*this.addState(new InstructorControlPanel());
 		this.addState(new LanguageMenu());
 		this.addState(new TaskScreen());
 		this.addState(new CDPart1());
@@ -175,11 +175,11 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new EAPart2());
 		this.addState(new EAPart2IntroScreen());
 		this.addState(new EAPart2ScoreScreen());
-		this.addState(new SelectorTest());
 		this.addState(new ControllerSizingIntroScreen());
 		this.addState(new ControllerSizingExit());
 		this.addState(new ControllerSizingPart1());
-		this.addState(new ControllerSizingPart2());
+		this.addState(new ControllerSizingPart2());*/
+		this.addState(new SelectorTest());
 		
 		// Move to the default game state
 		this.enterState(Game.DEFAULT_GAME_STATE);
