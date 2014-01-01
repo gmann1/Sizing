@@ -74,13 +74,13 @@ public abstract class Component implements Displayable, Resizable
 	}
 	
 	@Override
-	public boolean rescale(float scale)
+	public final boolean rescale(float scale)
 	{
 		return rescale(scale, scale);
 	}
 	
 	@Override
-	public boolean rescale(int width, int height)
+	public final boolean rescale(int width, int height)
 	{
 		float[] scales = getScales(width, height);
 		return rescale(scales[0], scales[1]);
@@ -102,8 +102,7 @@ public abstract class Component implements Displayable, Resizable
 	{
 		Rectangle newBounds = UtilFunctions.getScaledRectangle(getBounds(),
 				horizontalScale, verticalScale);
-
-		System.out.println("Receieved Bounds: " + newBounds);
+		
 		return setBounds(newBounds);
 	}
 	

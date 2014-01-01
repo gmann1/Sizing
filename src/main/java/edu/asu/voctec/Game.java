@@ -37,6 +37,8 @@ import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.pv_game.PVExit;
 import edu.asu.voctec.pv_game.PVGame;
 import edu.asu.voctec.pv_game.PVIntro;
+import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
+import edu.asu.voctec.step_selection.StepSelectionExitScreen;
 import edu.asu.voctec.utilities.Singleton;
 
 /**
@@ -158,6 +160,9 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new InstructorControlPanel());
 		this.addState(new LanguageMenu());
 		this.addState(new TaskScreen());
+		this.addState(new ScenarioIntroductionScreen());
+		this.addState(new SelectorTest());
+		this.addState(new StepSelectionExitScreen());
 		this.addState(new CDPart1());
 		this.addState(new CDPart2());
 		this.addState(new CDPart3());
@@ -175,7 +180,6 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new EAPart2());
 		this.addState(new EAPart2IntroScreen());
 		this.addState(new EAPart2ScoreScreen());
-		this.addState(new SelectorTest());
 		this.addState(new ControllerSizingIntroScreen());
 		this.addState(new ControllerSizingExit());
 		this.addState(new ControllerSizingPart1());
@@ -198,8 +202,16 @@ public class Game extends StateBasedGame implements Singleton
 	@Override
 	public void addState(GameState state)
 	{
-		super.addState(state);
-		gameStates.put(state.getClass(), state.getID());
+		if (state instanceof ModifiedGameState)
+		{
+			super.addState(state);
+			gameStates.put(state.getClass(), state.getID());
+		}
+		else
+		{
+			throw new IllegalArgumentException(
+					"Game only accepts ModifiedGameStates.");
+		}
 	}
 	
 	@Override

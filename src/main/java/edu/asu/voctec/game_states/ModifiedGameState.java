@@ -12,10 +12,10 @@ public abstract class ModifiedGameState extends BasicGameState implements
 		Resizable, Translatable, GameDefaults
 {
 	private static int currentID = 0;
-	
 	private int ID;
 	
 	public abstract Dimension getDesignResolution();
+	public abstract void onEnter();
 	
 	public ModifiedGameState()
 	{
@@ -31,14 +31,14 @@ public abstract class ModifiedGameState extends BasicGameState implements
 	{
 		return ID;
 	}
-
+	
 	@Override
 	public void updateTranslation()
 	{
 		// TODO Auto-generated method stub
 		// TODO REMOVE
 	}
-
+	
 	@Override
 	public boolean rescale(float scale)
 	{
@@ -46,7 +46,7 @@ public abstract class ModifiedGameState extends BasicGameState implements
 		// TODO REMOVE
 		return false;
 	}
-
+	
 	@Override
 	public boolean rescale(float horizontalScale, float verticalScale)
 	{
@@ -54,7 +54,7 @@ public abstract class ModifiedGameState extends BasicGameState implements
 		// TODO REMOVE
 		return false;
 	}
-
+	
 	@Override
 	public boolean rescale(int width, int height)
 	{
@@ -62,7 +62,7 @@ public abstract class ModifiedGameState extends BasicGameState implements
 		// TODO REMOVE
 		return false;
 	}
-
+	
 	@Override
 	public boolean resize(int width, int height)
 	{
@@ -70,7 +70,7 @@ public abstract class ModifiedGameState extends BasicGameState implements
 		// TODO REMOVE
 		return false;
 	}
-
+	
 	@Override
 	public boolean resize(Dimension dimension)
 	{

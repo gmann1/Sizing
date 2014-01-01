@@ -3,6 +3,7 @@ package edu.asu.voctec.utilities;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.newdawn.slick.Image;
 
@@ -17,6 +18,19 @@ import edu.asu.voctec.GUI.Component;
  */
 public abstract class UtilFunctions
 {
+	public static Image createImage(String imagePath)
+	{
+		try
+		{
+			return new Image(imagePath);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public static void centerRectangleVertically(final Rectangle container,
 			Rectangle moveableRectangle)
 	{
@@ -105,22 +119,27 @@ public abstract class UtilFunctions
 	public static void translateAll(Point translationAmount,
 			Component... components)
 	{
-		translateAll(translationAmount.x, translationAmount.y);
+		translateAll(translationAmount.x, translationAmount.y, components);
 	}
 	
 	public static void translateAll(int horizontalAmount, int verticalAmount,
 			Component... components)
 	{
 		for (Component component : components)
-		{
 			component.translate(horizontalAmount, verticalAmount);
-		}
 	}
 	
 	public static void translateAll(int horizontalAmount, int verticalAmount,
 			ArrayList<Component> components)
 	{
-		UtilFunctions.translateAll(horizontalAmount, verticalAmount,
+		translateAll(horizontalAmount, verticalAmount,
+				components.toArray(new Component[components.size()]));
+	}
+	
+	public static void translateAll(Point translationAmount,
+			ArrayList<Component> components)
+	{
+		translateAll(translationAmount,
 				components.toArray(new Component[components.size()]));
 	}
 	
@@ -191,22 +210,28 @@ public abstract class UtilFunctions
 		switch (number)
 		{
 			case 1:
-				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.FIRST.getTranslation();
+				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.FIRST
+						.getTranslation();
 				break;
 			case 2:
-				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.SECOND.getTranslation();
+				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.SECOND
+						.getTranslation();
 				break;
 			case 3:
-				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.THIRD.getTranslation();
+				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.THIRD
+						.getTranslation();
 				break;
 			case 4:
-				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.FOURTH.getTranslation();
+				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.FOURTH
+						.getTranslation();
 				break;
 			case 5:
-				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.FIFTH.getTranslation();
+				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.FIFTH
+						.getTranslation();
 				break;
 			case 6:
-				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.SIXTH.getTranslation();
+				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.SIXTH
+						.getTranslation();
 				break;
 			default:
 				ordinalRepresentation = Integer.toString(number);
@@ -214,5 +239,12 @@ public abstract class UtilFunctions
 		}
 		
 		return ordinalRepresentation;
+	}
+	
+	public static void populateNull(List<?> list, int numberOfElements)
+	{
+		list.clear();
+		for (int index = 0; index < numberOfElements; index++)
+			list.add(null);
 	}
 }

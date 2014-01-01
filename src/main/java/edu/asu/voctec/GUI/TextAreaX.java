@@ -17,21 +17,23 @@ public class TextAreaX extends TextArea
 	{
 		super(bounds, textBounds, awtFont, antiAlias, null);
 		setText(text);
-		System.out.println("Lines: " + Arrays.toString(lines.toArray(new String[lines.size()])));
+		System.out.println("Lines: "
+				+ Arrays.toString(lines.toArray(new String[lines.size()])));
 	}
 	
 	public TextAreaX(Rectangle bounds, Rectangle textBounds, String text)
 	{
 		this(bounds, textBounds, Defaults.AWT_FONT, Fonts.ANTI_ALLIAS, text);
 	}
-
+	
 	public TextAreaX(Rectangle bounds, float textBounds, Font awtFont,
 			boolean antiAlias, String text)
 	{
-		this(bounds, UtilFunctions.dialateRelativeRectangle(bounds, textBounds),
+		this(bounds,
+				UtilFunctions.dialateRelativeRectangle(bounds, textBounds),
 				awtFont, antiAlias, text);
 	}
-
+	
 	public TextAreaX(Rectangle bounds, float textBounds, String text)
 	{
 		this(bounds,
@@ -55,7 +57,8 @@ public class TextAreaX extends TextArea
 		{
 			// Determine where this block ends
 			int blockEndIndex = lines.indexOf(null);
-			if (blockEndIndex < 0) blockEndIndex = lines.size();
+			if (blockEndIndex < 0)
+				blockEndIndex = lines.size();
 			StringBuilder blockText = new StringBuilder();
 			
 			// Combine all lines in this block with a space
@@ -66,7 +69,8 @@ public class TextAreaX extends TextArea
 			}
 			
 			// Wrap this block across multiple lines
-			ArrayList<String> wrappedBlock = TextSupport.wrapText(font, blockText.toString(), textBounds.width);
+			ArrayList<String> wrappedBlock = TextSupport.wrapText(font,
+					blockText.toString(), textBounds.width);
 			
 			// Add this block to the new line array
 			wrappedText.addAll(wrappedBlock);
@@ -132,7 +136,7 @@ public class TextAreaX extends TextArea
 			return "";
 		else
 		{
-			//TODO test
+			// TODO test
 			StringBuilder clip = new StringBuilder();
 			
 			int startingIndex = maximumDisplayLines;
@@ -161,22 +165,28 @@ public class TextAreaX extends TextArea
 				: lines.size();
 		
 		int x = textBounds.x + bounds.x;
-		int y = textBounds.y  + bounds.y;
+		int y = textBounds.y + bounds.y;
 		
 		for (int lineIndex = 0; lineIndex < maxLine; lineIndex++)
 		{
 			String lineText = lines.get(lineIndex);
 			
-			// Disregard newLine marks
+			// Disregard single newLine marks
 			if (lineText != null)
 			{
 				graphics.drawString(lineText, x, y);
 				y += locationIncrement;
 			}
+			// Treat 2 newLine marks as a blank line
+			else if (lineIndex > 0 && lines.get(lineIndex - 1) == null)
+				y += locationIncrement;
+			// Do not count disregarded NL marks against the line count
+			else
+				maxLine = (++maxLine < lines.size()) ? maxLine : lines.size();
 		}
 		
 	}
-
+	
 	@Override
 	protected void formatText()
 	{
@@ -199,7 +209,8 @@ public class TextAreaX extends TextArea
 		
 		for (String textBlock : textBlocks)
 		{
-			lines.addAll(TextSupport.wrapText(font, textBlock, textBounds.width));
+			lines.addAll(TextSupport
+					.wrapText(font, textBlock, textBounds.width));
 			lines.add(null);
 			extraNull = true;
 		}
@@ -209,16 +220,46 @@ public class TextAreaX extends TextArea
 			lines.remove(lines.size() - 1);
 	}
 	
-	public void addLine(String text)
+	public void addLine()
 	{
 		lines.add(null);
+	}
+	
+	public void addLine(String text)
+	{
+		if (lines.size() > 0)
+			addLine();
+		
 		append(text);
+	}
+	
+	public void addLines(ArrayList<String> lines)
+	{
+		addLines(lines, false);
+	}
+	
+	public void addLines(ArrayList<String> lines, boolean doubleSpaced)
+	{
+		if (lines != null)
+		{
+			for (String line : lines)
+			{
+				addLine(line);
+				if (doubleSpaced)
+					addLine();
+			}
+		}
 	}
 	
 	public void clear()
 	{
 		lines.clear();
 		this.clipedText = "";
+	}
+	
+	public void printLines()
+	{
+		System.out.println("Lines: " + Arrays.toString(lines.toArray()));
 	}
 	
 }
