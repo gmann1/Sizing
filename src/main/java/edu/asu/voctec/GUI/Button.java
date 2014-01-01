@@ -13,7 +13,7 @@ import edu.asu.voctec.utilities.UtilFunctions;
 public class Button extends BasicComponent
 {
 	protected TextField textField;
-	
+
 	public Button(Image image, int x, int y, Rectangle relativeTextBounds,
 			String text)
 	{

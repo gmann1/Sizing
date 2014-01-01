@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GameDefaults.ImagePaths.SelectorIcons;
 import edu.asu.voctec.Main;
 import edu.asu.voctec.GUI.Button;
@@ -20,6 +21,7 @@ import edu.asu.voctec.GUI.SelectorIcon;
 import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
+import edu.asu.voctec.step_selection.StepSelectionExitScreen;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class SelectorTest extends GUI
@@ -36,6 +38,10 @@ public class SelectorTest extends GUI
 	 * complete his/her selections. Otherwise, the user's choices will be
 	 * verified and the instructions and hints will be updated accordingly.
 	 * 
+	 * If this listener is activated after the choices have been verified and
+	 * this state is marked as complete, the user will be transfered to the
+	 * StepSelectionExitScreen.
+	 * 
 	 * @author Moore, Zachary
 	 * 
 	 */
@@ -45,11 +51,9 @@ public class SelectorTest extends GUI
 		@Override
 		protected void actionPerformed()
 		{
-			System.out.println("Ready!");
 			if (complete)
 			{
-				// TODO transition to score screen
-				System.out.println("Transfer");
+				Game.getCurrentGame().enterState(StepSelectionExitScreen.class);
 			}
 			else
 			{
@@ -90,7 +94,7 @@ public class SelectorTest extends GUI
 		Rectangle centered = new Rectangle(selector.getBounds());
 		UtilFunctions.centerRectangleHorizontally(
 				new Rectangle(Main.getCurrentScreenDimension()), centered);
-		selector.translate(centered.x - 75, 600 - centered.height);
+		selector.translate(centered.x - 75, 620 - centered.height);
 		
 		// Add each of 5 steps to the selector
 		selector.add(new SelectorIcon(SelectorIcons.ENERGY_ASSESSMENT,
@@ -111,7 +115,7 @@ public class SelectorTest extends GUI
 		
 		// Selector Display
 		// Setup a new selector display, and link it to the selector
-		selectorDisplay = new SelectorDisplay<>(38, 28, true);
+		selectorDisplay = new SelectorDisplay<>(50, 40, true);
 		selectorDisplay.rescale(0.80f);
 		selectorDisplay.link(selector);
 		

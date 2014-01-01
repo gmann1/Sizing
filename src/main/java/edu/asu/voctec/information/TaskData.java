@@ -3,78 +3,171 @@ package edu.asu.voctec.information;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import edu.asu.voctec.GameDefaults;
+import edu.asu.voctec.Game;
+import edu.asu.voctec.GameDefaults.Fonts;
+import edu.asu.voctec.GameDefaults.ImagePaths;
+import edu.asu.voctec.GameDefaults.Labels;
 import edu.asu.voctec.GUI.Button;
-import edu.asu.voctec.GUI.TransitionButtonListener;
+import edu.asu.voctec.GUI.ButtonListener;
+import edu.asu.voctec.GUI.Component;
+import edu.asu.voctec.GUI.ProgressBar;
+import edu.asu.voctec.GUI.TextArea;
+import edu.asu.voctec.GUI.TextAreaX;
+import edu.asu.voctec.GUI.TextDisplay;
+import edu.asu.voctec.GUI.TextField;
+import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TaskData
 {
-	public static Image DEFAULT_IMAGE;
+	public static final Image DEFAULT_IMAGE = UtilFunctions
+			.createImage(ImagePaths.TaskScreen.STEP_FIVE);
+	
+	public static MultiTaskListener activeListener;
 	
 	protected Image buttonImageInaccessible;
 	protected Image buttonImageComplete;
 	protected Image buttonImageAccessible;
 	
-	protected Class<?> associatedHub;
-	protected Class<?> associatedTaskScreen;
+	protected TaskScreen associatedHub;
+	protected Class<?> associatedTask;
 	protected ArrayList<AttemptData> listOfAttempts;
 	protected boolean complete;
 	protected boolean accessible;
 	protected Button taskIcon;
 	
-	public class ConditionalTransitionListener extends TransitionButtonListener
+	protected ArrayList<Component> informationComponents;
+	protected TextAreaX inaccessibleText;
+	
+	public class MultiTaskListener extends ButtonListener
 	{
+		protected boolean displayingComponents;
 		
-		public ConditionalTransitionListener(Class<?> transitionScreen)
+		public MultiTaskListener()
 		{
-			super(transitionScreen);
+			this.displayingComponents = false;
 		}
 		
 		@Override
 		protected void actionPerformed()
 		{
-			// if (accessible && !complete)
-			super.actionPerformed();
-			// TODO add //else if(complete)
+			if (displayingComponents)
+			{
+				stopDisplaying();
+			}
+			else
+			{
+				if (activeListener != null)
+					activeListener.stopDisplaying();
+				
+				activeListener = this;
+				
+				if (accessible)
+					associatedHub.queueAddComponents(informationComponents);
+				else
+					associatedHub.queueAddComponents(inaccessibleText);
+			}
+			
+			// Toggle Displaying
+			displayingComponents = !displayingComponents;
+		}
+		
+		public void stopDisplaying()
+		{
+			if (displayingComponents)
+			{
+				associatedHub.queueRemoveComponents(informationComponents);
+				associatedHub.queueRemoveComponents(inaccessibleText);
+			}
+			
+			displayingComponents = false;
 		}
 		
 	}
 	
-	static
+	public class ReplayContinueComboListener extends ButtonListener
 	{
-		try
+		
+		@Override
+		protected void actionPerformed()
 		{
-			DEFAULT_IMAGE = new Image(
-					GameDefaults.ImagePaths.TaskScreen.STEP_FIVE);
+			// TODO Auto-generated method stub
+			AttemptData currentAttempt = getCurrentAttempt();
+			
+			if (currentAttempt == null || currentAttempt.isComplete())
+			{
+				// TODO create and load new attempt
+				listOfAttempts.add(null);
+				
+			}
+			else
+			{
+				// TODO start using current attempt
+			}
+			
+			Game.getCurrentGame().enterState(associatedTask);
 		}
-		catch (SlickException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 	
-	public TaskData(Class<?> associatedTaskScreen,
-			Rectangle relativeTextBounds, String name)
+	public TaskData(Class<?> associatedTask, TaskScreen associatedHub,
+			Rectangle relativeTextBounds, String name) throws SlickException
 	{
-		this.associatedTaskScreen = associatedTaskScreen;
+		this.associatedHub = associatedHub;
+		this.associatedTask = associatedTask;
 		this.listOfAttempts = new ArrayList<>();
 		this.complete = false;
 		this.accessible = false;
 		this.taskIcon = new Button(DEFAULT_IMAGE, 0, 0, relativeTextBounds,
 				name);
 		
-		taskIcon.addActionListener(new ConditionalTransitionListener(
-				associatedTaskScreen));
+		this.informationComponents = new ArrayList<>();
+		populateInformationComponents(name, informationComponents);
+		
+		taskIcon.addActionListener(new MultiTaskListener());
 	}
 	
-	public TaskData(Class<?> associatedTaskScreen, String name)
+	public TaskData(Class<?> associatedTaskScreen, TaskScreen taskScreen,
+			String name) throws SlickException
 	{
-		this(associatedTaskScreen, UtilFunctions.getImageBounds(DEFAULT_IMAGE), name);
+		this(associatedTaskScreen, taskScreen, UtilFunctions
+				.getImageBounds(DEFAULT_IMAGE), name);
+	}
+	
+	public void populateInformationComponents(String name,
+			ArrayList<Component> informationComponents) throws SlickException
+	{
+		informationComponents.clear();
+		// Inaccessible Text Area
+		Rectangle relativeBounds = new Rectangle(0, 0, 400, 300);
+		inaccessibleText = new TextAreaX(relativeBounds, 0.92f,
+				Labels.TaskScreen.INACCESSIBLE_TEXT.getTranslation());
+		inaccessibleText.setFontSize(Fonts.FONT_SIZE_LARGE);
+		inaccessibleText.setFontColor(Color.white);
+		
+		// Name Label
+		relativeBounds = new Rectangle(0, 0, 400, 100);
+		TextField nameLabel = new TextField(relativeBounds, 0.92f, name,
+				TextDisplay.FormattingOption.FIT_TEXT);
+		nameLabel.center();
+		nameLabel.setFontColor(Color.white);
+		informationComponents.add(nameLabel);
+		
+		// Progress Bar
+		relativeBounds = new Rectangle(0, 100, 400, 100);
+		ProgressBar progressBar = new ProgressBar(relativeBounds);
+		progressBar.setImages(ImagePaths.TaskScreen.PROGRESS_BAR_FULL,
+				ImagePaths.TaskScreen.PROGRESS_BAR_EMPTY,
+				ImagePaths.TaskScreen.PROGRESS_BAR_BORDER);
+		informationComponents.add(progressBar);
+		
+		// TODO Add Ready/Replay Button
+		
+		// TODO Add Star Score
 	}
 	
 	public void setImages(Image inaccessible, Image complete, Image accessible)
@@ -143,22 +236,30 @@ public class TaskData
 	{
 		listOfAttempts.add(attemptData);
 	}
-
+	
 	public ArrayList<AttemptData> getListOfAttempts()
 	{
 		return listOfAttempts;
 	}
-
+	
 	public boolean isComplete()
 	{
 		return complete;
 	}
-
+	
 	public boolean isAccessible()
 	{
 		return accessible;
 	}
 	
+	public ArrayList<Component> getInformationComponents()
+	{
+		return informationComponents;
+	}
 	
+	public TextArea getInaccessibleText()
+	{
+		return inaccessibleText;
+	}
 	
 }
