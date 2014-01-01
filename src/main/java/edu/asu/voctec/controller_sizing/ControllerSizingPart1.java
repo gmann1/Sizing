@@ -1,30 +1,15 @@
 package edu.asu.voctec.controller_sizing;
 
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.GUI.BasicComponent;
-import edu.asu.voctec.GUI.Button;
-import edu.asu.voctec.GUI.ButtonListener;
-import edu.asu.voctec.GUI.SelectorIcon;
-import edu.asu.voctec.GUI.TextArea;
-import edu.asu.voctec.GUI.TextDisplay;
-import edu.asu.voctec.GUI.TextField;
-import edu.asu.voctec.GUI.TransitionButtonListener;
-import edu.asu.voctec.game_states.GUI;
-import edu.asu.voctec.utilities.UtilFunctions;
 import edu.asu.voctec.game_states.GUI;
 
 public class ControllerSizingPart1 extends GUI {
@@ -172,8 +157,6 @@ public class ControllerSizingPart1 extends GUI {
 		
 		if ((houseTransition)%(houseIncrements.get(currentHouseIndex)*10) == 0){
 			houseTransition = 0;
-			System.out.println(houseTransition);
-			System.out.println(houseIncrements.get(currentHouseIndex)*10);
 			if (generator.nextInt(3) == 0){
 				houseHalf = false;
 				houseFull = false;
