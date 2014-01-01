@@ -3,6 +3,7 @@ package edu.asu.voctec.utilities;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.newdawn.slick.Image;
 
@@ -186,7 +187,7 @@ public abstract class UtilFunctions
 	
 	public static String getOrdinalRepresentation(int number)
 	{
-		String ordinalRepresentation = Integer.toString(number);
+		String ordinalRepresentation;
 		
 		switch (number)
 		{
@@ -208,8 +209,18 @@ public abstract class UtilFunctions
 			case 6:
 				ordinalRepresentation = GameDefaults.Labels.OrdinalNumbers.SIXTH.getTranslation();
 				break;
+			default:
+				ordinalRepresentation = Integer.toString(number);
+				break;
 		}
 		
 		return ordinalRepresentation;
+	}
+	
+	public static void populateNull(List<?> list, int numberOfElements)
+	{
+		list.clear();
+		for (int index = 0; index < numberOfElements; index++)
+			list.add(null);
 	}
 }

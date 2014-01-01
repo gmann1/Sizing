@@ -15,10 +15,10 @@ import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.Selector;
 import edu.asu.voctec.GUI.SelectorDisplay;
-import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.SelectorDisplay.DisplayIsFullException;
 import edu.asu.voctec.GUI.SelectorIcon;
 import edu.asu.voctec.GUI.TextAreaX;
+import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.utilities.UtilFunctions;
 
@@ -30,6 +30,15 @@ public class SelectorTest extends GUI
 	private TextField instructionsLabel;
 	private boolean complete;
 	
+	/**
+	 * Listener for the ready button. If the button is pressed before all
+	 * choices have been made, a message will be displayed asking the user to
+	 * complete his/her selections. Otherwise, the user's choices will be
+	 * verified and the instructions and hints will be updated accordingly.
+	 * 
+	 * @author Moore, Zachary
+	 * 
+	 */
 	public class ReadyButtonListener extends ButtonListener
 	{
 		
@@ -40,6 +49,7 @@ public class SelectorTest extends GUI
 			if (complete)
 			{
 				// TODO transition to score screen
+				System.out.println("Transfer");
 			}
 			else
 			{
@@ -54,8 +64,11 @@ public class SelectorTest extends GUI
 					complete = selectorDisplay.verifyChoices(true);
 					updateInstructions();
 					if (!complete)
+					{
+						updateHints();
 						instructionsLabel.setText(Labels.Step0.INSTRUCTIONS_RED
 								.getTranslation());
+					}
 				}
 			}
 		}
@@ -106,11 +119,10 @@ public class SelectorTest extends GUI
 		this.addComponent(selectorDisplay);
 		
 		// Hint Bounds
-		Rectangle hintBounds = new Rectangle(398, 62, 365, 303);
-		Rectangle relativeHintTextBounds = new Rectangle(0, 0, 365, 303);
-		Rectangle instructionBounds = new Rectangle(398, 0, 365, 62);
-		// Rectangle relativeInstructionTextBounds = new Rectangle(0, 0, 365,
-		// 61);
+		Rectangle hintBounds = new Rectangle(398, 62, 370, 320);
+		Rectangle relativeHintTextBounds = UtilFunctions.dialateRectangle(
+				new Rectangle(0, 0, 370, 320), 0.92f);
+		Rectangle instructionBounds = new Rectangle(398, 0, 370, 62);
 		
 		// Hint Box Initialization
 		hintBox = new TextAreaX(hintBounds, relativeHintTextBounds, null);
@@ -121,7 +133,7 @@ public class SelectorTest extends GUI
 		hintBox.setCurrentImage(hintBoxBackground, true);
 		
 		// Format hint box
-		hintBox.setFontSize(10f);
+		hintBox.setFontSize(12f);
 		instructionsLabel.center();
 		hintBox.setFontColor(Color.white);
 		instructionsLabel.setFontColor(Color.white);
@@ -176,11 +188,22 @@ public class SelectorTest extends GUI
 		{
 			// Determine instruction text
 			String instructions;
-			instructions = Labels.Step0.INSTRUCTIONS_COMPLETE.getTranslation();
+			if (complete)
+				instructions = Labels.Step0.INSTRUCTIONS_CORRECT
+						.getTranslation();
+			else
+				instructions = Labels.Step0.INSTRUCTIONS_COMPLETE
+						.getTranslation();
 			
 			// Set instructions label text
 			this.instructionsLabel.setText(instructions);
 			System.out.println("Update Instructions: " + instructions);
 		}
+	}
+	
+	public void updateHints()
+	{
+		hintBox.clear();
+		hintBox.addLines(selectorDisplay.deriveHints(true), true);
 	}
 }

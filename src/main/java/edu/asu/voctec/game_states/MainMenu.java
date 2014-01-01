@@ -44,7 +44,7 @@ public class MainMenu extends GUI implements GameDefaults
 		Button languageButton = new Button(
 				ImagePaths.LANGUAGE_BUTTON, buttonBounds, relativeTextBounds, "Language");
 		languageButton.addActionListener(new TransitionButtonListener(
-				LanguageMenu.class));
+				SelectorTest.class/*LanguageMenu.class*/));
 		
 		// Instructor Control Panel Button
 		Button instructorButton = new Button(

@@ -12,6 +12,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.batter_sizing.BatteryIntro;
 import edu.asu.voctec.cdmg.CDIntroScreen;
+import edu.asu.voctec.controller_sizing.ControllerSizingIntroScreen;
 import edu.asu.voctec.energy_assessment.EAPart1IntroScreen;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.pv_game.PVIntro;
@@ -80,8 +81,8 @@ public class TaskScreen extends GUI
 				ImagePaths.TaskScreen.STEP_FOUR_SELECTED);
 		
 		// Task 5
-		TaskData controllerSizing = new TaskData(SelectorTest.class,
-				"Size Controllers");
+		TaskData controllerSizing = new TaskData(
+				ControllerSizingIntroScreen.class, "Size Controllers");
 		controllerSizing.setImages(ImagePaths.TaskScreen.STEP_FIVE,
 				ImagePaths.TaskScreen.STEP_FIVE_COMPLETE,
 				ImagePaths.TaskScreen.STEP_FIVE_SELECTED);
