@@ -74,6 +74,9 @@ public class TaskData
 			
 			// Toggle Displaying
 			displayingComponents = !displayingComponents;
+			
+			// TODO REMOVE
+			Game.getCurrentGame().enterState(associatedTask);
 		}
 		
 		public void stopDisplaying()
