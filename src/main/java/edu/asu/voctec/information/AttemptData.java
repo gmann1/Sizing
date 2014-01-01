@@ -11,12 +11,24 @@ import edu.asu.voctec.utilities.Finalizable;
  */
 public class AttemptData implements Comparable<AttemptData>, Finalizable
 {
+	protected boolean finalized;
+	
 	protected int numberOfUniqueHints;
 	protected long timeSpent; //in milliseconds
 	protected int score;
 	protected int maximumPossibleScore;
+	protected int percentCompletion;
 	
-	
+	public AttemptData()
+	{
+		this.finalized = false;
+		
+		this.numberOfUniqueHints = 0;
+		this.timeSpent = 0;
+		percentCompletion = 0;
+		this.score = 0;
+		this.maximumPossibleScore = 100;
+	}
 	
 	/**
 	 * Performs a comparison between two AttemptData objects based on the
@@ -37,8 +49,60 @@ public class AttemptData implements Comparable<AttemptData>, Finalizable
 	@Override
 	public void makeFinal()
 	{
-		// TODO Auto-generated method stub
+		this.finalized = true;
+	}
+
+	public int getScore()
+	{
+		return score;
+	}
+
+	public void setScore(int score)
+	{
+		if (!finalized)
+			this.score = score;
+	}
+
+	public int getMaximumPossibleScore()
+	{
+		return maximumPossibleScore;
+	}
+
+	public void setMaximumPossibleScore(int maximumPossibleScore)
+	{
+		if (!finalized)
+			this.maximumPossibleScore = maximumPossibleScore;
+	}
+
+	public int getNumberOfUniqueHints()
+	{
+		return numberOfUniqueHints;
+	}
+
+	public long getTimeSpent()
+	{
+		return timeSpent;
+	}
+	
+	public long addTime(long time)
+	{
+		if (!finalized)
+			this.timeSpent += time;
 		
+		return timeSpent;
+	}
+	
+	public int addHints(int hints)
+	{
+		if (!finalized)
+			this.numberOfUniqueHints += hints;
+		
+		return numberOfUniqueHints;
+	}
+	
+	public boolean isComplete()
+	{
+		return (percentCompletion >= 100);
 	}
 	
 }

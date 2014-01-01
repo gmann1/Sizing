@@ -11,6 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.TransitionButtonListener;
+import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class MainMenu extends GUI implements GameDefaults
@@ -38,13 +39,13 @@ public class MainMenu extends GUI implements GameDefaults
 		Button startButton = new Button(ImagePaths.NEW_GAME_BUTTON,
 				buttonBounds, relativeTextBounds, "Start");
 		startButton.addActionListener(new TransitionButtonListener(
-				TaskScreen.class));
+				ScenarioIntroductionScreen.class));
 		
 		// Language Button
 		Button languageButton = new Button(
 				ImagePaths.LANGUAGE_BUTTON, buttonBounds, relativeTextBounds, "Language");
 		languageButton.addActionListener(new TransitionButtonListener(
-				SelectorTest.class/*LanguageMenu.class*/));
+				TaskScreen.class/*LanguageMenu.class*/));
 		
 		// Instructor Control Panel Button
 		Button instructorButton = new Button(

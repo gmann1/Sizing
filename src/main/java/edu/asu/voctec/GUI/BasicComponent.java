@@ -8,7 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class BasicComponent extends Component implements Displayable
+public class BasicComponent extends Component
 {
 	protected Image baseImage;
 	protected Image currentImage;

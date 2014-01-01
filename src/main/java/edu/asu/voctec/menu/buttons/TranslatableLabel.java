@@ -21,7 +21,7 @@ public class TranslatableLabel extends TextField implements Translatable,
 	public static final Font			DEFAULT_AWT_FONT		= new Font(
 																		"Meiryo",
 																		Font.BOLD,
-																		Fonts.FONT_SIZE);
+																		Fonts.FONT_SIZE_DEFAULT);
 	public static final TrueTypeFont	DEFAULT_TRUE_TYPE_FONT	= new TrueTypeFont(
 																		DEFAULT_AWT_FONT,
 																		Fonts.ANTI_ALLIAS,

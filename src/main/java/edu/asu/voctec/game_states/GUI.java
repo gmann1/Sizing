@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -21,9 +22,18 @@ import edu.asu.voctec.utilities.UtilFunctions;
 
 public abstract class GUI extends ModifiedGameState implements GameDefaults
 {
+	private final ArrayList<Component> additionQueue = new ArrayList<>();
+	private final ArrayList<Component> removalQueue = new ArrayList<>();
+	
 	protected Image backgroundImage;
 	protected final ArrayList<Component> components = new ArrayList<>();
 	protected final ArrayList<ActionListener> listeners = new ArrayList<>();
+	
+	@Override
+	public void onEnter()
+	{
+		// TODO Remove?
+	}
 	
 	@Override
 	public Dimension getDesignResolution()
@@ -77,6 +87,37 @@ public abstract class GUI extends ModifiedGameState implements GameDefaults
 		{
 			listener.check(input);
 		}
+		
+		processQueue();
+	}
+	
+	private final void processQueue()
+	{
+		this.removeComponents(removalQueue);
+		this.addComponents(additionQueue);
+		
+		this.additionQueue.clear();
+		this.removalQueue.clear();
+	}
+
+	public final void queueRemoveComponents(Component... informationComponents)
+	{
+		queueRemoveComponents(Arrays.asList(informationComponents));
+	}
+
+	public final void queueRemoveComponents(List<Component> informationComponents)
+	{
+		removalQueue.addAll(informationComponents);
+	}
+
+	public final void queueAddComponents(Component... informationComponents)
+	{
+		queueAddComponents(Arrays.asList(informationComponents));
+	}
+
+	public final void queueAddComponents(List<Component> informationComponents)
+	{
+		additionQueue.addAll(informationComponents);
 	}
 	
 	public void addComponent(Component component)
@@ -86,6 +127,18 @@ public abstract class GUI extends ModifiedGameState implements GameDefaults
 		this.components.add(component);
 	}
 	
+	public void addComponents(Component... components)
+	{
+		for (Component component : components)
+			addComponent(component);
+	}
+	
+	public void addComponents(ArrayList<Component> components)
+	{
+		for (Component component : components)
+			addComponent(component);
+	}
+	
 	public void removeComponent(Component component)
 	{
 		// Add component
@@ -93,6 +146,18 @@ public abstract class GUI extends ModifiedGameState implements GameDefaults
 		
 		// Stop listening for all listeners associated with the given component.
 		this.listeners.removeAll(Arrays.asList(component.getListeners()));
+	}
+	
+	public void removeComponents(Component... components)
+	{
+		for (Component component : components)
+			removeComponent(component);
+	}
+	
+	public void removeComponents(ArrayList<Component> components)
+	{
+		for (Component component : components)
+			removeComponent(component);
 	}
 	
 	public Component[] getComponents()

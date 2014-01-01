@@ -135,7 +135,8 @@ public abstract class TextDisplay extends Component
 		if (fillColor != null)
 		{
 			graphics.setColor(fillColor);
-			graphics.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
+			graphics.fillRect(bounds.x, bounds.y, bounds.width,
+					bounds.height);
 		}
 		
 		// Draw background image
@@ -149,7 +150,8 @@ public abstract class TextDisplay extends Component
 		if (borderColor != null)
 		{
 			graphics.setColor(borderColor);
-			graphics.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
+			graphics.drawRect(bounds.x, bounds.y, bounds.width,
+					bounds.height);
 		}
 	}
 	
