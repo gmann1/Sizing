@@ -52,10 +52,10 @@ import edu.asu.voctec.utilities.Singleton;
  * added to the state list of this game.
  * 
  * @author Zach Moore
- * @see #enterState(Class)
  * @see ModifiedGameState
  * @see Singleton
  * @see #getCurrentGame()
+ * @see #enterState(Class)
  */
 public class Game extends StateBasedGame implements Singleton
 {

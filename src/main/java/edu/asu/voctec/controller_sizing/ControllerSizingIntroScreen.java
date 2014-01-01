@@ -59,7 +59,7 @@ public class ControllerSizingIntroScreen extends GUI
 		Button Start = new Button(new Image(ARROW_RIGHT), 750, 550,
 				new Rectangle(0, 0, 50, 25), "Begin!");
 		Start.setFontColor(Color.darkGray);
-		Start.addActionListener(new TransitionButtonListener(CDPart1.class));
+		Start.addActionListener(new TransitionButtonListener(ControllerSizingPart1.class));
 
 		// Back Button
 		Button Back = new Button(new Image(ImagePaths.BACK_BUTTON), 0, 0,
