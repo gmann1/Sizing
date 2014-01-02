@@ -63,6 +63,15 @@ public class TextArea extends TextDisplay
 		wrapText();
 	}
 	
+	public void setText(ArrayList<String> text)
+	{
+		this.lines.clear();
+		this.clipedText = "";
+		this.lines = text;
+		
+		wrapText();
+	}
+	
 	protected String determineClipedText()
 	{
 		if (lines.size() <= this.maximumDisplayLines)

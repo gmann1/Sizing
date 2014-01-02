@@ -663,5 +663,22 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		
 		return currentIndex;
 	}
+
+	public ArrayList<T> getElements()
+	{
+		return elements;
+	}
+
+	public void setElements(ArrayList<T> elements)
+	{
+		this.elements = elements;
+		
+		while (elements.size() < capacity)
+			elements.add(null);
+	}
 	
+	public void empty()
+	{
+		elements.clear();
+	}
 }
