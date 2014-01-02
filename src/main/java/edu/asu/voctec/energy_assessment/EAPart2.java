@@ -30,6 +30,7 @@ public class EAPart2 extends GUI
 	private static final String NOTREADY = "resources/default/img/minigames/energyAssessment/readyButtonGray.png";
 	private static final String BACK = "resources/default/img/minigames/energyAssessment/backButton.png";
 	private static final String BACKGROUND = "resources/default/img/minigames/energyAssessment/part2/House-02.png";
+	private static final String OPTION = "resources/default/img/minigames/energyAssessment/part2/OptionBox.png";
 	
 	private static final String CFL = "resources/default/img/minigames/energyAssessment/part2/CFL.png";
 	private static final String CFLCLICKED = "resources/default/img/minigames/energyAssessment/part2/CFLClicked.png";
@@ -37,6 +38,7 @@ public class EAPart2 extends GUI
 	private static final String LEDCLICKED = "resources/default/img/minigames/energyAssessment/part2/LEDClicked.png";
 	private static final String RADIO = "resources/default/img/minigames/energyAssessment/part2/Radio.png";
 	private static final String RADIOCLICKED = "resources/default/img/minigames/energyAssessment/part2/RadioClicked.png";
+	
 	
 	Button ready;
 	
@@ -101,12 +103,22 @@ public class EAPart2 extends GUI
 		appliance4.addActionListener(new ApplianceClick4());
 		this.addComponent(appliance4);
 		
+		/*Button option0 = new Button(new Image(OPTION), 10, 70, new Rectangle(5,5,240,70), "Option 0 Test");
+		option0.addActionListener(new ApplianceClick4());
+		this.addComponent(option0);
+		
+		Button option1 = new Button(new Image(OPTION), 270, 70, new Rectangle(5,5,240,70), "Option 1");
+		option1.addActionListener(new ApplianceClick4());
+		this.addComponent(option1);
+		
+		Button option2 = new Button(new Image(OPTION), 530, 70, new Rectangle(5,5,240,70), "Option 2");
+		option2.addActionListener(new ApplianceClick4());
+		this.addComponent(option2);*/
+		
 		initializeText();
 		
 		////Testing Stuff can be deleted later////
-		/*System.out.println("EAPart1IntroScreen");
-					
-		Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 750, 0, new Rectangle(50,50,300,50), "Start!");
+		/*Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 750, 0, new Rectangle(50,50,300,50), "Start!");
 		Start.addActionListener(new TransitionButtonListener(EAPart2ScoreScreen.class));
 		this.addComponent(Start);*/
 	}

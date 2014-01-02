@@ -58,21 +58,6 @@ public class EAPart1 extends GUI
 		this.backgroundImage = new Image(BACKGROUND);
 		
 		initializeHintBox();
-		//Text
-		/*Rectangle topTextLocation = new Rectangle(500, 20, 250, 50);
-		Rectangle instructionTextLocation = new Rectangle(500, 70, 250, 150);
-		
-		TextField topText = new TextField(topTextLocation, 0.95f, "Put the steps in the right order", TextDisplay.FormattingOption.FIT_TEXT);
-		TextField instructionText = new TextField(instructionTextLocation, 0.95f, "Hint Box", null);
-		
-		topText.setFontColor(Color.white);
-		instructionText.setFontColor(Color.lightGray);
-		
-		topText.center();
-		instructionText.setFillColor(Color.darkGray);
-		
-		this.addComponent(topText);
-		this.addComponent(instructionText);*/
 
 		////Selector////
 		eaSelector = new Selector<>(250, 425, true);
@@ -113,9 +98,7 @@ public class EAPart1 extends GUI
 		
 		
 		////Testing Stuff can be deleted later////
-		/*System.out.println("EAPart1IntroScreen");
-				
-		Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 750, 0, new Rectangle(50,50,300,50), "Start!");
+		/*Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 750, 0, new Rectangle(50,50,300,50), "Start!");
 		Start.addActionListener(new TransitionButtonListener(EAPart1ScoreScreen.class));
 		this.addComponent(Start);*/
 	}
@@ -154,11 +137,8 @@ public class EAPart1 extends GUI
 				Game.getCurrentGame().enterState(EAPart1ScoreScreen.class);
 			}
 			else
-			{
 				HintNext();
-			}
 		}
-		
 	}
 	
 	public static void reset()
