@@ -323,7 +323,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 			
 			rootIndex = (rootIndex < 0) ? -rootIndex : rootIndex;
 			T root = orderedElements.get(rootIndex);
-			int order = actualIndex - rootIndex;
+			int order = properIndex - rootIndex;
 			String keyWord;
 			
 			if (order < 0)
@@ -663,5 +663,22 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		
 		return currentIndex;
 	}
+
+	public ArrayList<T> getElements()
+	{
+		return elements;
+	}
+
+	public void setElements(ArrayList<T> elements)
+	{
+		this.elements = elements;
+		
+		while (elements.size() < capacity)
+			elements.add(null);
+	}
 	
+	public void empty()
+	{
+		elements.clear();
+	}
 }

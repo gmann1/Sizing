@@ -20,12 +20,14 @@ public abstract class UtilFunctions
 {
 	public static Image createImage(String imagePath)
 	{
+		System.out.println("Loading Image...");
 		try
 		{
 			return new Image(imagePath);
 		}
 		catch (Exception e)
 		{
+			System.out.println("Image Load Failed");
 			e.printStackTrace();
 			return null;
 		}
@@ -129,15 +131,15 @@ public abstract class UtilFunctions
 			component.translate(horizontalAmount, verticalAmount);
 	}
 	
-	public static void translateAll(int horizontalAmount, int verticalAmount,
-			ArrayList<Component> components)
+	public static <T extends Component> void translateAll(int horizontalAmount,
+			int verticalAmount, ArrayList<T> components)
 	{
 		translateAll(horizontalAmount, verticalAmount,
 				components.toArray(new Component[components.size()]));
 	}
 	
-	public static void translateAll(Point translationAmount,
-			ArrayList<Component> components)
+	public static <T extends Component> void translateAll(
+			Point translationAmount, ArrayList<T> components)
 	{
 		translateAll(translationAmount,
 				components.toArray(new Component[components.size()]));

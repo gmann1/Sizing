@@ -52,7 +52,6 @@ public class Selector<T extends SelectorIcon> extends Component implements
 			
 			// Send the current selector to the associated display
 			if (sendToDisplay(element))
-				;
 			{
 				// If the display accepted the element
 				// Remove the element from this selector
@@ -469,5 +468,21 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	{
 		displayLabel(true);
 	}
+
+	public CircularList<T> getElements()
+	{
+		return elements;
+	}
+
+	public void setElements(CircularList<T> elements)
+	{
+		this.elements = elements;
+	}
+	
+	public void empty()
+	{
+		elements = new CircularList<>();
+	}
+	
 	
 }

@@ -8,19 +8,48 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.GUI.Button;
+import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.TransitionButtonListener;
+import edu.asu.voctec.information.ScenarioData;
+import edu.asu.voctec.information.TaskData;
+import edu.asu.voctec.information.UserProfile;
 import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class MainMenu extends GUI implements GameDefaults
 {
+	public class StartButtonListener extends ButtonListener
+	{
+		
+		@Override
+		protected void actionPerformed()
+		{
+			ScenarioData scenario = Game.getCurrentScenario();
+			if (scenario.getEntryStep().isComplete())
+				Game.getCurrentGame().enterState(TaskScreen.class);
+			else
+				Game.getCurrentGame().enterState(
+						ScenarioIntroductionScreen.class);
+		}
+		
+	}
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
 		System.out.println("\nMainMenu: Initializing...");
+		
+		// TODO Replace with profile
+		UserProfile profile = new UserProfile("Default User");
+		ScenarioData scenario = profile.getScenario(0);
+		TaskData task = scenario.getEntryStep();
+		Game.setCurrentUser(profile);
+		Game.setCurrentScenario(scenario);
+		Game.setCurrentTask(task);
 		
 		int buttonSpacing = 15;
 		int buttonWidth = 350;
@@ -38,23 +67,24 @@ public class MainMenu extends GUI implements GameDefaults
 		// Start Button
 		Button startButton = new Button(ImagePaths.NEW_GAME_BUTTON,
 				buttonBounds, relativeTextBounds, "Start");
-		startButton.addActionListener(new TransitionButtonListener(
-				ScenarioIntroductionScreen.class));
+		startButton.addActionListener(new StartButtonListener());
 		
 		// Language Button
-		Button languageButton = new Button(
-				ImagePaths.LANGUAGE_BUTTON, buttonBounds, relativeTextBounds, "Language");
+		Button languageButton = new Button(ImagePaths.LANGUAGE_BUTTON,
+				buttonBounds, relativeTextBounds, "Language");
 		languageButton.addActionListener(new TransitionButtonListener(
-				TaskScreen.class/*LanguageMenu.class*/));
+				TaskScreen.class/* LanguageMenu.class */));
 		
 		// Instructor Control Panel Button
 		Button instructorButton = new Button(
-				ImagePaths.INSTRUCTOR_CONTROL_PANEL_BUTTON, buttonBounds, relativeTextBounds, "Instuctor");
+				ImagePaths.INSTRUCTOR_CONTROL_PANEL_BUTTON, buttonBounds,
+				relativeTextBounds, "Instuctor");
 		instructorButton.addActionListener(new TransitionButtonListener(
 				InstructorControlPanel.class));
 		
 		// Color text
-		setButtonFontColor(Color.darkGray, startButton, languageButton, instructorButton);
+		setButtonFontColor(Color.darkGray, startButton, languageButton,
+				instructorButton);
 		
 		// Add buttons to this menu
 		this.addComponent(startButton);
