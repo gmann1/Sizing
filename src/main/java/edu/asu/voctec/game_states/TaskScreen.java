@@ -10,19 +10,73 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.Button;
+import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.Component;
+import edu.asu.voctec.GUI.TextDisplay;
+import edu.asu.voctec.GUI.TextField;
+import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.batter_sizing.BatteryIntro;
 import edu.asu.voctec.cdmg.CDIntroScreen;
 import edu.asu.voctec.controller_sizing.ControllerSizingIntroScreen;
 import edu.asu.voctec.energy_assessment.EAPart1IntroScreen;
+import edu.asu.voctec.information.ScenarioData;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.pv_game.PVIntro;
+import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TaskScreen extends GUI
 {
+	private static BackButtonListener currentListener;
 	private ArrayList<TaskData> tasks;
+	private ArrayList<Component> confirmationComponents;
+	private boolean scenarioLoaded;
+	
+	public class BackButtonListener extends ButtonListener
+	{
+		boolean displaying;
+		
+		@Override
+		protected void actionPerformed()
+		{
+			// TODO Auto-generated method stub
+			if (displaying)
+			{
+				Game.getCurrentGame().enterState(MainMenu.class);
+			}
+			else
+			{
+				queueAddComponents(confirmationComponents);
+				displaying = true;
+				if (currentListener != null)
+					currentListener.stopDisplaying();
+				currentListener = this;
+			}
+		}
+		
+		public void stopDisplaying()
+		{
+			queueRemoveComponents(confirmationComponents);
+			displaying = false;
+		}
+		
+	}
+	
+	public class ReplayButtonListener extends ButtonListener
+	{
+
+		@Override
+		protected void actionPerformed()
+		{
+			TaskData step0Data = Game.getCurrentScenario().getEntryStep();
+			step0Data.addAttempt(null);
+			Game.setCurrentTask(step0Data);
+			Game.getCurrentGame().enterState(ScenarioIntroductionScreen.class);
+		}
+		
+	}
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -30,10 +84,60 @@ public class TaskScreen extends GUI
 	{
 		System.out.println("\nTaskScreen: Initializing...");
 		
+		confirmationComponents = new ArrayList<>();
 		tasks = new ArrayList<>();
 		setDefaultTasks();
 		System.out.println("TaskScreen: Defaults Set.");
 		
+		// Back Button
+		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 0, 0,
+				new Rectangle(0, 0, 50, 25), "Exit");
+		backButton.addActionListener(new BackButtonListener());
+		backButton.setFontColor(Color.darkGray);
+		
+		// Confirmation Components
+		// Define the location of the component block relative to the screen
+		Point informationLocation = TaskScreenDefaults.INFORMATION_OFFSET;
+		float scale = TaskScreenDefaults.INFORMATION_SCALE;
+		Rectangle relativeBounds = new Rectangle(0, 0, 400, 100);
+		TextField nameLabel = new TextField(relativeBounds, 0.92f,
+				"Replay Step 0?", TextDisplay.FormattingOption.FIT_TEXT);
+		nameLabel.center();
+		nameLabel.setFontColor(Color.white);
+		
+		// Exit Button
+		Image exitButtonImage = new Image(ImagePaths.Buttons.BASE);
+		Rectangle textBounds = UtilFunctions.getImageBounds(exitButtonImage);
+		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.80f);
+		Button exitButton = new Button(exitButtonImage, 0, 100, textBounds,
+				"Exit");
+		exitButton.addActionListener(new TransitionButtonListener(
+				MainMenu.class));
+		exitButton.setFontColor(Color.black);
+		
+		// Replay Button
+		Image replayButtonImage = new Image(ImagePaths.Buttons.BASE);
+		textBounds = UtilFunctions.getImageBounds(replayButtonImage);
+		int x = 400 - textBounds.width;
+		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.80f);
+		Button replayButton = new Button(replayButtonImage, x, 100, textBounds,
+				"Replay");
+		replayButton.addActionListener(new ReplayButtonListener());
+		replayButton.setFontColor(Color.black);
+		
+		confirmationComponents.add(nameLabel);
+		confirmationComponents.add(exitButton);
+		confirmationComponents.add(replayButton);
+		this.addComponent(backButton);
+
+		// Scale Components
+		for (Component component : confirmationComponents)
+			component.rescale(scale);
+		
+		// Set the position relative to the screen
+		UtilFunctions.translateAll(informationLocation, confirmationComponents);
+		
+		// Setup Background
 		Image background = new Image(ImagePaths.TaskHubBackground);
 		setBackgroundImage(background.getScaledCopy(800, 600));
 		
@@ -46,7 +150,27 @@ public class TaskScreen extends GUI
 		// Disable task display
 		if (TaskData.activeListener != null)
 			TaskData.activeListener.stopDisplaying();
+		
+		if (currentListener != null)
+			currentListener.stopDisplaying();
 		setNextAccessible();
+	}
+	
+	public void load()
+	{
+		if (!scenarioLoaded)
+		{
+			ScenarioData scenario = Game.getCurrentScenario();
+			tasks = new ArrayList<>();
+			
+			for (TaskData task : scenario.getTasks())
+			{
+				task.reload();
+				tasks.add(task);
+			}
+			
+			scenarioLoaded = true;
+		}
 	}
 	
 	public void setDefaultTasks() throws SlickException

@@ -8,6 +8,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.TextArea;
 import edu.asu.voctec.GUI.TextDisplay;
@@ -22,11 +23,11 @@ public class StepSelectionExitScreen extends GUI
 	public static final float SMALL_FONT_SIZE = 8f;
 	public static final float MEDIUM_FONT_SIZE = 12f;
 	public static final float LARGE_FONT_SIZE = 18f;
-
+	
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
 	public TextArea introduction;
 	public boolean updateHints = false;
-
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
@@ -46,7 +47,7 @@ public class StepSelectionExitScreen extends GUI
 		introduction.setFontSize(LARGE_FONT_SIZE);
 		introduction.setText("");
 		introduction.setFontColor(FONT_COLOR);
-
+		
 		// start button
 		Button Start = new Button(new Image(ARROW_RIGHT), 750, 550,
 				new Rectangle(0, 0, 50, 25), "Exit!");
@@ -57,6 +58,13 @@ public class StepSelectionExitScreen extends GUI
 		this.addComponent(topLine);
 		this.addComponent(introduction);
 		
+	}
+	
+	@Override
+	public void onEnter()
+	{
+		Game.getCurrentScenario().getEntryStep().getCurrentAttempt()
+				.setPercentCompletion(100);
 	}
 	
 }
