@@ -1,6 +1,7 @@
 package edu.asu.voctec.game_states;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -9,17 +10,22 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GameDefaults.ImagePaths.SelectorIcons;
 import edu.asu.voctec.Main;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.Selector;
 import edu.asu.voctec.GUI.SelectorDisplay;
-import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.SelectorDisplay.DisplayIsFullException;
 import edu.asu.voctec.GUI.SelectorIcon;
 import edu.asu.voctec.GUI.TextAreaX;
+import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
+import edu.asu.voctec.information.SizingStepsData;
+import edu.asu.voctec.information.TaskData;
+import edu.asu.voctec.step_selection.StepSelectionExitScreen;
+import edu.asu.voctec.utilities.CircularList;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class SelectorTest extends GUI
@@ -30,16 +36,28 @@ public class SelectorTest extends GUI
 	private TextField instructionsLabel;
 	private boolean complete;
 	
+	/**
+	 * Listener for the ready button. If the button is pressed before all
+	 * choices have been made, a message will be displayed asking the user to
+	 * complete his/her selections. Otherwise, the user's choices will be
+	 * verified and the instructions and hints will be updated accordingly.
+	 * 
+	 * If this listener is activated after the choices have been verified and
+	 * this state is marked as complete, the user will be transfered to the
+	 * StepSelectionExitScreen.
+	 * 
+	 * @author Moore, Zachary
+	 * 
+	 */
 	public class ReadyButtonListener extends ButtonListener
 	{
 		
 		@Override
 		protected void actionPerformed()
 		{
-			System.out.println("Ready!");
 			if (complete)
 			{
-				// TODO transition to score screen
+				Game.getCurrentGame().enterState(StepSelectionExitScreen.class);
 			}
 			else
 			{
@@ -54,8 +72,11 @@ public class SelectorTest extends GUI
 					complete = selectorDisplay.verifyChoices(true);
 					updateInstructions();
 					if (!complete)
+					{
+						updateHints();
 						instructionsLabel.setText(Labels.Step0.INSTRUCTIONS_RED
 								.getTranslation());
+					}
 				}
 			}
 		}
@@ -77,28 +98,29 @@ public class SelectorTest extends GUI
 		Rectangle centered = new Rectangle(selector.getBounds());
 		UtilFunctions.centerRectangleHorizontally(
 				new Rectangle(Main.getCurrentScreenDimension()), centered);
-		selector.translate(centered.x - 75, 600 - centered.height);
+		selector.translate(centered.x - 75, 620 - centered.height);
 		
-		// Add each of 5 steps to the selector
-		selector.add(new SelectorIcon(SelectorIcons.ENERGY_ASSESSMENT,
-				"Energy Assessment", 0));
-		selector.add(new SelectorIcon(SelectorIcons.CRITICAL_DESIGN_MONTH,
-				"Critical Design Month", 1));
-		selector.add(new SelectorIcon(SelectorIcons.BATTERY_SIZING,
-				"Size the Battery", 2));
-		selector.add(new SelectorIcon(SelectorIcons.PV_SIZING,
-				"Size the PV Array", 3));
-		selector.add(new SelectorIcon(SelectorIcons.CONTROLLER_SIZING,
-				"Size the Controllers", 4));
+		/*
+		 * // Add each of 5 steps to the selector selector.add(new
+		 * SelectorIcon(SelectorIcons.ENERGY_ASSESSMENT, "Energy Assessment",
+		 * 0)); selector.add(new
+		 * SelectorIcon(SelectorIcons.CRITICAL_DESIGN_MONTH,
+		 * "Critical Design Month", 1)); selector.add(new
+		 * SelectorIcon(SelectorIcons.BATTERY_SIZING, "Size the Battery", 2));
+		 * selector.add(new SelectorIcon(SelectorIcons.PV_SIZING,
+		 * "Size the PV Array", 3)); selector.add(new
+		 * SelectorIcon(SelectorIcons.CONTROLLER_SIZING, "Size the Controllers",
+		 * 4));
+		 */
 		
 		// Format selector, and add it to this screen
-		selector.shuffle();
+		// selector.shuffle();
 		selector.displayLabel();
 		this.addComponent(selector);
 		
 		// Selector Display
 		// Setup a new selector display, and link it to the selector
-		selectorDisplay = new SelectorDisplay<>(38, 28, true);
+		selectorDisplay = new SelectorDisplay<>(50, 40, true);
 		selectorDisplay.rescale(0.80f);
 		selectorDisplay.link(selector);
 		
@@ -106,11 +128,10 @@ public class SelectorTest extends GUI
 		this.addComponent(selectorDisplay);
 		
 		// Hint Bounds
-		Rectangle hintBounds = new Rectangle(398, 62, 365, 303);
-		Rectangle relativeHintTextBounds = new Rectangle(0, 0, 365, 303);
-		Rectangle instructionBounds = new Rectangle(398, 0, 365, 62);
-		// Rectangle relativeInstructionTextBounds = new Rectangle(0, 0, 365,
-		// 61);
+		Rectangle hintBounds = new Rectangle(398, 62, 370, 320);
+		Rectangle relativeHintTextBounds = UtilFunctions.dialateRectangle(
+				new Rectangle(0, 0, 370, 320), 0.92f);
+		Rectangle instructionBounds = new Rectangle(398, 0, 370, 62);
 		
 		// Hint Box Initialization
 		hintBox = new TextAreaX(hintBounds, relativeHintTextBounds, null);
@@ -121,7 +142,7 @@ public class SelectorTest extends GUI
 		hintBox.setCurrentImage(hintBoxBackground, true);
 		
 		// Format hint box
-		hintBox.setFontSize(10f);
+		hintBox.setFontSize(12f);
 		instructionsLabel.center();
 		hintBox.setFontColor(Color.white);
 		instructionsLabel.setFontColor(Color.white);
@@ -143,7 +164,7 @@ public class SelectorTest extends GUI
 		Image background = new Image(ImagePaths.MainMenuBackground);
 		setBackgroundImage(background.getScaledCopy(800, 600));
 		
-		updateInstructions();
+		// updateInstructions();
 		
 		System.out.println("SelectorTest: Initialization Finished.\n");
 	}
@@ -176,11 +197,98 @@ public class SelectorTest extends GUI
 		{
 			// Determine instruction text
 			String instructions;
-			instructions = Labels.Step0.INSTRUCTIONS_COMPLETE.getTranslation();
+			if (complete)
+				instructions = Labels.Step0.INSTRUCTIONS_CORRECT
+						.getTranslation();
+			else
+				instructions = Labels.Step0.INSTRUCTIONS_COMPLETE
+						.getTranslation();
 			
 			// Set instructions label text
 			this.instructionsLabel.setText(instructions);
 			System.out.println("Update Instructions: " + instructions);
 		}
+	}
+	
+	public void updateHints()
+	{
+		hintBox.clear();
+		hintBox.addLines(selectorDisplay.deriveHints(true), true);
+	}
+	
+	public void load()
+	{
+		TaskData currentTask = Game.getCurrentTask();
+		SizingStepsData currentAttempt = (SizingStepsData) currentTask
+				.getCurrentAttempt();
+		
+		// Create a new attempt instance, if necessary
+		if (currentAttempt == null)
+		{
+			currentTask.setCurrentAttempt(generateDefaultData());
+			currentAttempt = (SizingStepsData) currentTask.getCurrentAttempt();
+		}
+		
+		// Load from data
+		selector.setElements(currentAttempt.getSelectorContents());
+		selectorDisplay
+				.setElements(currentAttempt.getSelectorDisplayContents());
+		hintBox.setText(currentAttempt.getCurrentHints());
+		selector.updateChoiceLabel();
+		updateInstructions();
+	}
+	
+	public SizingStepsData generateDefaultData()
+	{
+		ArrayList<SelectorIcon> selectorDisplayContents = new ArrayList<>();
+		CircularList<SelectorIcon> selectorContents = new CircularList<>();
+		ArrayList<String> currentHints = this.hintBox.getText();
+
+		// Add each of 5 steps to the selectorContent list
+		populateSelectorContents(selectorContents);
+		
+		// Shuffle the selector choices
+		selectorContents.shuffle();
+		
+		return new SizingStepsData(selectorDisplayContents, selectorContents,
+				currentHints);
+	}
+	
+	public void populateSelectorContents(CircularList<SelectorIcon> selectorContents)
+	{
+		// Add each of 5 steps to the selectorContent list
+		try
+		{
+			selectorContents.add(new SelectorIcon(
+					SelectorIcons.ENERGY_ASSESSMENT, "Energy Assessment", 0));
+			selectorContents.add(new SelectorIcon(
+					SelectorIcons.CRITICAL_DESIGN_MONTH,
+					"Critical Design Month", 1));
+			selectorContents.add(new SelectorIcon(SelectorIcons.BATTERY_SIZING,
+					"Size the Battery", 2));
+			selectorContents.add(new SelectorIcon(SelectorIcons.PV_SIZING,
+					"Size the PV Array", 3));
+			selectorContents
+					.add(new SelectorIcon(SelectorIcons.CONTROLLER_SIZING,
+							"Size the Controllers", 4));
+		}
+		catch (SlickException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void save()
+	{
+		ArrayList<SelectorIcon> selectorDisplayContents = this.selectorDisplay
+				.getElements();
+		CircularList<SelectorIcon> selectorContents = this.selector
+				.getElements();
+		ArrayList<String> currentHints = this.hintBox.getText();
+		
+		SizingStepsData saveData = new SizingStepsData(selectorDisplayContents,
+				selectorContents, currentHints);
+		
+		Game.getCurrentTask().setCurrentAttempt(saveData);
 	}
 }

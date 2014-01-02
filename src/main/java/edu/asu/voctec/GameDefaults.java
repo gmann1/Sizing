@@ -71,6 +71,10 @@ public interface GameDefaults
 			public static final String STEP_THREE_SELECTED = "resources/default/img/taskScreen/Task3Current.png";
 			public static final String STEP_FOUR_SELECTED = "resources/default/img/taskScreen/Task4Current.png";
 			public static final String STEP_FIVE_SELECTED = "resources/default/img/taskScreen/Task5Current.png";
+			
+			public static final String PROGRESS_BAR_BORDER = "resources/default/img/taskScreen/Task5Current.png";
+			public static final String PROGRESS_BAR_EMPTY = "resources/default/img/taskScreen/Task5Current.png";
+			public static final String PROGRESS_BAR_FULL = "resources/default/img/taskScreen/Task5Current.png";
 		}
 		
 		public interface SelectorIcons
@@ -109,12 +113,16 @@ public interface GameDefaults
 	public interface Fonts
 	{
 		public static final String FONT_NAME = "Meiryo"; // "Hiragino Kaku Gothic Pro";
-		public static final int FONT_SIZE = 36;
+		public static final int FONT_SIZE_DEFAULT = 36;
 		public static final boolean ANTI_ALLIAS = true;
 		public static final Color FONT_COLOR = Color.magenta;
 		
+		public static final float FONT_SIZE_SMALL = 8f;
+		public static final float FONT_SIZE_MEDIUM = 12f;
+		public static final float FONT_SIZE_LARGE = 18f;
+		
 		public static final Font AWT_FONT = new Font(FONT_NAME, Font.BOLD,
-				Fonts.FONT_SIZE);
+				Fonts.FONT_SIZE_DEFAULT);
 		public static final TrueTypeFont TRUE_TYPE_FONT = new TrueTypeFont(
 				AWT_FONT, ANTI_ALLIAS);
 	}
@@ -152,37 +160,17 @@ public interface GameDefaults
 	
 	public interface Labels
 	{
-		// Critical Design Month Labels
-		public interface CriticalDesignMonth
+		// Generic Button Labels
+		public interface Buttons
 		{
-			public static final LabelName start = new LabelName(
-					"criticalDesignStart", "Start");
-			public static final LabelName exit = new LabelName(
-					"criticalDesignExit", "Exit");
-			public static final LabelName instructionsLine1 = LabelName.instructionsLine1;
-			public static final LabelName instructionsLine2 = LabelName.instructionsLine2;
-			public static final LabelName instructionsLine3 = LabelName.instructionsLine3;
-			public static final LabelName instructionsLine4 = LabelName.instructionsLine4;
-			public static final LabelName instructionsLine5 = LabelName.instructionsLine5;
-			public static final LabelName instructionsLine6 = LabelName.instructionsLine6;
-		}
-		
-		// Generic Exit Screen Labels
-		public interface ExitScreen
-		{
-			public static final LabelName instructionsLine1 = new LabelName(
-					"criticalDesignInstructionsLn1", "Complete!");
-			public static final LabelName instructionsLine2 = new LabelName(
-					"criticalDesignInstructionsLn2", "Score:");
-			public static final LabelName instructionsLine3 = new LabelName(
-					"criticalDesignInstructionsLn3", "Controls:");
-			public static final LabelName instructionsLine4 = new LabelName(
-					"criticalDesignInstructionsLn4", "Move Left: left arrow");
-			public static final LabelName instructionsLine5 = new LabelName(
-					"criticalDesignInstructionsLn5", "Move Right: right arrow");
-			public static final LabelName instructionsLine6 = new LabelName(
-					"criticalDesignInstructionsLn6",
-					"Rotate Panel: 'q' and 'r' keys");
+			public static final LabelName START = new LabelName("startButton",
+					"Start");
+			public static final LabelName READY = new LabelName("readyButton",
+					"Ready");
+			public static final LabelName REPLAY = new LabelName(
+					"replayButton", "Replay");
+			public static final LabelName BACK = new LabelName("backButton",
+					"Back");
 		}
 		
 		// Numbers
@@ -204,6 +192,18 @@ public interface GameDefaults
 		
 		public interface Step0
 		{
+			public interface Hints
+			{
+				public static final LabelName CORRECT_STEP = new LabelName(
+						"correctStep", "is placed correctly!");
+				public static final LabelName BEFORE = new LabelName("before",
+						"before");
+				public static final LabelName AFTER = new LabelName("after",
+						"after");
+				public static final LabelName HINT_BODY = new LabelName(
+						"hintBody", "should be completed");
+			}
+			
 			public static final LabelName INSTRUCTIONS1 = new LabelName(
 					"instructions1", "Select which step to complete");
 			public static final LabelName INSTRUCTIONS2 = new LabelName(
@@ -216,8 +216,18 @@ public interface GameDefaults
 					"instructionsComplete",
 					"Press the redy button to verify your choices.");
 			public static final LabelName INSTRUCTIONS_CORRECT = new LabelName(
-					"instructionsCorrect",
-					"Press ready to continue.");
+					"instructionsCorrect", "Correct! Press ready to continue.");
+			
+			public static final LabelName INTRODUCTION = new LabelName(
+					"step0Intro",
+					"You are about to take the first steps to sizing a standalone PV system. However, before sizing the array, it is important to develop a plan of action, and understand the steps involved in sizing a PV system. \n\n On the next screen, there are 5 steps listed (out of order). Use the arrows to cycle through each option, and decide the order in which you wish to complete the steps. When you are ready, press the start button.");
+		}
+		
+		public interface TaskScreen
+		{
+			public static final LabelName INACCESSIBLE_TEXT = new LabelName(
+					"inaccessibleText",
+					"This step cannot be completed until after all previous steps are completed.");
 		}
 	}
 }

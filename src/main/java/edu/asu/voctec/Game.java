@@ -16,6 +16,10 @@ import edu.asu.voctec.cdmg.CDIntroScreen;
 import edu.asu.voctec.cdmg.CDPart1;
 import edu.asu.voctec.cdmg.CDPart2;
 import edu.asu.voctec.cdmg.CDPart3;
+import edu.asu.voctec.controller_sizing.ControllerSizingExit;
+import edu.asu.voctec.controller_sizing.ControllerSizingIntroScreen;
+import edu.asu.voctec.controller_sizing.ControllerSizingPart1;
+import edu.asu.voctec.controller_sizing.ControllerSizingPart2;
 import edu.asu.voctec.energy_assessment.EAPart1;
 import edu.asu.voctec.energy_assessment.EAPart1IntroScreen;
 import edu.asu.voctec.energy_assessment.EAPart1ScoreScreen;
@@ -28,11 +32,14 @@ import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.MenuTest;
 import edu.asu.voctec.game_states.ModifiedGameState;
 import edu.asu.voctec.game_states.SelectorTest;
+import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.pv_game.PVExit;
 import edu.asu.voctec.pv_game.PVGame;
 import edu.asu.voctec.pv_game.PVIntro;
+import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
+import edu.asu.voctec.step_selection.StepSelectionExitScreen;
 import edu.asu.voctec.utilities.Singleton;
 
 /**
@@ -46,10 +53,10 @@ import edu.asu.voctec.utilities.Singleton;
  * added to the state list of this game.
  * 
  * @author Zach Moore
- * @see #enterState(Class)
  * @see ModifiedGameState
  * @see Singleton
  * @see #getCurrentGame()
+ * @see #enterState(Class)
  */
 public class Game extends StateBasedGame implements Singleton
 {
@@ -154,6 +161,9 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new InstructorControlPanel());
 		this.addState(new LanguageMenu());
 		this.addState(new TaskScreen());
+		this.addState(new ScenarioIntroductionScreen());
+		this.addState(new SelectorTest());
+		this.addState(new StepSelectionExitScreen());
 		this.addState(new CDPart1());
 		this.addState(new CDPart2());
 		this.addState(new CDPart3());
@@ -171,7 +181,10 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new EAPart2());
 		this.addState(new EAPart2IntroScreen());
 		this.addState(new EAPart2ScoreScreen());
-		this.addState(new SelectorTest());
+		this.addState(new ControllerSizingIntroScreen());
+		this.addState(new ControllerSizingExit());
+		this.addState(new ControllerSizingPart1());
+		this.addState(new ControllerSizingPart2());
 		
 		// Move to the default game state
 		this.enterState(Game.DEFAULT_GAME_STATE);
@@ -190,14 +203,29 @@ public class Game extends StateBasedGame implements Singleton
 	@Override
 	public void addState(GameState state)
 	{
-		super.addState(state);
-		gameStates.put(state.getClass(), state.getID());
+		if (state instanceof ModifiedGameState)
+		{
+			super.addState(state);
+			gameStates.put(state.getClass(), state.getID());
+		}
+		else
+		{
+			throw new IllegalArgumentException(
+					"Game only accepts ModifiedGameStates.");
+		}
 	}
 	
 	@Override
 	public void enterState(int id)
 	{
 		System.out.println("Switching States...");
+		
+		GameState state = getState(id);
+		if (state instanceof Task)
+			((Task) state).load();
+		if (state instanceof ModifiedGameState)
+			((ModifiedGameState) state).onEnter();
+		
 		super.enterState(id);
 		System.out.println("Switch Successful. Current State: "
 				+ this.getCurrentStateID());
@@ -205,7 +233,7 @@ public class Game extends StateBasedGame implements Singleton
 	
 	public void enterState(Class<?> state)
 	{
-		this.enterState(gameStates.get(state));
+		this.enterState(getStateID(state));
 	}
 	
 	public static TaskData getCurrentTask()
@@ -213,9 +241,19 @@ public class Game extends StateBasedGame implements Singleton
 		return currentTask;
 	}
 	
+	public static int getStateID(Class<?> state)
+	{
+		return gameStates.get(state);
+	}
+	
 	public static void setCurrentTask(TaskData currentTask)
 	{
 		Game.currentTask = currentTask;
+	}
+	
+	public static GameState getGameState(Class<?> state)
+	{
+		return currentGame.getState(getStateID(state));
 	}
 	
 }

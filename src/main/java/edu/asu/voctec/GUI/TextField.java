@@ -165,4 +165,11 @@ public class TextField extends TextDisplay
 	{
 		this.formatting = formatting;
 	}
+
+	public String getText()
+	{
+		return text;
+	}
+	
+	
 }

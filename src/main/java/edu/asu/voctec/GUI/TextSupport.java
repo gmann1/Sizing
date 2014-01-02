@@ -17,6 +17,8 @@ import org.newdawn.slick.TrueTypeFont;
  */
 public abstract class TextSupport
 {
+	private static final int MAX_FONT_SIZE = 43;
+	
 	/**
 	 * Default value to search for the desired font size.
 	 * 
@@ -211,6 +213,11 @@ public abstract class TextSupport
 		int scaledSize = (int) (font.getSize() * trueScale);
 		
 		System.out.println("Size: " + scaledSize);
+		if (scaledSize > MAX_FONT_SIZE)
+		{
+			scaledSize = MAX_FONT_SIZE;
+			System.out.println("Scale Capped: " + scaledSize);
+		}
 		System.out.println("Scaling Complete.");
 		return scaledSize;
 	}
