@@ -275,4 +275,10 @@ public class TaskData
 		return inaccessibleText;
 	}
 	
+	public void reload()
+	{
+		associatedHub = (TaskScreen) Game
+				.getGameState(associatedHub.getClass());
+	}
+	
 }

@@ -43,7 +43,7 @@ public interface GameDefaults
 		
 		public interface Buttons
 		{
-			public static final String BASE = "resources/default/img/buttons/testButton.png";
+			public static final String BASE = "resources/default/img/buttons/blankReadyButton.png";
 			public static final String NEW_GAME = "resources/default/img/buttons/newProfileButtonR.png";
 			public static final String OPTIONS = "resources/default/img/buttons/optionsButtonR.png";
 			public static final String INSTRUCTOR_CONTROL_PANEL = "resources/default/img/buttons/optionsButtonR.png";
@@ -145,6 +145,12 @@ public interface GameDefaults
 		public static Point SHADOW_LOCATION = new Point(41, 184);
 		public static Rectangle ICON_LABEL_BOUNDS = new Rectangle(0, 200, 183,
 				75);
+	}
+	
+	public interface TaskScreenDefaults
+	{
+		public static final Point INFORMATION_OFFSET = new Point(350, 175);
+		public static final float INFORMATION_SCALE = 0.92f;
 	}
 	
 	public interface XMLPaths

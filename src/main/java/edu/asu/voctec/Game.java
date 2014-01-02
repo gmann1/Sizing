@@ -34,6 +34,7 @@ import edu.asu.voctec.game_states.ModifiedGameState;
 import edu.asu.voctec.game_states.SelectorTest;
 import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.information.ScenarioData;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.information.UserProfile;
 import edu.asu.voctec.pv_game.PVExit;
@@ -66,6 +67,7 @@ public class Game extends StateBasedGame implements Singleton
 	 */
 	private static HashMap<Class<?>, Integer> gameStates = new HashMap<>();
 	private static Game currentGame;
+	private static ScenarioData currentScenario;
 	private static TaskData currentTask;
 	private static UserProfile currentUser;
 	
@@ -266,6 +268,16 @@ public class Game extends StateBasedGame implements Singleton
 	public static void setCurrentUser(UserProfile currentUser)
 	{
 		Game.currentUser = currentUser;
+	}
+
+	public static ScenarioData getCurrentScenario()
+	{
+		return currentScenario;
+	}
+
+	public static void setCurrentScenario(ScenarioData currentScenario)
+	{
+		Game.currentScenario = currentScenario;
 	}
 	
 	
