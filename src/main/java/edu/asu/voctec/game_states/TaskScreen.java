@@ -24,10 +24,12 @@ import edu.asu.voctec.energy_assessment.EAPart1IntroScreen;
 import edu.asu.voctec.information.ScenarioData;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.pv_game.PVIntro;
+import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TaskScreen extends GUI
 {
+	private static BackButtonListener currentListener;
 	private ArrayList<TaskData> tasks;
 	private ArrayList<Component> confirmationComponents;
 	private boolean scenarioLoaded;
@@ -41,12 +43,23 @@ public class TaskScreen extends GUI
 		{
 			// TODO Auto-generated method stub
 			if (displaying)
+			{
 				Game.getCurrentGame().enterState(MainMenu.class);
+			}
 			else
 			{
 				queueAddComponents(confirmationComponents);
 				displaying = true;
+				if (currentListener != null)
+					currentListener.stopDisplaying();
+				currentListener = this;
 			}
+		}
+		
+		public void stopDisplaying()
+		{
+			queueRemoveComponents(confirmationComponents);
+			displaying = false;
 		}
 		
 	}
@@ -57,8 +70,10 @@ public class TaskScreen extends GUI
 		@Override
 		protected void actionPerformed()
 		{
-			// TODO Auto-generated method stub
-			
+			TaskData step0Data = Game.getCurrentScenario().getEntryStep();
+			step0Data.addAttempt(null);
+			Game.setCurrentTask(step0Data);
+			Game.getCurrentGame().enterState(ScenarioIntroductionScreen.class);
 		}
 		
 	}
@@ -135,7 +150,9 @@ public class TaskScreen extends GUI
 		// Disable task display
 		if (TaskData.activeListener != null)
 			TaskData.activeListener.stopDisplaying();
-		queueRemoveComponents(confirmationComponents);
+		
+		if (currentListener != null)
+			currentListener.stopDisplaying();
 		setNextAccessible();
 	}
 	

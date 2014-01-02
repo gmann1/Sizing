@@ -257,6 +257,15 @@ public class TaskData
 	
 	public boolean isComplete()
 	{
+		for (AttemptData attempt : listOfAttempts)
+		{
+			if (attempt != null && attempt.isComplete())
+			{
+				complete = true;
+				break;
+			}
+		}
+		
 		return complete;
 	}
 	
