@@ -672,6 +672,9 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	public void setElements(ArrayList<T> elements)
 	{
 		this.elements = elements;
+		
+		while (elements.size() < capacity)
+			elements.add(null);
 	}
 	
 	public void empty()
