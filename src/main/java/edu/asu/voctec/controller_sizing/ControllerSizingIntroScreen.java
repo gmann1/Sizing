@@ -32,7 +32,7 @@ public class ControllerSizingIntroScreen extends GUI
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		this.backgroundImage = new Image(
-				"resources/default/img/minigames/criticalDesign/space.jpg");
+				"resources/default/img/minigames/ControllerSizing/Step1Background.png");
 		Rectangle textLocation = new Rectangle(0, 50, 300, 50);
 		// TextField textField = new TextField(textLocation, 0.95f,
 		// "Cliped Text Field ... CLIP CLIP CLIP",
@@ -50,16 +50,16 @@ public class ControllerSizingIntroScreen extends GUI
 		TextArea introduction = new TextArea(textLocation, 0.95f, "");
 		introduction.setFontSize(LARGE_FONT_SIZE);
 		introduction
-				.setText("In this step you will be determining the critical design month. This step evaluates the month with the worst sun light to energy-use ratio. "
-						+ "By designing the system to meet the requirements of the "
-						+ "worst month, it will be able to deliver energy requirements year-round.");
+				.setText("This is the final step you need to do in order to complete the sizing of this PV system. "
+						+ "In this step you will be sizing the charge controller for the system. "
+						+ "The charge controller will help in regulating and controlling, the flow of current to and from the battery in order to protect it from overcharging and to increase its life. ");
 		introduction.setFontColor(FONT_COLOR);
 
 		// start button
 		Button Start = new Button(new Image(ARROW_RIGHT), 750, 550,
 				new Rectangle(0, 0, 50, 25), "Begin!");
 		Start.setFontColor(Color.darkGray);
-		Start.addActionListener(new TransitionButtonListener(ControllerSizingPart1.class));
+		Start.addActionListener(new TransitionButtonListener(ControllerSizingPart2.class));
 
 		// Back Button
 		Button Back = new Button(new Image(ImagePaths.BACK_BUTTON), 0, 0,

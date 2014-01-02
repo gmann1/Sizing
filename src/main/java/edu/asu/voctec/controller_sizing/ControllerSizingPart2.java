@@ -23,10 +23,10 @@ import edu.asu.voctec.game_states.GUI;
 public class ControllerSizingPart2 extends GUI
 {
 	public static final String GameBackground = "resources/default/img/minigames/ControllerSizing/Step1Background.png";
-	public static final String OriginalControllerPath = "resources/default/img/minigames/ControllerSizing/BlueBattery.png";
-	public static final String ChosenControllerPath = "resources/default/img/minigames/ControllerSizing/YellowBattery.png";
-	public static final String IncorrectControllerPath = "resources/default/img/minigames/ControllerSizing/RedBattery.png";
-	public static final String CorrectControllerPath = "resources/default/img/minigames/ControllerSizing/GreenBattery.png";
+	public static final String OriginalControllerPath = "resources/default/img/minigames/ControllerSizing/NormalController.png";
+	public static final String ChosenControllerPath = "resources/default/img/minigames/ControllerSizing/ChosenController.png";
+	public static final String IncorrectControllerPath = "resources/default/img/minigames/ControllerSizing/IncorrectController.png";
+	public static final String CorrectControllerPath = "resources/default/img/minigames/ControllerSizing/CorrectController.png";
 	public static final String DoneButtonPath = "resources/default/img/minigames/ControllerSizing/LargeDoneButton.png";
 	public static final String ContinueButtonPath = "resources/default/img/minigames/ControllerSizing/ContinueButton.png";
 	public static final String InvisibleContinueButtonPath = "resources/default/img/minigames/ControllerSizing/invisibleContinueButton.png";
@@ -184,7 +184,7 @@ public class ControllerSizingPart2 extends GUI
 		protected void actionPerformed()
 		{
 			if(stepCompleted)
-				Game.getCurrentGame().enterState(ControllerSizingPart2.class);
+				Game.getCurrentGame().enterState(ControllerSizingPart1.class);
 		}
 	}
 
