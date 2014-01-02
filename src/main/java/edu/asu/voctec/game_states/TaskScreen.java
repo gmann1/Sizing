@@ -44,7 +44,9 @@ public class TaskScreen extends GUI
 	public void onEnter()
 	{
 		// Disable task display
-		TaskData.activeListener.stopDisplaying();
+		if (TaskData.activeListener != null)
+			TaskData.activeListener.stopDisplaying();
+		setNextAccessible();
 	}
 	
 	public void setDefaultTasks() throws SlickException

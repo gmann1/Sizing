@@ -24,6 +24,7 @@ public class MainMenu extends GUI implements GameDefaults
 	{
 		System.out.println("\nMainMenu: Initializing...");
 		
+		// TODO Replace with profile
 		Game.setCurrentTask(new TaskData());
 		
 		int buttonSpacing = 15;

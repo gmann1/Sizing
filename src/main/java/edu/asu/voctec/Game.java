@@ -35,6 +35,7 @@ import edu.asu.voctec.game_states.SelectorTest;
 import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.information.TaskData;
+import edu.asu.voctec.information.UserProfile;
 import edu.asu.voctec.pv_game.PVExit;
 import edu.asu.voctec.pv_game.PVGame;
 import edu.asu.voctec.pv_game.PVIntro;
@@ -66,6 +67,7 @@ public class Game extends StateBasedGame implements Singleton
 	private static HashMap<Class<?>, Integer> gameStates = new HashMap<>();
 	private static Game currentGame;
 	private static TaskData currentTask;
+	private static UserProfile currentUser;
 	
 	/** GameState to enter upon launching the application */
 	public static final Class<?> DEFAULT_GAME_STATE = MainMenu.class;
@@ -255,5 +257,17 @@ public class Game extends StateBasedGame implements Singleton
 	{
 		return currentGame.getState(getStateID(state));
 	}
+
+	public static UserProfile getCurrentUser()
+	{
+		return currentUser;
+	}
+
+	public static void setCurrentUser(UserProfile currentUser)
+	{
+		Game.currentUser = currentUser;
+	}
+	
+	
 	
 }
