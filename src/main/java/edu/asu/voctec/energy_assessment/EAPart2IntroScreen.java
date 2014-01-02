@@ -29,9 +29,7 @@ public class EAPart2IntroScreen extends GUI
 	private static final String EXIT = "resources/default/img/minigames/energyAssessment/exitButton.png";
 	private static final String BACKGROUND = "resources/default/img/minigames/energyAssessment/background.png";
 	
-	private static final String ea2IntroText = "After inventorying the energy consuming devices and determining their power rating, you must calculate the energy consumed."
-			+ "                                                                                                                                                            "
-			+ "Remember: when calculating the energy consumed, it is important to account for energy loss, and include a buffer for load growth.";
+	private static final String ea2IntroText = "Now you have to inventory the energy consuming devices and determining their power rating.";
 	
 		@Override
 		public void init(GameContainer container, StateBasedGame game) throws SlickException

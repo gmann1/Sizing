@@ -30,14 +30,7 @@ public class EAPart1IntroScreen extends GUI
 	private static final String BACKGROUND = "resources/default/img/minigames/energyAssessment/background.png";
 	
 	
-	private static final String ea1IntroText = "In this game you need will need to put in order the different processes needed to determine the correct daily energy requirements."
-			+ "Instructions:"
-			+ "1. You are given 7 different processes on the bottom of the screen, use the arrows to cycle through all the different ones."
-			+ "2. At the top of the screen is a diagram that represents the processes flow, your job is to fill in the diagram. "
-			+ "3. To place a process click the big box center box with the process you want placed."
-			+ "4. If you find you do not want the diagram as you have placed the processes you can click a diagram box with a process to have it returned."
-			+ "5. Once you have placed something in every diagram box a ready button will appear which you can click. If the diagram is placed correctly you will move onto the next screen. If it is not correct it will highlight the ones wrong in red and will give you a hint."
-			+ "6. The less hints used the higher your score will be. ";
+	private static final String ea1IntroText = "In this game you need will need to put in order the different processes needed to determine the correct daily energy requirements.";
 
 	
 		@Override
