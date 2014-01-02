@@ -107,7 +107,7 @@ public class EAPart1 extends GUI
 				
 		Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 750, 0, new Rectangle(50,50,300,50), "Start!");
 		Start.addActionListener(new TransitionButtonListener(EAPart1ScoreScreen.class));
-		//this.addComponent(Start);
+		this.addComponent(Start);
 		
 		
 	}
