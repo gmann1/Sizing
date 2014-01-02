@@ -8,7 +8,10 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.Button;
+import edu.asu.voctec.GUI.ButtonListener;
+import edu.asu.voctec.GUI.TextArea;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
@@ -22,6 +25,8 @@ public class EAPart2ScoreScreen extends GUI
 	private static final String REPLAY = "resources/default/img/minigames/energyAssessment/replayButton.png";
 	private static final String BACKGROUND = "resources/default/img/minigames/energyAssessment/background.png";
 	
+	private static final String ea2ScoreText = "You have successfully inventoried the energy consuming devices and determined their power rating.";
+
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException
 	{
@@ -36,20 +41,42 @@ public class EAPart2ScoreScreen extends GUI
 		this.addComponent(topTextField);
 		
 		//FeedBack text
-		Rectangle introTextLocation = new Rectangle(50, 100, 700, 400);
-		TextField introTextField = new TextField(introTextLocation, 0.90f, "Information...", null);
-		introTextField.setFontColor(Color.black);
-		introTextField.setFillColor(Color.white);
-		this.addComponent(introTextField);
+		Rectangle scoreTextLocation = new Rectangle(50, 100, 700, 400);
+		TextArea scoreTextArea = new TextArea(scoreTextLocation, 0.90f, ea2ScoreText);
+		scoreTextArea.setFontColor(Color.black);
+		scoreTextArea.setFillColor(Color.white);
+		scoreTextArea.setFontSize(16);
+		this.addComponent(scoreTextArea);
 		
 		//Next Button
 		Button Next = new Button(new Image(CONTINUE), 575, 500, new Rectangle(50,50,300,50), "");
-		Next.addActionListener(new TransitionButtonListener(TaskScreen.class));
+		Next.addActionListener(new NextButtonListener());
 		this.addComponent(Next);
 		
 		//Replay Button
 		Button replay = new Button(new Image(REPLAY), 50, 500, new Rectangle(50,50,300,50), "");
-		replay.addActionListener(new TransitionButtonListener(EAPart2IntroScreen.class));
+		replay.addActionListener(new  ReplayButtonListener());
 		this.addComponent(replay);
+	}
+	
+	private class NextButtonListener extends ButtonListener
+	{
+		@Override
+		protected void actionPerformed()
+		{
+			EAPart1.reset();
+			EAPart2.reset();
+			Game.getCurrentGame().enterState(TaskScreen.class);
+		}
+	}
+	
+	private class ReplayButtonListener extends ButtonListener
+	{
+		@Override
+		protected void actionPerformed()
+		{
+			EAPart2.reset();
+			Game.getCurrentGame().enterState(EAPart2IntroScreen.class);
+		}
 	}
 }

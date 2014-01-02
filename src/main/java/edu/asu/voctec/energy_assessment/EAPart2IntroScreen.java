@@ -29,6 +29,8 @@ public class EAPart2IntroScreen extends GUI
 	private static final String EXIT = "resources/default/img/minigames/energyAssessment/exitButton.png";
 	private static final String BACKGROUND = "resources/default/img/minigames/energyAssessment/background.png";
 	
+	private static final String ea2IntroText = "Now you have to inventory the energy consuming devices and determining their power rating.";
+	
 		@Override
 		public void init(GameContainer container, StateBasedGame game) throws SlickException
 		{
@@ -44,10 +46,11 @@ public class EAPart2IntroScreen extends GUI
 			
 			//intro text
 			Rectangle introTextLocation = new Rectangle(50, 100, 700, 400);
-			TextField introTextField = new TextField(introTextLocation, 0.90f, "Information...", null);
-			introTextField.setFontColor(Color.black);
-			introTextField.setFillColor(Color.white);
-			this.addComponent(introTextField);
+			TextArea introTextArea = new TextArea(introTextLocation, 0.90f, ea2IntroText);
+			introTextArea.setFontColor(Color.black);
+			introTextArea.setFillColor(Color.white);
+			introTextArea.setFontSize(16);
+			this.addComponent(introTextArea);
 			
 			//Next Button
 			Button Next = new Button(new Image(CONTINUE), 575, 500, new Rectangle(50,50,300,50), "");
