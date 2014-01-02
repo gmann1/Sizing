@@ -42,14 +42,24 @@ public class EAPart1 extends GUI
 	private Selector<SelectorIcon> eaSelector;
 	Button ready;
 	
+	private TextField hintText;
+	private int hintNumber;
+	private String[] hintTextArray = 
+		{
+			"Hint 1",
+			"Hint 2",
+			"Hint 3"
+		};
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException
 	{
 		//basic load things
 		this.backgroundImage = new Image(BACKGROUND);
 		
+		initializeHintBox();
 		//Text
-		Rectangle topTextLocation = new Rectangle(500, 20, 250, 50);
+		/*Rectangle topTextLocation = new Rectangle(500, 20, 250, 50);
 		Rectangle instructionTextLocation = new Rectangle(500, 70, 250, 150);
 		
 		TextField topText = new TextField(topTextLocation, 0.95f, "Put the steps in the right order", TextDisplay.FormattingOption.FIT_TEXT);
@@ -62,7 +72,7 @@ public class EAPart1 extends GUI
 		instructionText.setFillColor(Color.darkGray);
 		
 		this.addComponent(topText);
-		this.addComponent(instructionText);
+		this.addComponent(instructionText);*/
 
 		////Selector////
 		eaSelector = new Selector<>(250, 425, true);
@@ -103,18 +113,37 @@ public class EAPart1 extends GUI
 		
 		
 		////Testing Stuff can be deleted later////
-		System.out.println("EAPart1IntroScreen");
+		/*System.out.println("EAPart1IntroScreen");
 				
 		Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 750, 0, new Rectangle(50,50,300,50), "Start!");
 		Start.addActionListener(new TransitionButtonListener(EAPart1ScoreScreen.class));
-		this.addComponent(Start);
+		this.addComponent(Start);*/
+	}
+	
+	public void initializeHintBox()
+	{
+		TextField hintTitleText = new TextField(new Rectangle(500, 20, 250, 50), 0.95f, "Put the steps in the right order", TextDisplay.FormattingOption.FIT_TEXT);
+		hintTitleText.center();
+		hintTitleText.setFontColor(Color.white);
+		this.addComponent(hintTitleText);
 		
-		
+		hintText = new TextField(new Rectangle(500, 70, 250, 225), 0.95f, "Hint Box", null);
+		hintText.setFontSize(16);
+		hintText.setFontColor(Color.lightGray);
+		hintText.setFillColor(Color.darkGray);
+		this.addComponent(hintText);
+	}
+	
+	private void HintNext()
+	{
+		hintText.setText(hintTextArray[hintNumber]);
+		hintNumber++;
+		if(hintNumber>2)
+			hintNumber = 0;
 	}
 	
 	public class ReadyButtonListener extends ButtonListener
 	{
-
 		@Override
 		protected void actionPerformed()
 		{
@@ -123,6 +152,10 @@ public class EAPart1 extends GUI
 			{
 				System.out.println("Good!");
 				Game.getCurrentGame().enterState(EAPart1ScoreScreen.class);
+			}
+			else
+			{
+				HintNext();
 			}
 		}
 		

@@ -50,13 +50,24 @@ public class EAPart2ScoreScreen extends GUI
 		
 		//Next Button
 		Button Next = new Button(new Image(CONTINUE), 575, 500, new Rectangle(50,50,300,50), "");
-		Next.addActionListener(new TransitionButtonListener(TaskScreen.class));
+		Next.addActionListener(new NextButtonListener());
 		this.addComponent(Next);
 		
 		//Replay Button
 		Button replay = new Button(new Image(REPLAY), 50, 500, new Rectangle(50,50,300,50), "");
 		replay.addActionListener(new  ReplayButtonListener());
 		this.addComponent(replay);
+	}
+	
+	private class NextButtonListener extends ButtonListener
+	{
+		@Override
+		protected void actionPerformed()
+		{
+			EAPart1.reset();
+			EAPart2.reset();
+			Game.getCurrentGame().enterState(TaskScreen.class);
+		}
 	}
 	
 	private class ReplayButtonListener extends ButtonListener
@@ -67,6 +78,5 @@ public class EAPart2ScoreScreen extends GUI
 			EAPart2.reset();
 			Game.getCurrentGame().enterState(EAPart2IntroScreen.class);
 		}
-		
 	}
 }
