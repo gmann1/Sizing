@@ -257,6 +257,15 @@ public class TaskData
 	
 	public boolean isComplete()
 	{
+		for (AttemptData attempt : listOfAttempts)
+		{
+			if (attempt != null && attempt.isComplete())
+			{
+				complete = true;
+				break;
+			}
+		}
+		
 		return complete;
 	}
 	
@@ -273,6 +282,12 @@ public class TaskData
 	public TextArea getInaccessibleText()
 	{
 		return inaccessibleText;
+	}
+	
+	public void reload()
+	{
+		associatedHub = (TaskScreen) Game
+				.getGameState(associatedHub.getClass());
 	}
 	
 }

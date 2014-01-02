@@ -131,15 +131,15 @@ public abstract class UtilFunctions
 			component.translate(horizontalAmount, verticalAmount);
 	}
 	
-	public static void translateAll(int horizontalAmount, int verticalAmount,
-			ArrayList<Component> components)
+	public static <T extends Component> void translateAll(int horizontalAmount,
+			int verticalAmount, ArrayList<T> components)
 	{
 		translateAll(horizontalAmount, verticalAmount,
 				components.toArray(new Component[components.size()]));
 	}
 	
-	public static void translateAll(Point translationAmount,
-			ArrayList<Component> components)
+	public static <T extends Component> void translateAll(
+			Point translationAmount, ArrayList<T> components)
 	{
 		translateAll(translationAmount,
 				components.toArray(new Component[components.size()]));

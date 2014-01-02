@@ -22,8 +22,10 @@ import edu.asu.voctec.GUI.SelectorIcon;
 import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
+import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.information.SizingStepsData;
 import edu.asu.voctec.information.TaskData;
+import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
 import edu.asu.voctec.step_selection.StepSelectionExitScreen;
 import edu.asu.voctec.utilities.CircularList;
 import edu.asu.voctec.utilities.UtilFunctions;
@@ -160,6 +162,14 @@ public class SelectorTest extends GUI
 		readyButton.addActionListener(new ReadyButtonListener());
 		this.addComponent(readyButton);
 		
+		// Create and add a new BackButton
+		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 0, 0,
+				new Rectangle(0, 0, 50, 25), "Back");
+		backButton.addActionListener(new TransitionButtonListener(
+				ScenarioIntroductionScreen.class));
+		backButton.setFontColor(Color.darkGray);
+		this.addComponent(backButton);
+		
 		// Set background
 		Image background = new Image(ImagePaths.MainMenuBackground);
 		setBackgroundImage(background.getScaledCopy(800, 600));
@@ -236,6 +246,12 @@ public class SelectorTest extends GUI
 		hintBox.setText(currentAttempt.getCurrentHints());
 		selector.updateChoiceLabel();
 		updateInstructions();
+		if (selectorDisplay.isFull() || selectorDisplay.isEmpty())
+			selectorDisplay.updateChoiceBorders();
+		else
+			selectorDisplay.restoreChoiceBorders();
+		
+		complete = selectorDisplay.verifyChoices(false);
 	}
 	
 	public SizingStepsData generateDefaultData()
@@ -243,7 +259,7 @@ public class SelectorTest extends GUI
 		ArrayList<SelectorIcon> selectorDisplayContents = new ArrayList<>();
 		CircularList<SelectorIcon> selectorContents = new CircularList<>();
 		ArrayList<String> currentHints = this.hintBox.getText();
-
+		
 		// Add each of 5 steps to the selectorContent list
 		populateSelectorContents(selectorContents);
 		
@@ -254,7 +270,8 @@ public class SelectorTest extends GUI
 				currentHints);
 	}
 	
-	public void populateSelectorContents(CircularList<SelectorIcon> selectorContents)
+	public void populateSelectorContents(
+			CircularList<SelectorIcon> selectorContents)
 	{
 		// Add each of 5 steps to the selectorContent list
 		try

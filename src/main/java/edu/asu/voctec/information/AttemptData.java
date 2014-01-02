@@ -104,5 +104,17 @@ public class AttemptData implements Comparable<AttemptData>, Finalizable
 	{
 		return (percentCompletion >= 100);
 	}
+
+	public int getPercentCompletion()
+	{
+		return percentCompletion;
+	}
+
+	public void setPercentCompletion(int percentCompletion)
+	{
+		this.percentCompletion = percentCompletion;
+	}
+	
+	
 	
 }

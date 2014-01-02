@@ -257,6 +257,12 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		
 	}
 	
+	public void restoreChoiceBorders()
+	{
+		for (BasicComponent border : choiceBorders)
+			border.setCurrentImage(defaultBorder, true);
+	}
+	
 	public boolean verifyChoices(boolean updateBorders)
 	{
 		boolean correctChoices = true;
@@ -323,7 +329,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 			
 			rootIndex = (rootIndex < 0) ? -rootIndex : rootIndex;
 			T root = orderedElements.get(rootIndex);
-			int order = actualIndex - rootIndex;
+			int order = properIndex - rootIndex;
 			String keyWord;
 			
 			if (order < 0)
@@ -643,6 +649,20 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	{
 		int firstNull = elements.indexOf(null);
 		return (firstNull < 0 || firstNull > capacity);
+	}
+
+	public boolean isEmpty()
+	{
+		boolean empty = true;
+		for (T element : elements)
+		{
+			if (element != null)
+			{
+				empty = false;
+				break;
+			}
+		}
+		return empty;
 	}
 	
 	/**
