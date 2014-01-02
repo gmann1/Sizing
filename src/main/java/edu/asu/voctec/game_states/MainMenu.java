@@ -8,9 +8,11 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.TransitionButtonListener;
+import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
 import edu.asu.voctec.utilities.UtilFunctions;
 
@@ -21,6 +23,8 @@ public class MainMenu extends GUI implements GameDefaults
 			throws SlickException
 	{
 		System.out.println("\nMainMenu: Initializing...");
+		
+		Game.setCurrentTask(new TaskData());
 		
 		int buttonSpacing = 15;
 		int buttonWidth = 350;

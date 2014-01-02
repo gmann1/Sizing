@@ -1,6 +1,7 @@
 package edu.asu.voctec.game_states;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -21,7 +22,10 @@ import edu.asu.voctec.GUI.SelectorIcon;
 import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
+import edu.asu.voctec.information.SizingStepsData;
+import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.step_selection.StepSelectionExitScreen;
+import edu.asu.voctec.utilities.CircularList;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class SelectorTest extends GUI
@@ -96,20 +100,21 @@ public class SelectorTest extends GUI
 				new Rectangle(Main.getCurrentScreenDimension()), centered);
 		selector.translate(centered.x - 75, 620 - centered.height);
 		
-		// Add each of 5 steps to the selector
-		selector.add(new SelectorIcon(SelectorIcons.ENERGY_ASSESSMENT,
-				"Energy Assessment", 0));
-		selector.add(new SelectorIcon(SelectorIcons.CRITICAL_DESIGN_MONTH,
-				"Critical Design Month", 1));
-		selector.add(new SelectorIcon(SelectorIcons.BATTERY_SIZING,
-				"Size the Battery", 2));
-		selector.add(new SelectorIcon(SelectorIcons.PV_SIZING,
-				"Size the PV Array", 3));
-		selector.add(new SelectorIcon(SelectorIcons.CONTROLLER_SIZING,
-				"Size the Controllers", 4));
+		/*
+		 * // Add each of 5 steps to the selector selector.add(new
+		 * SelectorIcon(SelectorIcons.ENERGY_ASSESSMENT, "Energy Assessment",
+		 * 0)); selector.add(new
+		 * SelectorIcon(SelectorIcons.CRITICAL_DESIGN_MONTH,
+		 * "Critical Design Month", 1)); selector.add(new
+		 * SelectorIcon(SelectorIcons.BATTERY_SIZING, "Size the Battery", 2));
+		 * selector.add(new SelectorIcon(SelectorIcons.PV_SIZING,
+		 * "Size the PV Array", 3)); selector.add(new
+		 * SelectorIcon(SelectorIcons.CONTROLLER_SIZING, "Size the Controllers",
+		 * 4));
+		 */
 		
 		// Format selector, and add it to this screen
-		selector.shuffle();
+		// selector.shuffle();
 		selector.displayLabel();
 		this.addComponent(selector);
 		
@@ -159,7 +164,7 @@ public class SelectorTest extends GUI
 		Image background = new Image(ImagePaths.MainMenuBackground);
 		setBackgroundImage(background.getScaledCopy(800, 600));
 		
-		updateInstructions();
+		// updateInstructions();
 		
 		System.out.println("SelectorTest: Initialization Finished.\n");
 	}
@@ -209,5 +214,81 @@ public class SelectorTest extends GUI
 	{
 		hintBox.clear();
 		hintBox.addLines(selectorDisplay.deriveHints(true), true);
+	}
+	
+	public void load()
+	{
+		TaskData currentTask = Game.getCurrentTask();
+		SizingStepsData currentAttempt = (SizingStepsData) currentTask
+				.getCurrentAttempt();
+		
+		// Create a new attempt instance, if necessary
+		if (currentAttempt == null)
+		{
+			currentTask.setCurrentAttempt(generateDefaultData());
+			currentAttempt = (SizingStepsData) currentTask.getCurrentAttempt();
+		}
+		
+		// Load from data
+		selector.setElements(currentAttempt.getSelectorContents());
+		selectorDisplay
+				.setElements(currentAttempt.getSelectorDisplayContents());
+		hintBox.setText(currentAttempt.getCurrentHints());
+		selector.updateChoiceLabel();
+		updateInstructions();
+	}
+	
+	public SizingStepsData generateDefaultData()
+	{
+		ArrayList<SelectorIcon> selectorDisplayContents = new ArrayList<>();
+		CircularList<SelectorIcon> selectorContents = new CircularList<>();
+		ArrayList<String> currentHints = this.hintBox.getText();
+
+		// Add each of 5 steps to the selectorContent list
+		populateSelectorContents(selectorContents);
+		
+		// Shuffle the selector choices
+		selectorContents.shuffle();
+		
+		return new SizingStepsData(selectorDisplayContents, selectorContents,
+				currentHints);
+	}
+	
+	public void populateSelectorContents(CircularList<SelectorIcon> selectorContents)
+	{
+		// Add each of 5 steps to the selectorContent list
+		try
+		{
+			selectorContents.add(new SelectorIcon(
+					SelectorIcons.ENERGY_ASSESSMENT, "Energy Assessment", 0));
+			selectorContents.add(new SelectorIcon(
+					SelectorIcons.CRITICAL_DESIGN_MONTH,
+					"Critical Design Month", 1));
+			selectorContents.add(new SelectorIcon(SelectorIcons.BATTERY_SIZING,
+					"Size the Battery", 2));
+			selectorContents.add(new SelectorIcon(SelectorIcons.PV_SIZING,
+					"Size the PV Array", 3));
+			selectorContents
+					.add(new SelectorIcon(SelectorIcons.CONTROLLER_SIZING,
+							"Size the Controllers", 4));
+		}
+		catch (SlickException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void save()
+	{
+		ArrayList<SelectorIcon> selectorDisplayContents = this.selectorDisplay
+				.getElements();
+		CircularList<SelectorIcon> selectorContents = this.selector
+				.getElements();
+		ArrayList<String> currentHints = this.hintBox.getText();
+		
+		SizingStepsData saveData = new SizingStepsData(selectorDisplayContents,
+				selectorContents, currentHints);
+		
+		Game.getCurrentTask().setCurrentAttempt(saveData);
 	}
 }

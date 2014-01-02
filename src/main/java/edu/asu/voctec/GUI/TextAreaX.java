@@ -262,4 +262,9 @@ public class TextAreaX extends TextArea
 		System.out.println("Lines: " + Arrays.toString(lines.toArray()));
 	}
 	
+	public ArrayList<String> getText()
+	{
+		return lines;
+	}
+	
 }

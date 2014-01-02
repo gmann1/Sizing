@@ -117,20 +117,30 @@ public class TaskData
 		
 	}
 	
-	public TaskData(Class<?> associatedTask, TaskScreen associatedHub,
-			Rectangle relativeTextBounds, String name) throws SlickException
+	public TaskData()
 	{
-		this.associatedHub = associatedHub;
-		this.associatedTask = associatedTask;
+		this.associatedHub = null;
+		this.associatedTask = null;
+		this.taskIcon = null;
+		
 		this.listOfAttempts = new ArrayList<>();
 		this.complete = false;
 		this.accessible = false;
+		this.informationComponents = new ArrayList<>();
+		
+		listOfAttempts.add(null);
+	}
+	
+	public TaskData(Class<?> associatedTask, TaskScreen associatedHub,
+			Rectangle relativeTextBounds, String name) throws SlickException
+	{
+		this();
+		this.associatedHub = associatedHub;
+		this.associatedTask = associatedTask;
 		this.taskIcon = new Button(DEFAULT_IMAGE, 0, 0, relativeTextBounds,
 				name);
 		
-		this.informationComponents = new ArrayList<>();
 		populateInformationComponents(name, informationComponents);
-		
 		taskIcon.addActionListener(new MultiTaskListener());
 	}
 	

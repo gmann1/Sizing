@@ -32,6 +32,7 @@ import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.MenuTest;
 import edu.asu.voctec.game_states.ModifiedGameState;
 import edu.asu.voctec.game_states.SelectorTest;
+import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.pv_game.PVExit;
@@ -218,6 +219,13 @@ public class Game extends StateBasedGame implements Singleton
 	public void enterState(int id)
 	{
 		System.out.println("Switching States...");
+		
+		GameState state = getState(id);
+		if (state instanceof Task)
+			((Task) state).load();
+		if (state instanceof ModifiedGameState)
+			((ModifiedGameState) state).onEnter();
+		
 		super.enterState(id);
 		System.out.println("Switch Successful. Current State: "
 				+ this.getCurrentStateID());
@@ -225,7 +233,7 @@ public class Game extends StateBasedGame implements Singleton
 	
 	public void enterState(Class<?> state)
 	{
-		this.enterState(gameStates.get(state));
+		this.enterState(getStateID(state));
 	}
 	
 	public static TaskData getCurrentTask()
@@ -233,9 +241,19 @@ public class Game extends StateBasedGame implements Singleton
 		return currentTask;
 	}
 	
+	public static int getStateID(Class<?> state)
+	{
+		return gameStates.get(state);
+	}
+	
 	public static void setCurrentTask(TaskData currentTask)
 	{
 		Game.currentTask = currentTask;
+	}
+	
+	public static GameState getGameState(Class<?> state)
+	{
+		return currentGame.getState(getStateID(state));
 	}
 	
 }

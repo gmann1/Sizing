@@ -20,12 +20,14 @@ public abstract class UtilFunctions
 {
 	public static Image createImage(String imagePath)
 	{
+		System.out.println("Loading Image...");
 		try
 		{
 			return new Image(imagePath);
 		}
 		catch (Exception e)
 		{
+			System.out.println("Image Load Failed");
 			e.printStackTrace();
 			return null;
 		}
