@@ -8,7 +8,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.Button;
+import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.TextArea;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
@@ -53,8 +55,19 @@ public class EAPart1ScoreScreen extends GUI
 		
 		//Replay Button
 		Button replay = new Button(new Image(REPLAY), 50, 500, new Rectangle(50,50,300,50), "");
-		replay.addActionListener(new TransitionButtonListener(EAPart1IntroScreen.class));
+		replay.addActionListener(new ReplayButtonListener());
 		this.addComponent(replay);
+		
+	}
+	
+	private class ReplayButtonListener extends ButtonListener
+	{
+		@Override
+		protected void actionPerformed()
+		{
+			EAPart1.reset();
+			Game.getCurrentGame().enterState(EAPart1IntroScreen.class);
+		}
 		
 	}
 }

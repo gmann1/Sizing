@@ -11,9 +11,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
+import edu.asu.voctec.GUI.BasicComponent;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.TextArea;
+import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
@@ -38,13 +40,13 @@ public class EAPart2 extends GUI
 	
 	Button ready;
 	
-	private static TextArea appliance0Text;
-	private static TextArea appliance1Text;
-	private static TextArea appliance2Text;
-	private static TextArea appliance3Text;
-	private static TextArea appliance4Text;
+	private static TextField appliance0TextField;
+	private static TextField appliance1TextField;
+	private static TextField appliance2TextField;
+	private static TextField appliance3TextField;
+	private static TextField appliance4TextField;
 
-	private int[][] applianceArray = 
+	private static int[][] applianceArray = 
 		{
 			{0,325,220},
 			{0,550,230},
@@ -99,32 +101,7 @@ public class EAPart2 extends GUI
 		appliance4.addActionListener(new ApplianceClick4());
 		this.addComponent(appliance4);
 		
-		////Text////
-		//0
-		Rectangle appliance0TextLocation = new Rectangle(300, 300, 300, 50);
-		TextField appliance0TextField = new TextField(new Rectangle(applianceArray[0][1]-25, applianceArray[0][2]+80, 300, 50), 0.95f, "14 W", TextDisplay.FormattingOption.FIT_TEXT);
-		appliance0TextField.setFontColor(Color.black);
-		this.addComponent(appliance0TextField);
-		//1
-		Rectangle appliance1TextLocation = new Rectangle(525, 310, 300, 50);
-		TextField appliance1TextField = new TextField(new Rectangle(applianceArray[1][1]-25, applianceArray[1][2]+80, 300, 50), 0.95f, "14 W", TextDisplay.FormattingOption.FIT_TEXT);
-		appliance1TextField.setFontColor(Color.black);
-		this.addComponent(appliance1TextField);
-		//2
-		Rectangle appliance2TextLocation = new Rectangle(655, 310, 300, 50);
-		TextField appliance2TextField = new TextField(new Rectangle(applianceArray[2][1]-25, applianceArray[2][2]+80, 300, 50), 0.95f, "14 W", TextDisplay.FormattingOption.FIT_TEXT);
-		appliance2TextField.setFontColor(Color.black);
-		this.addComponent(appliance2TextField);
-		//3
-		Rectangle appliance3TextLocation = new Rectangle(175, 280, 300, 50);
-		TextField appliance3TextField = new TextField(new Rectangle(applianceArray[3][1]-25, applianceArray[3][2]+80, 300, 50), 0.95f, "9 W", TextDisplay.FormattingOption.FIT_TEXT);
-		appliance3TextField.setFontColor(Color.black);
-		this.addComponent(appliance3TextField);
-		//4
-		Rectangle appliance4TextLocation = new Rectangle(375, 400, 300, 50);
-		TextField appliance4TextField = new TextField(new Rectangle(applianceArray[4][1]-100, applianceArray[4][2]+100, 300, 50), 0.95f, "30 W", TextDisplay.FormattingOption.FIT_TEXT);
-		appliance4TextField.setFontColor(Color.black);
-		this.addComponent(appliance4TextField);
+		initializeText();
 		
 		////Testing Stuff can be deleted later////
 		System.out.println("EAPart1IntroScreen");
@@ -177,6 +154,30 @@ public class EAPart2 extends GUI
 		
 	}
 	
+	private void initializeText()
+	{
+		//0
+		appliance0TextField = new TextField(new Rectangle(applianceArray[0][1]-25, applianceArray[0][2]+80, 300, 50), 0.95f, "", TextDisplay.FormattingOption.FIT_TEXT);
+		appliance0TextField.setFontColor(Color.black);
+		this.addComponent(appliance0TextField);
+		//1
+		appliance1TextField = new TextField(new Rectangle(applianceArray[1][1]-25, applianceArray[1][2]+80, 300, 50), 0.95f, "", TextDisplay.FormattingOption.FIT_TEXT);
+		appliance1TextField.setFontColor(Color.black);
+		this.addComponent(appliance1TextField);
+		//2
+		appliance2TextField = new TextField(new Rectangle(applianceArray[2][1]-25, applianceArray[2][2]+80, 300, 50), 0.95f, "", TextDisplay.FormattingOption.FIT_TEXT);
+		appliance2TextField.setFontColor(Color.black);
+		this.addComponent(appliance2TextField);
+		//3
+		appliance3TextField = new TextField(new Rectangle(applianceArray[3][1]-25, applianceArray[3][2]+80, 300, 50), 0.95f, "", TextDisplay.FormattingOption.FIT_TEXT);
+		appliance3TextField.setFontColor(Color.black);
+		this.addComponent(appliance3TextField);
+		//4
+		appliance4TextField = new TextField(new Rectangle(applianceArray[4][1]-100, applianceArray[4][2]+100, 300, 50), 0.95f, "", TextDisplay.FormattingOption.FIT_TEXT);
+		appliance4TextField.setFontColor(Color.black);
+		this.addComponent(appliance4TextField);
+	}
+	
 	public class ApplianceClick0 extends ButtonListener
 	{
 		@Override
@@ -184,7 +185,7 @@ public class EAPart2 extends GUI
 		{
 			applianceArray[0][0] = 1;
 			System.out.println("Clicked0");
-			
+			appliance0TextField.setText("14 W");
 		}
 		
 	}
@@ -195,6 +196,7 @@ public class EAPart2 extends GUI
 		{
 			applianceArray[1][0] = 1;
 			System.out.println("Clicked1");
+			appliance1TextField.setText("14 W");
 		}
 		
 	}
@@ -205,6 +207,7 @@ public class EAPart2 extends GUI
 		{
 			applianceArray[2][0] = 1;
 			System.out.println("Clicked2");
+			appliance2TextField.setText("14 W");
 		}
 		
 	}
@@ -215,6 +218,7 @@ public class EAPart2 extends GUI
 		{
 			applianceArray[3][0] = 1;
 			System.out.println("Clicked3");
+			appliance3TextField.setText("9 W");
 		}
 		
 	}
@@ -225,6 +229,7 @@ public class EAPart2 extends GUI
 		{
 			applianceArray[4][0] = 1;
 			System.out.println("Clicked4");
+			appliance4TextField.setText("30 W");
 		}
 		
 	}
@@ -236,6 +241,19 @@ public class EAPart2 extends GUI
 			System.out.println("ClickedWrong");
 		}
 		
+	}
+	public static void reset()
+	{
+		for(int v=0;v<5;v++)
+		{
+			applianceArray[v][0] = 0; 
+		}
+		appliance0TextField.setText("");
+		appliance1TextField.setText("");
+		appliance2TextField.setText("");
+		appliance3TextField.setText("");
+		appliance4TextField.setText("");
+		System.out.println("eaPart2 Reset");
 	}
 	
 }

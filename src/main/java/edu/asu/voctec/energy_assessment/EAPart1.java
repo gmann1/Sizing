@@ -127,4 +127,9 @@ public class EAPart1 extends GUI
 		}
 		
 	}
+	
+	public static void reset()
+	{
+		System.out.println("eaPart1 Reset");
+	}
 }
