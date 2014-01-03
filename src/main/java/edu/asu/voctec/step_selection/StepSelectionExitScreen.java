@@ -49,12 +49,12 @@ public class StepSelectionExitScreen extends GUI
 		introduction.setFontColor(FONT_COLOR);
 		
 		// start button
-		Button Start = new Button(new Image(ARROW_RIGHT), 750, 550,
+		Button continueButton = new Button(new Image(ARROW_RIGHT), 750, 550,
 				new Rectangle(0, 0, 50, 25), "Exit!");
-		Start.setFontColor(Color.darkGray);
-		Start.addActionListener(new TransitionButtonListener(TaskScreen.class));
+		continueButton.setFontColor(Color.white);
+		continueButton.addActionListener(new TransitionButtonListener(TaskScreen.class));
 		
-		this.addComponent(Start);
+		this.addComponent(continueButton);
 		this.addComponent(topLine);
 		this.addComponent(introduction);
 		

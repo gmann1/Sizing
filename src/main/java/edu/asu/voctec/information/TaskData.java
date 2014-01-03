@@ -145,10 +145,10 @@ public class TaskData
 	}
 	
 	public TaskData(Class<?> associatedTaskScreen, TaskScreen taskScreen,
-			String name) throws SlickException
+			float textBounds, String name) throws SlickException
 	{
-		this(associatedTaskScreen, taskScreen, UtilFunctions
-				.getImageBounds(DEFAULT_IMAGE), name);
+		this(associatedTaskScreen, taskScreen, UtilFunctions.dialateRectangle(
+				DEFAULT_IMAGE, textBounds), name);
 	}
 	
 	public void populateInformationComponents(String name,
@@ -257,6 +257,15 @@ public class TaskData
 	
 	public boolean isComplete()
 	{
+		for (AttemptData attempt : listOfAttempts)
+		{
+			if (attempt != null && attempt.isComplete())
+			{
+				complete = true;
+				break;
+			}
+		}
+		
 		return complete;
 	}
 	

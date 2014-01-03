@@ -22,10 +22,13 @@ import edu.asu.voctec.GUI.SelectorIcon;
 import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
+import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.information.SizingStepsData;
 import edu.asu.voctec.information.TaskData;
+import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
 import edu.asu.voctec.step_selection.StepSelectionExitScreen;
 import edu.asu.voctec.utilities.CircularList;
+import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class SelectorTest extends GUI
@@ -100,27 +103,13 @@ public class SelectorTest extends GUI
 				new Rectangle(Main.getCurrentScreenDimension()), centered);
 		selector.translate(centered.x - 75, 620 - centered.height);
 		
-		/*
-		 * // Add each of 5 steps to the selector selector.add(new
-		 * SelectorIcon(SelectorIcons.ENERGY_ASSESSMENT, "Energy Assessment",
-		 * 0)); selector.add(new
-		 * SelectorIcon(SelectorIcons.CRITICAL_DESIGN_MONTH,
-		 * "Critical Design Month", 1)); selector.add(new
-		 * SelectorIcon(SelectorIcons.BATTERY_SIZING, "Size the Battery", 2));
-		 * selector.add(new SelectorIcon(SelectorIcons.PV_SIZING,
-		 * "Size the PV Array", 3)); selector.add(new
-		 * SelectorIcon(SelectorIcons.CONTROLLER_SIZING, "Size the Controllers",
-		 * 4));
-		 */
-		
 		// Format selector, and add it to this screen
-		// selector.shuffle();
 		selector.displayLabel();
 		this.addComponent(selector);
 		
 		// Selector Display
 		// Setup a new selector display, and link it to the selector
-		selectorDisplay = new SelectorDisplay<>(50, 40, true);
+		selectorDisplay = new SelectorDisplay<>(50, 60, true);
 		selectorDisplay.rescale(0.80f);
 		selectorDisplay.link(selector);
 		
@@ -159,6 +148,15 @@ public class SelectorTest extends GUI
 				null);
 		readyButton.addActionListener(new ReadyButtonListener());
 		this.addComponent(readyButton);
+		
+		// Create and add a new BackButton
+		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
+				new Rectangle(0, 0, 50, 25), "Back");
+		backButton.addActionListener(new TransitionButtonListener(
+				ScenarioIntroductionScreen.class));
+		backButton.setFontColor(Color.white);
+		backButton.positionText(Position.RIGHT);
+		this.addComponent(backButton);
 		
 		// Set background
 		Image background = new Image(ImagePaths.MainMenuBackground);
@@ -236,6 +234,12 @@ public class SelectorTest extends GUI
 		hintBox.setText(currentAttempt.getCurrentHints());
 		selector.updateChoiceLabel();
 		updateInstructions();
+		if (selectorDisplay.isFull() || selectorDisplay.isEmpty())
+			selectorDisplay.updateChoiceBorders();
+		else
+			selectorDisplay.restoreChoiceBorders();
+		
+		complete = selectorDisplay.verifyChoices(false);
 	}
 	
 	public SizingStepsData generateDefaultData()
@@ -243,7 +247,7 @@ public class SelectorTest extends GUI
 		ArrayList<SelectorIcon> selectorDisplayContents = new ArrayList<>();
 		CircularList<SelectorIcon> selectorContents = new CircularList<>();
 		ArrayList<String> currentHints = this.hintBox.getText();
-
+		
 		// Add each of 5 steps to the selectorContent list
 		populateSelectorContents(selectorContents);
 		
@@ -254,7 +258,8 @@ public class SelectorTest extends GUI
 				currentHints);
 	}
 	
-	public void populateSelectorContents(CircularList<SelectorIcon> selectorContents)
+	public void populateSelectorContents(
+			CircularList<SelectorIcon> selectorContents)
 	{
 		// Add each of 5 steps to the selectorContent list
 		try

@@ -64,9 +64,17 @@ public abstract class UtilFunctions
 		Rectangle scaledBounds = UtilFunctions
 				.getScaledRectangle(bounds, scale);
 		
-		// TODO test
-		// Rectangle relativeBounds = new Rectangle(0, 0, bounds.width,
-		// bounds.height);
+		UtilFunctions.centerRectangle(bounds, scaledBounds);
+		
+		return scaledBounds;
+	}
+	
+	public static Rectangle dialateRectangle(Image image, float scale)
+	{
+		Rectangle bounds = getImageBounds(image);
+		Rectangle scaledBounds = UtilFunctions
+				.getScaledRectangle(bounds, scale);
+		
 		UtilFunctions.centerRectangle(bounds, scaledBounds);
 		
 		return scaledBounds;
