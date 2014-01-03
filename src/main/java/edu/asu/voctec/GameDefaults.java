@@ -220,7 +220,7 @@ public interface GameDefaults
 					"instructionsIncomplete", "There are still more steps!");
 			public static final LabelName INSTRUCTIONS_COMPLETE = new LabelName(
 					"instructionsComplete",
-					"Press the redy button to verify your choices.");
+					"Press the ready button to verify your choices.");
 			public static final LabelName INSTRUCTIONS_CORRECT = new LabelName(
 					"instructionsCorrect", "Correct! Press ready to continue.");
 			

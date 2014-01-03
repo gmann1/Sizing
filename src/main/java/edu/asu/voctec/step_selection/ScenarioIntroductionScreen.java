@@ -20,6 +20,7 @@ import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.SelectorTest;
 import edu.asu.voctec.game_states.Task;
+import edu.asu.voctec.utilities.Position;
 
 public class ScenarioIntroductionScreen extends GUI implements Task
 {
@@ -50,23 +51,25 @@ public class ScenarioIntroductionScreen extends GUI implements Task
 		introduction.setFontColor(FONT_COLOR);
 		
 		// start button
-		Button Start = new Button(new Image(ARROW_RIGHT), 750, 550,
+		Button startButton = new Button(new Image(ARROW_RIGHT), 750, 550,
 				new Rectangle(0, 0, 50, 25), "Begin!");
-		Start.setFontColor(Color.darkGray);
-		Start.addActionListener(new TransitionButtonListener(SelectorTest.class));
+		startButton.setFontColor(Color.white);
+		startButton.addActionListener(new TransitionButtonListener(SelectorTest.class));
+		startButton.positionText(Position.LEFT);
 		
 		// Back Button
-		Button Back = new Button(new Image(ImagePaths.BACK_BUTTON), 0, 0,
+		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
 				new Rectangle(0, 0, 50, 25), "Back");
-		Back.addActionListener(new TransitionButtonListener(MainMenu.class));
-		Back.setFontColor(Color.darkGray);
+		backButton.addActionListener(new TransitionButtonListener(MainMenu.class));
+		backButton.setFontColor(Color.white);
+		backButton.positionText(Position.RIGHT);
 		
 		welcome.center();
 		
-		this.addComponent(Start);
+		this.addComponent(startButton);
 		this.addComponent(welcome);
 		this.addComponent(introduction);
-		this.addComponent(Back);
+		this.addComponent(backButton);
 	}
 	
 	@Override
