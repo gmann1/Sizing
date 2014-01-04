@@ -104,6 +104,32 @@ public class TextAreaX extends TextArea
 		formatText();
 	}
 	
+	public void setText(ArrayList<String> text)
+	{
+		this.lines.clear();
+		this.clipedText = "";
+		StringBuilder textAsString = new StringBuilder();
+		System.out.println("\tMid4: Current Hints: " + Arrays.toString(text.toArray()));
+		
+		if (text != null)
+		{
+			for (String line : text)
+			{
+				if (line == null)
+					textAsString.append("\n");
+				else
+					textAsString.append(line + " ");
+			}
+		}
+		System.out.println("\tMid5: Current Hints: " + Arrays.toString(text.toArray()));
+		
+		lines.addAll(getTextBlocks(textAsString.toString()));
+		System.out.println("\tMid6: Current Hints: " + Arrays.toString(text.toArray()));
+		
+		formatText();
+		System.out.println("\tMid7: Current Hints: " + Arrays.toString(text.toArray()));
+	}
+	
 	protected ArrayList<String> getTextBlocks(String text)
 	{
 		if (text == null)

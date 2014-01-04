@@ -115,7 +115,9 @@ public interface GameDefaults
 		public static final String FONT_NAME = "Meiryo"; // "Hiragino Kaku Gothic Pro";
 		public static final int FONT_SIZE_DEFAULT = 36;
 		public static final boolean ANTI_ALLIAS = true;
-		public static final Color FONT_COLOR = Color.magenta;
+		public static final Color FONT_COLOR = Color.white;
+		public static final Color TRANSITION_FONT_COLOR = Color.white;
+		public static final Color BUTTON_FONT_COLOR = Color.black;
 		
 		public static final float FONT_SIZE_SMALL = 8f;
 		public static final float FONT_SIZE_MEDIUM = 12f;
