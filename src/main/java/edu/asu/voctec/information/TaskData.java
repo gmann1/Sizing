@@ -42,6 +42,7 @@ public class TaskData
 	
 	protected ArrayList<Component> informationComponents;
 	protected TextAreaX inaccessibleText;
+	protected ProgressBar progressBar;
 	
 	public class MultiTaskListener extends ButtonListener
 	{
@@ -61,8 +62,12 @@ public class TaskData
 			}
 			else
 			{
+				updateProgressBar();
+				
 				if (activeListener != null)
 					activeListener.stopDisplaying();
+				if (TaskScreen.activeListener != null)
+					TaskScreen.activeListener.stopDisplaying();
 				
 				activeListener = this;
 				
@@ -88,6 +93,7 @@ public class TaskData
 			}
 			
 			displayingComponents = false;
+			activeListener = null;
 		}
 		
 	}
@@ -172,7 +178,7 @@ public class TaskData
 		
 		// Progress Bar
 		relativeBounds = new Rectangle(0, 100, 400, 100);
-		ProgressBar progressBar = new ProgressBar(relativeBounds);
+		progressBar = new ProgressBar(relativeBounds);
 		progressBar.setImages(ImagePaths.TaskScreen.PROGRESS_BAR_FULL,
 				ImagePaths.TaskScreen.PROGRESS_BAR_EMPTY,
 				ImagePaths.TaskScreen.PROGRESS_BAR_BORDER);
@@ -288,6 +294,15 @@ public class TaskData
 	{
 		associatedHub = (TaskScreen) Game
 				.getGameState(associatedHub.getClass());
+	}
+	
+	public void updateProgressBar()
+	{
+		if (this.progressBar != null && getCurrentAttempt() != null)
+		{
+			int percent = getCurrentAttempt().getPercentCompletion();
+			progressBar.setPercentComplete(percent);
+		}
 	}
 	
 }

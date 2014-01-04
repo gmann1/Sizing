@@ -24,7 +24,7 @@ import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TaskScreen extends GUI
 {
-	private static BackButtonListener currentListener;
+	public static BackButtonListener activeListener;
 	private ArrayList<TaskData> tasks;
 	private ArrayList<Component> confirmationComponents;
 	private boolean scenarioLoaded;
@@ -36,7 +36,6 @@ public class TaskScreen extends GUI
 		@Override
 		protected void actionPerformed()
 		{
-			// TODO Auto-generated method stub
 			if (displaying)
 			{
 				Game.getCurrentGame().enterState(MainMenu.class);
@@ -45,9 +44,13 @@ public class TaskScreen extends GUI
 			{
 				queueAddComponents(confirmationComponents);
 				displaying = true;
-				if (currentListener != null)
-					currentListener.stopDisplaying();
-				currentListener = this;
+				
+				if (activeListener != null)
+					activeListener.stopDisplaying();
+				if (TaskData.activeListener != null)
+					TaskData.activeListener.stopDisplaying();
+				
+				activeListener = this;
 			}
 		}
 		
@@ -55,6 +58,7 @@ public class TaskScreen extends GUI
 		{
 			queueRemoveComponents(confirmationComponents);
 			displaying = false;
+			activeListener = null;
 		}
 		
 	}
@@ -154,8 +158,8 @@ public class TaskScreen extends GUI
 			TaskData.activeListener.stopDisplaying();
 		
 		// Disable exit confirmation display
-		if (currentListener != null)
-			currentListener.stopDisplaying();
+		if (activeListener != null)
+			activeListener.stopDisplaying();
 		
 		setNextAccessible();
 	}
