@@ -10,15 +10,17 @@ public class SizingStepsData extends AttemptData
 	private ArrayList<SelectorIcon> selectorDisplayContents;
 	private CircularList<SelectorIcon> selectorContents;
 	private ArrayList<String> currentHints;
+	private boolean stepsVerified;
 	
 	public SizingStepsData(ArrayList<SelectorIcon> selectorDisplayContents,
 			CircularList<SelectorIcon> selectorContents,
-			ArrayList<String> currentHints)
+			ArrayList<String> currentHints, boolean stepsVerified)
 	{
 		super();
 		this.selectorDisplayContents = selectorDisplayContents;
 		this.selectorContents = selectorContents;
 		this.currentHints = currentHints;
+		this.stepsVerified = stepsVerified;
 	}
 	
 	public ArrayList<SelectorIcon> getSelectorDisplayContents()
@@ -50,6 +52,16 @@ public class SizingStepsData extends AttemptData
 	public void setCurrentHints(ArrayList<String> currentHints)
 	{
 		this.currentHints = currentHints;
+	}
+
+	public boolean isStepsVerified()
+	{
+		return stepsVerified;
+	}
+
+	public void setStepsVerified(boolean stepsVerified)
+	{
+		this.stepsVerified = stepsVerified;
 	}
 	
 }

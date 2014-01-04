@@ -2,8 +2,8 @@ package edu.asu.voctec.game_states;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -28,6 +28,7 @@ import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
 import edu.asu.voctec.step_selection.StepSelectionExitScreen;
 import edu.asu.voctec.utilities.CircularList;
+import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class SelectorTest extends GUI
@@ -81,6 +82,8 @@ public class SelectorTest extends GUI
 					}
 				}
 			}
+			
+			save();
 		}
 		
 	}
@@ -102,27 +105,13 @@ public class SelectorTest extends GUI
 				new Rectangle(Main.getCurrentScreenDimension()), centered);
 		selector.translate(centered.x - 75, 620 - centered.height);
 		
-		/*
-		 * // Add each of 5 steps to the selector selector.add(new
-		 * SelectorIcon(SelectorIcons.ENERGY_ASSESSMENT, "Energy Assessment",
-		 * 0)); selector.add(new
-		 * SelectorIcon(SelectorIcons.CRITICAL_DESIGN_MONTH,
-		 * "Critical Design Month", 1)); selector.add(new
-		 * SelectorIcon(SelectorIcons.BATTERY_SIZING, "Size the Battery", 2));
-		 * selector.add(new SelectorIcon(SelectorIcons.PV_SIZING,
-		 * "Size the PV Array", 3)); selector.add(new
-		 * SelectorIcon(SelectorIcons.CONTROLLER_SIZING, "Size the Controllers",
-		 * 4));
-		 */
-		
 		// Format selector, and add it to this screen
-		// selector.shuffle();
 		selector.displayLabel();
 		this.addComponent(selector);
 		
 		// Selector Display
 		// Setup a new selector display, and link it to the selector
-		selectorDisplay = new SelectorDisplay<>(50, 40, true);
+		selectorDisplay = new SelectorDisplay<>(50, 60, true);
 		selectorDisplay.rescale(0.80f);
 		selectorDisplay.link(selector);
 		
@@ -144,16 +133,16 @@ public class SelectorTest extends GUI
 		hintBox.setCurrentImage(hintBoxBackground, true);
 		
 		// Format hint box
-		hintBox.setFontSize(12f);
+		hintBox.setFontSize(Fonts.FONT_SIZE_MEDIUM);
 		instructionsLabel.center();
-		hintBox.setFontColor(Color.white);
-		instructionsLabel.setFontColor(Color.white);
+		hintBox.setFontColor(Fonts.FONT_COLOR);
+		instructionsLabel.setFontColor(Fonts.FONT_COLOR);
 		
 		// Add hint box to this screen
 		this.addComponent(hintBox);
 		this.addComponent(instructionsLabel);
 		
-		// Create and add a new ReadyButton
+		// Ready Button
 		Image readyButtonImage = new Image(ImagePaths.READY_BUTTON);
 		Rectangle textBounds = UtilFunctions.getImageBounds(readyButtonImage);
 		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.80f);
@@ -162,19 +151,18 @@ public class SelectorTest extends GUI
 		readyButton.addActionListener(new ReadyButtonListener());
 		this.addComponent(readyButton);
 		
-		// Create and add a new BackButton
-		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 0, 0,
+		// Back Button
+		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
 				new Rectangle(0, 0, 50, 25), "Back");
 		backButton.addActionListener(new TransitionButtonListener(
 				ScenarioIntroductionScreen.class));
-		backButton.setFontColor(Color.darkGray);
+		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+		backButton.positionText(Position.RIGHT);
 		this.addComponent(backButton);
 		
 		// Set background
 		Image background = new Image(ImagePaths.MainMenuBackground);
 		setBackgroundImage(background.getScaledCopy(800, 600));
-		
-		// updateInstructions();
 		
 		System.out.println("SelectorTest: Initialization Finished.\n");
 	}
@@ -237,21 +225,26 @@ public class SelectorTest extends GUI
 		{
 			currentTask.setCurrentAttempt(generateDefaultData());
 			currentAttempt = (SizingStepsData) currentTask.getCurrentAttempt();
+			System.out.println("Current Attempt is null... Resetting...");
 		}
+		System.out.println("\nLoad Start\n\tCurrent Hints: " + Arrays.toString(currentAttempt.getCurrentHints().toArray()));
 		
 		// Load from data
 		selector.setElements(currentAttempt.getSelectorContents());
 		selectorDisplay
 				.setElements(currentAttempt.getSelectorDisplayContents());
-		hintBox.setText(currentAttempt.getCurrentHints());
+		ArrayList<String> currentHints = currentAttempt.getCurrentHints();
+		hintBox.setText(currentHints);
 		selector.updateChoiceLabel();
 		updateInstructions();
-		if (selectorDisplay.isFull() || selectorDisplay.isEmpty())
+		complete = currentAttempt.isStepsVerified();
+		
+		if (selectorDisplay.isFull() && complete)
 			selectorDisplay.updateChoiceBorders();
 		else
 			selectorDisplay.restoreChoiceBorders();
-		
-		complete = selectorDisplay.verifyChoices(false);
+		System.out.println("Loaded!\nCurrent Hints: " + Arrays.toString(currentAttempt.getCurrentHints().toArray()));
+		System.out.println("HintBox: " + Arrays.toString(hintBox.getText().toArray()));
 	}
 	
 	public SizingStepsData generateDefaultData()
@@ -267,7 +260,7 @@ public class SelectorTest extends GUI
 		selectorContents.shuffle();
 		
 		return new SizingStepsData(selectorDisplayContents, selectorContents,
-				currentHints);
+				currentHints, false);
 	}
 	
 	public void populateSelectorContents(
@@ -297,15 +290,21 @@ public class SelectorTest extends GUI
 	
 	public void save()
 	{
+		SizingStepsData currentAttempt = (SizingStepsData) Game.getCurrentTask().getCurrentAttempt();
+		
 		ArrayList<SelectorIcon> selectorDisplayContents = this.selectorDisplay
 				.getElements();
 		CircularList<SelectorIcon> selectorContents = this.selector
 				.getElements();
-		ArrayList<String> currentHints = this.hintBox.getText();
+		ArrayList<String> currentHints = new ArrayList<>();
+		for (String string : this.hintBox.getText())
+		{
+			currentHints.add(string);
+		}
 		
-		SizingStepsData saveData = new SizingStepsData(selectorDisplayContents,
-				selectorContents, currentHints);
-		
-		Game.getCurrentTask().setCurrentAttempt(saveData);
+		currentAttempt.setCurrentHints(currentHints);
+		currentAttempt.setSelectorContents(selectorContents);
+		currentAttempt.setSelectorDisplayContents(selectorDisplayContents);
+		currentAttempt.setStepsVerified(complete);
 	}
 }
