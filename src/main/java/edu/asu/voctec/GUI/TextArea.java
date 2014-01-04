@@ -78,7 +78,6 @@ public class TextArea extends TextDisplay
 			return "";
 		else
 		{
-			//TODO test
 			StringBuilder clip = new StringBuilder();
 			int startingIndex = maximumDisplayLines;
 			for (int lineIndex = startingIndex; lineIndex < lines.size(); lineIndex++)
