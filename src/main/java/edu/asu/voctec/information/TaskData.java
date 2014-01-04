@@ -113,19 +113,10 @@ public class TaskData
 		@Override
 		protected void actionPerformed()
 		{
-			// TODO Auto-generated method stub
 			AttemptData currentAttempt = getCurrentAttempt();
 			
 			if (currentAttempt == null || currentAttempt.isComplete())
-			{
-				// TODO create and load new attempt
 				listOfAttempts.add(null);
-				
-			}
-			else
-			{
-				// TODO start using current attempt
-			}
 			
 			Game.getCurrentGame().enterState(associatedTask);
 		}
@@ -193,7 +184,7 @@ public class TaskData
 				ImagePaths.TaskScreen.PROGRESS_BAR_BORDER);
 		informationComponents.add(progressBar);
 		
-		// TODO Add Ready/Replay Button
+		// Ready/Replay Button
 		Image replayButtonImage = new Image(ImagePaths.Buttons.BASE);
 		Rectangle imageBounds = UtilFunctions.getImageBounds(replayButtonImage);
 		int x = 400 - imageBounds.width;
@@ -204,7 +195,7 @@ public class TaskData
 		comboButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
 		informationComponents.add(comboButton);
 		
-		// TODO add percentage label
+		// Percentage Label
 		Rectangle textFieldBounds = new Rectangle(0, 220, x, imageBounds.height);
 		percentageLabel = new TextField(textFieldBounds, 0.80f, "0%",
 				TextDisplay.FormattingOption.FIT_TEXT);
@@ -268,7 +259,13 @@ public class TaskData
 	
 	public AttemptData getCurrentAttempt()
 	{
-		// TODO account for null
+		// Account for uninstantiated list
+		if (listOfAttempts == null)
+		{
+			listOfAttempts = new ArrayList<>();
+			listOfAttempts.add(null);
+		}
+		
 		return listOfAttempts.get(listOfAttempts.size() - 1);
 	}
 	
