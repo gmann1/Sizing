@@ -42,7 +42,9 @@ public class TaskData
 	
 	protected ArrayList<Component> informationComponents;
 	protected TextAreaX inaccessibleText;
+	protected Button comboButton;
 	protected ProgressBar progressBar;
+	protected TextField percentageLabel;
 	
 	public class MultiTaskListener extends ButtonListener
 	{
@@ -56,13 +58,17 @@ public class TaskData
 		@Override
 		protected void actionPerformed()
 		{
+			System.out.println("MultiTask Fired:\n\tDisplaying: "
+					+ displayingComponents + "\n\tactiveListener: "
+					+ activeListener + "\n\tTask Screen ActiveListener: "
+					+ TaskScreen.activeListener);
 			if (displayingComponents)
 			{
 				stopDisplaying();
 			}
 			else
 			{
-				updateProgressBar();
+				updateInformation();
 				
 				if (activeListener != null)
 					activeListener.stopDisplaying();
@@ -75,10 +81,9 @@ public class TaskData
 					associatedHub.queueAddComponents(informationComponents);
 				else
 					associatedHub.queueAddComponents(inaccessibleText);
+				
+				displayingComponents = true;
 			}
-			
-			// Toggle Displaying
-			displayingComponents = !displayingComponents;
 			
 			// TODO REMOVE
 			Game.getCurrentGame().enterState(associatedTask);
@@ -86,6 +91,10 @@ public class TaskData
 		
 		public void stopDisplaying()
 		{
+			System.out.println("\tStop Displaying:\n\t\tDisplaying: "
+				+ displayingComponents + "\n\t\tactiveListener: "
+				+ activeListener + "\n\t\tTask Screen ActiveListener: "
+				+ TaskScreen.activeListener);
 			if (displayingComponents)
 			{
 				associatedHub.queueRemoveComponents(informationComponents);
@@ -185,6 +194,23 @@ public class TaskData
 		informationComponents.add(progressBar);
 		
 		// TODO Add Ready/Replay Button
+		Image replayButtonImage = new Image(ImagePaths.Buttons.BASE);
+		Rectangle imageBounds = UtilFunctions.getImageBounds(replayButtonImage);
+		int x = 400 - imageBounds.width;
+		imageBounds = UtilFunctions.dialateRectangle(imageBounds, 0.80f);
+		comboButton = new Button(replayButtonImage, x, 220, imageBounds,
+				"Start");
+		comboButton.addActionListener(new ReplayContinueComboListener());
+		comboButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
+		informationComponents.add(comboButton);
+		
+		// TODO add percentage label
+		Rectangle textFieldBounds = new Rectangle(0, 220, x, imageBounds.height);
+		percentageLabel = new TextField(textFieldBounds, 0.80f, "0%",
+				TextDisplay.FormattingOption.FIT_TEXT);
+		percentageLabel.setFontColor(Fonts.FONT_COLOR);
+		percentageLabel.center();
+		informationComponents.add(percentageLabel);
 		
 		// TODO Add Star Score
 	}
@@ -296,12 +322,25 @@ public class TaskData
 				.getGameState(associatedHub.getClass());
 	}
 	
-	public void updateProgressBar()
+	public void updateInformation()
 	{
 		if (this.progressBar != null && getCurrentAttempt() != null)
 		{
 			int percent = getCurrentAttempt().getPercentCompletion();
 			progressBar.setPercentComplete(percent);
+			percentageLabel.setText(percent + "%%");
+			
+			String buttonText;
+			if (getCurrentAttempt().isComplete())
+				buttonText = "Retry";
+			else
+				buttonText = "Continue";
+			
+			comboButton.getTextField().setText(buttonText);
+		}
+		else
+		{
+			comboButton.getTextField().setText("Begin");
 		}
 	}
 	

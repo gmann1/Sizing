@@ -39,6 +39,7 @@ public class TaskScreen extends GUI
 			if (displaying)
 			{
 				Game.getCurrentGame().enterState(MainMenu.class);
+				stopDisplaying();
 			}
 			else
 			{
@@ -89,8 +90,8 @@ public class TaskScreen extends GUI
 		System.out.println("TaskScreen: Defaults Set.");
 		
 		// Back Button
-		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 0, 0,
-				new Rectangle(10, 10, 50, 25), "Exit");
+		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
+				new Rectangle(0, 0, 50, 25), "Exit");
 		backButton.addActionListener(new BackButtonListener());
 		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 		backButton.positionText(Position.RIGHT);
