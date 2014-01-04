@@ -42,6 +42,9 @@ public class TaskData
 	
 	protected ArrayList<Component> informationComponents;
 	protected TextAreaX inaccessibleText;
+	protected Button comboButton;
+	protected ProgressBar progressBar;
+	protected TextField percentageLabel;
 	
 	public class MultiTaskListener extends ButtonListener
 	{
@@ -55,14 +58,22 @@ public class TaskData
 		@Override
 		protected void actionPerformed()
 		{
+			System.out.println("MultiTask Fired:\n\tDisplaying: "
+					+ displayingComponents + "\n\tactiveListener: "
+					+ activeListener + "\n\tTask Screen ActiveListener: "
+					+ TaskScreen.activeListener);
 			if (displayingComponents)
 			{
 				stopDisplaying();
 			}
 			else
 			{
+				updateInformation();
+				
 				if (activeListener != null)
 					activeListener.stopDisplaying();
+				if (TaskScreen.activeListener != null)
+					TaskScreen.activeListener.stopDisplaying();
 				
 				activeListener = this;
 				
@@ -70,10 +81,9 @@ public class TaskData
 					associatedHub.queueAddComponents(informationComponents);
 				else
 					associatedHub.queueAddComponents(inaccessibleText);
+				
+				displayingComponents = true;
 			}
-			
-			// Toggle Displaying
-			displayingComponents = !displayingComponents;
 			
 			// TODO REMOVE
 			Game.getCurrentGame().enterState(associatedTask);
@@ -81,6 +91,10 @@ public class TaskData
 		
 		public void stopDisplaying()
 		{
+			System.out.println("\tStop Displaying:\n\t\tDisplaying: "
+				+ displayingComponents + "\n\t\tactiveListener: "
+				+ activeListener + "\n\t\tTask Screen ActiveListener: "
+				+ TaskScreen.activeListener);
 			if (displayingComponents)
 			{
 				associatedHub.queueRemoveComponents(informationComponents);
@@ -88,6 +102,7 @@ public class TaskData
 			}
 			
 			displayingComponents = false;
+			activeListener = null;
 		}
 		
 	}
@@ -98,19 +113,10 @@ public class TaskData
 		@Override
 		protected void actionPerformed()
 		{
-			// TODO Auto-generated method stub
 			AttemptData currentAttempt = getCurrentAttempt();
 			
 			if (currentAttempt == null || currentAttempt.isComplete())
-			{
-				// TODO create and load new attempt
 				listOfAttempts.add(null);
-				
-			}
-			else
-			{
-				// TODO start using current attempt
-			}
 			
 			Game.getCurrentGame().enterState(associatedTask);
 		}
@@ -172,13 +178,30 @@ public class TaskData
 		
 		// Progress Bar
 		relativeBounds = new Rectangle(0, 100, 400, 100);
-		ProgressBar progressBar = new ProgressBar(relativeBounds);
+		progressBar = new ProgressBar(relativeBounds);
 		progressBar.setImages(ImagePaths.TaskScreen.PROGRESS_BAR_FULL,
 				ImagePaths.TaskScreen.PROGRESS_BAR_EMPTY,
 				ImagePaths.TaskScreen.PROGRESS_BAR_BORDER);
 		informationComponents.add(progressBar);
 		
-		// TODO Add Ready/Replay Button
+		// Ready/Replay Button
+		Image replayButtonImage = new Image(ImagePaths.Buttons.BASE);
+		Rectangle imageBounds = UtilFunctions.getImageBounds(replayButtonImage);
+		int x = 400 - imageBounds.width;
+		imageBounds = UtilFunctions.dialateRectangle(imageBounds, 0.80f);
+		comboButton = new Button(replayButtonImage, x, 220, imageBounds,
+				"Start");
+		comboButton.addActionListener(new ReplayContinueComboListener());
+		comboButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
+		informationComponents.add(comboButton);
+		
+		// Percentage Label
+		Rectangle textFieldBounds = new Rectangle(0, 220, x, imageBounds.height);
+		percentageLabel = new TextField(textFieldBounds, 0.80f, "0%",
+				TextDisplay.FormattingOption.FIT_TEXT);
+		percentageLabel.setFontColor(Fonts.FONT_COLOR);
+		percentageLabel.center();
+		informationComponents.add(percentageLabel);
 		
 		// TODO Add Star Score
 	}
@@ -236,7 +259,13 @@ public class TaskData
 	
 	public AttemptData getCurrentAttempt()
 	{
-		// TODO account for null
+		// Account for uninstantiated list
+		if (listOfAttempts == null)
+		{
+			listOfAttempts = new ArrayList<>();
+			listOfAttempts.add(null);
+		}
+		
 		return listOfAttempts.get(listOfAttempts.size() - 1);
 	}
 	
@@ -288,6 +317,28 @@ public class TaskData
 	{
 		associatedHub = (TaskScreen) Game
 				.getGameState(associatedHub.getClass());
+	}
+	
+	public void updateInformation()
+	{
+		if (this.progressBar != null && getCurrentAttempt() != null)
+		{
+			int percent = getCurrentAttempt().getPercentCompletion();
+			progressBar.setPercentComplete(percent);
+			percentageLabel.setText(percent + "%%");
+			
+			String buttonText;
+			if (getCurrentAttempt().isComplete())
+				buttonText = "Retry";
+			else
+				buttonText = "Continue";
+			
+			comboButton.getTextField().setText(buttonText);
+		}
+		else
+		{
+			comboButton.getTextField().setText("Begin");
+		}
 	}
 	
 }

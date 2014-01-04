@@ -34,6 +34,15 @@ public class ProgressBar extends Component
 		resize(bounds.width, bounds.height);
 	}
 	
+	public void setPercentComplete(int percent)
+	{
+		double scale = ((double) percent / 100.0);
+		int width = (int) (scale * this.currentFillBar.getWidth());
+		int height = this.currentFillBar.getHeight();
+		
+		this.currentBar = this.currentFillBar.getSubImage(0, 0, width, height);
+	}
+	
 	@Override
 	public void draw(Graphics graphics)
 	{

@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -20,11 +19,12 @@ import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.information.ScenarioData;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
+import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TaskScreen extends GUI
 {
-	private static BackButtonListener currentListener;
+	public static BackButtonListener activeListener;
 	private ArrayList<TaskData> tasks;
 	private ArrayList<Component> confirmationComponents;
 	private boolean scenarioLoaded;
@@ -36,18 +36,22 @@ public class TaskScreen extends GUI
 		@Override
 		protected void actionPerformed()
 		{
-			// TODO Auto-generated method stub
 			if (displaying)
 			{
 				Game.getCurrentGame().enterState(MainMenu.class);
+				stopDisplaying();
 			}
 			else
 			{
 				queueAddComponents(confirmationComponents);
 				displaying = true;
-				if (currentListener != null)
-					currentListener.stopDisplaying();
-				currentListener = this;
+				
+				if (activeListener != null)
+					activeListener.stopDisplaying();
+				if (TaskData.activeListener != null)
+					TaskData.activeListener.stopDisplaying();
+				
+				activeListener = this;
 			}
 		}
 		
@@ -55,6 +59,7 @@ public class TaskScreen extends GUI
 		{
 			queueRemoveComponents(confirmationComponents);
 			displaying = false;
+			activeListener = null;
 		}
 		
 	}
@@ -85,10 +90,11 @@ public class TaskScreen extends GUI
 		System.out.println("TaskScreen: Defaults Set.");
 		
 		// Back Button
-		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 0, 0,
+		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
 				new Rectangle(0, 0, 50, 25), "Exit");
 		backButton.addActionListener(new BackButtonListener());
-		backButton.setFontColor(Color.darkGray);
+		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+		backButton.positionText(Position.RIGHT);
 		
 		// Confirmation Components
 		// Define the location of the component block relative to the screen
@@ -98,7 +104,7 @@ public class TaskScreen extends GUI
 		TextField nameLabel = new TextField(relativeBounds, 0.92f,
 				"Replay Step 0?", TextDisplay.FormattingOption.FIT_TEXT);
 		nameLabel.center();
-		nameLabel.setFontColor(Color.white);
+		nameLabel.setFontColor(Fonts.FONT_COLOR);
 		
 		// Exit Button
 		Image exitButtonImage = new Image(ImagePaths.Buttons.BASE);
@@ -108,7 +114,7 @@ public class TaskScreen extends GUI
 				"Exit");
 		exitButton.addActionListener(new TransitionButtonListener(
 				MainMenu.class));
-		exitButton.setFontColor(Color.black);
+		exitButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
 		
 		// Replay Button
 		Image replayButtonImage = new Image(ImagePaths.Buttons.BASE);
@@ -118,7 +124,7 @@ public class TaskScreen extends GUI
 		Button replayButton = new Button(replayButtonImage, x, 100, textBounds,
 				"Replay");
 		replayButton.addActionListener(new ReplayButtonListener());
-		replayButton.setFontColor(Color.black);
+		replayButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
 		
 		confirmationComponents.add(nameLabel);
 		confirmationComponents.add(exitButton);
@@ -153,8 +159,8 @@ public class TaskScreen extends GUI
 			TaskData.activeListener.stopDisplaying();
 		
 		// Disable exit confirmation display
-		if (currentListener != null)
-			currentListener.stopDisplaying();
+		if (activeListener != null)
+			activeListener.stopDisplaying();
 		
 		setNextAccessible();
 	}
