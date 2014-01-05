@@ -39,7 +39,7 @@ public class CDPart2 extends GUI {
 	private int hintCount = 0;
 
 	public static final String BACKGROUND = "resources/default/img/minigames/criticalDesign/CDPart2background.png";
-	public static final String CRITICAL_MONTH_IMAGE = "resources/default/img/minigames/criticalDesign/decemberMonth.png";
+	public static final String CRITICAL_MONTH_IMAGE = "resources/default/img/minigames/criticalDesign/december.png";
 	public static final String PANEL = "resources/default/img/minigames/criticalDesign/panel.png";
 	public static final String POLE = "resources/default/img/minigames/criticalDesign/pole.png";
 
