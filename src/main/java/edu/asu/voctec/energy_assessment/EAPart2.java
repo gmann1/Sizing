@@ -1,16 +1,19 @@
 package edu.asu.voctec.energy_assessment;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
+import edu.asu.voctec.GUI.ActionListener;
 import edu.asu.voctec.GUI.BasicComponent;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
@@ -29,8 +32,11 @@ public class EAPart2 extends GUI
 	private static final String READY = "resources/default/img/minigames/energyAssessment/readyButton.png";
 	private static final String NOTREADY = "resources/default/img/minigames/energyAssessment/readyButtonGray.png";
 	private static final String BACK = "resources/default/img/minigames/energyAssessment/backButton.png";
-	private static final String BACKGROUND = "resources/default/img/minigames/energyAssessment/part2/House-02.png";
+	private static final String BACKGROUND = "resources/default/img/minigames/energyAssessment/part2/HouseBackground.png";
+	private static final String HOUSE = "resources/default/img/minigames/energyAssessment/part2/House.png";
 	private static final String OPTION = "resources/default/img/minigames/energyAssessment/part2/OptionBox.png";
+	private static final String OPTIONBLANK = "resources/default/img/minigames/energyAssessment/part2/OptionBoxBlank.png";
+	
 	
 	private static final String CFL = "resources/default/img/minigames/energyAssessment/part2/CFL.png";
 	private static final String CFLCLICKED = "resources/default/img/minigames/energyAssessment/part2/CFLClicked.png";
@@ -38,23 +44,34 @@ public class EAPart2 extends GUI
 	private static final String LEDCLICKED = "resources/default/img/minigames/energyAssessment/part2/LEDClicked.png";
 	private static final String RADIO = "resources/default/img/minigames/energyAssessment/part2/Radio.png";
 	private static final String RADIOCLICKED = "resources/default/img/minigames/energyAssessment/part2/RadioClicked.png";
-	
+	private static final String TRICK0 = "resources/default/img/minigames/energyAssessment/part2/RadioClicked.png";
+	private static final String TRICK0CLICKED = "resources/default/img/minigames/energyAssessment/part2/RadioClicked.png";
+	private static final String TRICK1 = "resources/default/img/minigames/energyAssessment/part2/RadioClicked.png";
+	private static final String TRICK1CLICKED = "resources/default/img/minigames/energyAssessment/part2/RadioClicked.png";
 	
 	Button ready;
+	private static int step = 0;
 	
-	private static TextField appliance0TextField;
-	private static TextField appliance1TextField;
-	private static TextField appliance2TextField;
-	private static TextField appliance3TextField;
-	private static TextField appliance4TextField;
+	Button option0;
+	Button option1;
+	Button option2;
+	
+	private static TextField appliance0Watt;
+	private static TextField appliance1Watt;
+	private static TextField appliance2Watt;
+	private static TextField appliance3Watt;
+	private static TextField appliance4Watt;
+	
+	private TextArea hintText;
+	private TextField instructionsText;
 
 	private static int[][] applianceArray = 
 		{
-			{0,325,220},
-			{0,550,230},
-			{0,680,230},
-			{0,200,200},
-			{0,430,325},
+			{0,150,150},
+			{0,270,150},
+			{0,520,220},
+			{0,20,120},
+			{0,160,50},
 		};
 	private String[][] applianceImage = 
 		{
@@ -64,7 +81,6 @@ public class EAPart2 extends GUI
 			{LED,LEDCLICKED},
 			{RADIO,RADIOCLICKED},
 		};
-	
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException
@@ -103,30 +119,34 @@ public class EAPart2 extends GUI
 		appliance4.addActionListener(new ApplianceClick4());
 		this.addComponent(appliance4);
 		
-		Button option0 = new Button(new Image(OPTION), 10, 70, new Rectangle(5,5,240,70), "Option 0 Test");
-		option0.addActionListener(new ApplianceClick4());
+		option0 = new Button(new Image(OPTION), 10, -400, new Rectangle(5,5,240,70), "Device's Positioning");
+		option0.addActionListener(new Option0Click());
 		this.addComponent(option0);
 		
-		Button option1 = new Button(new Image(OPTION), 270, 70, new Rectangle(5,5,240,70), "Option 1");
-		option1.addActionListener(new ApplianceClick4());
+		option1 = new Button(new Image(OPTION), 270, -400, new Rectangle(5,5,240,70), "Critical Design Month");
+		option1.addActionListener(new Option1Click());
 		this.addComponent(option1);
 		
-		Button option2 = new Button(new Image(OPTION), 530, 70, new Rectangle(5,5,240,70), "Option 2");
-		option2.addActionListener(new ApplianceClick4());
+		option2 = new Button(new Image(OPTION), 530, -400, new Rectangle(5,5,240,70), "Daily Device Usage");
+		option2.addActionListener(new Option2Click());
 		this.addComponent(option2);
 		
 		initializeText();
+		initializeHintBox();
 		
 		////Testing Stuff can be deleted later////
-		/*Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 750, 0, new Rectangle(50,50,300,50), "Start!");
+		Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 750, 0, new Rectangle(50,50,300,50), "Start!");
 		Start.addActionListener(new TransitionButtonListener(EAPart2ScoreScreen.class));
-		this.addComponent(Start);*/
+		this.addComponent(Start);
+		
 	}
 	
 	@Override
 	public void render(GameContainer container, StateBasedGame game,Graphics graphics) throws SlickException 
 	{
 		super.render(container, game, graphics);
+		
+		//draw appliances
 		for(int v=0;v<5;v++)
 		{
 			if(applianceArray[v][0] == 0)
@@ -139,6 +159,11 @@ public class EAPart2 extends GUI
 				//graphics.drawString("14 W", applianceArray[v][1]+20, applianceArray[v][2]+20);
 			}
 		}
+		if(step == 1)
+		{
+			
+				
+		}
 	}
 		
 	public class ReadyButtonListener extends ButtonListener
@@ -146,58 +171,137 @@ public class EAPart2 extends GUI
 		@Override
 		protected void actionPerformed()
 		{
-			boolean good = true;
-			for(int v=0;v<5;v++)
+			if(step == 0)
 			{
-				if(applianceArray[v][0] == 0)
+				boolean allSelected = true;
+				for(int v=0;v<5;v++)
 				{
-					good = false;
-					break;
+					if(applianceArray[v][0] == 0)
+					{
+						allSelected = false;
+						break;
+					}
 				}
+				if(allSelected == true)
+				{
+					step = 1;
+					System.out.println("Part 2, Step 0 done");
+					appliance0Watt.setText("14 W");
+					appliance1Watt.setText("14 W");
+					appliance2Watt.setText("14 W");
+					appliance3Watt.setText("9 W");
+					appliance4Watt.setText("30 W");
+					
+					appliance0Watt.setFillColor(Color.white);
+					appliance1Watt.setFillColor(Color.white);
+					appliance2Watt.setFillColor(Color.white);
+					appliance3Watt.setFillColor(Color.white);
+					appliance4Watt.setFillColor(Color.white);
+					
+					appliance0Watt.setBorderColor(Color.green);
+					appliance1Watt.setBorderColor(Color.green);
+					appliance2Watt.setBorderColor(Color.green);
+					appliance3Watt.setBorderColor(Color.green);
+					appliance4Watt.setBorderColor(Color.green);
+					instructionsText.setText("What information is still needed to find the Daily Energy Consumption?");
+					
+					//option0.setCurrentImage(new Image(OPTION), true);
+					option0.setY(400);
+					
+					option1.setY(400);
+					
+					option2.setY(400);
+					
+				}
+				else 
+					System.out.println("Not Ready");
 			}
-			if(good == true)
+			else if(step == 1)
 			{
-				System.out.println("Ready!");
-				Game.getCurrentGame().enterState(EAPart2ScoreScreen.class);
+				instructionsText.setText("What information is still needed to the Daily Energy Consumption?");
 			}
-			else
-				System.out.println("NotReady");
+			//Game.getCurrentGame().enterState(EAPart2ScoreScreen.class);
 		}
 		
+	}
+	
+	public void initializeHintBox()
+	{
+		hintText = new TextArea(new Rectangle(575, 70, 200, 225), 0.95f, "Hint Box");
+		hintText.setFontSize(16);
+		hintText.setFontColor(Color.lightGray);
+		hintText.setFillColor(Color.darkGray);
+		this.addComponent(hintText);
 	}
 	
 	private void initializeText()
 	{
 		//0
-		appliance0TextField = new TextField(new Rectangle(applianceArray[0][1]-25, applianceArray[0][2]+80, 300, 50), 0.95f, "", TextDisplay.FormattingOption.FIT_TEXT);
-		appliance0TextField.setFontColor(Color.black);
-		this.addComponent(appliance0TextField);
+		appliance0Watt = new TextField(new Rectangle(applianceArray[0][1]-10, applianceArray[0][2]-30, 50, 75), 0.95f, "", TextDisplay.FormattingOption.FIT_TEXT);
+		appliance0Watt.setFontColor(Color.black);
+		this.addComponent(appliance0Watt);
 		//1
-		appliance1TextField = new TextField(new Rectangle(applianceArray[1][1]-25, applianceArray[1][2]+80, 300, 50), 0.95f, "", TextDisplay.FormattingOption.FIT_TEXT);
-		appliance1TextField.setFontColor(Color.black);
-		this.addComponent(appliance1TextField);
+		appliance1Watt = new TextField(new Rectangle(applianceArray[1][1]-10, applianceArray[1][2]-30, 50, 75), 0.95f, "", TextDisplay.FormattingOption.FIT_TEXT);
+		appliance1Watt.setFontColor(Color.black);
+		this.addComponent(appliance1Watt);
 		//2
-		appliance2TextField = new TextField(new Rectangle(applianceArray[2][1]-25, applianceArray[2][2]+80, 300, 50), 0.95f, "", TextDisplay.FormattingOption.FIT_TEXT);
-		appliance2TextField.setFontColor(Color.black);
-		this.addComponent(appliance2TextField);
+		appliance2Watt = new TextField(new Rectangle(applianceArray[2][1]-10, applianceArray[2][2]-30, 50, 75), 0.95f, "", TextDisplay.FormattingOption.FIT_TEXT);
+		appliance2Watt.setFontColor(Color.black);
+		this.addComponent(appliance2Watt);
 		//3
-		appliance3TextField = new TextField(new Rectangle(applianceArray[3][1]-25, applianceArray[3][2]+80, 300, 50), 0.95f, "", TextDisplay.FormattingOption.FIT_TEXT);
-		appliance3TextField.setFontColor(Color.black);
-		this.addComponent(appliance3TextField);
+		appliance3Watt = new TextField(new Rectangle(applianceArray[3][1]-10, applianceArray[3][2]-30, 50, 75), 0.95f, "", TextDisplay.FormattingOption.FIT_TEXT);
+		appliance3Watt.setFontColor(Color.black);
+		this.addComponent(appliance3Watt);
 		//4
-		appliance4TextField = new TextField(new Rectangle(applianceArray[4][1]-100, applianceArray[4][2]+100, 300, 50), 0.95f, "", TextDisplay.FormattingOption.FIT_TEXT);
-		appliance4TextField.setFontColor(Color.black);
-		this.addComponent(appliance4TextField);
+		appliance4Watt = new TextField(new Rectangle(applianceArray[4][1]-3, applianceArray[4][2]-30, 50, 75), 0.95f, "", TextDisplay.FormattingOption.FIT_TEXT);
+		appliance4Watt.setFontColor(Color.black);
+		this.addComponent(appliance4Watt);
+		//Instructions
+		instructionsText = new TextField(new Rectangle(0, 300, 800, 100), 0.95f, "Click the electrical appliances in the house that would affect the PV System", TextDisplay.FormattingOption.FIT_TEXT);
+		instructionsText.center();
+		instructionsText.setFontColor(Color.white);
+		this.addComponent(instructionsText);
 	}
+	
+	/*public class Appliance0MouseOver extends ButtonListener
+	{
+		@Override
+		protected boolean verify(Input input)
+		{
+			return verify2(input, associatedComponent.getBounds());
+		}
+		protected boolean verify2(Input input, Rectangle bounds)
+		{
+			Point mouseLocation = new Point(input.getMouseX(),input.getMouseY());
+			return bounds.contains(mouseLocation);
+		}
+
+		@Override
+		protected void actionPerformed() 
+		{
+			int v = 0;
+			if(step == 0)
+			{
+					applianceArray[v][0] = 3;
+			}		
+		}
+		
+	}*/
 	
 	public class ApplianceClick0 extends ButtonListener
 	{
 		@Override
 		protected void actionPerformed() 
 		{
-			applianceArray[0][0] = 1;
-			System.out.println("Clicked0");
-			appliance0TextField.setText("14 W");
+			if(step == 0)
+			{
+				if(applianceArray[0][0] == 0)
+					applianceArray[0][0] = 1;
+				else
+					applianceArray[0][0] = 0;
+				System.out.println("Clicked0");
+				//appliance0TextField.setText("14 W");
+			}
 		}
 		
 	}
@@ -206,9 +310,15 @@ public class EAPart2 extends GUI
 		@Override
 		protected void actionPerformed() 
 		{
-			applianceArray[1][0] = 1;
-			System.out.println("Clicked1");
-			appliance1TextField.setText("14 W");
+			if(step == 0)
+			{
+				if(applianceArray[1][0] == 0)
+					applianceArray[1][0] = 1;
+				else
+					applianceArray[1][0] = 0;
+				System.out.println("Clicked1");
+				//appliance1TextField.setText("14 W");
+			}
 		}
 		
 	}
@@ -217,9 +327,15 @@ public class EAPart2 extends GUI
 		@Override
 		protected void actionPerformed() 
 		{
-			applianceArray[2][0] = 1;
-			System.out.println("Clicked2");
-			appliance2TextField.setText("14 W");
+			if(step == 0)
+			{
+				if(applianceArray[2][0] == 0)
+					applianceArray[2][0] = 1;
+				else
+					applianceArray[2][0] = 0;
+				System.out.println("Clicked2");
+				//appliance2TextField.setText("14 W");
+			}
 		}
 		
 	}
@@ -228,9 +344,15 @@ public class EAPart2 extends GUI
 		@Override
 		protected void actionPerformed() 
 		{
-			applianceArray[3][0] = 1;
-			System.out.println("Clicked3");
-			appliance3TextField.setText("9 W");
+			if(step == 0)
+			{
+				if(applianceArray[3][0] == 0)
+					applianceArray[3][0] = 1;
+				else
+					applianceArray[3][0] = 0;
+				System.out.println("Clicked3");
+				//appliance3TextField.setText("9 W");
+			}
 		}
 		
 	}
@@ -239,18 +361,71 @@ public class EAPart2 extends GUI
 		@Override
 		protected void actionPerformed() 
 		{
-			applianceArray[4][0] = 1;
-			System.out.println("Clicked4");
-			appliance4TextField.setText("30 W");
+			if(step == 0)
+			{
+				if(applianceArray[4][0] == 0)
+					applianceArray[4][0] = 1;
+				else
+					applianceArray[4][0] = 0;
+				System.out.println("Clicked4");
+				//appliance4TextField.setText("30 W");
+			}
 		}
 		
 	}
-	public class ApplianceClickWrong extends ButtonListener
+	public class ApplianceClickWrong1 extends ButtonListener
 	{
 		@Override
 		protected void actionPerformed() 
 		{
 			System.out.println("ClickedWrong");
+		}
+		
+	}
+	public class ApplianceClickWrong2 extends ButtonListener
+	{
+		@Override
+		protected void actionPerformed() 
+		{
+			System.out.println("ClickedWrong");
+		}
+		
+	}
+	
+	
+	public class Option0Click extends ButtonListener
+	{
+		@Override
+		protected void actionPerformed() 
+		{
+			if(step == 1)
+			{
+				hintText.setText("Incorrect1: (Display a hint)");
+			}
+		}
+		
+	}
+	public class Option1Click extends ButtonListener
+	{
+		@Override
+		protected void actionPerformed() 
+		{
+			if(step == 1)
+			{
+				hintText.setText("Incorrect2: (Display a hint)");
+			}
+		}
+		
+	}
+	public class Option2Click extends ButtonListener
+	{
+		@Override
+		protected void actionPerformed() 
+		{
+			if(step == 1)
+			{
+				hintText.setText("Correct: Finding the daily device usage is still needed to complete the Daily Energy Consumption Calculations.");
+			}
 		}
 		
 	}
@@ -260,11 +435,25 @@ public class EAPart2 extends GUI
 		{
 			applianceArray[v][0] = 0; 
 		}
-		appliance0TextField.setText("");
-		appliance1TextField.setText("");
-		appliance2TextField.setText("");
-		appliance3TextField.setText("");
-		appliance4TextField.setText("");
+		appliance0Watt.setText("");
+		appliance1Watt.setText("");
+		appliance2Watt.setText("");
+		appliance3Watt.setText("");
+		appliance4Watt.setText("");
+		
+		appliance0Watt.setFillColor(null);
+		appliance1Watt.setFillColor(null);
+		appliance2Watt.setFillColor(null);
+		appliance3Watt.setFillColor(null);
+		appliance4Watt.setFillColor(null);
+		
+		appliance0Watt.setBorderColor(null);
+		appliance1Watt.setBorderColor(null);
+		appliance2Watt.setBorderColor(null);
+		appliance3Watt.setBorderColor(null);
+		appliance4Watt.setBorderColor(null);
+		
+		step = 0;
 		System.out.println("eaPart2 Reset");
 	}
 	

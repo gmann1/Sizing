@@ -14,6 +14,7 @@ import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.Selector;
 import edu.asu.voctec.GUI.SelectorDisplay;
 import edu.asu.voctec.GUI.SelectorIcon;
+import edu.asu.voctec.GUI.TextArea;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
@@ -42,7 +43,7 @@ public class EAPart1 extends GUI
 	private Selector<SelectorIcon> eaSelector;
 	Button ready;
 	
-	private TextField hintText;
+	private TextArea hintText;
 	private int hintNumber;
 	private String[] hintTextArray = 
 		{
@@ -98,9 +99,9 @@ public class EAPart1 extends GUI
 		
 		
 		////Testing Stuff can be deleted later////
-		/*Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 750, 0, new Rectangle(50,50,300,50), "Start!");
+		Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 750, 0, new Rectangle(50,50,300,50), "Start!");
 		Start.addActionListener(new TransitionButtonListener(EAPart1ScoreScreen.class));
-		this.addComponent(Start);*/
+		this.addComponent(Start);
 	}
 	
 	public void initializeHintBox()
@@ -110,7 +111,7 @@ public class EAPart1 extends GUI
 		hintTitleText.setFontColor(Color.white);
 		this.addComponent(hintTitleText);
 		
-		hintText = new TextField(new Rectangle(500, 70, 250, 225), 0.95f, "Hint Box", null);
+		hintText = new TextArea(new Rectangle(500, 70, 250, 225), 0.95f, "Hint Box");
 		hintText.setFontSize(16);
 		hintText.setFontColor(Color.lightGray);
 		hintText.setFillColor(Color.darkGray);
