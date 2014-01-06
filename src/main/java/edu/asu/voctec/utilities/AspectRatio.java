@@ -26,8 +26,6 @@ public enum AspectRatio
 		this.height = height;
 	}
 	
-	// TODO refactor with more appropriate name
-	// TODO support more ratio combinations
 	// TODO abstract to apply to all ratios
 	/**
 	 * Finds a maximized window of the desired aspect ratio within the given

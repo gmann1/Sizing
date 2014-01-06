@@ -162,7 +162,6 @@ public class TextAreaX extends TextArea
 			return "";
 		else
 		{
-			// TODO test
 			StringBuilder clip = new StringBuilder();
 			
 			int startingIndex = maximumDisplayLines;

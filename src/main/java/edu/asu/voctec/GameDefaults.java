@@ -72,9 +72,9 @@ public interface GameDefaults
 			public static final String STEP_FOUR_SELECTED = "resources/default/img/taskScreen/Task4Current.png";
 			public static final String STEP_FIVE_SELECTED = "resources/default/img/taskScreen/Task5Current.png";
 			
-			public static final String PROGRESS_BAR_BORDER = "resources/default/img/taskScreen/Task5Current.png";
-			public static final String PROGRESS_BAR_EMPTY = "resources/default/img/taskScreen/Task5Current.png";
-			public static final String PROGRESS_BAR_FULL = "resources/default/img/taskScreen/Task5Current.png";
+			public static final String PROGRESS_BAR_BORDER = "resources/default/img/taskScreen/ProgressBorder.png";
+			public static final String PROGRESS_BAR_EMPTY = "resources/default/img/taskScreen/ProgressEmpty.png";
+			public static final String PROGRESS_BAR_FULL = "resources/default/img/taskScreen/ProgressFull.png";
 		}
 		
 		public interface SelectorIcons
