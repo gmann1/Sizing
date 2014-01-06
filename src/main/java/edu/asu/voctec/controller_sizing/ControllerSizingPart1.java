@@ -19,6 +19,7 @@ import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
+import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.GUI.TextDisplay;
 
 public class ControllerSizingPart1 extends GUI {
@@ -59,9 +60,9 @@ public class ControllerSizingPart1 extends GUI {
 	public static final String BACKGROUND_DAY = "resources/default/img/minigames/ControllerSizing/backgroundday.png";
 	public static final String BACKGROUND_NIGHT = "resources/default/img/minigames/ControllerSizing/backgroundnight.png";
 	public static final String GROUND = "resources/default/img/minigames/ControllerSizing/hills.png";
-	public static final String HOUSE_OFF = "resources/default/img/minigames/ControllerSizing/house1.png";
-	public static final String HOUSE_HALF = "resources/default/img/minigames/ControllerSizing/house2.png";
-	public static final String HOUSE_FULL = "resources/default/img/minigames/ControllerSizing/house3.png";
+	public static final String HOUSE_OFF = "resources/default/img/minigames/ControllerSizing/HouseOff.png";
+	public static final String HOUSE_HALF = "resources/default/img/minigames/ControllerSizing/HouseOn.png";
+	public static final String HOUSE_FULL = "resources/default/img/minigames/ControllerSizing/HouseOn.png";
 	public static final String SUN = "resources/default/img/minigames/ControllerSizing/sun.png";
 	public static final String MOON = "resources/default/img/minigames/ControllerSizing/moon.png";
 	public static final String TRANS_0 = "resources/default/img/minigames/ControllerSizing/backgroundnight0.png";
@@ -85,7 +86,8 @@ public class ControllerSizingPart1 extends GUI {
 	public static final String BATTERY_FIVE = "resources/default/img/minigames/ControllerSizing/battery5.png";
 	public static final String TRANS_6 = "resources/default/img/minigames/ControllerSizing/backgroundday6.png";
 
-	public static final String PANEL = "resources/default/img/minigames/ControllerSizing/solarpanel.png";
+	public static final String PANEL = "resources/default/img/minigames/criticalDesign/panel.png";
+	public static final String POLE = "resources/default/img/minigames/criticalDesign/pole.png";
 	public static final String STAR = "resources/default/img/minigames/ControllerSizing/star.png";
 	Image sunImage;
 	Image starImage;
@@ -119,6 +121,10 @@ public class ControllerSizingPart1 extends GUI {
 
 	private int setIndex = 0;
 	Random generator = new Random();
+	private Image pole1;
+	private BasicComponent pole;
+	private Image panel1;
+	private BasicComponent panel;
 
 	public class contListener extends ButtonListener {
 
@@ -167,22 +173,47 @@ public class ControllerSizingPart1 extends GUI {
 		houseIncrements.add(123);
 		Collections.shuffle(houseIncrements);
 		// layout
-		layout = new BasicComponent(new Image(LAYOUT_PANEL_OFF), 75, 390);
+		layout = new BasicComponent(new Image(LAYOUT_PANEL_OFF), 45, 390);
+
+		// Back Button
+		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
+				new Rectangle(0, 0, 50, 25), "Back");
+		backButton.addActionListener(new TransitionButtonListener(
+				ControllerSizingPart2.class));
+		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+		backButton.positionText(Position.RIGHT);
+		
+		pole1 = new Image(POLE);
+		pole = new BasicComponent(pole1, 300, 300);
+		pole.rescale(.4f);
+		pole.rescale(.57f);
+		pole.setX(478);
+		pole.setY(375);
+		
+		panel1 = new Image(PANEL);
+
+		panel1 = panel1.getScaledCopy(.4f);
+		panel1 = panel1.getScaledCopy(.57f);
+		panel1.setCenterOfRotation(19, 12);
+		panel1.rotate(28.3f);
+		panel = new BasicComponent(panel1, 50, 50);
+	
+		panel.setX(475);
+		panel.setY(365);
 
 		// ground
 		BasicComponent ground = new BasicComponent(new Image(GROUND), 0, 0);
 
 		// house
 
-		house = new BasicComponent(new Image(HOUSE_OFF), 480, 300);
+		house = new BasicComponent(new Image(HOUSE_OFF), 530, 350);
 
 		// sun
 		sunImage = new Image(SUN);
 		sunImage.setCenterOfRotation(35, 435);
 		sun = new BasicComponent(sunImage, 365, 25);
 
-		// solarpanel
-		BasicComponent pole = new BasicComponent(new Image(PANEL), 475, 325);
+		
 
 		// battery
 		battery = new BasicComponent(new Image(BATTERY_ONE), 330, 510);
@@ -199,14 +230,14 @@ public class ControllerSizingPart1 extends GUI {
 				TextDisplay.FormattingOption.CLIP_TEXT);
 		houseState.setFontSize(MEDIUM_FONT_SIZE);
 		houseState.setFontColor(Color.black);
-		//charging
+		// charging
 		textLocation = new Rectangle(120, 470, 300, 50);
 		charge = new TextField(textLocation, 0.95f, "",
 				TextDisplay.FormattingOption.CLIP_TEXT);
 		charge.setFontSize(MEDIUM_FONT_SIZE);
 		charge.setFontColor(Color.black);
 		charge.setText("");
-		//discharging
+		// discharging
 		textLocation = new Rectangle(330, 462, 300, 50);
 		discharge = new TextField(textLocation, 0.95f, "",
 				TextDisplay.FormattingOption.CLIP_TEXT);
@@ -232,7 +263,8 @@ public class ControllerSizingPart1 extends GUI {
 		// Back Button
 		Back = new Button(new Image(ImagePaths.BACK_BUTTON), 800, 600,
 				new Rectangle(0, 0, 50, 25), "Back");
-		Back.addActionListener(new TransitionButtonListener(ControllerSizingIntroScreen.class));
+		Back.addActionListener(new TransitionButtonListener(
+				ControllerSizingIntroScreen.class));
 		Back.setFontColor(Color.darkGray);
 		// continue
 		cont = new Button(new Image(ARROW_RIGHT), 730, 480, new Rectangle(0, 0,
@@ -291,6 +323,7 @@ public class ControllerSizingPart1 extends GUI {
 		addComponent(sun);
 		addComponent(ground);
 		addComponent(pole);
+		addComponent(panel);
 		addComponent(house);
 
 		addComponent(layout);
@@ -303,6 +336,8 @@ public class ControllerSizingPart1 extends GUI {
 		addComponent(Back);
 		addComponent(charge);
 		addComponent(discharge);
+		addComponent(backButton);
+		
 	}
 
 	@Override
@@ -417,13 +452,11 @@ public class ControllerSizingPart1 extends GUI {
 				if (panelOn) {
 					if (a && batteryPercent < 100) {
 						batteryPercent += .2;
-					}
-					else{
+					} else {
 						charge.setText("");
 					}
 
-				}
-				else{
+				} else {
 					charge.setText("");
 				}
 				if (houseHalf || houseFull) {
@@ -524,7 +557,7 @@ public class ControllerSizingPart1 extends GUI {
 
 			houseTransition = houseTransition + 3;
 			sun.setX((int) (350 * Math.sin(Math.toRadians(counter - 90))) + 365);
-			sun.setY((int) (300 * Math.cos(Math.toRadians(counter + 90))) + 300);
+			sun.setY((int) (300 * Math.cos(Math.toRadians(counter + 90))) + 350);
 			if (stars_on) {
 				for (int i = 0; i < starsx.length; i++) {
 
@@ -534,7 +567,7 @@ public class ControllerSizingPart1 extends GUI {
 					stars.get(i).setY(
 							(int) (starsy[i] * Math.cos(Math
 									.toRadians(starCounter
-											+ (180 - starsOffSet[i])))) + 340);
+											+ (180 - starsOffSet[i])))) + 390);
 				}
 			}
 			counter = counter + .3;

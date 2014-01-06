@@ -195,6 +195,7 @@ public class CDPart1 extends GUI {
 				- textBounds.width;
 
 		sel.setX(READY_BUTTON_X - readyButtonOffSet - sel.getBounds().width);
+		sel.setY(sel.getY() +5);
 		// Main Selector
 		Rectangle textLocation = new Rectangle(0, 0, sel.getMainBounds().width,
 				sel.getMainBounds().height / 4);
@@ -520,10 +521,11 @@ public class CDPart1 extends GUI {
 		Image hintButtonImage = (new Image(ImagePaths.HINT_BUTTON));
 		textBounds = UtilFunctions.getImageBounds(hintButtonImage);
 		Button Hint = new Button(hintButtonImage, readyButton.getX() + 18,
-				readyButton.getY() - textBounds.height, textBounds,
+				readyButton.getY() - textBounds.height - 5, textBounds,
 				"HINT");
 		Hint.addActionListener(new CDHintListener());
-
+		Hint.rescale(.8f, 1f);
+		Hint.setX(readyButton.getX() + 28);
 		Hint.getTextField().center();
 		Hint.setFontColor(FONT_COLOR);
 
