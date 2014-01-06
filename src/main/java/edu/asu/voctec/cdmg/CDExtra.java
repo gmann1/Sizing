@@ -17,6 +17,7 @@ import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.utilities.Position;
 
 /**
  * 
@@ -58,17 +59,19 @@ public class CDExtra extends GUI {
 		introduction.setText("");
 		introduction.setFontColor(FONT_COLOR);
 
-		// start button
-		Button Start = new Button(new Image(ARROW_RIGHT), 750, 550,
-				new Rectangle(0, 0, 50, 25), "Exit!");
-		Start.setFontColor(Color.darkGray);
-		Start.addActionListener(new TransitionButtonListener(TaskScreen.class));
+		// Back Button
+				Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
+						new Rectangle(0, 0, 50, 25), "Exit");
+				backButton.addActionListener(new TransitionButtonListener(
+						TaskScreen.class));
+				backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+				backButton.positionText(Position.RIGHT);
 
 		
 
 		welcome.center();
 
-		this.addComponent(Start);
+		this.addComponent(backButton);
 		this.addComponent(welcome);
 		this.addComponent(introduction);
 		

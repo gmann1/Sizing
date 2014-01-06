@@ -43,12 +43,12 @@ public class CDPart1 extends GUI {
 	private static final Color FONT_COLOR = Color.darkGray;
 	private static final Color FONT_COLOR1 = Color.white;
 
-	public static final String APRIL = "resources/default/img/minigames/criticalDesign/april.png";
-	public static final String FEBRUARY = "resources/default/img/minigames/criticalDesign/february.png";
-	public static final String DECEMBER = "resources/default/img/minigames/criticalDesign/december.png";
-	public static final String OCTOBER = "resources/default/img/minigames/criticalDesign/october.png";
-	public static final String SEPTEMBER = "resources/default/img/minigames/criticalDesign/september.png";
-	public static final String JUNE = "resources/default/img/minigames/criticalDesign/june.png";
+	public static final String APRIL = "resources/default/img/minigames/criticalDesign/April.png";
+	public static final String FEBRUARY = "resources/default/img/minigames/criticalDesign/February.png";
+	public static final String DECEMBER = "resources/default/img/minigames/criticalDesign/December.png";
+	public static final String OCTOBER = "resources/default/img/minigames/criticalDesign/October.png";
+	public static final String SEPTEMBER = "resources/default/img/minigames/criticalDesign/September.png";
+	public static final String JUNE = "resources/default/img/minigames/criticalDesign/June.png";
 	public static final String BACKGROUND = "resources/default/img/minigames/criticalDesign/space.jpg";
 
 	public static final float SMALL_FONT_SIZE = 8f;

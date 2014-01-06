@@ -167,8 +167,8 @@ public class ControllerSizingPart1 extends GUI {
 		
 	
 
-		instructionSet[0] = "When the sun is out the solar panel will attempt to charge the battery. The controller will only allow the battery to charge until " + BATTERY_MAX + " percent.";
-		instructionSet[1] = "When the house is on the controller will attempt to discharge the battery to power the house. The controller will only allow the battery to discharge until " + BATTERY_MIN + " percent.";
+		instructionSet[0] = "When the sun is out the solar panel will attempt to charge the battery. The controller will not allow the battery to charge past " + BATTERY_MAX + " percent.";
+		instructionSet[1] = "When the house is on the controller will attempt to discharge the battery to power the house. The controller will not allow the battery to discharge past " + BATTERY_MIN + " percent.";
 		instructionSet[2] = "When the house is on but the battery is at a minimum or recharging, the controller will not discharge the battery.";
 		instructionSet[3] = "Once the battery reaches " + BATTERY_MIN + " percent it will need to recharge to 40 percent before it can discharge again.";
 		
