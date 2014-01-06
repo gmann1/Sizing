@@ -30,6 +30,7 @@ public class BatteryGameScreen extends GUI
 	public static final String BlueBattery = "resources/default/img/minigames/BatterySizing/BlueBattery.png";
 	public static final String YellowBattery = "resources/default/img/minigames/BatterySizing/YellowBattery.png";
 	public static final String RedBattery = "resources/default/img/minigames/BatterySizing/RedBattery.png";
+	public static final String GreenBattery = "resources/default/img/minigames/BatterySizing/GreenBattery.png";
 	public static final String Trash = "resources/default/img/minigames/BatterySizing/GarbageBin.png";
 	
 	public static final String HorizontalLine = "resources/default/img/minigames/BatterySizing/Line.png";
@@ -72,7 +73,7 @@ public class BatteryGameScreen extends GUI
 		
 		Rectangle textLocation = new Rectangle(25, 250, 750, 60);
 		batteryBankText = new TextField(textLocation, 0.95f,
-				"Drag battery here to place in Battery Bank",
+				"Drag a battery here to place it in the Battery Bank",
 				TextDisplay.FormattingOption.FIT_TEXT);
 		batteryBankText.setFontColor(Color.white);
 		batteryBankText.center();
@@ -95,7 +96,7 @@ public class BatteryGameScreen extends GUI
 		initialBatteries.add(new InitialBattery(6, 200, 350, 535, new Image(RedBattery), 350, 535, this));
 		//initialBatteries.add(new InitialBattery(12, 260, 500, 520, new Image(GreenBattery), 500, 520, this));
 		
-		BasicComponent GarbageBin = new BasicComponent(new Image(Trash),540,520);
+		BasicComponent GarbageBin = new BasicComponent(new Image(Trash),540,525);
 		this.addComponent(GarbageBin);
 		
 		initializeText();
@@ -408,7 +409,7 @@ public class BatteryGameScreen extends GUI
 	public static void reset()
 	{
 		hintsText.setText("");
-		batteryBankText.setText("Drag battery here to place in Battery Bank");
+		batteryBankText.setText("Drag a battery here to place it in the Battery Bank");
 		currentHintText = 0;
 		doneButtonCounter = 0;
 		Battery.reset();

@@ -28,7 +28,7 @@ public class Battery extends BatteryControl{
         {
 			removeFromArray();
             if(withinArrayCreationArea())
-                this.addToArray();
+                this.checkSuggestedLocations();
             else
             	gameWorld.removeObject(this);
             
