@@ -103,7 +103,7 @@ public class EAPart2 extends GUI
 		appliance4.addActionListener(new ApplianceClick4());
 		this.addComponent(appliance4);
 		
-		/*Button option0 = new Button(new Image(OPTION), 10, 70, new Rectangle(5,5,240,70), "Option 0 Test");
+		Button option0 = new Button(new Image(OPTION), 10, 70, new Rectangle(5,5,240,70), "Option 0 Test");
 		option0.addActionListener(new ApplianceClick4());
 		this.addComponent(option0);
 		
@@ -113,7 +113,7 @@ public class EAPart2 extends GUI
 		
 		Button option2 = new Button(new Image(OPTION), 530, 70, new Rectangle(5,5,240,70), "Option 2");
 		option2.addActionListener(new ApplianceClick4());
-		this.addComponent(option2);*/
+		this.addComponent(option2);
 		
 		initializeText();
 		

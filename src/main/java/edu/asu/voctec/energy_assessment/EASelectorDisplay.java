@@ -20,9 +20,9 @@ public class EASelectorDisplay<T extends SelectorIcon> extends SelectorDisplay<T
 	protected static Image bottomBox;
 	protected static Image rightArrow;
 	protected static Image downArrow;
-	private static final String RIGHT = "resources/default/img/minigames/energyAssessment/rightArrow.png";
-	private static final String DOWN = "resources/default/img/minigames/energyAssessment/downArrow.png";
-	private static final String BOTTOM = "resources/default/img/minigames/energyAssessment/bottomBox.png";
+	private static final String RIGHT = "resources/default/img/minigames/energyAssessment/part1/rightArrow.png";
+	private static final String DOWN = "resources/default/img/minigames/energyAssessment/part1/downArrow.png";
+	private static final String BOTTOM = "resources/default/img/minigames/energyAssessment/part1/bottomBox.png";
 	protected static Dimension rightArrowDimension;
 	protected static Dimension downArrowDimension;
 	protected static Dimension bottomBoxDimension;

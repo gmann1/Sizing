@@ -25,14 +25,14 @@ import edu.asu.voctec.game_states.SelectorTest.ReadyButtonListener;
 
 public class EAPart1 extends GUI
 {
-	private static final String DEVICES = "resources/default/img/minigames/energyAssessment/devices.png";
-	private static final String POWER_RATING = "resources/default/img/minigames/energyAssessment/powerRating.png";
-	private static final String ENERGY_CONSUMED = "resources/default/img/minigames/energyAssessment/energyConsumed.png";
-	private static final String ENERGY_LOSS = "resources/default/img/minigames/energyAssessment/energyLoss.png";
-	private static final String BUFFER = "resources/default/img/minigames/energyAssessment/buffer.png";
-	private static final String Extra1 = "resources/default/img/minigames/energyAssessment/extra1.png";
-	private static final String Extra2 = "resources/default/img/minigames/energyAssessment/extra2.png";
-	
+	private final String DEVICES = "resources/default/img/minigames/energyAssessment/part1/devices.png";
+	private static final String POWER_RATING = "resources/default/img/minigames/energyAssessment/part1/powerRating.png";
+	private static final String ENERGY_CONSUMED = "resources/default/img/minigames/energyAssessment/part1/energyConsumed.png";
+	private static final String ENERGY_LOSS = "resources/default/img/minigames/energyAssessment/part1/energyLoss.png";
+	private static final String BUFFER = "resources/default/img/minigames/energyAssessment/part1/buffer.png";
+	private static final String Extra1 = "resources/default/img/minigames/energyAssessment/part1/extra1.png";
+	private static final String Extra2 = "resources/default/img/minigames/energyAssessment/part1/extra2.png";
+	 
 	private static final String READY = "resources/default/img/minigames/energyAssessment/readyButton.png";
 	private static final String BACK = "resources/default/img/minigames/energyAssessment/backButton.png";
 	private static final String NOTREADY = "resources/default/img/minigames/energyAssessment/readyButtonGray.png";
