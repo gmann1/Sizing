@@ -27,6 +27,7 @@ public class BatteryGameScreen extends GUI
 	public static final String GameBackground = "resources/default/img/minigames/BatterySizing/GameBackground.jpg";
 	public static final String GraySquare = "resources/default/img/minigames/BatterySizing/BlankGraySquare.png";
 	public static final String HintBox = "resources/default/img/minigames/BatterySizing/hintBox.png";
+	public static final String BLANK_BUTTON = "resources/default/img/minigames/BatterySizing/blankReadyButton.png";
 	public static final String BlueBattery = "resources/default/img/minigames/BatterySizing/BlueBattery.png";
 	public static final String YellowBattery = "resources/default/img/minigames/BatterySizing/YellowBattery.png";
 	public static final String RedBattery = "resources/default/img/minigames/BatterySizing/RedBattery.png";
@@ -118,14 +119,16 @@ public class BatteryGameScreen extends GUI
 		backButton.positionText(Position.BOTTOM);
 		this.addComponent(backButton);
 		
-		Button doneButton = new Button(new Image("resources/default/img/minigames/BatterySizing/DoneButton.png"), 660, 350,
-			    new Rectangle(660, 350, 83, 30), "");
+		Button doneButton = new Button(BLANK_BUTTON, 660, 360, 88, 35,
+			    new Rectangle(1, 1, 86, 33), "Done");
 		doneButton.addActionListener(new DoneButtonListener());
+		doneButton.setFontColor(Color.black);
 		this.addComponent(doneButton);
 		
-		Button hintButton = new Button(new Image("resources/default/img/minigames/BatterySizing/HintButton.png"), 660, 403,
-			    new Rectangle(660, 403, 83, 30), "");
+		Button hintButton = new Button(BLANK_BUTTON, 660, 403, 88, 35,
+			    new Rectangle(1, 1, 86, 33), "Hint");
 		hintButton.addActionListener(new HintsButtonListener());
+		hintButton.setFontColor(Color.black);
 		this.addComponent(hintButton);
 	}
 	
