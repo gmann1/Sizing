@@ -30,28 +30,27 @@ import edu.asu.voctec.utilities.UtilFunctions;
 public class EAPart2 extends GUI
 {
 	private static final String READY = "resources/default/img/minigames/energyAssessment/readyButton.png";
+	private static final String CONTINUE = "resources/default/img/minigames/energyAssessment/continueButton.png";
 	private static final String NOTREADY = "resources/default/img/minigames/energyAssessment/readyButtonGray.png";
 	private static final String BACK = "resources/default/img/minigames/energyAssessment/backButton.png";
 	private static final String BACKGROUND = "resources/default/img/minigames/energyAssessment/part2/HouseBackground.png";
 	private static final String HOUSE = "resources/default/img/minigames/energyAssessment/part2/House.png";
 	private static final String OPTION = "resources/default/img/minigames/energyAssessment/part2/OptionBox.png";
 	private static final String OPTIONBLANK = "resources/default/img/minigames/energyAssessment/part2/OptionBoxBlank.png";
-	
-	
+
 	private static final String CFL = "resources/default/img/minigames/energyAssessment/part2/CFL.png";
 	private static final String CFLCLICKED = "resources/default/img/minigames/energyAssessment/part2/CFLClicked.png";
 	private static final String LED = "resources/default/img/minigames/energyAssessment/part2/LED.png";
 	private static final String LEDCLICKED = "resources/default/img/minigames/energyAssessment/part2/LEDClicked.png";
 	private static final String RADIO = "resources/default/img/minigames/energyAssessment/part2/Radio.png";
 	private static final String RADIOCLICKED = "resources/default/img/minigames/energyAssessment/part2/RadioClicked.png";
-	private static final String TRICK0 = "resources/default/img/minigames/energyAssessment/part2/RadioClicked.png";
-	private static final String TRICK0CLICKED = "resources/default/img/minigames/energyAssessment/part2/RadioClicked.png";
-	private static final String TRICK1 = "resources/default/img/minigames/energyAssessment/part2/RadioClicked.png";
-	private static final String TRICK1CLICKED = "resources/default/img/minigames/energyAssessment/part2/RadioClicked.png";
+	private static final String TRICK0 = "resources/default/img/minigames/energyAssessment/part2/Trick0.png";
+	private static final String TRICK1 = "resources/default/img/minigames/energyAssessment/part2/Trick1.png";
 	
-	Button ready;
 	private static int step = 0;
 	
+	Button ready;
+	Button continueButton;
 	Button option0;
 	Button option1;
 	Button option2;
@@ -72,6 +71,8 @@ public class EAPart2 extends GUI
 			{0,520,220},
 			{0,20,120},
 			{0,160,50},
+			{0,10,250},//trick0
+			{0,200,220},//trick1
 		};
 	private String[][] applianceImage = 
 		{
@@ -80,6 +81,8 @@ public class EAPart2 extends GUI
 			{CFL,CFLCLICKED},
 			{LED,LEDCLICKED},
 			{RADIO,RADIOCLICKED},
+			{TRICK0,TRICK0},
+			{TRICK1,TRICK1},
 		};
 	
 	@Override
@@ -91,6 +94,11 @@ public class EAPart2 extends GUI
 		ready = new Button(new Image(READY), 575, 500, new Rectangle(50,50,300,50), "");
 		ready.addActionListener(new ReadyButtonListener());
 		this.addComponent(ready);
+		
+		////Continue Button////
+		continueButton = new Button(new Image(CONTINUE), 575, -500, new Rectangle(50,50,300,50), "");
+		continueButton.addActionListener(new ContinueButtonListener());
+		this.addComponent(continueButton);
 		
 		//Back Button
 		Button back = new Button(new Image(BACK), 50, 500, new Rectangle(50,50,300,50), "");
@@ -118,17 +126,28 @@ public class EAPart2 extends GUI
 		Button appliance4 = new Button(new Image(RADIO), applianceArray[4][1], applianceArray[4][2], new Rectangle(50,50,300,50), "");
 		appliance4.addActionListener(new ApplianceClick4());
 		this.addComponent(appliance4);
+		//trick0
+		Button trick0 = new Button(new Image(TRICK0), applianceArray[5][1], applianceArray[5][2], new Rectangle(50,50,300,50), "");
+		trick0.addActionListener(new ApplianceClickWrong0());
+		this.addComponent(trick0);
+		//trick1
+		Button trick1 = new Button(new Image(TRICK1), applianceArray[6][1], applianceArray[6][2], new Rectangle(50,50,300,50), "");
+		trick1.addActionListener(new ApplianceClickWrong1());
+		this.addComponent(trick1);
 		
 		option0 = new Button(new Image(OPTION), 10, -400, new Rectangle(5,5,240,70), "Device's Positioning");
 		option0.addActionListener(new Option0Click());
+		option0.setFontColor(Color.black);
 		this.addComponent(option0);
 		
 		option1 = new Button(new Image(OPTION), 270, -400, new Rectangle(5,5,240,70), "Critical Design Month");
 		option1.addActionListener(new Option1Click());
+		option1.setFontColor(Color.black);
 		this.addComponent(option1);
 		
 		option2 = new Button(new Image(OPTION), 530, -400, new Rectangle(5,5,240,70), "Daily Device Usage");
 		option2.addActionListener(new Option2Click());
+		option2.setFontColor(Color.black);
 		this.addComponent(option2);
 		
 		initializeText();
@@ -147,7 +166,7 @@ public class EAPart2 extends GUI
 		super.render(container, game, graphics);
 		
 		//draw appliances
-		for(int v=0;v<5;v++)
+		for(int v=0;v<7;v++)
 		{
 			if(applianceArray[v][0] == 0)
 			{
@@ -206,23 +225,25 @@ public class EAPart2 extends GUI
 					instructionsText.setText("What information is still needed to find the Daily Energy Consumption?");
 					
 					//option0.setCurrentImage(new Image(OPTION), true);
+					ready.setY(-500);
 					option0.setY(400);
-					
 					option1.setY(400);
-					
 					option2.setY(400);
-					
 				}
 				else 
 					System.out.println("Not Ready");
 			}
-			else if(step == 1)
-			{
-				instructionsText.setText("What information is still needed to the Daily Energy Consumption?");
-			}
-			//Game.getCurrentGame().enterState(EAPart2ScoreScreen.class);
 		}
 		
+	}
+	
+	public class ContinueButtonListener extends ButtonListener
+	{
+		@Override
+		protected void actionPerformed()
+		{
+			Game.getCurrentGame().enterState(EAPart2ScoreScreen.class);
+		}
 	}
 	
 	public void initializeHintBox()
@@ -300,7 +321,6 @@ public class EAPart2 extends GUI
 				else
 					applianceArray[0][0] = 0;
 				System.out.println("Clicked0");
-				//appliance0TextField.setText("14 W");
 			}
 		}
 		
@@ -317,7 +337,6 @@ public class EAPart2 extends GUI
 				else
 					applianceArray[1][0] = 0;
 				System.out.println("Clicked1");
-				//appliance1TextField.setText("14 W");
 			}
 		}
 		
@@ -334,7 +353,6 @@ public class EAPart2 extends GUI
 				else
 					applianceArray[2][0] = 0;
 				System.out.println("Clicked2");
-				//appliance2TextField.setText("14 W");
 			}
 		}
 		
@@ -351,7 +369,6 @@ public class EAPart2 extends GUI
 				else
 					applianceArray[3][0] = 0;
 				System.out.println("Clicked3");
-				//appliance3TextField.setText("9 W");
 			}
 		}
 		
@@ -368,7 +385,18 @@ public class EAPart2 extends GUI
 				else
 					applianceArray[4][0] = 0;
 				System.out.println("Clicked4");
-				//appliance4TextField.setText("30 W");
+			}
+		}
+		
+	}
+	public class ApplianceClickWrong0 extends ButtonListener
+	{
+		@Override
+		protected void actionPerformed() 
+		{
+			if(step == 0)
+			{
+				System.out.println("ClickedWrong");
 			}
 		}
 		
@@ -378,16 +406,10 @@ public class EAPart2 extends GUI
 		@Override
 		protected void actionPerformed() 
 		{
-			System.out.println("ClickedWrong");
-		}
-		
-	}
-	public class ApplianceClickWrong2 extends ButtonListener
-	{
-		@Override
-		protected void actionPerformed() 
-		{
-			System.out.println("ClickedWrong");
+			if(step == 0)
+			{
+				System.out.println("ClickedWrong");
+			}
 		}
 		
 	}
@@ -425,6 +447,7 @@ public class EAPart2 extends GUI
 			if(step == 1)
 			{
 				hintText.setText("Correct: Finding the daily device usage is still needed to complete the Daily Energy Consumption Calculations.");
+				continueButton.setY(500);
 			}
 		}
 		

@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -131,6 +132,10 @@ public class EASelectorDisplay<T extends SelectorIcon> extends SelectorDisplay<T
 		relativeLocation.setLocation(4*defaultBorder.getWidth(),0);
 		borders.add(new BasicComponent(defaultBorder, relativeLocation));
 		
+		//Bottom Surrounding box////
+		relativeLocation.setLocation(defaultBorder.getWidth()-5,1.5*defaultBorder.getHeight());
+		extraComponentContainer.add(new BasicComponent(bottomBox,relativeLocation));
+		
 		// Bottom left border
 		relativeLocation.setLocation(defaultBorder.getWidth(),1.5*defaultBorder.getHeight()+5);
 		borders.add(new BasicComponent(defaultBorder, relativeLocation));
@@ -182,6 +187,7 @@ public class EASelectorDisplay<T extends SelectorIcon> extends SelectorDisplay<T
 			
 			elements.set(currentIndex, element);
 			accepted = true;
+			EAPart1.updateInstructions();
 			System.out.println("SelectorDisplay: Element Accepted.\n");
 		}
 		else
@@ -194,4 +200,27 @@ public class EASelectorDisplay<T extends SelectorIcon> extends SelectorDisplay<T
 		return accepted;
 	}
 
+	@Override
+	public void draw(Graphics graphics)
+	{
+		// Draw arrows and other aethstetic components
+		for (Component component : this.aethsteticComponents)
+		{
+			if (component != null)
+				component.draw(graphics);
+		}
+		// Draw choice borders
+		for (Component border : this.choiceBorders)
+		{
+			if (border != null)
+				border.draw(graphics);
+		}
+		
+		// Draw choice icons
+		for (Component element : this.elements)
+		{
+			if (element != null)
+				element.draw(graphics);
+		}
+	}
 }

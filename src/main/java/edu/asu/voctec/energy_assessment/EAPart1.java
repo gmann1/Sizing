@@ -18,11 +18,16 @@ import edu.asu.voctec.GUI.TextArea;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
+import edu.asu.voctec.GUI.SelectorDisplay.DisplayIsFullException;
+import edu.asu.voctec.GameDefaults.Fonts;
 import edu.asu.voctec.GameDefaults.ImagePaths;
+import edu.asu.voctec.GameDefaults.Labels;
 import edu.asu.voctec.cdmg.CDPart1;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.game_states.SelectorTest.ReadyButtonListener;
+import edu.asu.voctec.step_selection.StepSelectionExitScreen;
+import edu.asu.voctec.utilities.UtilFunctions;
 
 public class EAPart1 extends GUI
 {
@@ -39,12 +44,25 @@ public class EAPart1 extends GUI
 	private static final String NOTREADY = "resources/default/img/minigames/energyAssessment/readyButtonGray.png";
 	private static final String BACKGROUND = "resources/default/img/minigames/energyAssessment/background.png";
 	
-	private EASelectorDisplay<SelectorIcon> eaSelectorDisplay;
+	private static EASelectorDisplay<SelectorIcon> eaSelectorDisplay;
 	private Selector<SelectorIcon> eaSelector;
 	Button ready;
 	
+	private static TextField instructionsLabel;
 	private TextArea hintText;
 	private int hintNumber;
+	private static boolean complete;
+	
+	private String instructions1 = "Select which step goes first.";
+	private String instructions2 = "Select which step goes second.";
+	private String instructions3 = "Select which step goes third.";
+	private String instructions4 = "Select which steps should go last.";
+	private String instructions5 = "Press the ready button to verify your choices.";
+	
+	private String instructionsNeedMore = "There are still more steps!";
+	private String instructionsRed = "Click the red icons to deselect them.";
+	
+	
 	private String[] hintTextArray = 
 		{
 			"Hint 1",
@@ -59,6 +77,13 @@ public class EAPart1 extends GUI
 		this.backgroundImage = new Image(BACKGROUND);
 		
 		initializeHintBox();
+		
+		////Instructions Text////
+		instructionsLabel = new TextField(new Rectangle(398, 0, 370, 62), 0.95f, instructions1 ,TextDisplay.FormattingOption.FIT_TEXT);
+		instructionsLabel.center();
+		instructionsLabel.setFontColor(Fonts.FONT_COLOR);
+		instructionsLabel.setFontSize(Fonts.FONT_SIZE_MEDIUM);
+		this.addComponent(instructionsLabel);
 
 		////Selector////
 		eaSelector = new Selector<>(250, 425, true);
@@ -87,8 +112,13 @@ public class EAPart1 extends GUI
 		this.addComponent(eaSelectorDisplay);
 		
 		////Ready Button////
-		ready = new Button(new Image(READY), 575, 500, new Rectangle(50,50,300,50), "");
+		Image readyButtonImage = new Image(ImagePaths.Buttons.BASE);
+		Rectangle textBounds = UtilFunctions.getImageBounds(readyButtonImage);
+		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.75f);
+		
+		ready = new Button(readyButtonImage, 575, 500, textBounds, "Ready");
 		ready.addActionListener(new ReadyButtonListener());
+		ready.setFontColor(Fonts.BUTTON_FONT_COLOR);
 		//ready.addActionListener(new TransitionButtonListener(EAPart1ScoreScreen.class));
 		this.addComponent(ready);
 		
@@ -106,14 +136,9 @@ public class EAPart1 extends GUI
 	
 	public void initializeHintBox()
 	{
-		TextField hintTitleText = new TextField(new Rectangle(500, 20, 250, 50), 0.95f, "Put the steps in the right order", TextDisplay.FormattingOption.FIT_TEXT);
-		hintTitleText.center();
-		hintTitleText.setFontColor(Color.white);
-		this.addComponent(hintTitleText);
-		
-		hintText = new TextArea(new Rectangle(500, 70, 250, 225), 0.95f, "Hint Box");
+		hintText = new TextArea(new Rectangle(500, 70, 250, 225), 0.95f, "");
 		hintText.setFontSize(16);
-		hintText.setFontColor(Color.lightGray);
+		hintText.setFontColor(Color.white);
 		hintText.setFillColor(Color.darkGray);
 		this.addComponent(hintText);
 	}
@@ -126,7 +151,80 @@ public class EAPart1 extends GUI
 			hintNumber = 0;
 	}
 	
+	public static void updateInstructions()
+	{
+		try
+		{
+			// Determine which step is to be decided next
+			int firstEmpty = eaSelectorDisplay.getCurrentIndex() + 1;
+			
+			// Convert integer to an ordinal string
+			String ordinalNumber = UtilFunctions
+					.getOrdinalRepresentation(firstEmpty);
+			
+			// Set instructions label text
+			String instructions = Labels.Step0.INSTRUCTIONS1.getTranslation()
+					+ " " + ordinalNumber
+					+ Labels.Step0.INSTRUCTIONS2.getTranslation();
+			instructionsLabel.setText(instructions);
+			System.out.println("Update Instructions: " + instructions);
+		}
+		catch (DisplayIsFullException e)
+		{
+			// Determine instruction text
+			String instructions;
+			if (complete)
+				instructions = Labels.Step0.INSTRUCTIONS_CORRECT
+						.getTranslation();
+			else
+				instructions = Labels.Step0.INSTRUCTIONS_COMPLETE
+						.getTranslation();
+			
+			// Set instructions label text
+			instructionsLabel.setText(instructions);
+			System.out.println("Update Instructions: " + instructions);
+		}
+	}
+	
 	public class ReadyButtonListener extends ButtonListener
+	{
+		private static final long serialVersionUID = -914640823203112459L;
+
+		@Override
+		protected void actionPerformed()
+		{
+			if (complete)
+			{
+				Game.getCurrentGame().enterState(EAPart1ScoreScreen.class);
+			}
+			else
+			{
+				if (!eaSelectorDisplay.isFull())
+				{
+					instructionsLabel.setText(Labels.Step0.INSTRUCTIONS_INCOMPLETE.getTranslation());
+				}
+				else
+				{
+					complete = eaSelectorDisplay.verifyChoices(true);
+					
+					if (complete)
+					{
+						updateInstructions();
+						ready.getTextField().setText("Continue");
+						//hintBox.clear();
+					}
+					else
+					{
+						HintNext();
+						instructionsLabel.setText(Labels.Step0.INSTRUCTIONS_RED.getTranslation());
+					}
+				}
+			}
+		}
+		
+	}
+	
+	/*public class ReadyButtonListener extends ButtonListener
 	{
 		@Override
 		protected void actionPerformed()
@@ -140,7 +238,7 @@ public class EAPart1 extends GUI
 			else
 				HintNext();
 		}
-	}
+	}*/
 	
 	public static void reset()
 	{
