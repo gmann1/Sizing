@@ -46,8 +46,8 @@ public class CDPart2 extends GUI {
 
 	public static final String BACKGROUND = "resources/default/img/minigames/criticalDesign/Part2back.png";
 	public static final String CRITICAL_MONTH_IMAGE = "resources/default/img/minigames/criticalDesign/December.png";
-	public static final String PANEL = "resources/default/img/minigames/criticalDesign/panel.png";
-	public static final String POLE = "resources/default/img/minigames/criticalDesign/pole.png";
+	public static final String PANEL = "resources/default/img/minigames/criticalDesign/Panel.png";
+	public static final String POLE = "resources/default/img/minigames/criticalDesign/Pole.png";
 	public static final String ROTATE_ARROW = "resources/default/img/minigames/criticalDesign/rotateArrow.png";
 	public static final String UP_ARROW_OFF = "resources/default/img/minigames/criticalDesign/upArrowOff.png";
 	public static final String UP_ARROW_ON = "resources/default/img/minigames/criticalDesign/upArrowOn.png";
