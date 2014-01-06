@@ -48,6 +48,8 @@ public class TaskData
 	
 	public class MultiTaskListener extends ButtonListener
 	{
+		private static final long serialVersionUID = -2608946596703830325L;
+		
 		protected boolean displayingComponents;
 		
 		public MultiTaskListener()
@@ -109,7 +111,8 @@ public class TaskData
 	
 	public class ReplayContinueComboListener extends ButtonListener
 	{
-		
+		private static final long serialVersionUID = -8964591612455364733L;
+
 		@Override
 		protected void actionPerformed()
 		{

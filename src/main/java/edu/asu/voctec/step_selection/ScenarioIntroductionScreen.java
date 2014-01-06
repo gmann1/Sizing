@@ -20,6 +20,7 @@ import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.SelectorTest;
 import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.utilities.Position;
+import edu.asu.voctec.utilities.UtilFunctions;
 
 public class ScenarioIntroductionScreen extends GUI implements Task
 {
@@ -39,7 +40,8 @@ public class ScenarioIntroductionScreen extends GUI implements Task
 		welcomeLabel.center();
 		
 		// Introduction Body
-		textLocation = new Rectangle(150, 100, 500, 400);
+		textLocation = new Rectangle(0, 0, 500, 400);
+		UtilFunctions.centerRectangle(new Rectangle(0, 0, 800, 600), textLocation);
 		TextArea introductionText = new TextAreaX(textLocation, 0.95f,
 				Step0.INTRODUCTION.getTranslation());
 		introductionText.setFontSize(12f);

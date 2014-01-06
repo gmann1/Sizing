@@ -31,6 +31,8 @@ public class TaskScreen extends GUI
 	
 	public class BackButtonListener extends ButtonListener
 	{
+		private static final long serialVersionUID = -1242073189843483437L;
+		
 		boolean displaying;
 		
 		@Override
@@ -66,6 +68,7 @@ public class TaskScreen extends GUI
 	
 	public class ReplayButtonListener extends ButtonListener
 	{
+		private static final long serialVersionUID = -5618531297688635125L;
 
 		@Override
 		protected void actionPerformed()
@@ -86,7 +89,6 @@ public class TaskScreen extends GUI
 		
 		confirmationComponents = new ArrayList<>();
 		tasks = new ArrayList<>();
-		//setDefaultTasks();
 		System.out.println("TaskScreen: Defaults Set.");
 		
 		// Back Button

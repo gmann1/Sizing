@@ -12,6 +12,8 @@ import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TextAreaX extends TextArea
 {
+	private static final long serialVersionUID = -7152954056850354098L;
+
 	public TextAreaX(Rectangle bounds, Rectangle textBounds, Font awtFont,
 			boolean antiAlias, String text)
 	{

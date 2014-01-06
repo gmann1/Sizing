@@ -15,6 +15,8 @@ import org.newdawn.slick.Input;
  */
 public abstract class ButtonListener extends ActionListener
 {
+	private static final long serialVersionUID = -5311227445488305713L;
+
 	@Override
 	protected boolean verify(Input input)
 	{

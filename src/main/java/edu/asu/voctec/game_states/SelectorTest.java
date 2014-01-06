@@ -37,6 +37,7 @@ public class SelectorTest extends GUI
 	private Selector<SelectorIcon> selector;
 	private TextAreaX hintBox;
 	private TextField instructionsLabel;
+	private Button readyButton;
 	private boolean complete;
 	
 	/**
@@ -54,7 +55,8 @@ public class SelectorTest extends GUI
 	 */
 	public class ReadyButtonListener extends ButtonListener
 	{
-		
+		private static final long serialVersionUID = -914640823203112459L;
+
 		@Override
 		protected void actionPerformed()
 		{
@@ -73,8 +75,14 @@ public class SelectorTest extends GUI
 				else
 				{
 					complete = selectorDisplay.verifyChoices(true);
-					updateInstructions();
-					if (!complete)
+					
+					if (complete)
+					{
+						updateInstructions();
+						readyButton.getTextField().setText("Continue");
+						hintBox.clear();
+					}
+					else
 					{
 						updateHints();
 						instructionsLabel.setText(Labels.Step0.INSTRUCTIONS_RED
@@ -82,8 +90,6 @@ public class SelectorTest extends GUI
 					}
 				}
 			}
-			
-			save();
 		}
 		
 	}
@@ -124,7 +130,7 @@ public class SelectorTest extends GUI
 				new Rectangle(0, 0, 370, 320), 0.92f);
 		Rectangle instructionBounds = new Rectangle(398, 0, 370, 62);
 		
-		// Hint Box Initialization
+		// Hint Box
 		hintBox = new TextAreaX(hintBounds, relativeHintTextBounds, null);
 		instructionsLabel = new TextField(instructionBounds, 0.95f, null,
 				TextDisplay.FormattingOption.FIT_TEXT);
@@ -134,21 +140,23 @@ public class SelectorTest extends GUI
 		
 		// Format hint box
 		hintBox.setFontSize(Fonts.FONT_SIZE_MEDIUM);
-		instructionsLabel.center();
 		hintBox.setFontColor(Fonts.FONT_COLOR);
+		instructionsLabel.center();
 		instructionsLabel.setFontColor(Fonts.FONT_COLOR);
+		instructionsLabel.setFontSize(Fonts.FONT_SIZE_MEDIUM);
 		
 		// Add hint box to this screen
 		this.addComponent(hintBox);
 		this.addComponent(instructionsLabel);
 		
 		// Ready Button
-		Image readyButtonImage = new Image(ImagePaths.READY_BUTTON);
+		Image readyButtonImage = new Image(ImagePaths.Buttons.BASE);
 		Rectangle textBounds = UtilFunctions.getImageBounds(readyButtonImage);
-		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.80f);
-		Button readyButton = new Button(readyButtonImage, 600, 500, textBounds,
-				null);
+		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.75f);
+		readyButton = new Button(readyButtonImage, 600, 500, textBounds,
+				"Ready");
 		readyButton.addActionListener(new ReadyButtonListener());
+		readyButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
 		this.addComponent(readyButton);
 		
 		// Back Button
@@ -166,7 +174,14 @@ public class SelectorTest extends GUI
 		
 		System.out.println("SelectorTest: Initialization Finished.\n");
 	}
+
+	@Override
+	public void onExit()
+	{
+		save();
+	}
 	
+	@Override
 	public void render(GameContainer container, StateBasedGame game,
 			Graphics graphics) throws SlickException
 	{
@@ -240,9 +255,15 @@ public class SelectorTest extends GUI
 		complete = currentAttempt.isStepsVerified();
 		
 		if (selectorDisplay.isFull() && complete)
+		{
 			selectorDisplay.updateChoiceBorders();
+			readyButton.getTextField().setText("Continue");
+		}
 		else
+		{
 			selectorDisplay.restoreChoiceBorders();
+			readyButton.getTextField().setText("Ready");
+		}
 		System.out.println("Loaded!\nCurrent Hints: " + Arrays.toString(currentAttempt.getCurrentHints().toArray()));
 		System.out.println("HintBox: " + Arrays.toString(hintBox.getText().toArray()));
 	}

@@ -23,6 +23,8 @@ import edu.asu.voctec.utilities.UtilFunctions;
  */
 public class TextField extends TextDisplay
 {
+	private static final long serialVersionUID = 5766807312140072208L;
+	
 	public static final FormattingOption DEFAULT_FORMAT = FormattingOption.CLIP_TEXT;
 	protected String text;
 	protected FormattingOption formatting;

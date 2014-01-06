@@ -13,6 +13,7 @@ import edu.asu.voctec.utilities.UtilFunctions;
 
 public class Button extends BasicComponent
 {
+	private static final long serialVersionUID = -5092146334779020324L;
 	protected TextField textField;
 	
 	public Button(Image image, int x, int y, Rectangle relativeTextBounds,
