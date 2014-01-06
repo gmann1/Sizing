@@ -7,7 +7,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.Button;
+import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.TextArea;
 import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
@@ -21,6 +23,9 @@ public class PVIntro extends GUI
 {
 
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
+	public static final String Right_ARROW_TEXT = "Begin!";
+	public static final String LEFT_ARROW_TEXT = "Back";
+	public static final String WELCOME_Text = "Welcome!";
 	public static final String INTRODUCTION = "In this game you need to figure out the best combination of PV panels and how to connect them"
 			+ " in order to achieve the required charging power and system voltage.";
 	
@@ -32,7 +37,7 @@ public class PVIntro extends GUI
 		Rectangle textLocation = new Rectangle(0, 50, 300, 50);
 		
 		// Title
-		TextField welcomeLabel = new TextField(textLocation, 0.95f, "Welcome!",
+		TextField welcomeLabel = new TextField(textLocation, 0.95f, WELCOME_Text,
 				TextDisplay.FormattingOption.FIT_TEXT);
 		welcomeLabel.setFontColor(Fonts.FONT_COLOR);
 		welcomeLabel.center();
@@ -47,14 +52,14 @@ public class PVIntro extends GUI
 		
 		// Start Button
 		Button startButton = new Button(new Image(ARROW_RIGHT), 750, 550,
-				new Rectangle(0, 0, 50, 25), "Begin!");
+				new Rectangle(0, 0, 50, 25), Right_ARROW_TEXT);
 		startButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
-		startButton.addActionListener(new TransitionButtonListener(PVGame.class));
+		startButton.addActionListener(new StartListener());
 		startButton.positionText(Position.LEFT);
 		
 		// Back Button
 		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
-				new Rectangle(0, 0, 50, 25), "Back");
+				new Rectangle(0, 0, 50, 25), LEFT_ARROW_TEXT);
 		backButton.addActionListener(new TransitionButtonListener(TaskScreen.class));
 		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 		backButton.positionText(Position.RIGHT);
@@ -64,6 +69,16 @@ public class PVIntro extends GUI
 		this.addComponent(welcomeLabel);
 		this.addComponent(introductionText);
 		this.addComponent(backButton);
+	}
+	
+	public class StartListener extends ButtonListener
+	{
+		@Override
+		protected void actionPerformed()
+		{
+			PVGame.playAnimation();
+			Game.getCurrentGame().enterState(PVGame.class);
+		}
 	}
 	
 }
