@@ -4,10 +4,12 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
@@ -33,8 +35,12 @@ import edu.asu.voctec.utilities.UtilFunctions;
 
 public class SelectorTest extends GUI
 {
+	private static final String endingAnimationPath = "resources/default/img/minigames/animations/DiscoSprites.png";
+	
 	private SelectorDisplay<SelectorIcon> selectorDisplay;
 	private Selector<SelectorIcon> selector;
+	private Animation endingAnimation;
+	private Rectangle endingAnimationBounds;
 	private TextAreaX hintBox;
 	private TextField instructionsLabel;
 	private Button readyButton;
@@ -56,7 +62,7 @@ public class SelectorTest extends GUI
 	public class ReadyButtonListener extends ButtonListener
 	{
 		private static final long serialVersionUID = -914640823203112459L;
-
+		
 		@Override
 		protected void actionPerformed()
 		{
@@ -168,13 +174,24 @@ public class SelectorTest extends GUI
 		backButton.positionText(Position.RIGHT);
 		this.addComponent(backButton);
 		
+		// Ending Animation
+		Image spriteSheetImage = new Image(endingAnimationPath);
+		int fps = 6;
+		int frameWidth = 115;
+		int frameHeight = 150;
+		endingAnimationBounds = new Rectangle(0, 0, frameWidth, frameHeight);
+		UtilFunctions.centerRectangle(hintBounds, endingAnimationBounds);
+		SpriteSheet endingAnimationSprites = new SpriteSheet(spriteSheetImage,
+				frameWidth, frameHeight);
+		endingAnimation = new Animation(endingAnimationSprites, 1000 / fps);
+		
 		// Set background
 		Image background = new Image(ImagePaths.MainMenuBackground);
 		setBackgroundImage(background.getScaledCopy(800, 600));
 		
 		System.out.println("SelectorTest: Initialization Finished.\n");
 	}
-
+	
 	@Override
 	public void onExit()
 	{
@@ -186,6 +203,10 @@ public class SelectorTest extends GUI
 			Graphics graphics) throws SlickException
 	{
 		super.render(container, game, graphics);
+		
+		if (complete)
+			endingAnimation.draw(endingAnimationBounds.x,
+					endingAnimationBounds.y);
 	}
 	
 	public void updateInstructions()
@@ -242,7 +263,8 @@ public class SelectorTest extends GUI
 			currentAttempt = (SizingStepsData) currentTask.getCurrentAttempt();
 			System.out.println("Current Attempt is null... Resetting...");
 		}
-		System.out.println("\nLoad Start\n\tCurrent Hints: " + Arrays.toString(currentAttempt.getCurrentHints().toArray()));
+		System.out.println("\nLoad Start\n\tCurrent Hints: "
+				+ Arrays.toString(currentAttempt.getCurrentHints().toArray()));
 		
 		// Load from data
 		selector.setElements(currentAttempt.getSelectorContents());
@@ -264,8 +286,10 @@ public class SelectorTest extends GUI
 			selectorDisplay.restoreChoiceBorders();
 			readyButton.getTextField().setText("Ready");
 		}
-		System.out.println("Loaded!\nCurrent Hints: " + Arrays.toString(currentAttempt.getCurrentHints().toArray()));
-		System.out.println("HintBox: " + Arrays.toString(hintBox.getText().toArray()));
+		System.out.println("Loaded!\nCurrent Hints: "
+				+ Arrays.toString(currentAttempt.getCurrentHints().toArray()));
+		System.out.println("HintBox: "
+				+ Arrays.toString(hintBox.getText().toArray()));
 	}
 	
 	public SizingStepsData generateDefaultData()
@@ -311,7 +335,8 @@ public class SelectorTest extends GUI
 	
 	public void save()
 	{
-		SizingStepsData currentAttempt = (SizingStepsData) Game.getCurrentTask().getCurrentAttempt();
+		SizingStepsData currentAttempt = (SizingStepsData) Game
+				.getCurrentTask().getCurrentAttempt();
 		
 		ArrayList<SelectorIcon> selectorDisplayContents = this.selectorDisplay
 				.getElements();
