@@ -4,10 +4,12 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
@@ -33,10 +35,15 @@ import edu.asu.voctec.utilities.UtilFunctions;
 
 public class SelectorTest extends GUI
 {
+	private static final String endingAnimationPath = "resources/default/img/minigames/animations/DiscoSprites.png";
+	
 	private SelectorDisplay<SelectorIcon> selectorDisplay;
 	private Selector<SelectorIcon> selector;
+	private Animation endingAnimation;
+	private Rectangle endingAnimationBounds;
 	private TextAreaX hintBox;
 	private TextField instructionsLabel;
+	private Button readyButton;
 	private boolean complete;
 	
 	/**
@@ -54,6 +61,7 @@ public class SelectorTest extends GUI
 	 */
 	public class ReadyButtonListener extends ButtonListener
 	{
+		private static final long serialVersionUID = -914640823203112459L;
 		
 		@Override
 		protected void actionPerformed()
@@ -73,8 +81,14 @@ public class SelectorTest extends GUI
 				else
 				{
 					complete = selectorDisplay.verifyChoices(true);
-					updateInstructions();
-					if (!complete)
+					
+					if (complete)
+					{
+						updateInstructions();
+						readyButton.getTextField().setText("Continue");
+						hintBox.clear();
+					}
+					else
 					{
 						updateHints();
 						instructionsLabel.setText(Labels.Step0.INSTRUCTIONS_RED
@@ -82,8 +96,6 @@ public class SelectorTest extends GUI
 					}
 				}
 			}
-			
-			save();
 		}
 		
 	}
@@ -124,7 +136,7 @@ public class SelectorTest extends GUI
 				new Rectangle(0, 0, 370, 320), 0.92f);
 		Rectangle instructionBounds = new Rectangle(398, 0, 370, 62);
 		
-		// Hint Box Initialization
+		// Hint Box
 		hintBox = new TextAreaX(hintBounds, relativeHintTextBounds, null);
 		instructionsLabel = new TextField(instructionBounds, 0.95f, null,
 				TextDisplay.FormattingOption.FIT_TEXT);
@@ -134,21 +146,23 @@ public class SelectorTest extends GUI
 		
 		// Format hint box
 		hintBox.setFontSize(Fonts.FONT_SIZE_MEDIUM);
-		instructionsLabel.center();
 		hintBox.setFontColor(Fonts.FONT_COLOR);
+		instructionsLabel.center();
 		instructionsLabel.setFontColor(Fonts.FONT_COLOR);
+		instructionsLabel.setFontSize(Fonts.FONT_SIZE_MEDIUM);
 		
 		// Add hint box to this screen
 		this.addComponent(hintBox);
 		this.addComponent(instructionsLabel);
 		
 		// Ready Button
-		Image readyButtonImage = new Image(ImagePaths.READY_BUTTON);
+		Image readyButtonImage = new Image(ImagePaths.Buttons.BASE);
 		Rectangle textBounds = UtilFunctions.getImageBounds(readyButtonImage);
-		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.80f);
-		Button readyButton = new Button(readyButtonImage, 600, 500, textBounds,
-				null);
+		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.75f);
+		readyButton = new Button(readyButtonImage, 600, 500, textBounds,
+				"Ready");
 		readyButton.addActionListener(new ReadyButtonListener());
+		readyButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
 		this.addComponent(readyButton);
 		
 		// Back Button
@@ -160,6 +174,17 @@ public class SelectorTest extends GUI
 		backButton.positionText(Position.RIGHT);
 		this.addComponent(backButton);
 		
+		// Ending Animation
+		Image spriteSheetImage = new Image(endingAnimationPath);
+		int fps = 6;
+		int frameWidth = 115;
+		int frameHeight = 150;
+		endingAnimationBounds = new Rectangle(0, 0, frameWidth, frameHeight);
+		UtilFunctions.centerRectangle(hintBounds, endingAnimationBounds);
+		SpriteSheet endingAnimationSprites = new SpriteSheet(spriteSheetImage,
+				frameWidth, frameHeight);
+		endingAnimation = new Animation(endingAnimationSprites, 1000 / fps);
+		
 		// Set background
 		Image background = new Image(ImagePaths.MainMenuBackground);
 		setBackgroundImage(background.getScaledCopy(800, 600));
@@ -167,10 +192,21 @@ public class SelectorTest extends GUI
 		System.out.println("SelectorTest: Initialization Finished.\n");
 	}
 	
+	@Override
+	public void onExit()
+	{
+		save();
+	}
+	
+	@Override
 	public void render(GameContainer container, StateBasedGame game,
 			Graphics graphics) throws SlickException
 	{
 		super.render(container, game, graphics);
+		
+		if (complete)
+			endingAnimation.draw(endingAnimationBounds.x,
+					endingAnimationBounds.y);
 	}
 	
 	public void updateInstructions()
@@ -227,7 +263,8 @@ public class SelectorTest extends GUI
 			currentAttempt = (SizingStepsData) currentTask.getCurrentAttempt();
 			System.out.println("Current Attempt is null... Resetting...");
 		}
-		System.out.println("\nLoad Start\n\tCurrent Hints: " + Arrays.toString(currentAttempt.getCurrentHints().toArray()));
+		System.out.println("\nLoad Start\n\tCurrent Hints: "
+				+ Arrays.toString(currentAttempt.getCurrentHints().toArray()));
 		
 		// Load from data
 		selector.setElements(currentAttempt.getSelectorContents());
@@ -240,11 +277,19 @@ public class SelectorTest extends GUI
 		complete = currentAttempt.isStepsVerified();
 		
 		if (selectorDisplay.isFull() && complete)
+		{
 			selectorDisplay.updateChoiceBorders();
+			readyButton.getTextField().setText("Continue");
+		}
 		else
+		{
 			selectorDisplay.restoreChoiceBorders();
-		System.out.println("Loaded!\nCurrent Hints: " + Arrays.toString(currentAttempt.getCurrentHints().toArray()));
-		System.out.println("HintBox: " + Arrays.toString(hintBox.getText().toArray()));
+			readyButton.getTextField().setText("Ready");
+		}
+		System.out.println("Loaded!\nCurrent Hints: "
+				+ Arrays.toString(currentAttempt.getCurrentHints().toArray()));
+		System.out.println("HintBox: "
+				+ Arrays.toString(hintBox.getText().toArray()));
 	}
 	
 	public SizingStepsData generateDefaultData()
@@ -290,7 +335,8 @@ public class SelectorTest extends GUI
 	
 	public void save()
 	{
-		SizingStepsData currentAttempt = (SizingStepsData) Game.getCurrentTask().getCurrentAttempt();
+		SizingStepsData currentAttempt = (SizingStepsData) Game
+				.getCurrentTask().getCurrentAttempt();
 		
 		ArrayList<SelectorIcon> selectorDisplayContents = this.selectorDisplay
 				.getElements();

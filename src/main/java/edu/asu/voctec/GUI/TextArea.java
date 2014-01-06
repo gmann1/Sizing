@@ -12,6 +12,8 @@ import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TextArea extends TextDisplay
 {
+	private static final long serialVersionUID = -5474522311817307655L;
+	
 	protected ArrayList<String> lines = new ArrayList<>();
 	protected int maximumDisplayLines;
 	

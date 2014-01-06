@@ -5,6 +5,8 @@ import org.newdawn.slick.SlickException;
 
 public class SelectorIcon extends BasicComponent
 {
+	private static final long serialVersionUID = 2018550602983965705L;
+	
 	protected final String	name;
 	protected final String description;
 	protected final int id;

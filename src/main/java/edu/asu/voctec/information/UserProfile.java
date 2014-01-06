@@ -2,15 +2,16 @@ package edu.asu.voctec.information;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 
-import edu.asu.voctec.GUI.Button;
-import edu.asu.voctec.GUI.Component;
 import edu.asu.voctec.GameDefaults.ImagePaths;
 import edu.asu.voctec.GameDefaults.TaskScreenDefaults;
+import edu.asu.voctec.GUI.Button;
+import edu.asu.voctec.GUI.Component;
 import edu.asu.voctec.batter_sizing.BatteryIntro;
 import edu.asu.voctec.cdmg.CDIntroScreen;
 import edu.asu.voctec.controller_sizing.ControllerSizingIntroScreen;
@@ -19,8 +20,10 @@ import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.pv_game.PVIntro;
 import edu.asu.voctec.utilities.UtilFunctions;
 
-public class UserProfile
+public class UserProfile implements Serializable
 {
+	private static final long serialVersionUID = 3074265688638837400L;
+	
 	protected String name;
 	protected ScenarioData[] scenarioData;
 	
@@ -126,7 +129,7 @@ public class UserProfile
 		UtilFunctions.centerComponentsStacked(taskButtonContainer,
 				buttonSpacing,
 				taskButtons.toArray(new Button[taskButtons.size()]));
-		UtilFunctions.translateAll(0, 30, taskButtons);
+		UtilFunctions.translateAll(0, 15, taskButtons);
 		
 		// Position and Format informationComponents
 		for (TaskData task : tasks)

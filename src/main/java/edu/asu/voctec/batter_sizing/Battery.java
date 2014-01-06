@@ -11,6 +11,7 @@ public class Battery extends BatteryControl{
 	
 	public static List<ArrayList<Battery>> batteryArray = new ArrayList<ArrayList<Battery>>();
 	public static List<BasicComponent> parallelLinesArray = new ArrayList<BasicComponent>();
+	public static List<BasicComponent> TransparentBatteriesArray = new ArrayList<BasicComponent>();
     private int voltage, capacity, seriesIndex, parallelIndex;
     private static final int batteryImageWidth = 60, batteryImageHeight = 60;
     private static BatteryGameScreen gameWorld;
@@ -27,7 +28,7 @@ public class Battery extends BatteryControl{
         {
 			removeFromArray();
             if(withinArrayCreationArea())
-                this.addToArray();
+                this.checkSuggestedLocations();
             else
             	gameWorld.removeObject(this);
             
@@ -65,7 +66,27 @@ public class Battery extends BatteryControl{
     {
         this.voltage = voltage;
         this.capacity = capacity;
-        addToArray();
+        checkSuggestedLocations();
+    }
+    
+    private void checkSuggestedLocations()
+    {
+    	if(!TransparentBatteriesArray.isEmpty())
+    	{
+    		for(BasicComponent TransparentBattery:TransparentBatteriesArray)
+    		{
+    			if(withinX(TransparentBattery) && withinY(TransparentBattery))
+                {
+    				if(this.getY()> 150)
+    				{
+    					setLocation(this.getX(), this.getY()-90);
+    					addToArray();
+    					return;
+    				}
+                }
+    		}
+    	}
+    	addToArray();
     }
     
     public void addToArray()
@@ -106,7 +127,7 @@ public class Battery extends BatteryControl{
         return false;
     }
     
-    private boolean withinX(Battery testedBattery)
+    private boolean withinX(BasicComponent testedBattery)
     {
         if(this.getX() < testedBattery.getX()+batteryImageWidth && this.getX()>=testedBattery.getX())
             return true;
@@ -116,7 +137,7 @@ public class Battery extends BatteryControl{
             return false;
     }
     
-    private boolean withinY(Battery testedBattery)
+    private boolean withinY(BasicComponent testedBattery)
     {
         if(this.getY() < testedBattery.getY()+batteryImageHeight && this.getY()>=testedBattery.getY())
             return true;
@@ -142,11 +163,48 @@ public class Battery extends BatteryControl{
                 	addParallelLines(indexInSeries,indexInParallel);
             }
         }
+    	addTransparentBatteries();
+    }
+    
+    public static void addToTransparentBatteriesArray(BasicComponent TransparentBattery)
+    {
+    	TransparentBatteriesArray.add(TransparentBattery);
+    }
+    
+    public static void addTransparentBatteries()
+    {
+    	removeTransparentBatteries();
+    	if(batteryArray.size() < 8)
+    		addTransparentBatteries(batteryArray.size(), 0);
+        if(!batteryArray.isEmpty())
+        {
+	        for(int indexInSeries = 0; indexInSeries < batteryArray.size(); indexInSeries++)
+	        {
+	        	if(batteryArray.get(indexInSeries).size() < 5)
+	        		addTransparentBatteries(indexInSeries, batteryArray.get(indexInSeries).size());
+	        }
+        }
+    }
+    
+    private static void removeTransparentBatteries()
+    {
+    	if(!TransparentBatteriesArray.isEmpty())
+    	{
+    		for(BasicComponent TransparentBattery:TransparentBatteriesArray)
+    			gameWorld.removeComponent(TransparentBattery);
+    	}
+    }
+    
+    private static void addTransparentBatteries(int x, int y)
+    {
+    	BasicComponent TransparentBattery = new BasicComponent(BatteryGameScreen.getTransparentBatteryImage(),60+(x*90),90+(y*90));
+    	gameWorld.addComponent(TransparentBattery);
+    	TransparentBatteriesArray.add(TransparentBattery);
     }
     
     private void addParallelLines(int x, int y)
     {
-    	BasicComponent parallelLines = new BasicComponent(BatteryGameScreen.getVerticalLinesImage(),60+(x*90),12+(y*90));
+    	BasicComponent parallelLines = new BasicComponent(BatteryGameScreen.getVerticalLinesImage(),50+(x*90),0+(y*90));
     	gameWorld.addComponent(parallelLines);
 		parallelLinesArray.add(parallelLines);
     }
@@ -191,6 +249,7 @@ public class Battery extends BatteryControl{
 	    	calculateSystemVoltage();
 	    	calculateTotalCapacity();
 	    	removeLines();
+	    	addTransparentBatteries();
     	}
     }
     

@@ -3,8 +3,10 @@ package edu.asu.voctec.GUI;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.ArrayList;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.utilities.Resizable;
 import edu.asu.voctec.utilities.UtilFunctions;
@@ -21,10 +23,12 @@ import edu.asu.voctec.utilities.UtilFunctions;
  * @see #associate(GUI)
  * 
  */
-public abstract class Component implements Displayable, Resizable
+public abstract class Component implements Displayable, Resizable, Serializable
 {
+	private static final long serialVersionUID = 5335900166012598528L;
+	
 	protected final ArrayList<ActionListener> listeners = new ArrayList<>();
-	protected GUI associatedGUI;
+	protected Class<? extends GUI> associatedGUI;
 	
 	public ActionListener[] getListeners()
 	{
@@ -33,16 +37,22 @@ public abstract class Component implements Displayable, Resizable
 	
 	public GUI getAssociatedGUI()
 	{
+		GUI associatedGUI = (GUI) Game.getGameState(this.associatedGUI);
 		return associatedGUI;
 	}
 	
 	public void associate(GUI associatedGUI)
 	{
-		this.associatedGUI = associatedGUI;
-		
-		// Make GUI listen for all listeners associated with this component.
 		if (associatedGUI != null)
+		{
+			this.associatedGUI = associatedGUI.getClass();
+			// Make GUI listen for all listeners associated with this component.
 			associatedGUI.getListenerList().addAll(listeners);
+		}
+		else
+		{
+			associatedGUI = null;
+		}
 	}
 	
 	public void addActionListener(ActionListener listener)
@@ -53,7 +63,7 @@ public abstract class Component implements Displayable, Resizable
 		
 		// Alert the associated GUI that the new event should be listened for.
 		if (this.associatedGUI != null)
-			this.associatedGUI.getListenerList().add(listener);
+			getAssociatedGUI().getListenerList().add(listener);
 	}
 	
 	@Override

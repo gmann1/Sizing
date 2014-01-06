@@ -2,72 +2,83 @@ package edu.asu.voctec.pv_game;
 
 import java.awt.Rectangle;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import edu.asu.voctec.GUI.BasicComponent;
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.Button;
+import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.TextArea;
+import edu.asu.voctec.GUI.TextAreaX;
+import edu.asu.voctec.GUI.TextDisplay;
+import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.utilities.Position;
 
 public class PVIntro extends GUI
 {
 
+	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
+	public static final String Right_ARROW_TEXT = "Begin!";
+	public static final String LEFT_ARROW_TEXT = "Back";
+	public static final String WELCOME_Text = "Welcome!";
+	public static final String INTRODUCTION = "In this game you need to figure out the best combination of PV panels and how to connect them"
+			+ " in order to achieve the required charging power and system voltage.";
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
-		this.backgroundImage = new Image("resources/default/img/minigames/BatterySizing/WhiteBackground.jpg");
+		this.backgroundImage = new Image(ImagePaths.MainMenuBackground);
+		Rectangle textLocation = new Rectangle(0, 50, 300, 50);
 		
-		Rectangle textLocation = new Rectangle(25, 15, 625, 1500);
-		TextArea instructions = new TextArea(textLocation, 0.95f,
-				"In this game you need to figure out the best combination of PV panels and how to connect them"
-				+ " in order to achieve the required charging power and system voltage."
-				+ "                                                                       "
-				+ "                                                                                                  "
-				+ "Game Instructions:                                                                                     "
-				+ "1. To connect two PV panels in parallel, place one of the panel on top of the other."
-				+ "                                                                                               "
-				+ "2. To connect PV panels in series, just drag the panel and drop it anywhere in the gray area."
-				+ "                                                                        "
-				+ "3. To remove a PV panel from the array, just drag and drop it anywhere outside the gray area."
-				+ "                                                               "
-				+ "4. Parallel PV panels should share the same voltage but can have different power."
-				+ "                                                                                        "
-				+ "5. PV panels that are connected in series should have the same power but can have different voltage values."
-				+ "                                           "
-				+ "6. The current total watts and voltage for the array created will be updated automatically in the top right corner."
-				+ "                                       "
-				+ "7. Pressing the hint button will display the next available hint and let you browse between them."
-				+ "                                                                       "
-				+ "8. When the requirements are met, a \"DONE\" button will be available.");
-		instructions.setFontSize(16);
-		instructions.setFontColor(new Color(27,29,121));
-		this.addComponent(instructions);
+		// Title
+		TextField welcomeLabel = new TextField(textLocation, 0.95f, WELCOME_Text,
+				TextDisplay.FormattingOption.FIT_TEXT);
+		welcomeLabel.setFontColor(Fonts.FONT_COLOR);
+		welcomeLabel.center();
 		
-		Button Start = new Button(new Image("resources/default/img/minigames/BatterySizing/Continue.png"), 465, 535,
-			    new Rectangle(750, 550, 44, 44), "");
-			  Start.addActionListener(new TransitionButtonListener(PVGame.class));
-	  this.addComponent(Start);
-	  
-	  
-	  Button exitButton = new Button(new Image("resources/default/img/minigames/BatterySizing/ExitButton.png"), 630, 535,
-			    new Rectangle(750, 550, 44, 44), "");
-		exitButton.addActionListener(new TransitionButtonListener(TaskScreen.class));
-	  this.addComponent(exitButton);
-	  
-	  BasicComponent introImage1 = new BasicComponent("resources/default/img/minigames/BatterySizing/PVintro1.png", 650, 100);
-	  BasicComponent introImage2 = new BasicComponent("resources/default/img/minigames/BatterySizing/PVintro2.png", 650, 220);
-	  BasicComponent introImage3 = new BasicComponent("resources/default/img/minigames/BatterySizing/PVintro3.png", 650, 320);
-	  
-	  this.addComponent(introImage1);
-	  this.addComponent(introImage2);
-	  this.addComponent(introImage3);
+		// Introduction Body
+		textLocation = new Rectangle(150, 200, 500, 400);
+		TextArea introductionText = new TextAreaX(textLocation, 0.95f,
+				INTRODUCTION);
+		introductionText.setFontSize(12f);
+		introductionText.setFontSize(Fonts.FONT_SIZE_LARGE);
+		introductionText.setFontColor(Fonts.FONT_COLOR);
+		
+		// Start Button
+		Button startButton = new Button(new Image(ARROW_RIGHT), 750, 550,
+				new Rectangle(0, 0, 50, 25), Right_ARROW_TEXT);
+		startButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+		startButton.addActionListener(new StartListener());
+		startButton.positionText(Position.LEFT);
+		
+		// Back Button
+		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
+				new Rectangle(0, 0, 50, 25), LEFT_ARROW_TEXT);
+		backButton.addActionListener(new TransitionButtonListener(TaskScreen.class));
+		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+		backButton.positionText(Position.RIGHT);
+		
+		// Add all components to this menu
+		this.addComponent(startButton);
+		this.addComponent(welcomeLabel);
+		this.addComponent(introductionText);
+		this.addComponent(backButton);
+	}
+	
+	public class StartListener extends ButtonListener
+	{
+		@Override
+		protected void actionPerformed()
+		{
+			PVGame.playAnimation();
+			Game.getCurrentGame().enterState(PVGame.class);
+		}
 	}
 	
 }

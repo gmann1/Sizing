@@ -1,9 +1,13 @@
 package edu.asu.voctec.information;
 
+import java.io.Serializable;
+
 import edu.asu.voctec.GUI.Component;
 
-public class ScenarioData
+public class ScenarioData implements Serializable
 {
+	private static final long serialVersionUID = -461392627683981961L;
+	
 	protected TaskData entryStep;
 	protected TaskData[] tasks;
 	protected Component scenarioIcon;

@@ -16,6 +16,7 @@ public abstract class ModifiedGameState extends BasicGameState implements
 	
 	public abstract Dimension getDesignResolution();
 	public abstract void onEnter();
+	public abstract void onExit();
 	
 	public ModifiedGameState()
 	{
