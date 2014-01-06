@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
+import edu.asu.voctec.GUI.BasicComponent;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.TextArea;
@@ -18,15 +19,19 @@ import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
+import edu.asu.voctec.utilities.Position;
 
 public class BatteryGameScreen extends GUI
 {
 
 	public static final String GameBackground = "resources/default/img/minigames/BatterySizing/GameBackground.jpg";
+	public static final String GraySquare = "resources/default/img/minigames/BatterySizing/BlankGraySquare.png";
+	public static final String HintBox = "resources/default/img/minigames/BatterySizing/hintBox.png";
 	public static final String BlueBattery = "resources/default/img/minigames/BatterySizing/BlueBattery.png";
 	public static final String YellowBattery = "resources/default/img/minigames/BatterySizing/YellowBattery.png";
 	public static final String RedBattery = "resources/default/img/minigames/BatterySizing/RedBattery.png";
 	public static final String GreenBattery = "resources/default/img/minigames/BatterySizing/GreenBattery.png";
+	public static final String Trash = "resources/default/img/minigames/BatterySizing/GarbageBin.png";
 	
 	public static final String HorizontalLine = "resources/default/img/minigames/BatterySizing/Line.png";
 	private static Image horizontalLineImage;
@@ -34,11 +39,15 @@ public class BatteryGameScreen extends GUI
 	public static final String VerticalLines = "resources/default/img/minigames/BatterySizing/TwoLines.png";
 	private static Image verticalLinesImage;
 	
+	public static final String TransparentBattery = "resources/default/img/minigames/BatterySizing/TransparentBattery.png";
+	private static Image TransparentBatteryImage;
+	
 	private static final String[] hintsTextArray = {"The array can be solved using 1 or 2 batteries.",
 													"Two batteries could be connected in series to solve the game.",
 													"Connecting two batteries in parallel is not recommended but could solve the game."};
 	
 	private  TextField currentVoltage, currentCapacity;
+	private static TextField batteryBankText;
 	private static TextArea hintsText;
 	private static int currentHintText = 0;
 	public static List<BatteryControl> objectsArray = new ArrayList<BatteryControl>();
@@ -52,25 +61,61 @@ public class BatteryGameScreen extends GUI
 			throws SlickException
 	{
 		this.backgroundImage = new Image(GameBackground);
+		
+		BasicComponent batteryBankArea = new BasicComponent(new Image(GraySquare),25,85);
+		this.addComponent(batteryBankArea);
+		
+		BasicComponent hintBoxArea = new BasicComponent(HintBox,604,400,196,200);
+		this.addComponent(hintBoxArea);
+		
+		BasicComponent AvailableBatteriesArea = new BasicComponent("resources/default/img/minigames/BatterySizing/AvailableBatteriesArea.png",25,514);
+		this.addComponent(AvailableBatteriesArea);
+		
+		Rectangle textLocation = new Rectangle(25, 250, 750, 60);
+		batteryBankText = new TextField(textLocation, 0.95f,
+				"Drag a battery here to place it in the Battery Bank",
+				TextDisplay.FormattingOption.FIT_TEXT);
+		batteryBankText.setFontColor(Color.white);
+		batteryBankText.center();
+		this.addComponent(batteryBankText);
+		
+		Rectangle textLocation2 = new Rectangle(25, 514, 270, 20);
+		TextField AvailableBatteriesText = new TextField(textLocation2, 0.95f,
+				"Available Batteries:",
+				TextDisplay.FormattingOption.FIT_TEXT);
+		AvailableBatteriesText.setFontColor(Color.white);
+		//AvailableBatteriesText.center();
+		this.addComponent(AvailableBatteriesText);
+		
 		verticalLinesImage = new Image(VerticalLines);
 		horizontalLineImage = new Image(HorizontalLine);
+		TransparentBatteryImage = new Image(TransparentBattery);
 		
-		initialBatteries.add(new InitialBattery(12, 90, 20, 520, new Image(BlueBattery), 20, 520, this));
-		initialBatteries.add(new InitialBattery(12, 200, 170, 520, new Image(YellowBattery), 170, 520, this));
-		initialBatteries.add(new InitialBattery(6, 200, 320, 520, new Image(RedBattery), 320, 520, this));
-		//initialBatteries.add(new InitialBattery(12, 260, 470, 520, new Image(GreenBattery), 470, 520, this));
+		initialBatteries.add(new InitialBattery(12, 90, 50, 535, new Image(BlueBattery), 50, 535, this));
+		initialBatteries.add(new InitialBattery(12, 200, 200, 535, new Image(YellowBattery), 200, 535, this));
+		initialBatteries.add(new InitialBattery(6, 200, 350, 535, new Image(RedBattery), 350, 535, this));
+		//initialBatteries.add(new InitialBattery(12, 260, 500, 520, new Image(GreenBattery), 500, 520, this));
+		
+		BasicComponent GarbageBin = new BasicComponent(new Image(Trash),540,525);
+		this.addComponent(GarbageBin);
 		
 		initializeText();
+		
+		BasicComponent TransparentBattery = new BasicComponent(TransparentBatteryImage,60+(0*90),90+(0*90));
+		Battery.addToTransparentBatteriesArray(TransparentBattery);
+		this.addComponent(TransparentBattery);
 		
 		for(InitialBattery addInitialBattery :initialBatteries)
 		{
 			addObject(addInitialBattery);
 		}
 		
-		Button backButton = new Button(new Image("resources/default/img/buttons/backButton.png"), 1, 1,
-			    new Rectangle(1, 1, 40, 40), "Back");
-		backButton.setFontColor(Color.blue);
-		backButton.addActionListener(new TransitionButtonListener(BatteryIntro.class));	  
+		// Back Button
+		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
+				new Rectangle(0, 0, 50, 25), "Back");
+		backButton.addActionListener(new TransitionButtonListener(BatteryIntro.class));
+		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+		backButton.positionText(Position.BOTTOM);
 		this.addComponent(backButton);
 		
 		Button doneButton = new Button(new Image("resources/default/img/minigames/BatterySizing/DoneButton.png"), 660, 350,
@@ -117,24 +162,28 @@ public class BatteryGameScreen extends GUI
 		return horizontalLineImage;
 	}
 	
+	public static Image getTransparentBatteryImage() {
+		return TransparentBatteryImage;
+	}
+	
 	public void changeCurrentCapacity(int capacity)
 	{
-		currentCapacity.setText("Total Amp Hours: "+capacity+" Ah");
+		currentCapacity.setText(capacity+" Ah");
 	}
 	
 	public void changeCurrentCapacity(String capacity)
 	{
-		currentCapacity.setText("Total Amp Hours: "+capacity+" Ah");
+		currentCapacity.setText(capacity+" Ah");
 	}
 	
 	public void changeCurrentVoltage(int voltage)
 	{
-		currentVoltage.setText("Total System Voltage: "+voltage+" V");
+		currentVoltage.setText(voltage+" V");
 	}
 	
 	public void changeCurrentVoltage(String voltage)
 	{
-		currentVoltage.setText("Total System Voltage: "+voltage+" V");
+		currentVoltage.setText(voltage+" V");
 	}
 	
 	public static int getRequiredCapacity()
@@ -152,7 +201,7 @@ public class BatteryGameScreen extends GUI
 		if(!Battery.allParallelsHaveSameVoltage())
 		{
 			hintsText.setText("Parallel batteries should share the same voltage but can have different capacities.");
-			hintsText.setFontColor(Color.black);
+			hintsText.setFontColor(Color.white);
 			if(parallelHintNOtDisplayed)
 			{
 				totalNumberOfHintsUsed++;
@@ -162,7 +211,7 @@ public class BatteryGameScreen extends GUI
 		else if(!Battery.allSeriesHaveSameCapacity())
 		{
 			hintsText.setText("Batteries connected in series should share the same capacity but can have different voltages.");
-			hintsText.setFontColor(Color.black);
+			hintsText.setFontColor(Color.white);
 			if(seriesHintNOtDisplayed)
 			{
 				totalNumberOfHintsUsed++;
@@ -172,7 +221,7 @@ public class BatteryGameScreen extends GUI
 		else
 		{
 			hintsText.setText(hintsTextArray[currentHintText]);
-			hintsText.setFontColor(Color.black);
+			hintsText.setFontColor(Color.white);
 			if(firstRoundOfHints)
 				totalNumberOfHintsUsed++;
 			if(currentHintText == (hintsTextArray.length-1))
@@ -190,7 +239,7 @@ public class BatteryGameScreen extends GUI
 		if(!Battery.allParallelsHaveSameVoltage())
 		{
 			hintsText.setText(doneButtonMessage+"Parallel batteries should share the same voltage but can have different capacities.");
-			hintsText.setFontColor(Color.black);
+			hintsText.setFontColor(Color.white);
 			if(parallelHintNOtDisplayed)
 			{
 				totalNumberOfHintsUsed++;
@@ -200,7 +249,7 @@ public class BatteryGameScreen extends GUI
 		else if(!Battery.allSeriesHaveSameCapacity())
 		{
 			hintsText.setText(doneButtonMessage+"Batteries connected in series should share the same capacity but can have different voltages.");
-			hintsText.setFontColor(Color.black);
+			hintsText.setFontColor(Color.white);
 			if(seriesHintNOtDisplayed)
 			{
 				totalNumberOfHintsUsed++;
@@ -210,7 +259,7 @@ public class BatteryGameScreen extends GUI
 		else
 		{
 			hintsText.setText(doneButtonMessage+hintsTextArray[currentHintText]);
-			hintsText.setFontColor(Color.black);
+			hintsText.setFontColor(Color.white);
 			if(firstRoundOfHints)
 				totalNumberOfHintsUsed++;
 			if(currentHintText == (hintsTextArray.length-1))
@@ -229,54 +278,73 @@ public class BatteryGameScreen extends GUI
 		TextField requiredCapacityText = new TextField(textLocation, 0.95f,
 				"Required Battery-Bank Output: "+RequiredCapacity+" Ah",
 				TextDisplay.FormattingOption.FIT_TEXT);
-		requiredCapacityText.setFontColor(Color.black);
+		requiredCapacityText.setFontColor(Color.white);
 		this.addComponent(requiredCapacityText);
 		
 		Rectangle textLocation2 = new Rectangle(60, 45, 400, 30);
 		TextField requiredVoltageText = new TextField(textLocation2, 0.95f,
 				"DC System Voltage: "+RequiredVoltage+" V",
 				TextDisplay.FormattingOption.FIT_TEXT);
-		requiredVoltageText.setFontColor(Color.black);
+		requiredVoltageText.setFontColor(Color.white);
 		this.addComponent(requiredVoltageText);
 		
 		Rectangle textLocation3 = new Rectangle(525, 15, 275, 30);
-		currentCapacity = new TextField(textLocation3, 0.95f,
-				"Total Amp Hours: 0 Ah",
+		TextField currentCapacityText = new TextField(textLocation3, 0.95f,
+				"Total Amp Hours: ",
 				TextDisplay.FormattingOption.FIT_TEXT);
-		currentCapacity.setFontColor(Color.black);
-		this.addComponent(currentCapacity);
+		currentCapacityText.setFontColor(Color.darkGray);
+		this.addComponent(currentCapacityText);
 		
 		Rectangle textLocation4 = new Rectangle(525, 45, 275, 30);
-		currentVoltage = new TextField(textLocation4, 0.95f,
-				"Total System Voltage: 0 V",
+		TextField currentVoltageText = new TextField(textLocation4, 0.95f,
+				"Total System Voltage: ",
 				TextDisplay.FormattingOption.FIT_TEXT);
-		currentVoltage.setFontColor(Color.black);
+		currentVoltageText.setFontColor(Color.darkGray);
+		this.addComponent(currentVoltageText);
+		
+		Rectangle textLocation7 = new Rectangle(688, 15, 275, 30);
+		currentCapacity = new TextField(textLocation7, 0.95f,
+				"0 Ah",
+				TextDisplay.FormattingOption.FIT_TEXT);
+		currentCapacity.setFontColor(Color.red);
+		this.addComponent(currentCapacity);
+		
+		Rectangle textLocation8 = new Rectangle(730, 45, 275, 30);
+		currentVoltage = new TextField(textLocation8, 0.95f,
+				"0 V",
+				TextDisplay.FormattingOption.FIT_TEXT);
+		currentVoltage.setFontColor(Color.red);
 		this.addComponent(currentVoltage);
 		
 		for(int index = 0; index<initialBatteries.size(); index++)
 		{
 			InitialBattery addInitialBattery = initialBatteries.get(index);
-			Rectangle textLocation5 = new Rectangle((85+(index*150)), 525, 80, 30);
+			Rectangle textLocation5 = new Rectangle((115+(index*150)), 540, 80, 30);
 			TextField battery1Capacity = new TextField(textLocation5, 0.95f,
 					addInitialBattery.getCapacity()+" Ah",
 					TextDisplay.FormattingOption.FIT_TEXT);
-			battery1Capacity.setFontColor(Color.black);
+			battery1Capacity.setFontColor(Color.white);
 			this.addComponent(battery1Capacity);
 			
-			Rectangle textLocation6 = new Rectangle((85+(index*150)), 550, 80, 30);
+			Rectangle textLocation6 = new Rectangle((115+(index*150)), 565, 80, 30);
 			TextField battery1Voltage = new TextField(textLocation6, 0.95f,
 					addInitialBattery.getVoltage()+" V",
 					TextDisplay.FormattingOption.FIT_TEXT);
-			battery1Voltage.setFontColor(Color.black);
+			battery1Voltage.setFontColor(Color.white);
 			this.addComponent(battery1Voltage);
 		}
 		
 		Rectangle textLocation13 = new Rectangle(609, 433, 191, 300);
 		hintsText = new TextArea(textLocation13, 0.95f,
 				"");
-		hintsText.setFontColor(Color.black);
+		hintsText.setFontColor(Color.white);
 		hintsText.setFontSize(14);
 		this.addComponent(hintsText);
+	}
+	
+	public static void changeBatteryBankText()
+	{
+		batteryBankText.setText("Battery Bank");
 	}
 	
 	public class HintsButtonListener extends ButtonListener
@@ -318,7 +386,7 @@ public class BatteryGameScreen extends GUI
 					{
 						BatteryExitScreen.passEndGameMessage("Well Done...",
 								"You have successfully completed the Battery Sizing Game.",
-								"You were able to solve the game in an optimal combination.", Color.blue);
+								"You were able to solve the game in an optimal combination.", Color.black);
 						Game.getCurrentGame().enterState(BatteryExitScreen.class);
 					}
 				}
@@ -341,6 +409,7 @@ public class BatteryGameScreen extends GUI
 	public static void reset()
 	{
 		hintsText.setText("");
+		batteryBankText.setText("Drag a battery here to place it in the Battery Bank");
 		currentHintText = 0;
 		doneButtonCounter = 0;
 		Battery.reset();
