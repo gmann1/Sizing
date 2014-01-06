@@ -8,6 +8,8 @@ import org.newdawn.slick.SlickException;
 
 public class ProgressBar extends Component
 {
+	private static final long serialVersionUID = -5424844532468524510L;
+
 	protected Rectangle bounds;
 	
 	protected Image baseFillBar;

@@ -10,6 +10,8 @@ import org.newdawn.slick.SlickException;
 
 public class BasicComponent extends Component
 {
+	private static final long serialVersionUID = -5369251305334271852L;
+	
 	protected Image baseImage;
 	protected Image currentImage;
 	protected double x;

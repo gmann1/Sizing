@@ -22,6 +22,8 @@ import edu.asu.voctec.utilities.UtilFunctions;
  */
 public abstract class TextDisplay extends Component
 {
+	private static final long serialVersionUID = -7772366088271229841L;
+
 	public static interface Defaults
 	{
 		public static final double BORDER_SCALE = 0.95;

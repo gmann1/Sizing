@@ -23,7 +23,8 @@ public class MainMenu extends GUI implements GameDefaults
 {
 	public class StartButtonListener extends ButtonListener
 	{
-		
+		private static final long serialVersionUID = -325855184018136406L;
+
 		@Override
 		protected void actionPerformed()
 		{
@@ -78,7 +79,7 @@ public class MainMenu extends GUI implements GameDefaults
 		// Instructor Control Panel Button
 		Button instructorButton = new Button(
 				ImagePaths.INSTRUCTOR_CONTROL_PANEL_BUTTON, buttonBounds,
-				relativeTextBounds, "Instuctor");
+				relativeTextBounds, "Instructor");
 		instructorButton.addActionListener(new TransitionButtonListener(
 				InstructorControlPanel.class));
 		

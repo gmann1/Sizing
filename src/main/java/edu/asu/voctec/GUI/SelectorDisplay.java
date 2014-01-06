@@ -20,6 +20,8 @@ import edu.asu.voctec.utilities.UtilFunctions;
 
 public class SelectorDisplay<T extends SelectorIcon> extends Component
 {
+	private static final long serialVersionUID = -6039485636899288406L;
+	
 	protected static Rectangle defaultBorderBounds;
 	protected static Dimension smallArrowDimension;
 	protected static Dimension largeArrowDimension;
@@ -50,6 +52,8 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	 */
 	public class ChoiceListener extends ButtonListener
 	{
+		private static final long serialVersionUID = -5724209354491062766L;
+
 		@Override
 		protected void actionPerformed()
 		{
@@ -197,14 +201,15 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	
 	protected void updateInstructions()
 	{
-		if (this.associatedGUI instanceof SelectorTest)
-			((SelectorTest) associatedGUI).updateInstructions();
+		if (getAssociatedGUI() instanceof SelectorTest)
+			((SelectorTest) getAssociatedGUI()).updateInstructions();
 	}
 	
 	protected void setupChoiceBorders(boolean positionComponents)
 	{
 		if (choiceBorders != null)
 		{
+			GUI associatedGUI = getAssociatedGUI();
 			for (Component component : choiceBorders)
 			{
 				/*

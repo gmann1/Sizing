@@ -20,6 +20,8 @@ import edu.asu.voctec.utilities.UtilFunctions;
 public class Selector<T extends SelectorIcon> extends Component implements
 		Displayable
 {
+	private static final long serialVersionUID = -852158435078638038L;
+	
 	public static final String emptyText = "All Components Selected";
 	protected SelectorDisplay<T> associatedDisplay;
 	protected CircularList<T> elements = new CircularList<>();
@@ -42,6 +44,8 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	
 	public class CurrentChoiceListener extends ButtonListener
 	{
+		private static final long serialVersionUID = -2357533399392148024L;
+
 		@Override
 		protected void actionPerformed()
 		{
@@ -72,6 +76,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	
 	public class RightArrowListener extends ButtonListener
 	{
+		private static final long serialVersionUID = -693279160743754769L;
 		Component associatedComponent;
 		
 		public RightArrowListener(Component associatedComponent)
@@ -101,6 +106,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	
 	public class LeftArrowListener extends ButtonListener
 	{
+		private static final long serialVersionUID = -6842480090480810360L;
 		Component associatedComponent;
 		
 		public LeftArrowListener(Component associatedComponent)
@@ -497,5 +503,11 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	{
 		elements = new CircularList<>();
 	}
+
+	public TextField getChoiceLabel()
+	{
+		return choiceLabel;
+	}
+	
 	
 }
