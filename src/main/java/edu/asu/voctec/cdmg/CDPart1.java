@@ -1,6 +1,5 @@
 package edu.asu.voctec.cdmg;
 
-
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -13,33 +12,37 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
+import edu.asu.voctec.GUI.BasicComponent;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.SelectorIcon;
 import edu.asu.voctec.GUI.TextArea;
+import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
+import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 /**
  * 
  * @author Gabriel Mann
- *
+ * 
  */
 
 public class CDPart1 extends GUI {
-	static Image Earth;
+	
 
 	private static int index = 0;
 	public static int hints = 0;
 	private int hintCount = 0;
 	private boolean correctAnswer = false;
-	
+
 	private static final Color FONT_COLOR = Color.darkGray;
 	private static final Color FONT_COLOR1 = Color.white;
-	
+
 	public static final String APRIL = "resources/default/img/minigames/criticalDesign/april.png";
 	public static final String FEBRUARY = "resources/default/img/minigames/criticalDesign/february.png";
 	public static final String DECEMBER = "resources/default/img/minigames/criticalDesign/december.png";
@@ -51,13 +54,15 @@ public class CDPart1 extends GUI {
 	public static final float SMALL_FONT_SIZE = 8f;
 	public static final float MEDIUM_FONT_SIZE = 12f;
 	public static final float LARGE_FONT_SIZE = 18f;
-	
+
+	public static final int READY_BUTTON_X = 600;
+
 	private static boolean ap = false;
 	private static boolean fe = false;
 	private static boolean oc = false;
 	private static boolean se = false;
 	private static boolean ju = false;
-	
+
 	static ArrayList<String> Earths = new ArrayList<>();
 	static ArrayList<String> April = new ArrayList<>();
 	static ArrayList<String> February = new ArrayList<>();
@@ -78,18 +83,25 @@ public class CDPart1 extends GUI {
 	static TextField left2;
 	static TextField left3;
 
+	static BasicComponent earths;
 	ArrayList<String> monthlyHints = new ArrayList<>();
 	ArrayList<String> genericHints = new ArrayList<>();
 
-	public Button Continue;
 	public TextArea theHints;
+
+	private TextField instructionsLabel;
 
 	public class CDReadyListener extends ButtonListener {
 
 		@Override
 		protected void actionPerformed() {
 			try {
-				userAnswer(index);
+				if (correctAnswer) {
+					Game.getCurrentGame().enterState(CDPart2.class);
+				} else {
+					userAnswer(index);
+				}
+
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -111,7 +123,7 @@ public class CDPart1 extends GUI {
 
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		this.backgroundImage = new Image(BACKGROUND);
+		this.backgroundImage = new Image(ImagePaths.MainMenuBackground);
 		// add initial things to the arraylists
 		Earths.add(APRIL);
 		Earths.add(FEBRUARY);
@@ -151,21 +163,39 @@ public class CDPart1 extends GUI {
 		June.add("\tSummer");
 		June.add("\t6.64 PSH/Day");
 
-		monthlyHints.add("Sorry, April is not the critical design month. Try again.");
-		monthlyHints.add("Sorry, February is not the critical design month. Try again.");
-		monthlyHints.add("Good Job! The critical design month is the month with the highest ratio of load to solar insolation.");
-		monthlyHints.add("Sorry, October is not the critical design month. Try again.");
-		monthlyHints.add("Sorry, September is not the critical design month. Try again.");
-		monthlyHints.add("Sorry, June is not the critical design month. Try again.");
+		monthlyHints
+				.add("Sorry, April is not the critical design month. Try again.");
+		monthlyHints
+				.add("Sorry, February is not the critical design month. Try again.");
+		monthlyHints
+				.add("Good Job! The critical design month is the month with the highest ratio of load to solar insolation.");
+		monthlyHints
+				.add("Sorry, October is not the critical design month. Try again.");
+		monthlyHints
+				.add("Sorry, September is not the critical design month. Try again.");
+		monthlyHints
+				.add("Sorry, June is not the critical design month. Try again.");
 
-		genericHints.add("The Earth has a tilt of 23.5 degrees. Because of this, different parts of the Earth are tilted closer to the Sun during different times of the year. This is why we have seasons.");
-		genericHints.add("PSH or peak sun-hours is a measure of the amount of solar insolation being received. ");
-		genericHints.add("The critical design month is the month with the lowest solar insolation.");
-
-		Earth = new Image(Earths.get(index));
+		genericHints
+				.add("The Earth has a tilt of 23.5 degrees. Because of this, different parts of the Earth are tilted closer to the Sun during different times of the year. This is why we have seasons.");
+		genericHints
+				.add("PSH or peak sun-hours is a measure of the amount of solar insolation being received. ");
+		genericHints
+				.add("The critical design month is the month with the lowest solar insolation.");
+		
+		//earth
+		Image Earth = new Image(Earths.get(index));
+		earths = new BasicComponent(Earth, 30, 57);
+		//whole selector
 		sel = new CDSelector<SelectorIcon>(50, 520);
 		sel.rescale(.75f, .75f);
+		Image readyButtonImage = new Image(ImagePaths.READY_BUTTON);
+		Rectangle textBounds = UtilFunctions.getImageBounds(readyButtonImage);
+		int readyButtonOffSet = container.getWidth() - READY_BUTTON_X
+				- textBounds.width;
 
+		sel.setX(READY_BUTTON_X - readyButtonOffSet - sel.getBounds().width);
+		sel.setY(sel.getY() +5);
 		// Main Selector
 		Rectangle textLocation = new Rectangle(0, 0, sel.getMainBounds().width,
 				sel.getMainBounds().height / 4);
@@ -247,61 +277,6 @@ public class CDPart1 extends GUI {
 		left2.setText(months.get(5).get(1));
 		left3.setText(months.get(5).get(2));
 
-		// Initialize Header
-		Rectangle headerLocation = new Rectangle(50, 25, 600, 500);
-		TextArea header = new TextArea(headerLocation, .95f,
-				"Location: Niger, Niamey - Latitude: 13° 31 N, Longitude: 2° 6 E");
-		header.setFontSize(MEDIUM_FONT_SIZE);
-		header.setFontColor(FONT_COLOR1);
-		// HintBox
-		TextArea HintBox = new TextArea(
-				new Rectangle(525, 25, 250, 350),
-				.95f,
-				"Based on the fact that the PV system you are designing has a year-round constant load and fixed tilt(the panel is never adjusted), select the critical design month.");
-		HintBox.setFontSize(MEDIUM_FONT_SIZE);
-		HintBox.setFontColor(FONT_COLOR1);
-		// Hints
-		theHints = new TextArea(new Rectangle(525, 150, 250, 450), .95f, "");
-		theHints.setFontSize(MEDIUM_FONT_SIZE);
-		theHints.setFontColor(FONT_COLOR1);
-		// Back Button
-		Button Back = new Button(new Image(
-				ImagePaths.BACK_BUTTON), 0, 0, new Rectangle(0,
-				0, 50, 25), "Back");
-		Back.addActionListener(new TransitionButtonListener(
-				CDIntroScreen.class));
-		Back.setFontColor(FONT_COLOR);
-		// Ready Button
-		Button Ready = new Button(new Image(ImagePaths.READY_BUTTON), 650, 460,
-				new Rectangle(0, 0, 50, 25), "");
-		Ready.addActionListener(new CDReadyListener());
-		Ready.rescale(.75f, .75f);
-		Ready.setX(640);
-		Ready.setY(510);
-		Ready.setFontColor(FONT_COLOR);
-		// Continue Button
-		Continue = new Button(new Image(ImagePaths.READY_BUTTON), 850, 650,
-				new Rectangle(0, 0, 50, 25), "");
-		Continue.addActionListener(new TransitionButtonListener(
-				CDPart2.class));
-		Continue.rescale(.75f, .75f);
-		Continue.setX(850);
-		Continue.setY(660);
-		Continue.setFontColor(FONT_COLOR);
-		// Hint Button
-		Button Hint = new Button(new Image(ImagePaths.SELECTOR_SMALL), 650,
-				320, new Rectangle(0, 0, 90, 75), "HINT");
-		Hint.addActionListener(new CDHintListener());
-		Hint.rescale(.5f, .25f);
-		
-		Hint.setX(540);
-		Hint.setY(510);
-		Hint.setFontColor(FONT_COLOR);
-		//TextField Hint1 = new TextField(new Rectangle(540, ))
-
-		
-		// initialize
-		HintBox.enableBorder();
 		this.addComponent(sel);
 		this.addComponent(main1);
 		this.addComponent(main2);
@@ -312,13 +287,29 @@ public class CDPart1 extends GUI {
 		this.addComponent(left1);
 		this.addComponent(left2);
 		this.addComponent(left3);
-		this.addComponent(HintBox);
+		this.addComponent(earths);
+
+		intializeDefaults();
+		// Hints
+		theHints = new TextArea(new Rectangle(413, 77, 340, 450), .95f, "");
+		theHints.setFontSize(MEDIUM_FONT_SIZE);
+		theHints.setFontColor(FONT_COLOR1);
+		// instructionLabel
+		Rectangle instructionBounds = new Rectangle(398, 0, 370, 62);
+
+		instructionsLabel = new TextField(instructionBounds, 0.95f,
+				"Select the Critical Design Month.",
+				TextDisplay.FormattingOption.FIT_TEXT);
+
+		instructionsLabel.center();
+
+		instructionsLabel.setFontColor(Fonts.FONT_COLOR);
+
+		// initialize
+
 		this.addComponent(theHints);
-		this.addComponent(header);
-		this.addComponent(Back);
-		this.addComponent(Ready);
-		this.addComponent(Continue);
-		this.addComponent(Hint);
+		this.addComponent(instructionsLabel);
+
 		System.out
 				.println("Listeners: " + Arrays.toString(this.getListeners()));
 	}
@@ -326,7 +317,7 @@ public class CDPart1 extends GUI {
 	private void userAnswer(int i) throws SlickException {
 		if (i == 0) {
 			theHints.setText(monthlyHints.get(i));
-			if (!ap && !correctAnswer){
+			if (!ap && !correctAnswer) {
 				++hints;
 				ap = true;
 			}
@@ -334,7 +325,7 @@ public class CDPart1 extends GUI {
 		}
 		if (i == 1) {
 			theHints.setText(monthlyHints.get(i));
-			if (!fe && !correctAnswer){
+			if (!fe && !correctAnswer) {
 				++hints;
 				fe = true;
 			}
@@ -342,14 +333,14 @@ public class CDPart1 extends GUI {
 		}
 		if (i == 2) {
 			theHints.setText(monthlyHints.get(i));
-			Continue.setX(640);
-			Continue.setY(320);
+			instructionsLabel.setText("Correct! Press ready to continue.");
 			correctAnswer = true;
-			System.out.println("Correct answer gotten after " + hints + " hints.");
+			System.out.println("Correct answer gotten after " + hints
+					+ " hints.");
 		}
 		if (i == 3) {
 			theHints.setText(monthlyHints.get(i));
-			if (!oc && !correctAnswer){
+			if (!oc && !correctAnswer) {
 				++hints;
 				oc = true;
 			}
@@ -357,7 +348,7 @@ public class CDPart1 extends GUI {
 		}
 		if (i == 4) {
 			theHints.setText(monthlyHints.get(i));
-			if (!se && !correctAnswer){
+			if (!se && !correctAnswer) {
 				++hints;
 				se = true;
 			}
@@ -365,7 +356,7 @@ public class CDPart1 extends GUI {
 		}
 		if (i == 5) {
 			theHints.setText(monthlyHints.get(i));
-			if (!ju && !correctAnswer){
+			if (!ju && !correctAnswer) {
 				++hints;
 				ju = true;
 			}
@@ -375,10 +366,10 @@ public class CDPart1 extends GUI {
 	}
 
 	private void displayHint(int hCount) {
-		if (hCount == 0 ) {
+		if (hCount == 0) {
 			theHints.setText(genericHints.get(0));
 			++hintCount;
-			if (!correctAnswer){
+			if (!correctAnswer) {
 				++hints;
 			}
 			System.out.println("Generic Hint1 shown, total hints: " + hints);
@@ -386,7 +377,7 @@ public class CDPart1 extends GUI {
 		if (hCount == 1) {
 			theHints.setText(genericHints.get(1));
 			++hintCount;
-			if (!correctAnswer){
+			if (!correctAnswer) {
 				++hints;
 			}
 			System.out.println("Generic Hint2 shown, total hints: " + hints);
@@ -394,28 +385,28 @@ public class CDPart1 extends GUI {
 		if (hCount == 2) {
 			theHints.setText(genericHints.get(2));
 			++hintCount;
-			if (!correctAnswer){
+			if (!correctAnswer) {
 				++hints;
 			}
 			System.out.println("Generic Hint2 shown, total hints: " + hints);
 		}
-		if (hCount > 2){
-			
-			if (hCount == 3){
+		if (hCount > 2) {
+
+			if (hCount == 3) {
 				theHints.setText(genericHints.get(0));
-			}
-			else if (hCount == 4){
+			} else if (hCount == 4) {
 				theHints.setText(genericHints.get(1));
-			}
-			else{
+			} else {
 				theHints.setText(genericHints.get(2));
 			}
 			++hintCount;
-			if (hintCount == 6){
+			if (hintCount == 6) {
 				hintCount = 3;
 			}
-			System.out.println("User requested more hints, none to give. total hints: " + hints);
-			
+			System.out
+					.println("User requested more hints, none to give. total hints: "
+							+ hints);
+
 		}
 
 	}
@@ -425,25 +416,7 @@ public class CDPart1 extends GUI {
 			Graphics graphics) throws SlickException {
 		super.render(container, game, graphics);
 
-		if (Earths.get(index) != JUNE) {
-			if (Earths.get(index) == FEBRUARY) {
-
-				graphics.drawImage(
-						Earth,
-						(sel.getBounds().width / 2 - Earth.getWidth() / 2 + 73),
-						90);
-			} else {
-
-				graphics.drawImage(Earth,
-						sel.getBounds().width / 2 - Earth.getWidth() / 2 + 70,
-						90);
-			}
-		}
-
-		else {
-			graphics.drawImage(Earth,
-					sel.getBounds().width / 2 - Earth.getWidth() / 2 + 70, 60);
-		}
+		
 
 	}
 
@@ -477,7 +450,8 @@ public class CDPart1 extends GUI {
 			changeLeft(index - 1);
 		}
 		changeMain(index);
-		Earth = new Image(Earths.get(index));
+	    earths.setCurrentImage(new Image(Earths.get(index)), true);
+	    
 
 	}
 
@@ -499,6 +473,68 @@ public class CDPart1 extends GUI {
 		left1.setText(months.get(ind).get(0));
 		left2.setText(months.get(ind).get(1));
 		left3.setText(months.get(ind).get(2));
+
+	}
+
+	public void intializeDefaults() throws SlickException {
+		// Initialize Header
+		Rectangle headerLocation = new Rectangle(32, 52, 350, 500);
+		TextAreaX header = new TextAreaX(headerLocation, .95f,
+				null);
+		header.setFontSize(MEDIUM_FONT_SIZE);
+		header.setFontColor(FONT_COLOR1);
+		header.setText("Location: Niger, Niamey" + "\n" + "Latitude: 13° 31 N, Longitude: 2° 6 E");
+		
+		// Hint Box Initialization
+		// Hint Bounds
+		Rectangle hintBounds = new Rectangle(398, 57, 370, 160);
+		Rectangle relativeHintTextBounds = UtilFunctions.dialateRectangle(
+				new Rectangle(0, 0, 370, 160), 0.92f);
+		TextAreaX hintBox = new TextAreaX(hintBounds, relativeHintTextBounds,
+				null);
+
+		Image hintBoxBackground = new Image(
+				ImagePaths.Selector.HINT_BOX_BACKGROUND);
+		hintBox.setCurrentImage(hintBoxBackground, true);
+
+		// Format hint box
+		hintBox.setFontSize(Fonts.FONT_SIZE_MEDIUM);
+
+		hintBox.setFontColor(Fonts.FONT_COLOR);
+
+		// Back Button
+		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
+				new Rectangle(0, 0, 50, 25), "Back");
+		backButton.addActionListener(new TransitionButtonListener(
+				CDIntroScreen.class));
+		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+		backButton.positionText(Position.RIGHT);
+		// Ready Button
+		Image readyButtonImage = new Image(ImagePaths.READY_BUTTON);
+		Rectangle textBounds = UtilFunctions.getImageBounds(readyButtonImage);
+		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.80f);
+		Button readyButton = new Button(readyButtonImage, 600, 500, textBounds,
+				null);
+		readyButton.addActionListener(new CDReadyListener());
+
+		// Hint Button
+		Image hintButtonImage = (new Image(ImagePaths.HINT_BUTTON));
+		textBounds = UtilFunctions.getImageBounds(hintButtonImage);
+		Button Hint = new Button(hintButtonImage, readyButton.getX() + 18,
+				readyButton.getY() - textBounds.height - 5, textBounds,
+				"HINT");
+		Hint.addActionListener(new CDHintListener());
+		Hint.rescale(.8f, 1f);
+		Hint.setX(readyButton.getX() + 28);
+		Hint.getTextField().center();
+		Hint.setFontColor(FONT_COLOR);
+
+		this.addComponent(hintBox);
+		this.addComponent(header);
+		this.addComponent(backButton);
+		this.addComponent(readyButton);
+
+		this.addComponent(Hint);
 
 	}
 

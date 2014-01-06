@@ -17,11 +17,12 @@ import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.utilities.Position;
 
 /**
  * 
  * @author Gabriel Mann
- *
+ * 
  */
 
 public class CDIntroScreen extends GUI {
@@ -36,8 +37,7 @@ public class CDIntroScreen extends GUI {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		this.backgroundImage = new Image(
-				"resources/default/img/minigames/criticalDesign/space.jpg");
+		this.backgroundImage = new Image(ImagePaths.MainMenuBackground);
 		Rectangle textLocation = new Rectangle(0, 50, 300, 50);
 		// TextField textField = new TextField(textLocation, 0.95f,
 		// "Cliped Text Field ... CLIP CLIP CLIP",
@@ -51,7 +51,7 @@ public class CDIntroScreen extends GUI {
 
 		// introduction
 		textLocation.setLocation(50, 250);
-		textLocation = new Rectangle(150, 200, 500, 350);
+		textLocation = new Rectangle(150, 100, 500, 400);
 		TextArea introduction = new TextArea(textLocation, 0.95f, "");
 		introduction.setFontSize(LARGE_FONT_SIZE);
 		introduction
@@ -60,24 +60,28 @@ public class CDIntroScreen extends GUI {
 						+ "worst month, it will be able to deliver energy requirements year-round.");
 		introduction.setFontColor(FONT_COLOR);
 
-		// start button
-		Button Start = new Button(new Image(ARROW_RIGHT), 750, 550,
+		// Start Button
+		Button startButton = new Button(new Image(ARROW_RIGHT), 750, 550,
 				new Rectangle(0, 0, 50, 25), "Begin!");
-		Start.setFontColor(Color.darkGray);
-		Start.addActionListener(new TransitionButtonListener(CDPart1.class));
+		startButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+		startButton.addActionListener(new TransitionButtonListener(
+				CDPart1.class));
+		startButton.positionText(Position.LEFT);
 
 		// Back Button
-		Button Back = new Button(new Image(ImagePaths.BACK_BUTTON), 0, 0,
+		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
 				new Rectangle(0, 0, 50, 25), "Back");
-		Back.addActionListener(new TransitionButtonListener(TaskScreen.class));
-		Back.setFontColor(Color.darkGray);
+		backButton.addActionListener(new TransitionButtonListener(
+				TaskScreen.class));
+		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+		backButton.positionText(Position.RIGHT);
 
 		welcome.center();
 
-		this.addComponent(Start);
+		this.addComponent(startButton);
 		this.addComponent(welcome);
 		this.addComponent(introduction);
-		this.addComponent(Back);
+		this.addComponent(backButton);
 		// this.addComponent(new Selector<SelectorIcon>(100, 100));
 
 		System.out
