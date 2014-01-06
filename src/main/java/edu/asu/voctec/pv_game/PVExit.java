@@ -20,6 +20,9 @@ public class PVExit extends GUI
 {
 
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
+	public static final String Right_ARROW_TEXT = "Exit";
+	public static final String LEFT_ARROW_TEXT = "Play Again";
+	
 	private static TextArea congratulation, congratulation2, congratulation3;
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -50,7 +53,7 @@ public class PVExit extends GUI
 		
 		// Start Button
 	    Button startButton = new Button(new Image(ARROW_RIGHT), 750, 550,
-	        new Rectangle(0, 0, 50, 25), "Exit");
+	        new Rectangle(0, 0, 50, 25), Right_ARROW_TEXT);
 	    startButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 	    startButton.addActionListener(new ExitListener());
 	    startButton.positionText(Position.LEFT);
@@ -58,7 +61,7 @@ public class PVExit extends GUI
 	    
 	    // Back Button
 	    Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
-	        new Rectangle(0, 0, 100, 25), "Play Again");
+	        new Rectangle(0, 0, 100, 25), LEFT_ARROW_TEXT);
 	    backButton.addActionListener(new PlayAgainListener());
 	    backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 	    backButton.positionText(Position.RIGHT);
