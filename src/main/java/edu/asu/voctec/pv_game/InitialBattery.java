@@ -61,6 +61,7 @@ public class InitialBattery extends BatteryControl {
     {
     	horizontalLine = new BasicComponent(PVGame.getHorizontalLineImage(),25,120);
     	gameWorld.addComponent(horizontalLine);
+    	PVGame.changeBatteryBankText();
     	firstBattery = false;
     }
     
