@@ -98,8 +98,8 @@ public class ControllerSizingPart1 extends GUI {
 	public static final String BATTERY_FIVE = "resources/default/img/minigames/ControllerSizing/battery5.png";
 	public static final String TRANS_6 = "resources/default/img/minigames/ControllerSizing/backgroundday6.png";
 
-	public static final String PANEL = "resources/default/img/minigames/criticalDesign/panel.png";
-	public static final String POLE = "resources/default/img/minigames/criticalDesign/pole.png";
+	public static final String PANEL = "resources/default/img/minigames/criticalDesign/Panel.png";
+	public static final String POLE = "resources/default/img/minigames/criticalDesign/Pole.png";
 	public static final String STAR = "resources/default/img/minigames/ControllerSizing/star.png";
 	Image sunImage;
 	Image starImage;
