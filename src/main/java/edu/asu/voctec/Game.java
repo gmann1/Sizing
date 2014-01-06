@@ -170,7 +170,7 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new ScenarioIntroductionScreen());
 		this.addState(new SelectorTest());
 		this.addState(new StepSelectionExitScreen());
-		this.addState(new CDPart1());
+		/*this.addState(new CDPart1());
 		this.addState(new CDPart2());
 		this.addState(new CDPart3());
 		this.addState(new CDExtra());
@@ -180,17 +180,17 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new BatteryGameScreen());
 		this.addState(new PVIntro());
 		this.addState(new PVGame());
-		this.addState(new PVExit());
+		this.addState(new PVExit());*/
 		this.addState(new EAPart1IntroScreen());
 		this.addState(new EAPart1());
 		this.addState(new EAPart1ScoreScreen());
 		this.addState(new EAPart2());
 		this.addState(new EAPart2IntroScreen());
 		this.addState(new EAPart2ScoreScreen());
-		this.addState(new ControllerSizingIntroScreen());
+		/*this.addState(new ControllerSizingIntroScreen());
 		this.addState(new ControllerSizingExit());
 		this.addState(new ControllerSizingPart1());
-		this.addState(new ControllerSizingPart2());
+		this.addState(new ControllerSizingPart2());*/
 		
 		// Move to the default game state
 		this.enterState(Game.DEFAULT_GAME_STATE);

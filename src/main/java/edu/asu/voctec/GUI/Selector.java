@@ -503,5 +503,11 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	{
 		elements = new CircularList<>();
 	}
+
+	public TextField getChoiceLabel()
+	{
+		return choiceLabel;
+	}
+	
 	
 }
