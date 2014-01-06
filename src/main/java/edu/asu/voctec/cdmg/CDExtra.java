@@ -38,8 +38,7 @@ public class CDExtra extends GUI {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		this.backgroundImage = new Image(
-				"resources/default/img/minigames/criticalDesign/space.jpg");
+		this.backgroundImage = new Image(ImagePaths.MainMenuBackground);
 		Rectangle textLocation = new Rectangle(0, 50, 300, 50);
 		// TextField textField = new TextField(textLocation, 0.95f,
 		// "Cliped Text Field ... CLIP CLIP CLIP",
@@ -53,7 +52,7 @@ public class CDExtra extends GUI {
 		
 		// introduction
 		textLocation.setLocation(50, 250);
-		textLocation = new Rectangle(150, 200, 500, 350);
+		textLocation = new Rectangle(150, 100, 500, 350);
 		introduction = new TextArea(textLocation, 0.95f, "");
 		introduction.setFontSize(LARGE_FONT_SIZE);
 		introduction.setText("");
