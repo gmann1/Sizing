@@ -1,9 +1,13 @@
 package edu.asu.voctec.GUI;
 
+import java.io.Serializable;
+
 import org.newdawn.slick.Input;
 
-public abstract class ActionListener
+public abstract class ActionListener implements Serializable
 {
+	private static final long serialVersionUID = -8919399115693140311L;
+	
 	protected static int mouseButton = -1;
 	protected Component associatedComponent;
 	

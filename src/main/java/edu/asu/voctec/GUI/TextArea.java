@@ -12,6 +12,8 @@ import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TextArea extends TextDisplay
 {
+	private static final long serialVersionUID = -5474522311817307655L;
+	
 	protected ArrayList<String> lines = new ArrayList<>();
 	protected int maximumDisplayLines;
 	
@@ -67,7 +69,7 @@ public class TextArea extends TextDisplay
 	{
 		this.lines.clear();
 		this.clipedText = "";
-		this.lines = text;
+		this.lines.addAll(text);
 		
 		wrapText();
 	}
@@ -78,7 +80,6 @@ public class TextArea extends TextDisplay
 			return "";
 		else
 		{
-			//TODO test
 			StringBuilder clip = new StringBuilder();
 			int startingIndex = maximumDisplayLines;
 			for (int lineIndex = startingIndex; lineIndex < lines.size(); lineIndex++)

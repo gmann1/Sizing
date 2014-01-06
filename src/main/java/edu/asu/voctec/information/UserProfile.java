@@ -2,15 +2,16 @@ package edu.asu.voctec.information;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 
-import edu.asu.voctec.GUI.Button;
-import edu.asu.voctec.GUI.Component;
 import edu.asu.voctec.GameDefaults.ImagePaths;
 import edu.asu.voctec.GameDefaults.TaskScreenDefaults;
+import edu.asu.voctec.GUI.Button;
+import edu.asu.voctec.GUI.Component;
 import edu.asu.voctec.batter_sizing.BatteryIntro;
 import edu.asu.voctec.cdmg.CDIntroScreen;
 import edu.asu.voctec.controller_sizing.ControllerSizingIntroScreen;
@@ -19,8 +20,10 @@ import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.pv_game.PVIntro;
 import edu.asu.voctec.utilities.UtilFunctions;
 
-public class UserProfile
+public class UserProfile implements Serializable
 {
+	private static final long serialVersionUID = 3074265688638837400L;
+	
 	protected String name;
 	protected ScenarioData[] scenarioData;
 	
@@ -49,53 +52,45 @@ public class UserProfile
 		ArrayList<TaskData> tasks = new ArrayList<>();
 		ArrayList<Button> taskButtons = new ArrayList<>();
 		int buttonSpacing = 15;
-		int buttonWidth = 350;
-		int buttonHeight = 75;
-		float borderScale = 0.9f;
-		
-		// Determine text and button bounds, relative to each button
-		Rectangle relativeButtonBounds = new Rectangle(0, 0, buttonWidth,
-				buttonHeight);
-		Rectangle relativeTextBounds = new Rectangle(relativeButtonBounds);
-		relativeTextBounds = UtilFunctions.dialateRectangle(relativeTextBounds,
-				borderScale);
+		float textBoundScale = 0.96f;
 		
 		// Declare Tasks
 		// Task 0
 		System.out.println("Initializing TaskData...");
 		TaskData entryStep = new TaskData();
+		TaskScreen taskScreen = new TaskScreen();
 		
 		// Task 1
 		TaskData energyAssessment = new TaskData(EAPart1IntroScreen.class,
-				new TaskScreen(), "Energy Assessment");
+				taskScreen, textBoundScale, "Energy Assessment");
 		energyAssessment.setImages(ImagePaths.TaskScreen.STEP_ONE,
 				ImagePaths.TaskScreen.STEP_ONE_COMPLETE,
 				ImagePaths.TaskScreen.STEP_ONE_SELECTED);
 		
 		// Task 2
 		TaskData criticalDesignMonth = new TaskData(CDIntroScreen.class,
-				new TaskScreen(), "Critical Design Month");
+				taskScreen, textBoundScale, "Critical Design Month");
 		criticalDesignMonth.setImages(ImagePaths.TaskScreen.STEP_TWO,
 				ImagePaths.TaskScreen.STEP_TWO_COMPLETE,
 				ImagePaths.TaskScreen.STEP_TWO_SELECTED);
 		
 		// Task 3
-		TaskData batterySizing = new TaskData(BatteryIntro.class,
-				new TaskScreen(), "Size Battery");
+		TaskData batterySizing = new TaskData(BatteryIntro.class, taskScreen,
+				textBoundScale, "Size Battery");
 		batterySizing.setImages(ImagePaths.TaskScreen.STEP_THREE,
 				ImagePaths.TaskScreen.STEP_THREE_COMPLETE,
 				ImagePaths.TaskScreen.STEP_THREE_SELECTED);
 		
 		// Task 4
-		TaskData pvSizing = new TaskData(PVIntro.class, new TaskScreen(),
-				"Size PV Array");
+		TaskData pvSizing = new TaskData(PVIntro.class, taskScreen,
+				textBoundScale, "Size PV Array");
 		pvSizing.setImages(ImagePaths.TaskScreen.STEP_FOUR,
 				ImagePaths.TaskScreen.STEP_FOUR_COMPLETE,
 				ImagePaths.TaskScreen.STEP_FOUR_SELECTED);
 		
 		// Task 5
 		TaskData controllerSizing = new TaskData(
-				ControllerSizingIntroScreen.class, new TaskScreen(),
+				ControllerSizingIntroScreen.class, taskScreen, textBoundScale,
 				"Size Controllers");
 		controllerSizing.setImages(ImagePaths.TaskScreen.STEP_FIVE,
 				ImagePaths.TaskScreen.STEP_FIVE_COMPLETE,
@@ -134,7 +129,7 @@ public class UserProfile
 		UtilFunctions.centerComponentsStacked(taskButtonContainer,
 				buttonSpacing,
 				taskButtons.toArray(new Button[taskButtons.size()]));
-		UtilFunctions.translateAll(0, 30, taskButtons);
+		UtilFunctions.translateAll(0, 15, taskButtons);
 		
 		// Position and Format informationComponents
 		for (TaskData task : tasks)

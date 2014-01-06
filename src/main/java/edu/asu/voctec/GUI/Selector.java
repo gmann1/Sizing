@@ -20,6 +20,8 @@ import edu.asu.voctec.utilities.UtilFunctions;
 public class Selector<T extends SelectorIcon> extends Component implements
 		Displayable
 {
+	private static final long serialVersionUID = -852158435078638038L;
+	
 	public static final String emptyText = "All Components Selected";
 	protected SelectorDisplay<T> associatedDisplay;
 	protected CircularList<T> elements = new CircularList<>();
@@ -42,6 +44,8 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	
 	public class CurrentChoiceListener extends ButtonListener
 	{
+		private static final long serialVersionUID = -2357533399392148024L;
+
 		@Override
 		protected void actionPerformed()
 		{
@@ -72,6 +76,19 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	
 	public class RightArrowListener extends ButtonListener
 	{
+		private static final long serialVersionUID = -693279160743754769L;
+		Component associatedComponent;
+		
+		public RightArrowListener(Component associatedComponent)
+		{
+			this.associatedComponent = associatedComponent;
+		}
+		
+		public RightArrowListener()
+		{
+			this.associatedComponent = rightArrow;
+		}
+		
 		@Override
 		protected void actionPerformed()
 		{
@@ -82,13 +99,26 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		@Override
 		protected boolean verify(Input input)
 		{
-			Rectangle absoluteBounds = getAbsoluteBounds(rightArrow);
+			Rectangle absoluteBounds = getAbsoluteBounds(associatedComponent);
 			return verify(input, absoluteBounds);
 		}
 	}
 	
 	public class LeftArrowListener extends ButtonListener
 	{
+		private static final long serialVersionUID = -6842480090480810360L;
+		Component associatedComponent;
+		
+		public LeftArrowListener(Component associatedComponent)
+		{
+			this.associatedComponent = associatedComponent;
+		}
+		
+		public LeftArrowListener()
+		{
+			this.associatedComponent = leftArrow;
+		}
+		
 		@Override
 		protected void actionPerformed()
 		{
@@ -99,7 +129,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		@Override
 		protected boolean verify(Input input)
 		{
-			Rectangle absoluteBounds = getAbsoluteBounds(leftArrow);
+			Rectangle absoluteBounds = getAbsoluteBounds(associatedComponent);
 			return verify(input, absoluteBounds);
 		}
 	}
@@ -172,8 +202,11 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		if (useDeafultActions)
 		{
 			// Listen for clicks to the left and right arrows
-			this.addActionListener(new RightArrowListener());
-			this.addActionListener(new LeftArrowListener());
+			this.addActionListener(new RightArrowListener(rightArrow));
+			this.addActionListener(new RightArrowListener(nextChoiceBackground));
+			this.addActionListener(new LeftArrowListener(leftArrow));
+			this.addActionListener(new LeftArrowListener(
+					previousChoiceBackground));
 			
 			// Listen for clicks to the primary selection
 			this.addActionListener(new CurrentChoiceListener());
@@ -240,19 +273,6 @@ public class Selector<T extends SelectorIcon> extends Component implements
 				choiceLabel.setText(currentIcon.getName());
 		}
 	}
-	
-	/*
-	 * protected void drawElement(Graphics graphics, SelectorIcon icon,
-	 * BasicComponent container) { if(updated) { int x =
-	 * container.getBounds().x; int y = container.getBounds().y; int width =
-	 * container.getBounds().width; int height = container.getBounds().height;
-	 * icon.setX(0); icon.setY(0);
-	 * 
-	 * icon.rescale(width, height); icon.translate(x + this.x, y + this.y);
-	 * updated = false; }
-	 * 
-	 * icon.draw(graphics); }
-	 */
 	
 	protected void drawElement(Graphics graphics, SelectorIcon icon,
 			BasicComponent container)
@@ -468,12 +488,12 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	{
 		displayLabel(true);
 	}
-
+	
 	public CircularList<T> getElements()
 	{
 		return elements;
 	}
-
+	
 	public void setElements(CircularList<T> elements)
 	{
 		this.elements = elements;
@@ -483,6 +503,5 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	{
 		elements = new CircularList<>();
 	}
-	
 	
 }

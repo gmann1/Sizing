@@ -8,12 +8,14 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class Button extends BasicComponent
 {
+	private static final long serialVersionUID = -5092146334779020324L;
 	protected TextField textField;
-
+	
 	public Button(Image image, int x, int y, Rectangle relativeTextBounds,
 			String text)
 	{
@@ -77,7 +79,7 @@ public class Button extends BasicComponent
 	{
 		if (textField != null)
 		{
-			int deltaX = x - (int)this.x;
+			int deltaX = x - (int) this.x;
 			textField.translate(deltaX, 0);
 		}
 		super.setX(x);
@@ -87,7 +89,7 @@ public class Button extends BasicComponent
 	{
 		if (textField != null)
 		{
-			int deltaY = y - (int)this.y;
+			int deltaY = y - (int) this.y;
 			textField.translate(0, deltaY);
 		}
 		super.setY(y);
@@ -128,8 +130,34 @@ public class Button extends BasicComponent
 	
 	public void setFontColor(Color color)
 	{
-
+		
 		this.textField.setFontColor(color);
+	}
+	
+	public void positionText(Position position)
+	{
+		Point translationVector;
+		
+		switch (position)
+		{
+			case BOTTOM:
+				translationVector = new Point(0, currentImage.getHeight() + 2);
+				break;
+			case LEFT:
+				translationVector = new Point(-currentImage.getWidth() - 5, 0);
+				break;
+			case RIGHT:
+				translationVector = new Point(currentImage.getWidth() + 2, 0);
+				break;
+			case TOP:
+				translationVector = new Point(0, -currentImage.getHeight() - 2);
+				break;
+			default:
+				translationVector = new Point(0, 0);
+				break;
+		}
+		
+		this.textField.translate(translationVector);
 	}
 	
 }

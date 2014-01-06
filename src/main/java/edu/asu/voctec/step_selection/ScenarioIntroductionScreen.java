@@ -2,7 +2,6 @@ package edu.asu.voctec.step_selection;
 
 import java.awt.Rectangle;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -20,14 +19,11 @@ import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.SelectorTest;
 import edu.asu.voctec.game_states.Task;
+import edu.asu.voctec.utilities.Position;
+import edu.asu.voctec.utilities.UtilFunctions;
 
 public class ScenarioIntroductionScreen extends GUI implements Task
 {
-	private static final Color FONT_COLOR = Color.white;
-	public static final float SMALL_FONT_SIZE = 8f;
-	public static final float MEDIUM_FONT_SIZE = 12f;
-	public static final float LARGE_FONT_SIZE = 18f;
-	
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
 	
 	@Override
@@ -37,36 +33,40 @@ public class ScenarioIntroductionScreen extends GUI implements Task
 		this.backgroundImage = new Image(ImagePaths.MainMenuBackground);
 		Rectangle textLocation = new Rectangle(0, 50, 300, 50);
 		
-		TextField welcome = new TextField(textLocation, 0.95f, "Welcome!",
+		// Title
+		TextField welcomeLabel = new TextField(textLocation, 0.95f, "Welcome!",
 				TextDisplay.FormattingOption.FIT_TEXT);
-		welcome.setFontColor(FONT_COLOR);
+		welcomeLabel.setFontColor(Fonts.FONT_COLOR);
+		welcomeLabel.center();
 		
-		// introduction
-		textLocation = new Rectangle(150, 100, 500, 400);
-		TextArea introduction = new TextAreaX(textLocation, 0.95f,
+		// Introduction Body
+		textLocation = new Rectangle(0, 0, 500, 400);
+		UtilFunctions.centerRectangle(new Rectangle(0, 0, 800, 600), textLocation);
+		TextArea introductionText = new TextAreaX(textLocation, 0.95f,
 				Step0.INTRODUCTION.getTranslation());
-		introduction.setFontSize(12f);
-		introduction.setFontSize(LARGE_FONT_SIZE);
-		introduction.setFontColor(FONT_COLOR);
+		introductionText.setFontSize(12f);
+		introductionText.setFontSize(Fonts.FONT_SIZE_LARGE);
+		introductionText.setFontColor(Fonts.FONT_COLOR);
 		
-		// start button
-		Button Start = new Button(new Image(ARROW_RIGHT), 750, 550,
+		// Start Button
+		Button startButton = new Button(new Image(ARROW_RIGHT), 750, 550,
 				new Rectangle(0, 0, 50, 25), "Begin!");
-		Start.setFontColor(Color.darkGray);
-		Start.addActionListener(new TransitionButtonListener(SelectorTest.class));
+		startButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+		startButton.addActionListener(new TransitionButtonListener(SelectorTest.class));
+		startButton.positionText(Position.LEFT);
 		
 		// Back Button
-		Button Back = new Button(new Image(ImagePaths.BACK_BUTTON), 0, 0,
+		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
 				new Rectangle(0, 0, 50, 25), "Back");
-		Back.addActionListener(new TransitionButtonListener(MainMenu.class));
-		Back.setFontColor(Color.darkGray);
+		backButton.addActionListener(new TransitionButtonListener(MainMenu.class));
+		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+		backButton.positionText(Position.RIGHT);
 		
-		welcome.center();
-		
-		this.addComponent(Start);
-		this.addComponent(welcome);
-		this.addComponent(introduction);
-		this.addComponent(Back);
+		// Add all components to this menu
+		this.addComponent(startButton);
+		this.addComponent(welcomeLabel);
+		this.addComponent(introductionText);
+		this.addComponent(backButton);
 	}
 	
 	@Override

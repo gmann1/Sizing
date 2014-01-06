@@ -34,6 +34,12 @@ public abstract class GUI extends ModifiedGameState implements GameDefaults
 	{
 		// TODO Remove?
 	}
+
+	@Override
+	public void onExit()
+	{
+		// TODO Remove?
+	}
 	
 	@Override
 	public Dimension getDesignResolution()

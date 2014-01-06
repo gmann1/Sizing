@@ -72,9 +72,9 @@ public interface GameDefaults
 			public static final String STEP_FOUR_SELECTED = "resources/default/img/taskScreen/Task4Current.png";
 			public static final String STEP_FIVE_SELECTED = "resources/default/img/taskScreen/Task5Current.png";
 			
-			public static final String PROGRESS_BAR_BORDER = "resources/default/img/taskScreen/Task5Current.png";
-			public static final String PROGRESS_BAR_EMPTY = "resources/default/img/taskScreen/Task5Current.png";
-			public static final String PROGRESS_BAR_FULL = "resources/default/img/taskScreen/Task5Current.png";
+			public static final String PROGRESS_BAR_BORDER = "resources/default/img/taskScreen/ProgressBorder.png";
+			public static final String PROGRESS_BAR_EMPTY = "resources/default/img/taskScreen/ProgressEmpty.png";
+			public static final String PROGRESS_BAR_FULL = "resources/default/img/taskScreen/ProgressFull.png";
 		}
 		
 		public interface SelectorIcons
@@ -115,7 +115,9 @@ public interface GameDefaults
 		public static final String FONT_NAME = "Meiryo"; // "Hiragino Kaku Gothic Pro";
 		public static final int FONT_SIZE_DEFAULT = 36;
 		public static final boolean ANTI_ALLIAS = true;
-		public static final Color FONT_COLOR = Color.magenta;
+		public static final Color FONT_COLOR = Color.white;
+		public static final Color TRANSITION_FONT_COLOR = Color.white;
+		public static final Color BUTTON_FONT_COLOR = Color.black;
 		
 		public static final float FONT_SIZE_SMALL = 8f;
 		public static final float FONT_SIZE_MEDIUM = 12f;
@@ -220,7 +222,7 @@ public interface GameDefaults
 					"instructionsIncomplete", "There are still more steps!");
 			public static final LabelName INSTRUCTIONS_COMPLETE = new LabelName(
 					"instructionsComplete",
-					"Press the redy button to verify your choices.");
+					"Press the ready button to verify your choices.");
 			public static final LabelName INSTRUCTIONS_CORRECT = new LabelName(
 					"instructionsCorrect", "Correct! Press ready to continue.");
 			

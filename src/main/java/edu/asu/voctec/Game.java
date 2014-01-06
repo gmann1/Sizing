@@ -1,5 +1,7 @@
 package edu.asu.voctec;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -224,11 +226,15 @@ public class Game extends StateBasedGame implements Singleton
 	{
 		System.out.println("Switching States...");
 		
-		GameState state = getState(id);
-		if (state instanceof Task)
-			((Task) state).load();
-		if (state instanceof ModifiedGameState)
-			((ModifiedGameState) state).onEnter();
+		ModifiedGameState currentState = (ModifiedGameState) getCurrentState();
+		GameState newState = getState(id);
+		
+		currentState.onExit();
+		
+		if (newState instanceof Task)
+			((Task) newState).load();
+		if (newState instanceof ModifiedGameState)
+			((ModifiedGameState) newState).onEnter();
 		
 		super.enterState(id);
 		System.out.println("Switch Successful. Current State: "
@@ -247,6 +253,8 @@ public class Game extends StateBasedGame implements Singleton
 	
 	public static int getStateID(Class<?> state)
 	{
+		System.out.println("State Receieved: " + state);
+		System.out.println("State ID: " + gameStates.get(state));
 		return gameStates.get(state);
 	}
 	
@@ -257,29 +265,50 @@ public class Game extends StateBasedGame implements Singleton
 	
 	public static GameState getGameState(Class<?> state)
 	{
-		return currentGame.getState(getStateID(state));
+		if (state != null)
+			return currentGame.getState(getStateID(state));
+		else
+			return null;
 	}
-
+	
 	public static UserProfile getCurrentUser()
 	{
 		return currentUser;
 	}
-
+	
 	public static void setCurrentUser(UserProfile currentUser)
 	{
 		Game.currentUser = currentUser;
 	}
-
+	
 	public static ScenarioData getCurrentScenario()
 	{
 		return currentScenario;
 	}
-
+	
 	public static void setCurrentScenario(ScenarioData currentScenario)
 	{
 		Game.currentScenario = currentScenario;
 	}
 	
-	
+	public static void saveToFile(String relativePath)
+	{
+		try
+		{
+			// Open save file
+			FileOutputStream baseOutputStream = new FileOutputStream(
+					relativePath);
+			ObjectOutputStream outputStream = new ObjectOutputStream(
+					baseOutputStream);
+			
+			outputStream.writeObject(currentUser);
+			
+			outputStream.close();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 	
 }

@@ -1,15 +1,19 @@
 package edu.asu.voctec.information;
 
-import edu.asu.voctec.menu.buttons.TransitionButton;
+import java.io.Serializable;
 
-public class ScenarioData
+import edu.asu.voctec.GUI.Component;
+
+public class ScenarioData implements Serializable
 {
+	private static final long serialVersionUID = -461392627683981961L;
+	
 	protected TaskData entryStep;
 	protected TaskData[] tasks;
-	protected TransitionButton scenarioIcon;
+	protected Component scenarioIcon;
 	
 	public ScenarioData(TaskData entryStep, TaskData[] tasks,
-			TransitionButton scenarioIcon)
+			Component scenarioIcon)
 	{
 		super();
 		this.entryStep = entryStep;
@@ -36,19 +40,21 @@ public class ScenarioData
 	{
 		this.tasks = tasks;
 	}
-
-	public TransitionButton getScenarioIcon()
-	{
-		return scenarioIcon;
-	}
-
-	public void setScenarioIcon(TransitionButton scenarioIcon)
-	{
-		this.scenarioIcon = scenarioIcon;
-	}
 	
 	public boolean isEntryComplete()
 	{
 		return entryStep.isComplete();
 	}
+
+	public Component getScenarioIcon()
+	{
+		return scenarioIcon;
+	}
+
+	public void setScenarioIcon(Component scenarioIcon)
+	{
+		this.scenarioIcon = scenarioIcon;
+	}
+	
+	
 }

@@ -8,6 +8,8 @@ import org.newdawn.slick.SlickException;
 
 public class ProgressBar extends Component
 {
+	private static final long serialVersionUID = -5424844532468524510L;
+
 	protected Rectangle bounds;
 	
 	protected Image baseFillBar;
@@ -32,6 +34,15 @@ public class ProgressBar extends Component
 		this.baseBorder = new Image(baseBorder);
 		
 		resize(bounds.width, bounds.height);
+	}
+	
+	public void setPercentComplete(int percent)
+	{
+		double scale = ((double) percent / 100.0);
+		int width = (int) (scale * this.currentFillBar.getWidth());
+		int height = this.currentFillBar.getHeight();
+		
+		this.currentBar = this.currentFillBar.getSubImage(0, 0, width, height);
 	}
 	
 	@Override
