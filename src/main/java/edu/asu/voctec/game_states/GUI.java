@@ -14,6 +14,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.Main;
 import edu.asu.voctec.GUI.ActionListener;
@@ -28,6 +29,7 @@ public abstract class GUI extends ModifiedGameState implements GameDefaults
 	protected Image backgroundImage;
 	protected final ArrayList<Component> components = new ArrayList<>();
 	protected final ArrayList<ActionListener> listeners = new ArrayList<>();
+	protected boolean trackTime;
 	
 	@Override
 	public void onEnter()
@@ -69,10 +71,15 @@ public abstract class GUI extends ModifiedGameState implements GameDefaults
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException
 	{
+		// Current user input
 		Input input = container.getInput();
 		
 		// Listen for events
 		listen(input);
+		
+		// Update current task (time spent)
+		if (trackTime)
+			Game.getCurrentTask().getCurrentAttempt().addTime(delta);
 	}
 	
 	public void centerComponentsStacked(int spaceBetweenComponents)
