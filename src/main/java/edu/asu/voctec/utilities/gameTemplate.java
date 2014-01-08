@@ -1,4 +1,4 @@
-package edu.asu.voctec.cdmg;
+package edu.asu.voctec.utilities;
 
 import java.awt.Rectangle;
 
@@ -15,7 +15,7 @@ import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
-public class CDPart3 extends GUI {
+public class gameTemplate extends GUI {
 	
 	private static final Color FONT_COLOR = Color.darkGray;
 	
@@ -64,7 +64,7 @@ public class CDPart3 extends GUI {
 		
 		Rectangle hintBounds = new Rectangle(600, 208, 192, 192); 
 		Rectangle relativeHintTextBounds = UtilFunctions.dialateRectangle(
-				new Rectangle(0, 0, 188, 192), 0.92f);
+				new Rectangle(0, 0, 192, 192), 0.92f);
 		hintBox = new TextAreaX(hintBounds, relativeHintTextBounds,
 				null);
 
