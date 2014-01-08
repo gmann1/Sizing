@@ -163,6 +163,11 @@ public class EAPart1 extends GUI
 		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 		backButton.positionText(Position.RIGHT);
 		this.addComponent(backButton);
+		
+		////Testing Stuff can be deleted later////
+		Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 750, 0, new Rectangle(50,50,300,50), "Start!");
+		Start.addActionListener(new TransitionButtonListener(EAPart2IntroScreen.class));
+		this.addComponent(Start);
 	}
 	
 	public void initializeHintBox()
@@ -257,16 +262,6 @@ public class EAPart1 extends GUI
 		}
 		
 	}
-	
-	/*
-	 * public class ReadyButtonListener extends ButtonListener {
-	 * 
-	 * @Override protected void actionPerformed() {
-	 * System.out.println("Ready!"); if(eaSelectorDisplay.verifyChoices(true)) {
-	 * System.out.println("Good!");
-	 * Game.getCurrentGame().enterState(EAPart1ScoreScreen.class); } else
-	 * HintNext(); } }
-	 */
 	
 	public static void reset()
 	{
