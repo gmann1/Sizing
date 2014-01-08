@@ -29,11 +29,15 @@ public class TaskData
 	
 	public static MultiTaskListener activeListener;
 	
-	protected Image buttonImageInaccessible;
-	protected Image buttonImageComplete;
-	protected Image buttonImageAccessible;
+	protected transient Image buttonImageInaccessible;
+	protected transient Image buttonImageComplete;
+	protected transient Image buttonImageAccessible;
 	
-	protected TaskScreen associatedHub;
+	protected String buttonImageInaccessiblePath;
+	protected String buttonImageCompletePath;
+	protected String buttonImageAccessiblePath;
+	
+	protected transient TaskScreen associatedHub;
 	protected Class<?> associatedTask;
 	protected ArrayList<AttemptData> listOfAttempts;
 	protected boolean complete;
@@ -94,9 +98,9 @@ public class TaskData
 		public void stopDisplaying()
 		{
 			System.out.println("\tStop Displaying:\n\t\tDisplaying: "
-				+ displayingComponents + "\n\t\tactiveListener: "
-				+ activeListener + "\n\t\tTask Screen ActiveListener: "
-				+ TaskScreen.activeListener);
+					+ displayingComponents + "\n\t\tactiveListener: "
+					+ activeListener + "\n\t\tTask Screen ActiveListener: "
+					+ TaskScreen.activeListener);
 			if (displayingComponents)
 			{
 				associatedHub.queueRemoveComponents(informationComponents);
@@ -112,7 +116,7 @@ public class TaskData
 	public class ReplayContinueComboListener extends ButtonListener
 	{
 		private static final long serialVersionUID = -8964591612455364733L;
-
+		
 		@Override
 		protected void actionPerformed()
 		{
@@ -209,7 +213,7 @@ public class TaskData
 		// TODO Add Star Score
 	}
 	
-	public void setImages(Image inaccessible, Image complete, Image accessible)
+	private void setImages(Image inaccessible, Image complete, Image accessible)
 	{
 		this.buttonImageAccessible = accessible;
 		this.buttonImageComplete = complete;
@@ -221,8 +225,16 @@ public class TaskData
 	public void setImages(String inaccessible, String complete,
 			String accessible) throws SlickException
 	{
-		this.setImages(new Image(inaccessible), new Image(complete), new Image(
-				accessible));
+		this.buttonImageAccessiblePath = accessible;
+		this.buttonImageCompletePath = complete;
+		this.buttonImageInaccessiblePath = inaccessible;
+		instantiateImages();
+	}
+	
+	public void instantiateImages() throws SlickException
+	{
+		this.setImages(new Image(buttonImageInaccessiblePath), new Image(
+				buttonImageCompletePath), new Image(buttonImageAccessiblePath));
 	}
 	
 	protected void updateImage()
@@ -318,8 +330,15 @@ public class TaskData
 	
 	public void reload()
 	{
-		associatedHub = (TaskScreen) Game
-				.getGameState(associatedHub.getClass());
+		try
+		{
+			instantiateImages();
+			associatedHub = (TaskScreen) Game.getGameState(TaskScreen.class);
+		}
+		catch (SlickException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	public void updateInformation()

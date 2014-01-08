@@ -106,7 +106,30 @@ public class SelectorTest extends GUI
 	{
 		System.out.println("\nSelectorTest: Initializing...");
 		
+		// Keep track of how much time is spent playing this minigame
+		trackTime = true;
+		
 		// Selector
+		instantiateSelector();
+		
+		// Selector Display
+		instantiateSelectorDisplay();
+		
+		// Hint Box
+		instantiateHintBox();
+		
+		// Buttons
+		instantiateButtons();
+		
+		// Background Image
+		Image background = new Image(ImagePaths.MainMenuBackground);
+		setBackgroundImage(background.getScaledCopy(800, 600));
+		
+		System.out.println("SelectorTest: Initialization Finished.\n");
+	}
+	
+	public void instantiateSelector() throws SlickException
+	{
 		// Create and size a new selector object
 		selector = new Selector<>(0, 0, true);
 		selector.rescale(0.75f);
@@ -120,8 +143,10 @@ public class SelectorTest extends GUI
 		// Format selector, and add it to this screen
 		selector.displayLabel();
 		this.addComponent(selector);
-		
-		// Selector Display
+	}
+	
+	public void instantiateSelectorDisplay()
+	{
 		// Setup a new selector display, and link it to the selector
 		selectorDisplay = new SelectorDisplay<>(50, 60, true);
 		selectorDisplay.rescale(0.80f);
@@ -129,7 +154,10 @@ public class SelectorTest extends GUI
 		
 		// Add the display to this screen
 		this.addComponent(selectorDisplay);
-		
+	}
+	
+	public void instantiateHintBox() throws SlickException
+	{
 		// Hint Bounds
 		Rectangle hintBounds = new Rectangle(398, 62, 370, 320);
 		Rectangle relativeHintTextBounds = UtilFunctions.dialateRectangle(
@@ -155,6 +183,20 @@ public class SelectorTest extends GUI
 		this.addComponent(hintBox);
 		this.addComponent(instructionsLabel);
 		
+		// Ending Animation
+		Image spriteSheetImage = new Image(endingAnimationPath);
+		int fps = 6;
+		int frameWidth = 115;
+		int frameHeight = 150;
+		endingAnimationBounds = new Rectangle(0, 0, frameWidth, frameHeight);
+		UtilFunctions.centerRectangle(hintBounds, endingAnimationBounds);
+		SpriteSheet endingAnimationSprites = new SpriteSheet(spriteSheetImage,
+				frameWidth, frameHeight);
+		endingAnimation = new Animation(endingAnimationSprites, 1000 / fps);
+	}
+	
+	public void instantiateButtons() throws SlickException
+	{
 		// Ready Button
 		Image readyButtonImage = new Image(ImagePaths.Buttons.BASE);
 		Rectangle textBounds = UtilFunctions.getImageBounds(readyButtonImage);
@@ -173,23 +215,6 @@ public class SelectorTest extends GUI
 		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 		backButton.positionText(Position.RIGHT);
 		this.addComponent(backButton);
-		
-		// Ending Animation
-		Image spriteSheetImage = new Image(endingAnimationPath);
-		int fps = 6;
-		int frameWidth = 115;
-		int frameHeight = 150;
-		endingAnimationBounds = new Rectangle(0, 0, frameWidth, frameHeight);
-		UtilFunctions.centerRectangle(hintBounds, endingAnimationBounds);
-		SpriteSheet endingAnimationSprites = new SpriteSheet(spriteSheetImage,
-				frameWidth, frameHeight);
-		endingAnimation = new Animation(endingAnimationSprites, 1000 / fps);
-		
-		// Set background
-		Image background = new Image(ImagePaths.MainMenuBackground);
-		setBackgroundImage(background.getScaledCopy(800, 600));
-		
-		System.out.println("SelectorTest: Initialization Finished.\n");
 	}
 	
 	@Override
@@ -247,7 +272,15 @@ public class SelectorTest extends GUI
 	public void updateHints()
 	{
 		hintBox.clear();
-		hintBox.addLines(selectorDisplay.deriveHints(true), true);
+		
+		// Derive hints from the user's current choices (shuffle the hints)
+		ArrayList<String> hints = selectorDisplay.deriveHints(true);
+		
+		// Update the number of hints used
+		Game.getCurrentTask().getCurrentAttempt().addHints(hints.size());
+		
+		// Add hints to the hint box (double-spaced)
+		hintBox.addLines(hints, true);
 	}
 	
 	public void load()

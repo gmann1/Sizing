@@ -98,8 +98,8 @@ public class ControllerSizingPart1 extends GUI {
 	public static final String BATTERY_FIVE = "resources/default/img/minigames/ControllerSizing/battery5.png";
 	public static final String TRANS_6 = "resources/default/img/minigames/ControllerSizing/backgroundday6.png";
 
-	public static final String PANEL = "resources/default/img/minigames/criticalDesign/panel.png";
-	public static final String POLE = "resources/default/img/minigames/criticalDesign/pole.png";
+	public static final String PANEL = "resources/default/img/minigames/criticalDesign/Panel.png";
+	public static final String POLE = "resources/default/img/minigames/criticalDesign/Pole.png";
 	public static final String STAR = "resources/default/img/minigames/ControllerSizing/star.png";
 	Image sunImage;
 	Image starImage;
@@ -167,8 +167,8 @@ public class ControllerSizingPart1 extends GUI {
 		
 	
 
-		instructionSet[0] = "When the sun is out the solar panel will attempt to charge the battery. The controller will only allow the battery to charge until " + BATTERY_MAX + " percent.";
-		instructionSet[1] = "When the house is on the controller will attempt to discharge the battery to power the house. The controller will only allow the battery to discharge until " + BATTERY_MIN + " percent.";
+		instructionSet[0] = "When the sun is out the solar panel will attempt to charge the battery. The controller will not allow the battery to charge past " + BATTERY_MAX + " percent.";
+		instructionSet[1] = "When the house is on the controller will attempt to discharge the battery to power the house. The controller will not allow the battery to discharge past " + BATTERY_MIN + " percent.";
 		instructionSet[2] = "When the house is on but the battery is at a minimum or recharging, the controller will not discharge the battery.";
 		instructionSet[3] = "Once the battery reaches " + BATTERY_MIN + " percent it will need to recharge to 40 percent before it can discharge again.";
 		

@@ -22,9 +22,9 @@ import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
-import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
+import edu.asu.voctec.utilities.gameTemplate;
 
 /**
  * 
@@ -32,7 +32,7 @@ import edu.asu.voctec.utilities.UtilFunctions;
  * 
  */
 
-public class CDPart1 extends GUI {
+public class CDPart1 extends gameTemplate {
 	
 
 	private static int index = 0;
@@ -43,12 +43,12 @@ public class CDPart1 extends GUI {
 	private static final Color FONT_COLOR = Color.darkGray;
 	private static final Color FONT_COLOR1 = Color.white;
 
-	public static final String APRIL = "resources/default/img/minigames/criticalDesign/april.png";
-	public static final String FEBRUARY = "resources/default/img/minigames/criticalDesign/february.png";
-	public static final String DECEMBER = "resources/default/img/minigames/criticalDesign/december.png";
-	public static final String OCTOBER = "resources/default/img/minigames/criticalDesign/october.png";
-	public static final String SEPTEMBER = "resources/default/img/minigames/criticalDesign/september.png";
-	public static final String JUNE = "resources/default/img/minigames/criticalDesign/june.png";
+	public static final String APRIL = "resources/default/img/minigames/criticalDesign/April.png";
+	public static final String FEBRUARY = "resources/default/img/minigames/criticalDesign/February.png";
+	public static final String DECEMBER = "resources/default/img/minigames/criticalDesign/December.png";
+	public static final String OCTOBER = "resources/default/img/minigames/criticalDesign/October.png";
+	public static final String SEPTEMBER = "resources/default/img/minigames/criticalDesign/September.png";
+	public static final String JUNE = "resources/default/img/minigames/criticalDesign/June.png";
 	public static final String BACKGROUND = "resources/default/img/minigames/criticalDesign/space.jpg";
 
 	public static final float SMALL_FONT_SIZE = 8f;
@@ -89,7 +89,7 @@ public class CDPart1 extends GUI {
 
 	public TextArea theHints;
 
-	private TextField instructionsLabel;
+	
 
 	public class CDReadyListener extends ButtonListener {
 
@@ -123,7 +123,9 @@ public class CDPart1 extends GUI {
 
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		this.backgroundImage = new Image(ImagePaths.MainMenuBackground);
+		super.init(container,  game );
+		
+		instructionBox.setText("Select the Critical Design Month.");
 		// add initial things to the arraylists
 		Earths.add(APRIL);
 		Earths.add(FEBRUARY);
@@ -186,6 +188,7 @@ public class CDPart1 extends GUI {
 		//earth
 		Image Earth = new Image(Earths.get(index));
 		earths = new BasicComponent(Earth, 30, 57);
+	
 		//whole selector
 		sel = new CDSelector<SelectorIcon>(50, 520);
 		sel.rescale(.75f, .75f);
@@ -289,26 +292,17 @@ public class CDPart1 extends GUI {
 		this.addComponent(left3);
 		this.addComponent(earths);
 
-		intializeDefaults();
+	
 		// Hints
 		theHints = new TextArea(new Rectangle(413, 77, 340, 450), .95f, "");
 		theHints.setFontSize(MEDIUM_FONT_SIZE);
 		theHints.setFontColor(FONT_COLOR1);
-		// instructionLabel
-		Rectangle instructionBounds = new Rectangle(398, 0, 370, 62);
-
-		instructionsLabel = new TextField(instructionBounds, 0.95f,
-				"Select the Critical Design Month.",
-				TextDisplay.FormattingOption.FIT_TEXT);
-
-		instructionsLabel.center();
-
-		instructionsLabel.setFontColor(Fonts.FONT_COLOR);
+	
 
 		// initialize
 
 		this.addComponent(theHints);
-		this.addComponent(instructionsLabel);
+
 
 		System.out
 				.println("Listeners: " + Arrays.toString(this.getListeners()));
@@ -333,7 +327,7 @@ public class CDPart1 extends GUI {
 		}
 		if (i == 2) {
 			theHints.setText(monthlyHints.get(i));
-			instructionsLabel.setText("Correct! Press ready to continue.");
+			
 			correctAnswer = true;
 			System.out.println("Correct answer gotten after " + hints
 					+ " hints.");
@@ -476,7 +470,7 @@ public class CDPart1 extends GUI {
 
 	}
 
-	public void intializeDefaults() throws SlickException {
+	/*public void intializeDefaults() throws SlickException {
 		// Initialize Header
 		Rectangle headerLocation = new Rectangle(32, 52, 350, 500);
 		TextAreaX header = new TextAreaX(headerLocation, .95f,
@@ -537,5 +531,6 @@ public class CDPart1 extends GUI {
 		this.addComponent(Hint);
 
 	}
+	*/
 
 }
