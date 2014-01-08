@@ -18,6 +18,7 @@ import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.utilities.Position;
+import edu.asu.voctec.utilities.gameTemplate;
 
 /**
  * 
