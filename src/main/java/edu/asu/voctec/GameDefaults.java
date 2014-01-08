@@ -15,9 +15,9 @@ public interface GameDefaults
 	public interface ImagePaths
 	{
 		// Backgrounds
-		public static final String MainMenuBackground = "resources/default/img/backgrounds/mainMenu.png";
-		public static final String OptionsMenuBackground = "resources/default/img/backgrounds/mainMenu.png";
-		public static final String ScenarioHubBackground = "resources/default/img/backgrounds/mainMenu.png";
+		public static final String MainMenuBackground = "resources/default/img/backgrounds/gameBackground.png";
+		public static final String OptionsMenuBackground = "resources/default/img/backgrounds/gameBackground.png";
+		public static final String ScenarioHubBackground = "resources/default/img/backgrounds/gameBackground.png";
 		public static final String TaskHubBackground = "resources/default/img/backgrounds/taskScreen2.png";
 		public static final String BLACK_BACKGROUND = "resources/default/img/blackBackground.jpg";
 		
@@ -42,6 +42,14 @@ public interface GameDefaults
 		public static final String SELECTOR_LARGE = "resources/default/img/selector/SelectorLarge.png";
 		public static final String SELECTOR_SMALL = "resources/default/img/selector/SelectorSmall.png";
 		public static final String SELECTOR_SHADOW = "resources/default/img/selector/SelectorShadow.png";
+		
+		//game template
+		
+		public static final String HINT_BOX_TEMPLATE = "resources/default/img/gameTemplate/BottomHintBox.png";
+		public static final String CONTROL_PANEL = "resources/default/img/gameTemplate/ControlPanel.png";
+		public static final String READY_BOX = "resources/default/img/gameTemplate/EmptyBox.png";
+		public static final String SIDE_PANEL = "resources/default/img/gameTemplate/SidePanel.png";
+		
 		
 		public interface Buttons
 		{
