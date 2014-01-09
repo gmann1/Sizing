@@ -29,6 +29,8 @@ public interface GameDefaults
 		public static final String BACK_BUTTON = "resources/default/img/buttons/backButton.png";
 		public static final String LANGUAGE_BUTTON = "resources/default/img/buttons/languagesButtonR.png";
 		public static final String READY_BUTTON = "resources/default/img/buttons/readyButton.png";
+		public static final String CONTINUE_BUTTON_ON = "resources/default/img/buttons/continueButton.png";
+		public static final String CONTINUE_BUTTON_OFF = "resources/default/img/buttons/continueHidden.png";
 		
 		// changes
 		public static final String HINT_BUTTON = "resources/default/img/buttons/hintButton.png";
@@ -127,6 +129,7 @@ public interface GameDefaults
 		public static final Color FONT_COLOR = Color.white;
 		public static final Color TRANSITION_FONT_COLOR = Color.white;
 		public static final Color BUTTON_FONT_COLOR = Color.black;
+	   public static final Color DISABLED_BUTTON_FONT_COLOR = Color.lightGray;
 		
 		public static final float FONT_SIZE_SMALL = 8f;
 		public static final float FONT_SIZE_MEDIUM = 12f;
