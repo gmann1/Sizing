@@ -24,6 +24,7 @@ import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
+import edu.asu.voctec.utilities.gameTemplate;
 
 /**
  * 
@@ -31,7 +32,7 @@ import edu.asu.voctec.utilities.UtilFunctions;
  * 
  */
 
-public class CDPart2 extends GUI {
+public class CDPart2 extends gameTemplate {
 
 	private boolean correctAnswer = false;
 
@@ -57,11 +58,11 @@ public class CDPart2 extends GUI {
 	public static final String NEEDLE = "resources/default/img/minigames/criticalDesign/Needle.png";
 	
 
-	public TextArea theHints;
+	
 	public TextField angle;
 	public String s;
 	public Image panel1;
-	public Button Continue;
+
 	private boolean arrowChange = false;
 	BasicComponent upArrow;
 	BasicComponent downArrow;
@@ -88,7 +89,7 @@ public class CDPart2 extends GUI {
 
 	private BasicComponent needle;
 
-	private TextField instructionsLabel;
+
 	
 	public class RotateListener extends ButtonListener {
 
@@ -103,12 +104,20 @@ public class CDPart2 extends GUI {
 
 		@Override
 		protected void actionPerformed() {
+			
+			winConditional();
+			
+		}
+
+	}
+	public class CDContinueListener extends ButtonListener {
+
+		@Override
+		protected void actionPerformed() {
 			if (correctAnswer){
 				Game.getCurrentGame().enterState(CDExtra.class);
 			}
-			else{
-			winConditional();
-			}
+			
 		}
 
 	}
@@ -117,7 +126,7 @@ public class CDPart2 extends GUI {
 
 		@Override
 		protected void actionPerformed() {
-			displayHint(hintCount);
+			displayHint(hintCount, false);
 
 		}
 
@@ -126,18 +135,19 @@ public class CDPart2 extends GUI {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		this.backgroundImage = new Image(BACKGROUND);
+		super.init(container, game);
+	
+		BasicComponent mainScreen = new BasicComponent(new Image(BACKGROUND), 0, 0);
+		this.addComponent(mainScreen);
+		control.setX(800);
 		BasicComponent compass = new BasicComponent(new Image(COMPASS), 175 + 30, 510);
 		needle1 = new Image(NEEDLE);
 		needle1.setCenterOfRotation(4, 22);
 		needle1.rotate(180f);
 		needle = new BasicComponent(needle1, 232, 539);
 		
-		// Hints(398, 57, 370, 160);
-		theHints = new TextArea(new Rectangle(413, 77, 340, 450), .95f, "");
-		theHints.setFontSize(MEDIUM_FONT_SIZE);
-		theHints.setFontColor(FONT_COLOR1);
-		theHints.setText("Click the arrows to adjust tilt and orientation of the solar panel for the critical design month, December.");
+		
+		
 		BasicComponent criticalMonth = new BasicComponent(new Image(
 				CRITICAL_MONTH_IMAGE), 50, 100);
 		criticalMonth.rescale(.60f, .60f);
@@ -212,19 +222,10 @@ public class CDPart2 extends GUI {
 				.add("Point the solar panel in the direction that captures the most sun. ");
 		genericHints
 				.add("Make adjustments due to the latitude and the tilt of the earth.");
-		// instructionLabel
-		Rectangle instructionBounds = new Rectangle(398, 0, 370, 62);
 
-		instructionsLabel = new TextField(instructionBounds, 0.95f,
-				"Determine the tilt and orientation.",
-				TextDisplay.FormattingOption.FIT_TEXT);
-
-		instructionsLabel.center();
-
-		instructionsLabel.setFontColor(Fonts.FONT_COLOR);
 	
 		
-		this.addComponent(theHints);
+	
 		this.addComponent(criticalMonth);
 
 		this.addComponent(pole);
@@ -238,7 +239,13 @@ public class CDPart2 extends GUI {
 		this.addComponent(panelLeft);
 		this.addComponent(compass);
 		this.addComponent(needle);
-		this.addComponent(instructionsLabel);
+		
+		hintButton.addActionListener(new CDHintListener());
+		readyButton.addActionListener(new CDReadyListener());
+		continueButton.addActionListener(new CDContinueListener());
+		backButton.addActionListener(new TransitionButtonListener(
+				CDPart1.class));
+
 		
 		/*
 		BasicComponent dot = new BasicComponent(new Image("resources/default/img/minigames/criticalDesign/sunBeam.png"), 100,100);
@@ -251,9 +258,15 @@ public class CDPart2 extends GUI {
 
 	}
 
-	private void displayHint(int hCount) {
+	private void displayHint(int hCount, boolean readyClick) {
 		if (hCount == 0) {
-			theHints.setText(genericHints.get(0));
+			if (readyClick){
+			hintBox.setText("Sorry that is incorrect.\n" + genericHints.get(0));
+			}
+			else
+			{
+				hintBox.setText(genericHints.get(0));
+			}
 			++hintCount;
 			if (!correctAnswer) {
 				++CDPart1.hints;
@@ -262,7 +275,13 @@ public class CDPart2 extends GUI {
 					+ CDPart1.hints);
 		}
 		if (hCount == 1) {
-			theHints.setText(genericHints.get(1));
+			if (readyClick){
+				hintBox.setText("Sorry that is incorrect.\n" + genericHints.get(1));
+				}
+				else
+				{
+					hintBox.setText(genericHints.get(1));
+				}
 			++hintCount;
 			if (!correctAnswer) {
 				++CDPart1.hints;
@@ -272,9 +291,21 @@ public class CDPart2 extends GUI {
 		}
 		if (hCount > 1) {
 			if (hCount % 2 == 0) {
-				theHints.setText(genericHints.get(0));
+				if (readyClick){
+					hintBox.setText("Sorry that is incorrect.\n" + genericHints.get(0));
+					}
+					else
+					{
+						hintBox.setText(genericHints.get(0));
+					}
 			} else {
-				theHints.setText(genericHints.get(1));
+				if (readyClick){
+					hintBox.setText("Sorry that is incorrect.\n" + genericHints.get(1));
+					}
+					else
+					{
+						hintBox.setText(genericHints.get(1));
+					}
 			}
 			++hintCount;
 			System.out
@@ -285,18 +316,18 @@ public class CDPart2 extends GUI {
 
 	}
 
-	private void winConditional() {
+	private void winConditional() throws SlickException {
 		if ((panel1.getRotation() > (28.3 - 5))
 				&& (panel1.getRotation() < (28.3 + 5))) {
 			if ((int) ((panel1.getRotation()) * 10) == 283) {
-				theHints.setText("Great Job! You got the correct answer exactly.");
+				hintBox.setText("Great Job! You got the correct answer exactly.");
 			} else {
-				theHints.setText("Good job! However, the precise answer is 28.3 degrees (latitude + 15 degrees)");
+				hintBox.setText("Good job! However, the precise answer is 28.3 degrees (latitude + 15 degrees)");
 			}
-			instructionsLabel.setText("Correct! Press ready to continue.");
+			continueButtonOn();
 			correctAnswer = true;
 		} else {
-			displayHint(hintCount);
+			displayHint(hintCount, true);
 		}
 	}
 
@@ -304,7 +335,10 @@ public class CDPart2 extends GUI {
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		super.update(container, game, delta);
-		
+		if (control.getX() != 800){
+			control.setX(800);
+			instructionBox.setText("Determine the tilt and orientation. Click the arrows to adjust tilt and orientation of the solar panel for the critical design month, December.");
+		}
 		// container.getInput();
 		
 		int MouseX = container.getInput().getMouseX();
@@ -406,61 +440,6 @@ public class CDPart2 extends GUI {
 		}
 		
 	}
-	public void intializeDefaults() throws SlickException {
-		
-		
-		// Hint Box Initialization
-		// Hint Bounds
-		Rectangle hintBounds = new Rectangle(398, 57, 370, 160);
-		Rectangle relativeHintTextBounds = UtilFunctions.dialateRectangle(
-				new Rectangle(0, 0, 370, 160), 0.92f);
-		TextAreaX hintBox = new TextAreaX(hintBounds, relativeHintTextBounds,
-				null);
-
-		Image hintBoxBackground = new Image(
-				ImagePaths.Selector.HINT_BOX_BACKGROUND);
-		hintBox.setCurrentImage(hintBoxBackground, true);
-
-		// Format hint box
-		hintBox.setFontSize(Fonts.FONT_SIZE_MEDIUM);
-
-		hintBox.setFontColor(Fonts.FONT_COLOR);
-		
-
-		// Back Button
-		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
-				new Rectangle(0, 0, 50, 25), "Back");
-		backButton.addActionListener(new TransitionButtonListener(
-				CDPart1.class));
-		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
-		backButton.positionText(Position.RIGHT);
-		// Ready Button
-		Image readyButtonImage = new Image(ImagePaths.READY_BUTTON);
-		Rectangle textBounds = UtilFunctions.getImageBounds(readyButtonImage);
-		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.80f);
-		Button readyButton = new Button(readyButtonImage, 600, 500, textBounds,
-				null);
-		readyButton.addActionListener(new CDReadyListener());
-
-		// Hint Button
-		Image hintButtonImage = (new Image(ImagePaths.HINT_BUTTON));
-		textBounds = UtilFunctions.getImageBounds(hintButtonImage);
-		Button Hint = new Button(hintButtonImage, readyButton.getX() + 18,
-				readyButton.getY() - textBounds.height - 5, textBounds,
-				"HINT");
-		Hint.addActionListener(new CDHintListener());
-		Hint.rescale(.8f, 1f);
-		Hint.setX(readyButton.getX() + 28);
-		Hint.getTextField().center();
-		Hint.setFontColor(FONT_COLOR);
-
-		this.addComponent(hintBox);
-
-		this.addComponent(backButton);
-		this.addComponent(readyButton);
-
-		this.addComponent(Hint);
-
-	}
+	
 
 }
