@@ -17,19 +17,20 @@ import edu.asu.voctec.utilities.UtilFunctions;
 
 public class gameTemplate extends GUI {
 	
-	private static final Color FONT_COLOR = Color.darkGray;
+
 	
-	public TextAreaX hintBox;
-	public TextAreaX instructionBox;
+	protected TextAreaX hintBox;
+	protected TextAreaX instructionBox;
 	
-	public BasicComponent sidePanel;
-	public BasicComponent control;
-	public BasicComponent readyBox;
+	protected BasicComponent sidePanel;
+	protected BasicComponent control;
+
 	
-	Button backButton;
-	Button readyButton;
-	Button hintButton;
-	Button contButton;
+	protected Button backButton;
+	protected Button readyButton;
+	protected Button hintButton;
+	protected Button contButton;
+	protected Button continueButton;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -43,16 +44,10 @@ public class gameTemplate extends GUI {
 		// Initialize Side Panel
 		
 		sidePanel = new BasicComponent(ImagePaths.SIDE_PANEL, 592, 0);
-		sidePanel.rescale(208, 433);
+		sidePanel.rescale(208, 600);
 		sidePanel.setX(592);
 		sidePanel.setY(0);
-		
-		//Initialize Ready Box
-		
-		readyBox = new BasicComponent(ImagePaths.READY_BOX, 592, 0);
-		readyBox.rescale(208, 167);
-		readyBox.setX(592);
-		readyBox.setY(433);
+
 		
 		//Initialize Control
 		control = new BasicComponent(ImagePaths.CONTROL_PANEL, 0, 167);
@@ -96,31 +91,44 @@ public class gameTemplate extends GUI {
 		Image readyButtonImage = new Image(ImagePaths.READY_BUTTON);
 		Rectangle textBounds = UtilFunctions.getImageBounds(readyButtonImage);
 		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.80f);
-		readyButton = new Button(readyButtonImage, sidePanel.getX() + sidePanel.getBounds().width/2 - UtilFunctions.getImageBounds(readyButtonImage).width/2, readyBox.getY() + 6, textBounds,null);
-		
-
+		readyButton = new Button(readyButtonImage, sidePanel.getX() + sidePanel.getBounds().width/2 - UtilFunctions.getImageBounds(readyButtonImage).width/2, hintBox.getY() + hintBox.getBounds().height + 50, textBounds,"Ready");
+		readyButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
+		//Continue Button
+		Image continueButtonImage = new Image(ImagePaths.CONTINUE_BUTTON_OFF);
+		textBounds = UtilFunctions.getImageBounds(continueButtonImage);
+		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.80f);
+		continueButton = new Button(continueButtonImage, sidePanel.getX() + sidePanel.getBounds().width/2 - UtilFunctions.getImageBounds(readyButtonImage).width/2, readyButton.getY() + 73, textBounds,"Continue");
+		continueButton.setFontColor(Fonts.DISABLED_BUTTON_FONT_COLOR);
 		// Hint Button
 		Image hintButtonImage = (new Image(ImagePaths.HINT_BUTTON));
 		textBounds = UtilFunctions.getImageBounds(hintButtonImage);
+		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.75f);
+		textBounds.y = textBounds.y - 2;
 		hintButton = new Button(hintButtonImage, readyButton.getX() + 18,
 				readyButton.getY() - textBounds.height - 5, textBounds,
-				"HINT");
+				"Click for Hint");
 	
-		hintButton.rescale(.8f, 1f);
+	
 		hintButton.setX(sidePanel.getX() + sidePanel.getBounds().width/2 - hintButton.getBounds().width/2);
-		hintButton.setY(402);
+		hintButton.setY(401);
 		hintButton.getTextField().center();
-		hintButton.setFontColor(FONT_COLOR);
+		hintButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
 
 		this.addComponent(sidePanel);
-		this.addComponent(readyBox);
+
 		this.addComponent(control);
 		this.addComponent(hintBox);
 		this.addComponent(instructionBox);
 		this.addComponent(hintButton);
 		this.addComponent(readyButton);
 		this.addComponent(backButton);
+		this.addComponent(continueButton);
 
+	}
+	
+	public void continueButtonOn() throws SlickException{
+		continueButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
+		continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_ON), true);
 	}
 
 }
