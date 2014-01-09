@@ -12,22 +12,18 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.BasicComponent;
-import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
-import edu.asu.voctec.GUI.TextArea;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
-import edu.asu.voctec.game_states.GUI;
-import edu.asu.voctec.utilities.Position;
+import edu.asu.voctec.utilities.gameTemplate;
 
-public class BatteryGameScreen extends GUI
+public class BatteryGameScreen extends gameTemplate
 {
 
 	public static final String GameBackground = "resources/default/img/minigames/BatterySizing/GameBackground.jpg";
-	public static final String GraySquare = "resources/default/img/minigames/BatterySizing/BatteryBlankGraySquare.png";
-	public static final String HintBox = "resources/default/img/minigames/BatterySizing/hintBox.png";
-	public static final String AvailableBatteriesAreaImage = "resources/default/img/minigames/BatterySizing/AvailableBatteriesArea.png";
+	public static final String GraySquare = "resources/default/img/minigames/BatterySizing/BatteryBank.png";
+	//public static final String AvailableBatteriesAreaImage = "resources/default/img/minigames/BatterySizing/AvailableBatteriesArea.png";
 	public static final String BlankButton = "resources/default/img/minigames/BatterySizing/blankReadyButton.png";
 	public static final String BlankHintButton = "resources/default/img/minigames/BatterySizing/BlankHintButton.png";
 	public static final String BlueBattery = "resources/default/img/minigames/BatterySizing/BlueBattery.png";
@@ -38,7 +34,7 @@ public class BatteryGameScreen extends GUI
 	
 	public static final String FirstImage = "resources/default/img/minigames/BatterySizing/FirstImage.png";
 	public static final String SecondImage = "resources/default/img/minigames/BatterySizing/SecondImageBattery.png";
-	private static Image BatteryImage;
+	private static Image batteryImage;
 	
 	public static final String HorizontalLine = "resources/default/img/minigames/BatterySizing/BatteryMainLine.png";
 	private static Image horizontalLineImage;
@@ -53,7 +49,7 @@ public class BatteryGameScreen extends GUI
 													"Two batteries could be connected in series to solve the game.",
 													"Connecting two batteries in parallel is not recommended but could solve the game."};
 	
-	public static final String BatteryBankStartLabel = "Drag a battery here to place it in the Battery Bank";
+	public static final String BatteryBankStartLabel = "Drag a battery to the gray area in order to place it in the Battery Bank";
 	public static final String AvailableBatteriesLabel = "Available Batteries:";
 	public static final String LEFT_ARROW_TEXT = "Back";
 	public static final String DoneButtonText = "Done";
@@ -81,41 +77,38 @@ public class BatteryGameScreen extends GUI
 	
 	private  TextField currentVoltage, currentCapacity;
 	private static TextField batteryBankText;
-	private static TextArea hintsText;
 	private static int currentHintText = 0;
 	public static List<BatteryControl> objectsArray = new ArrayList<BatteryControl>();
 	private List<InitialBattery> initialBatteries = new ArrayList<InitialBattery>();
-	private static final int RequiredCapacity = 174, RequiredVoltage = 12;
+	private static final int RequiredCapacity = 174, RequiredVoltage = 12, animationIntervals = 60, maxChances = 5;
 	private boolean firstRoundOfHints = true, parallelHintNOtDisplayed = true, seriesHintNOtDisplayed = true;;
 	public static int totalNumberOfHintsUsed = 0, doneButtonCounter = 0;
-	private BasicComponent AnimationImage;
-	private static boolean playingAnimation = false;
-	private static int AnimationTimeCounter = 0;
+	private BasicComponent animationImage;
+	private static BasicComponent batteryBankArea;
+	private static boolean playingAnimation = false, CompletedGame = false;
+	private static int animationTimeCounter = 0;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
-		this.backgroundImage = new Image(GameBackground);
+		super.init(container,game);
 		
-		BasicComponent batteryBankArea = new BasicComponent(new Image(GraySquare),25,85);
+		batteryBankArea = new BasicComponent(new Image(GraySquare),20,70);
 		this.addComponent(batteryBankArea);
 		
-		BasicComponent hintBoxArea = new BasicComponent(HintBox,604,400,196,200);
-		this.addComponent(hintBoxArea);
+		//BasicComponent AvailableBatteriesArea = new BasicComponent(AvailableBatteriesAreaImage,20,514);
+		//this.addComponent(AvailableBatteriesArea);
 		
-		BasicComponent AvailableBatteriesArea = new BasicComponent(AvailableBatteriesAreaImage,25,514);
-		this.addComponent(AvailableBatteriesArea);
-		
-		Rectangle textLocation = new Rectangle(25, 250, 750, 60);
+		Rectangle textLocation = new Rectangle(batteryBankArea.getBounds().x, 235, batteryBankArea.getBounds().width, 60);
 		batteryBankText = new TextField(textLocation, 0.95f,
-				BatteryBankStartLabel,
+				BatteryBankLabel,
 				TextDisplay.FormattingOption.FIT_TEXT);
 		batteryBankText.setFontColor(Color.white);
 		batteryBankText.center();
 		this.addComponent(batteryBankText);
 		
-		Rectangle textLocation2 = new Rectangle(25, 514, 270, 20);
+		Rectangle textLocation2 = new Rectangle(25, 500, 270, 20);
 		TextField AvailableBatteriesText = new TextField(textLocation2, 0.95f,
 				AvailableBatteriesLabel,
 				TextDisplay.FormattingOption.FIT_TEXT);
@@ -126,19 +119,19 @@ public class BatteryGameScreen extends GUI
 		verticalLinesImage = new Image(VerticalLines);
 		horizontalLineImage = new Image(HorizontalLine);
 		TransparentBatteryImage = new Image(TransparentBattery);
-		BatteryImage = new Image(SecondImage);
+		batteryImage = new Image(SecondImage);
 		
-		initialBatteries.add(new InitialBattery(Voltages[0], Capacities[0], 50, 535, new Image(BlueBattery), 50, 535, this));
-		initialBatteries.add(new InitialBattery(Voltages[1], Capacities[1], 200, 535, new Image(YellowBattery), 200, 535, this));
-		initialBatteries.add(new InitialBattery(Voltages[2], Capacities[2], 350, 535, new Image(RedBattery), 350, 535, this));
+		initialBatteries.add(new InitialBattery(Voltages[0], Capacities[0], 50, 520, new Image(BlueBattery), 50, 520, this));
+		initialBatteries.add(new InitialBattery(Voltages[1], Capacities[1], 200, 520, new Image(YellowBattery), 200, 520, this));
+		initialBatteries.add(new InitialBattery(Voltages[2], Capacities[2], 350, 520, new Image(RedBattery), 350, 520, this));
 		//initialBatteries.add(new InitialBattery(12, 260, 500, 520, new Image(GreenBattery), 500, 520, this));
 		
-		BasicComponent GarbageBin = new BasicComponent(new Image(Trash),540,525);
+		BasicComponent GarbageBin = new BasicComponent(new Image(Trash),520,520);
 		this.addComponent(GarbageBin);
 		
 		initializeText();
 		
-		BasicComponent TransparentBattery = new BasicComponent(TransparentBatteryImage,60+(0*90),90+(0*90));
+		BasicComponent TransparentBattery = new BasicComponent(TransparentBatteryImage, Battery.xBatteryOffset, Battery.yBatteryOffset);
 		Battery.addToTransparentBatteriesArray(TransparentBattery);
 		this.addComponent(TransparentBattery);
 		
@@ -147,28 +140,13 @@ public class BatteryGameScreen extends GUI
 			addObject(addInitialBattery);
 		}
 		
-		// Back Button
-		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
-				new Rectangle(0, 0, 50, 25), LEFT_ARROW_TEXT);
 		backButton.addActionListener(new TransitionButtonListener(BatteryIntro.class));
-		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
-		backButton.positionText(Position.BOTTOM);
-		this.addComponent(backButton);
-		
-		Button doneButton = new Button(BlankButton, 660, 360, 88, 35,
-			    new Rectangle(1, 1, 86, 33), DoneButtonText);
-		doneButton.addActionListener(new DoneButtonListener());
-		doneButton.setFontColor(Color.black);
-		this.addComponent(doneButton);
-		
-		Button hintButton = new Button(BlankHintButton, 660, 403, 88, 45,
-			    new Rectangle(2, 6, 84, 33), HintButtonText);
+		readyButton.addActionListener(new DoneButtonListener());
 		hintButton.addActionListener(new HintsButtonListener());
-		hintButton.setFontColor(Color.black);
-		this.addComponent(hintButton);
+		continueButton.addActionListener(new ContinueButtonListener());
 		
-		AnimationImage = new BasicComponent(new Image(FirstImage),25,85);
-		this.addComponent(AnimationImage);
+		animationImage = new BasicComponent(FirstImage,batteryBankArea.getBounds().x, batteryBankArea.getBounds().y);
+		this.addComponent(animationImage);
 	}
 	
 	public void addObject(BatteryControl object)
@@ -187,23 +165,28 @@ public class BatteryGameScreen extends GUI
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException
 	{
+		if(CompletedGame)
+			continueButtonOn();
+		else
+			continueButtonOff();
+		
 		if(playingAnimation)
 		{
-			if(AnimationImage == null)
+			if(animationImage == null)
 			{
 				playingAnimation = false;
 			}
-			if(AnimationTimeCounter == 30)
+			if(animationTimeCounter == animationIntervals)
 			{
-				AnimationImage.setCurrentImage(BatteryImage, true);
+				animationImage.setCurrentImage(batteryImage, true);
 			}
-			if(AnimationTimeCounter == 60)
+			if(animationTimeCounter == (2*animationIntervals))
 			{
-				this.removeComponent(AnimationImage);
-				AnimationImage = null;
+				this.removeComponent(animationImage);
+				animationImage = null;
 				playingAnimation = false;
 			}
-			AnimationTimeCounter++;
+			animationTimeCounter++;
 		}
 		else
 		{
@@ -227,6 +210,11 @@ public class BatteryGameScreen extends GUI
 	
 	public static Image getTransparentBatteryImage() {
 		return TransparentBatteryImage;
+	}
+	
+	public static Rectangle getBatteryBankAreaBounds()
+	{
+		return batteryBankArea.getBounds();
 	}
 	
 	public void changeCurrentCapacity(int capacity)
@@ -263,8 +251,8 @@ public class BatteryGameScreen extends GUI
 	{
 		if(!Battery.allParallelsHaveSameVoltage())
 		{
-			hintsText.setText(UncalculatableVoltageHint);
-			hintsText.setFontColor(Color.white);
+			hintBox.setText(UncalculatableVoltageHint);
+			hintBox.setFontColor(Color.white);
 			if(parallelHintNOtDisplayed)
 			{
 				totalNumberOfHintsUsed++;
@@ -273,8 +261,8 @@ public class BatteryGameScreen extends GUI
 		}
 		else if(!Battery.allSeriesHaveSameCapacity())
 		{
-			hintsText.setText(UncalculatableCapacityHint);
-			hintsText.setFontColor(Color.white);
+			hintBox.setText(UncalculatableCapacityHint);
+			hintBox.setFontColor(Color.white);
 			if(seriesHintNOtDisplayed)
 			{
 				totalNumberOfHintsUsed++;
@@ -283,8 +271,8 @@ public class BatteryGameScreen extends GUI
 		}
 		else
 		{
-			hintsText.setText(hintsTextArray[currentHintText]);
-			hintsText.setFontColor(Color.white);
+			hintBox.setText(hintsTextArray[currentHintText]);
+			hintBox.setFontColor(Color.white);
 			if(firstRoundOfHints)
 				totalNumberOfHintsUsed++;
 			if(currentHintText == (hintsTextArray.length-1))
@@ -301,8 +289,8 @@ public class BatteryGameScreen extends GUI
 	{
 		if(!Battery.allParallelsHaveSameVoltage())
 		{
-			hintsText.setText(doneButtonMessage+UncalculatableVoltageHint);
-			hintsText.setFontColor(Color.white);
+			hintBox.setText(doneButtonMessage+UncalculatableVoltageHint);
+			hintBox.setFontColor(Color.white);
 			if(parallelHintNOtDisplayed)
 			{
 				totalNumberOfHintsUsed++;
@@ -311,8 +299,8 @@ public class BatteryGameScreen extends GUI
 		}
 		else if(!Battery.allSeriesHaveSameCapacity())
 		{
-			hintsText.setText(doneButtonMessage+UncalculatableCapacityHint);
-			hintsText.setFontColor(Color.white);
+			hintBox.setText(doneButtonMessage+UncalculatableCapacityHint);
+			hintBox.setFontColor(Color.white);
 			if(seriesHintNOtDisplayed)
 			{
 				totalNumberOfHintsUsed++;
@@ -321,8 +309,8 @@ public class BatteryGameScreen extends GUI
 		}
 		else
 		{
-			hintsText.setText(doneButtonMessage+hintsTextArray[currentHintText]);
-			hintsText.setFontColor(Color.white);
+			hintBox.setText(doneButtonMessage+hintsTextArray[currentHintText]);
+			hintBox.setFontColor(Color.white);
 			if(firstRoundOfHints)
 				totalNumberOfHintsUsed++;
 			if(currentHintText == (hintsTextArray.length-1))
@@ -337,42 +325,42 @@ public class BatteryGameScreen extends GUI
 	
 	private void initializeText()
 	{
-		Rectangle textLocation = new Rectangle(60, 15, 400, 30);
+		Rectangle textLocation = new Rectangle(145, 15, 400, 30);
 		TextField requiredCapacityText = new TextField(textLocation, 0.95f,
 				RequiredOutputLabel+RequiredCapacity+CapacityUnit,
 				TextDisplay.FormattingOption.FIT_TEXT);
 		requiredCapacityText.setFontColor(Color.white);
 		this.addComponent(requiredCapacityText);
 		
-		Rectangle textLocation2 = new Rectangle(60, 45, 400, 30);
+		Rectangle textLocation2 = new Rectangle(145, 45, 400, 30);
 		TextField requiredVoltageText = new TextField(textLocation2, 0.95f,
 				RequiredVoltageLabel+RequiredVoltage+VoltageUnit,
 				TextDisplay.FormattingOption.FIT_TEXT);
 		requiredVoltageText.setFontColor(Color.white);
 		this.addComponent(requiredVoltageText);
 		
-		Rectangle textLocation3 = new Rectangle(525, 15, 275, 30);
+		Rectangle textLocation3 = new Rectangle(30, 450, 275, 30);
 		TextField currentCapacityText = new TextField(textLocation3, 0.95f,
 				CurrentOutputLabel,
 				TextDisplay.FormattingOption.FIT_TEXT);
 		currentCapacityText.setFontColor(Color.darkGray);
 		this.addComponent(currentCapacityText);
 		
-		Rectangle textLocation4 = new Rectangle(525, 45, 275, 30);
+		Rectangle textLocation4 = new Rectangle(310, 450, 275, 30);
 		TextField currentVoltageText = new TextField(textLocation4, 0.95f,
 				CurrentVoltageLabel,
 				TextDisplay.FormattingOption.FIT_TEXT);
 		currentVoltageText.setFontColor(Color.darkGray);
 		this.addComponent(currentVoltageText);
 		
-		Rectangle textLocation7 = new Rectangle(688, 15, 275, 30);
+		Rectangle textLocation7 = new Rectangle(193, 450, 275, 30);
 		currentCapacity = new TextField(textLocation7, 0.95f,
 				0+CapacityUnit,
 				TextDisplay.FormattingOption.FIT_TEXT);
 		currentCapacity.setFontColor(Color.red);
 		this.addComponent(currentCapacity);
 		
-		Rectangle textLocation8 = new Rectangle(730, 45, 275, 30);
+		Rectangle textLocation8 = new Rectangle(515, 450, 275, 30);
 		currentVoltage = new TextField(textLocation8, 0.95f,
 				0+VoltageUnit,
 				TextDisplay.FormattingOption.FIT_TEXT);
@@ -382,27 +370,21 @@ public class BatteryGameScreen extends GUI
 		for(int index = 0; index<initialBatteries.size(); index++)
 		{
 			InitialBattery addInitialBattery = initialBatteries.get(index);
-			Rectangle textLocation5 = new Rectangle((115+(index*150)), 540, 80, 30);
+			Rectangle textLocation5 = new Rectangle((115+(index*150)), addInitialBattery.getBounds().y+5, 80, 30);
 			TextField battery1Capacity = new TextField(textLocation5, 0.95f,
 					addInitialBattery.getCapacity()+CapacityUnit,
 					TextDisplay.FormattingOption.FIT_TEXT);
 			battery1Capacity.setFontColor(Color.white);
 			this.addComponent(battery1Capacity);
 			
-			Rectangle textLocation6 = new Rectangle((115+(index*150)), 565, 80, 30);
+			Rectangle textLocation6 = new Rectangle((115+(index*150)), addInitialBattery.getBounds().y+30, 80, 30);
 			TextField battery1Voltage = new TextField(textLocation6, 0.95f,
 					addInitialBattery.getVoltage()+VoltageUnit,
 					TextDisplay.FormattingOption.FIT_TEXT);
 			battery1Voltage.setFontColor(Color.white);
 			this.addComponent(battery1Voltage);
 		}
-		
-		Rectangle textLocation13 = new Rectangle(609, 433, 191, 300);
-		hintsText = new TextArea(textLocation13, 0.95f,
-				"");
-		hintsText.setFontColor(Color.white);
-		hintsText.setFontSize(14);
-		this.addComponent(hintsText);
+		instructionBox.setText(BatteryBankStartLabel);
 	}
 	
 	public static void changeBatteryBankText()
@@ -428,59 +410,85 @@ public class BatteryGameScreen extends GUI
 			{
 				if(Battery.getNumberOfBatteries() > 2)
 				{
-					hintsText.setText(ExtraObjectsUsedMessage);
-					hintsText.setFontColor(Color.red);
+					hintBox.setText(ExtraObjectsUsedMessage);
+					hintBox.setFontColor(Color.red);
+					CompletedGame = false;
 				}
 				else if(Battery.getNumberOfBatteries() <= 2)
 				{
 					if(Battery.batteryArray.get(0).size() == 2)
 					{
+						hintBox.setText(UnfavourableAnswerCongratulation+"\n"+CompletingGameMessage+"\n"+UnfavourableAnswerMessage);
+						
 						BatteryExitScreen.passEndGameMessage(UnfavourableAnswerCongratulation,
 								CompletingGameMessage,
 								UnfavourableAnswerMessage, Color.red);
-						Game.getCurrentGame().enterState(BatteryExitScreen.class);
+						CompletedGame = true;
 					}
 					else if(Battery.getTotalVoltage()>12)
 					{
-						hintsText.setText(ExtraObjectsUsedMessage);
-						hintsText.setFontColor(Color.red);
+						hintBox.setText(ExtraObjectsUsedMessage);
+						hintBox.setFontColor(Color.red);
+						CompletedGame = false;
 					}
 					else
 					{
+						hintBox.setText(CorrectAnswerCongratulation+"\n"+CompletingGameMessage+"\n"+CorrectAnswerMessage);
+						
 						BatteryExitScreen.passEndGameMessage(CorrectAnswerCongratulation,
 								CompletingGameMessage,
 								CorrectAnswerMessage, Color.black);
-						Game.getCurrentGame().enterState(BatteryExitScreen.class);
+						CompletedGame = true;
 					}
 				}
 			}
 			else
 			{
 				showNextHintText(IncorrectAnswerMessage);
+				CompletedGame = false;
 			}
 			
-			if(doneButtonCounter >= 5)
+			if(doneButtonCounter >= maxChances)
 			{
-				hintsText.setText(GameAnswer);
-				hintsText.setFontColor(Color.red);
+				hintBox.setText(GameAnswer);
+				hintBox.setFontColor(Color.red);
 			}
 			
 				doneButtonCounter++;
 		}
 	}
 	
+	public class ContinueButtonListener extends ButtonListener
+	{
+
+		@Override
+		protected void actionPerformed() {
+			if(CompletedGame)
+			{
+				hintBox.setText("");
+				Game.getCurrentGame().enterState(BatteryExitScreen.class);
+			}
+		}
+		
+	}
+	
 	public static void playAnimation()
 	{
 		playingAnimation = true;
-		AnimationTimeCounter = 0;
+		animationTimeCounter = 0;
+	}
+	
+	public void continueButtonOff() throws SlickException{
+		continueButton.setFontColor(Fonts.DISABLED_BUTTON_FONT_COLOR);
+		continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_OFF), true);
 	}
 	
 	public static void reset()
 	{
-		hintsText.setText("");
-		batteryBankText.setText(BatteryBankStartLabel);
+		batteryBankText.setText(BatteryBankLabel);
 		currentHintText = 0;
 		doneButtonCounter = 0;
 		Battery.reset();
+		CompletedGame = false;
 	}
 }
