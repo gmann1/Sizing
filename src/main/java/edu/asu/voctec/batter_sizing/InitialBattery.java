@@ -42,14 +42,14 @@ public class InitialBattery extends BatteryControl {
         {
         	if(firstBattery)
         		addHorizontalLine();
-        	Battery newBattery = new Battery(image, mouseX()-30, mouseY()-30, gameWorld);
+        	Battery newBattery = new Battery(image, mouseX()-(getBounds().width/2), mouseY()-(getBounds().height/2), gameWorld);
             gameWorld.addObject(newBattery);
             newBattery.initiate(voltage, capacity);
             setLocation(initialX, initialY);
         }
         if(mouseIsBeingDragged())
         {
-            setLocation(mouseX()-30, mouseY()-30);
+            setLocation(mouseX()-(getBounds().width/2), mouseY()-(getBounds().height/2));
         }
         else
         {
@@ -59,7 +59,7 @@ public class InitialBattery extends BatteryControl {
     
     public static void addHorizontalLine()
     {
-    	horizontalLine = new BasicComponent(BatteryGameScreen.getHorizontalLineImage(),25,85);
+    	horizontalLine = new BasicComponent(BatteryGameScreen.getHorizontalLineImage(),gameWorld.getBatteryBankAreaBounds().x, gameWorld.getBatteryBankAreaBounds().y);
     	gameWorld.addComponent(horizontalLine);
     	BatteryGameScreen.changeBatteryBankText();
     	firstBattery = false;
