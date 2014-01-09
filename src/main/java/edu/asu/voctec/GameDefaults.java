@@ -32,7 +32,7 @@ public interface GameDefaults
 		public static final String CONTINUE_BUTTON_ON = "resources/default/img/buttons/continueButton.png";
 		public static final String CONTINUE_BUTTON_OFF = "resources/default/img/buttons/continueHidden.png";
 		
-		//changes
+		// changes
 		public static final String HINT_BUTTON = "resources/default/img/buttons/hintButton.png";
 		// Labels
 		public static final String BASE_LABEL = "resources/default/img/testButton.png";
@@ -45,13 +45,12 @@ public interface GameDefaults
 		public static final String SELECTOR_SMALL = "resources/default/img/selector/SelectorSmall.png";
 		public static final String SELECTOR_SHADOW = "resources/default/img/selector/SelectorShadow.png";
 		
-		//game template
+		// game template
 		
 		public static final String HINT_BOX_TEMPLATE = "resources/default/img/gameTemplate/BottomHintBox.png";
 		public static final String CONTROL_PANEL = "resources/default/img/gameTemplate/ControlPanel.png";
 		public static final String READY_BOX = "resources/default/img/gameTemplate/EmptyBox.png";
 		public static final String SIDE_PANEL = "resources/default/img/gameTemplate/SidePanel.png";
-		
 		
 		public interface Buttons
 		{
@@ -148,16 +147,37 @@ public interface GameDefaults
 		public static Dimension PRIMARY_SELECTION_SIZE = new Dimension(183, 184);
 		public static Dimension SECONDARY_SELECTION_SIZE = new Dimension(124,
 				123);
-		public static Dimension SHADOW_SIZE = new Dimension(494, 122);
 		
-		public static Point ARROW_LOCATION_LEFT = new Point(0, 91);
-		public static Point ARROW_LOCATION_RIGHT = new Point(535, 91);
-		public static Point PRIMARY_SELECTION_LOCATION = new Point(196, 0);
-		public static Point SECONDARY_SELECTION_LOCATION_LEFT = new Point(52,
-				91);
-		public static Point SECONDARY_SELECTION_LOCATION_RIGHT = new Point(399,
-				91);
-		public static Point SHADOW_LOCATION = new Point(41, 184);
+		// Center Left-Arrow Vertically (far left)
+		public static Point ARROW_LOCATION_LEFT = new Point(0,
+				(PRIMARY_SELECTION_SIZE.height - ARROW_SIZE.height) / 2);
+		
+		// Center Right-Arrow Vertically (far right)
+		public static Point ARROW_LOCATION_RIGHT = new Point(535,
+				(PRIMARY_SELECTION_SIZE.height - ARROW_SIZE.height) / 2);
+		
+		// Center Primary Selection (dead-center)
+		public static Point PRIMARY_SELECTION_LOCATION = new Point(
+				(ARROW_LOCATION_RIGHT.x + ARROW_SIZE.width
+						- ARROW_LOCATION_LEFT.x - PRIMARY_SELECTION_SIZE.width) / 2,
+				0);
+		
+		// Center Left-Selection between primary selection and left-arrow
+		public static Point SECONDARY_SELECTION_LOCATION_LEFT = new Point(
+				(((PRIMARY_SELECTION_LOCATION.x
+						- SECONDARY_SELECTION_SIZE.width
+						- ARROW_LOCATION_LEFT.x - ARROW_SIZE.width) / 2)
+						+ ARROW_LOCATION_LEFT.x + ARROW_SIZE.width),
+				(PRIMARY_SELECTION_SIZE.height - SECONDARY_SELECTION_SIZE.height) / 2);
+		
+		// Center Right-Selection between primary selection and right-arrow
+		public static Point SECONDARY_SELECTION_LOCATION_RIGHT = new Point(
+				(((ARROW_LOCATION_RIGHT.x - PRIMARY_SELECTION_LOCATION.x
+						- PRIMARY_SELECTION_SIZE.width - SECONDARY_SELECTION_SIZE.width) / 2)
+						+ PRIMARY_SELECTION_LOCATION.x + PRIMARY_SELECTION_SIZE.width),
+				(PRIMARY_SELECTION_SIZE.height - SECONDARY_SELECTION_SIZE.height) / 2);
+		
+		// Position Label
 		public static Rectangle ICON_LABEL_BOUNDS = new Rectangle(0, 200, 183,
 				75);
 	}
@@ -223,7 +243,7 @@ public interface GameDefaults
 						"after");
 				public static final LabelName HINT_BODY = new LabelName(
 						"hintBody", "should be completed");
-			} 
+			}
 			
 			public static final LabelName INSTRUCTIONS1 = new LabelName(
 					"instructions1", "Select which step to complete");

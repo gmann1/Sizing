@@ -60,4 +60,6 @@ public interface Displayable
 	public void translate(Point amount);
 	
 	public void translate(int horizontalAmount, int verticalAmount);
+	
+	public void setLocation(Point location);
 }

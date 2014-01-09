@@ -29,17 +29,20 @@ public abstract class BatteryControl extends BasicComponent {
 	
 	protected boolean withinArrayCreationArea()
     {
-		return withinArrayCreationArea( getX(), getY());
+		return withinArrayCreationArea(getX(), getY());
     }
 	
 	protected boolean withinArrayCreationArea(int x, int y)
     {
-        return (y >= 75 && y <= 500 && x >= 25 && x <= 775);
+        return (y >= BatteryGameScreen.getBatteryBankAreaBounds().y 
+        		&& y <= (BatteryGameScreen.getBatteryBankAreaBounds().y+BatteryGameScreen.getBatteryBankAreaBounds().height) 
+        		&& x >= BatteryGameScreen.getBatteryBankAreaBounds().x 
+        		&& x <= (BatteryGameScreen.getBatteryBankAreaBounds().x+BatteryGameScreen.getBatteryBankAreaBounds().width));
     }
     
     protected boolean thisObjectSelected(int x, int y)
     {
-        return (x >= getX() && x <= getX()+60 && y >= getY() && y <= getY()+60);
+        return (x >= getX() && x <= getX()+this.currentImage.getWidth() && y >= getY() && y <= getY()+this.currentImage.getHeight());
     }
     
     protected boolean mouseIsBeingDragged()
