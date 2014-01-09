@@ -32,8 +32,9 @@ import edu.asu.voctec.step_selection.StepSelectionExitScreen;
 import edu.asu.voctec.utilities.CircularList;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
+import edu.asu.voctec.utilities.gameTemplate;
 
-public class SelectorTest extends GUI
+public class SelectorTest extends gameTemplate
 {
 	private static final String endingAnimationPath = "resources/default/img/minigames/animations/DiscoSprites.png";
 	
@@ -42,7 +43,7 @@ public class SelectorTest extends GUI
 	private Animation endingAnimation;
 	private Rectangle endingAnimationBounds;
 	private TextAreaX hintBox;
-	private TextField instructionsLabel;
+	private TextField instructionBox;
 	private Button readyButton;
 	private boolean complete;
 	
@@ -74,7 +75,7 @@ public class SelectorTest extends GUI
 			{
 				if (!selectorDisplay.isFull())
 				{
-					instructionsLabel
+					instructionBox
 							.setText(Labels.Step0.INSTRUCTIONS_INCOMPLETE
 									.getTranslation());
 				}
@@ -91,7 +92,7 @@ public class SelectorTest extends GUI
 					else
 					{
 						updateHints();
-						instructionsLabel.setText(Labels.Step0.INSTRUCTIONS_RED
+						instructionBox.setText(Labels.Step0.INSTRUCTIONS_RED
 								.getTranslation());
 					}
 				}
@@ -109,6 +110,9 @@ public class SelectorTest extends GUI
 		// Keep track of how much time is spent playing this minigame
 		trackTime = true;
 		
+		// Standard Components (Hint Box, Instructions, and Buttons)
+		super.init(container, game);
+		
 		// Selector
 		instantiateSelector();
 		
@@ -116,14 +120,14 @@ public class SelectorTest extends GUI
 		instantiateSelectorDisplay();
 		
 		// Hint Box
-		instantiateHintBox();
+		//instantiateHintBox();
 		
 		// Buttons
-		instantiateButtons();
+		//instantiateButtons();
 		
 		// Background Image
-		Image background = new Image(ImagePaths.MainMenuBackground);
-		setBackgroundImage(background.getScaledCopy(800, 600));
+		//Image background = new Image(ImagePaths.MainMenuBackground);
+		//setBackgroundImage(background.getScaledCopy(800, 600));
 		
 		System.out.println("SelectorTest: Initialization Finished.\n");
 	}
@@ -138,7 +142,7 @@ public class SelectorTest extends GUI
 		Rectangle centered = new Rectangle(selector.getBounds());
 		UtilFunctions.centerRectangleHorizontally(
 				new Rectangle(Main.getCurrentScreenDimension()), centered);
-		selector.translate(centered.x - 75, 620 - centered.height);
+		selector.translate(centered.x - 0, 580 - centered.height);
 		
 		// Format selector, and add it to this screen
 		selector.displayLabel();
@@ -147,16 +151,20 @@ public class SelectorTest extends GUI
 	
 	public void instantiateSelectorDisplay()
 	{
-		// Setup a new selector display, and link it to the selector
+		// Setup a new selector display (using the default appearance)
 		selectorDisplay = new SelectorDisplay<>(50, 60, true);
+		
+		// Size Display
 		selectorDisplay.rescale(0.80f);
+		
+		// Link Display to Selector
 		selectorDisplay.link(selector);
 		
 		// Add the display to this screen
 		this.addComponent(selectorDisplay);
 	}
 	
-	public void instantiateHintBox() throws SlickException
+	private void instantiateHintBox() throws SlickException
 	{
 		// Hint Bounds
 		Rectangle hintBounds = new Rectangle(398, 62, 370, 320);
@@ -166,7 +174,7 @@ public class SelectorTest extends GUI
 		
 		// Hint Box
 		hintBox = new TextAreaX(hintBounds, relativeHintTextBounds, null);
-		instructionsLabel = new TextField(instructionBounds, 0.95f, null,
+		instructionBox = new TextField(instructionBounds, 0.95f, null,
 				TextDisplay.FormattingOption.FIT_TEXT);
 		Image hintBoxBackground = new Image(
 				ImagePaths.Selector.HINT_BOX_BACKGROUND);
@@ -175,13 +183,13 @@ public class SelectorTest extends GUI
 		// Format hint box
 		hintBox.setFontSize(Fonts.FONT_SIZE_MEDIUM);
 		hintBox.setFontColor(Fonts.FONT_COLOR);
-		instructionsLabel.center();
-		instructionsLabel.setFontColor(Fonts.FONT_COLOR);
-		instructionsLabel.setFontSize(Fonts.FONT_SIZE_MEDIUM);
+		instructionBox.center();
+		instructionBox.setFontColor(Fonts.FONT_COLOR);
+		instructionBox.setFontSize(Fonts.FONT_SIZE_MEDIUM);
 		
 		// Add hint box to this screen
 		this.addComponent(hintBox);
-		this.addComponent(instructionsLabel);
+		this.addComponent(instructionBox);
 		
 		// Ending Animation
 		Image spriteSheetImage = new Image(endingAnimationPath);
@@ -195,7 +203,7 @@ public class SelectorTest extends GUI
 		endingAnimation = new Animation(endingAnimationSprites, 1000 / fps);
 	}
 	
-	public void instantiateButtons() throws SlickException
+	private void instantiateButtons() throws SlickException
 	{
 		// Ready Button
 		Image readyButtonImage = new Image(ImagePaths.Buttons.BASE);
@@ -249,7 +257,7 @@ public class SelectorTest extends GUI
 			String instructions = Labels.Step0.INSTRUCTIONS1.getTranslation()
 					+ " " + ordinalNumber
 					+ Labels.Step0.INSTRUCTIONS2.getTranslation();
-			this.instructionsLabel.setText(instructions);
+			this.instructionBox.setText(instructions);
 			System.out.println("Update Instructions: " + instructions);
 		}
 		catch (DisplayIsFullException e)
@@ -264,7 +272,7 @@ public class SelectorTest extends GUI
 						.getTranslation();
 			
 			// Set instructions label text
-			this.instructionsLabel.setText(instructions);
+			this.instructionBox.setText(instructions);
 			System.out.println("Update Instructions: " + instructions);
 		}
 	}
@@ -375,6 +383,7 @@ public class SelectorTest extends GUI
 				.getElements();
 		CircularList<SelectorIcon> selectorContents = this.selector
 				.getElements();
+		
 		ArrayList<String> currentHints = new ArrayList<>();
 		for (String string : this.hintBox.getText())
 		{

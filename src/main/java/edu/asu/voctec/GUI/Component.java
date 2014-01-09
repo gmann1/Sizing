@@ -141,4 +141,10 @@ public abstract class Component implements Displayable, Resizable, Serializable
 		setX(x);
 		setY(y);
 	}
+	
+	public void setLocation(Point location)
+	{
+		setX(location.x);
+		setY(location.y);
+	}
 }

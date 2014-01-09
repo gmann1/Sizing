@@ -34,7 +34,6 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	protected BasicComponent nextChoiceBackground;
 	protected BasicComponent rightArrow;
 	protected BasicComponent leftArrow;
-	protected BasicComponent background;
 	protected TextField choiceLabel;
 	protected ArrayList<Component> components = new ArrayList<>();
 	protected int x;
@@ -45,7 +44,7 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	public class CurrentChoiceListener extends ButtonListener
 	{
 		private static final long serialVersionUID = -2357533399392148024L;
-
+		
 		@Override
 		protected void actionPerformed()
 		{
@@ -167,25 +166,21 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		leftArrow = new BasicComponent(new Image(ImagePaths.ARROW_LEFT),
 				SelectorDefaults.ARROW_LOCATION_LEFT);
 		
-		background = new BasicComponent(new Image(ImagePaths.SELECTOR_SHADOW),
-				SelectorDefaults.SHADOW_LOCATION);
-		
 		// Add all components to array
 		components.add(currentChoiceBackground);
 		components.add(previousChoiceBackground);
 		components.add(nextChoiceBackground);
 		components.add(rightArrow);
 		components.add(leftArrow);
-		components.add(background);
 		
 		// Setup choice label
 		choiceLabel = new TextField(SelectorDefaults.ICON_LABEL_BOUNDS, 0.99f,
 				emptyText, TextDisplay.FormattingOption.FIT_TEXT);
 		
 		// Define relative bounds for this selector
-		int width = this.rightArrow.getX() + this.rightArrow.getBounds().width;
-		int height = this.background.getY()
-				+ this.background.getBounds().height;
+		int width = this.rightArrow.getX() + this.rightArrow.getBounds().width
+				- this.leftArrow.getX();
+		int height = this.currentChoiceBackground.getBounds().height;
 		Rectangle relativeBounds = new Rectangle(0, 0, width, height);
 		
 		// Create centered bounds for choiceLabel
@@ -423,9 +418,10 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		// TODO calculate max and min X/Y components
 		int x = this.x;
 		int y = this.y;
-		int width = this.rightArrow.getX() + this.rightArrow.getBounds().width;
-		int height = this.background.getY()
-				+ this.background.getBounds().height;
+		int width = this.rightArrow.getX() + this.rightArrow.getBounds().width
+				- this.leftArrow.getX();
+		int height = this.currentChoiceBackground.getY()
+				+ this.currentChoiceBackground.getBounds().height;
 		
 		return new Rectangle(x, y, width, height);
 	}
@@ -503,11 +499,10 @@ public class Selector<T extends SelectorIcon> extends Component implements
 	{
 		elements = new CircularList<>();
 	}
-
+	
 	public TextField getChoiceLabel()
 	{
 		return choiceLabel;
 	}
-	
 	
 }
