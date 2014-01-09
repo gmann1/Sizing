@@ -87,7 +87,7 @@ public class CDPart1 extends gameTemplate {
 	ArrayList<String> monthlyHints = new ArrayList<>();
 	ArrayList<String> genericHints = new ArrayList<>();
 
-	public TextArea theHints;
+
 
 	
 
@@ -95,18 +95,25 @@ public class CDPart1 extends gameTemplate {
 
 		@Override
 		protected void actionPerformed() {
+			
 			try {
-				if (correctAnswer) {
-					Game.getCurrentGame().enterState(CDPart2.class);
-				} else {
-					userAnswer(index);
-				}
-
+				userAnswer(index);
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+		}
 
+	}
+	public class CDContinueListener extends ButtonListener {
+
+		@Override
+		protected void actionPerformed() {
+			if (correctAnswer){
+				Game.getCurrentGame().enterState(CDPart2.class);
+			}
+			
 		}
 
 	}
@@ -124,7 +131,7 @@ public class CDPart1 extends gameTemplate {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		super.init(container,  game );
-		
+		this.backgroundImage = new Image(BACKGROUND);
 		instructionBox.setText("Select the Critical Design Month.");
 		// add initial things to the arraylists
 		Earths.add(APRIL);
@@ -185,9 +192,17 @@ public class CDPart1 extends gameTemplate {
 		genericHints
 				.add("The critical design month is the month with the lowest solar insolation.");
 		
+		// Initialize Header
+				Rectangle headerLocation = new Rectangle(122, 10, 592-122-32, 300);
+				TextAreaX header = new TextAreaX(headerLocation, .95f,
+						null);
+				header.setFontSize(LARGE_FONT_SIZE);
+				header.setFontColor(FONT_COLOR1);
+				header.setText("Location: Niger, Niamey" + "\n" + "Latitude: 13° 31 N, Longitude: 2° 6 E");
+				
 		//earth
 		Image Earth = new Image(Earths.get(index));
-		earths = new BasicComponent(Earth, 30, 57);
+		earths = new BasicComponent(Earth, sidePanel.getX()/2 - Earth.getWidth()/2, 57);
 	
 		//whole selector
 		sel = new CDSelector<SelectorIcon>(50, 520);
@@ -280,6 +295,7 @@ public class CDPart1 extends gameTemplate {
 		left2.setText(months.get(5).get(1));
 		left3.setText(months.get(5).get(2));
 
+		
 		this.addComponent(sel);
 		this.addComponent(main1);
 		this.addComponent(main2);
@@ -291,17 +307,13 @@ public class CDPart1 extends gameTemplate {
 		this.addComponent(left2);
 		this.addComponent(left3);
 		this.addComponent(earths);
+		this.addComponent(header);
 
-	
-		// Hints
-		theHints = new TextArea(new Rectangle(413, 77, 340, 450), .95f, "");
-		theHints.setFontSize(MEDIUM_FONT_SIZE);
-		theHints.setFontColor(FONT_COLOR1);
-	
-
-		// initialize
-
-		this.addComponent(theHints);
+		hintButton.addActionListener(new CDHintListener());
+		readyButton.addActionListener(new CDReadyListener());
+		continueButton.addActionListener(new CDContinueListener());
+		backButton.addActionListener(new TransitionButtonListener(
+				CDIntroScreen.class));
 
 
 		System.out
@@ -310,7 +322,7 @@ public class CDPart1 extends gameTemplate {
 
 	private void userAnswer(int i) throws SlickException {
 		if (i == 0) {
-			theHints.setText(monthlyHints.get(i));
+			hintBox.setText(monthlyHints.get(i));
 			if (!ap && !correctAnswer) {
 				++hints;
 				ap = true;
@@ -318,7 +330,7 @@ public class CDPart1 extends gameTemplate {
 			System.out.println("April Hint shown, total hints: " + hints);
 		}
 		if (i == 1) {
-			theHints.setText(monthlyHints.get(i));
+			hintBox.setText(monthlyHints.get(i));
 			if (!fe && !correctAnswer) {
 				++hints;
 				fe = true;
@@ -326,14 +338,14 @@ public class CDPart1 extends gameTemplate {
 			System.out.println("February Hint shown, total hints: " + hints);
 		}
 		if (i == 2) {
-			theHints.setText(monthlyHints.get(i));
-			
+			hintBox.setText(monthlyHints.get(i));
+			continueButtonOn();
 			correctAnswer = true;
 			System.out.println("Correct answer gotten after " + hints
 					+ " hints.");
 		}
 		if (i == 3) {
-			theHints.setText(monthlyHints.get(i));
+			hintBox.setText(monthlyHints.get(i));
 			if (!oc && !correctAnswer) {
 				++hints;
 				oc = true;
@@ -341,7 +353,7 @@ public class CDPart1 extends gameTemplate {
 			System.out.println("October Hint shown, total hints: " + hints);
 		}
 		if (i == 4) {
-			theHints.setText(monthlyHints.get(i));
+			hintBox.setText(monthlyHints.get(i));
 			if (!se && !correctAnswer) {
 				++hints;
 				se = true;
@@ -349,7 +361,7 @@ public class CDPart1 extends gameTemplate {
 			System.out.println("September Hint shown, total hints: " + hints);
 		}
 		if (i == 5) {
-			theHints.setText(monthlyHints.get(i));
+			hintBox.setText(monthlyHints.get(i));
 			if (!ju && !correctAnswer) {
 				++hints;
 				ju = true;
@@ -361,7 +373,7 @@ public class CDPart1 extends gameTemplate {
 
 	private void displayHint(int hCount) {
 		if (hCount == 0) {
-			theHints.setText(genericHints.get(0));
+			hintBox.setText(genericHints.get(0));
 			++hintCount;
 			if (!correctAnswer) {
 				++hints;
@@ -369,7 +381,7 @@ public class CDPart1 extends gameTemplate {
 			System.out.println("Generic Hint1 shown, total hints: " + hints);
 		}
 		if (hCount == 1) {
-			theHints.setText(genericHints.get(1));
+			hintBox.setText(genericHints.get(1));
 			++hintCount;
 			if (!correctAnswer) {
 				++hints;
@@ -377,7 +389,7 @@ public class CDPart1 extends gameTemplate {
 			System.out.println("Generic Hint2 shown, total hints: " + hints);
 		}
 		if (hCount == 2) {
-			theHints.setText(genericHints.get(2));
+			hintBox.setText(genericHints.get(2));
 			++hintCount;
 			if (!correctAnswer) {
 				++hints;
@@ -387,11 +399,11 @@ public class CDPart1 extends gameTemplate {
 		if (hCount > 2) {
 
 			if (hCount == 3) {
-				theHints.setText(genericHints.get(0));
+				hintBox.setText(genericHints.get(0));
 			} else if (hCount == 4) {
-				theHints.setText(genericHints.get(1));
+				hintBox.setText(genericHints.get(1));
 			} else {
-				theHints.setText(genericHints.get(2));
+				hintBox.setText(genericHints.get(2));
 			}
 			++hintCount;
 			if (hintCount == 6) {
