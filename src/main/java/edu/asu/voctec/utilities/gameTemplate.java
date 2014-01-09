@@ -11,6 +11,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import edu.asu.voctec.GUI.BasicComponent;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.TextAreaX;
+import edu.asu.voctec.GUI.TextDisplay;
+import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
@@ -21,6 +23,7 @@ public class gameTemplate extends GUI {
 	
 	protected TextAreaX hintBox;
 	protected TextAreaX instructionBox;
+	protected TextAreaX topText;
 	
 	protected BasicComponent sidePanel;
 	protected BasicComponent control;
@@ -41,6 +44,14 @@ public class gameTemplate extends GUI {
 		
 	}
 	public void intializeDefaults() throws SlickException {
+		//initialize top text
+		
+		Rectangle textLocation = new Rectangle(135, 15, 410, 150);
+		topText = new TextAreaX(textLocation, new Rectangle(0, 0, 410, 150),
+				null);
+		topText.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+		topText.setFontSize(Fonts.FONT_SIZE_LARGE);
+		
 		// Initialize Side Panel
 		
 		sidePanel = new BasicComponent(ImagePaths.SIDE_PANEL, 592, 0);
@@ -123,6 +134,7 @@ public class gameTemplate extends GUI {
 		this.addComponent(readyButton);
 		this.addComponent(backButton);
 		this.addComponent(continueButton);
+	
 
 	}
 	
