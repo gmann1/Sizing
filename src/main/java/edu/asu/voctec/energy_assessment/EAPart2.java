@@ -51,6 +51,7 @@ public class EAPart2 extends gameTemplate
 	private static final String LAPTOP = "resources/default/img/minigames/energyAssessment/New/Laptop.png";
 	
 	private TextAreaX watt1, watt2, watt3, watt4, watt5;
+	static PowerBar powerBar;
 	
 	private boolean continueGood = false;
 	public static int totalPowerRating = 0;
@@ -110,6 +111,12 @@ public class EAPart2 extends gameTemplate
 		this.addComponent(laptop);
 		
 		//initializeWatts();
+		powerBar = new PowerBar(20,20,1,81,81);
+		
+		this.addComponent(powerBar);
+		this.addComponent(powerBar.powerBarIndicator);
+		
+		powerBar.updatePowerBar(totalPowerRating);
 		
 		this.addComponent(topText);
 		topText.setText("Drag the diffrent appliances to the diffrent boxs to meet the total power rating.");
@@ -164,6 +171,7 @@ public class EAPart2 extends gameTemplate
 			else if(applianceArray[v] == 5)
 				totalPowerRating += powerRatings[4];
 		}
+		powerBar.updatePowerBar(totalPowerRating);
 		System.out.println("Total Power Rating: "+totalPowerRating);
 	}
 	
