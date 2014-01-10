@@ -34,7 +34,6 @@ public class PowerBar extends BasicComponent{
 		
 		powerBarIndicator = new BasicComponent(POWER_BAR_INDICATOR, x+((int) (powerBarRelativeX*scale)), y+powerBarRelativeY-powerBarHeight);
 		powerBarIndicator.resize(powerBarWidth,powerBarHeight);
-		//gameClass.addComponent(powerBarIndicator);
 	}
 	
 	public void updatePowerBar(int totalPower)
@@ -60,7 +59,7 @@ public class PowerBar extends BasicComponent{
 		return (int) newHeight;
 	}
 	
-	private boolean targetAchieved(int totalPower)
+	public boolean targetAchieved(int totalPower)
 	{
 		if(totalPower >= minLimit && totalPower <= maxLimit)
 			return true;
