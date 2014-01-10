@@ -15,7 +15,7 @@ import edu.asu.voctec.utilities.Position;
 public class EAPart1IntroScreen extends GUI
 {
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
-	public static final String INTRODUCTION = "In this game you need will need to put in order the different processes needed to determine the correct daily energy requirements.";
+	public static final String INTRODUCTION = "Needs to be edited";
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -42,7 +42,7 @@ public class EAPart1IntroScreen extends GUI
 		Button startButton = new Button(new Image(ARROW_RIGHT), 750, 550,
 				new Rectangle(0, 0, 50, 25), "Begin!");
 		startButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
-		startButton.addActionListener(new TransitionButtonListener(EAPart1.class));
+		startButton.addActionListener(new TransitionButtonListener(EAPart2.class));
 		startButton.positionText(Position.LEFT);
 		
 		// Back Button
