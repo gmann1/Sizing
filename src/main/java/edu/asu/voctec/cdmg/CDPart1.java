@@ -133,6 +133,7 @@ public class CDPart1 extends gameTemplate {
 		super.init(container,  game );
 		this.backgroundImage = new Image(BACKGROUND);
 		instructionBox.setText("Select the Critical Design Month.");
+		topText.setText("Location: Niger, Niamey" + "\n" + "Latitude: 13° 31 N, Longitude: 2° 6 E");
 		// add initial things to the arraylists
 		Earths.add(APRIL);
 		Earths.add(FEBRUARY);
@@ -192,13 +193,8 @@ public class CDPart1 extends gameTemplate {
 		genericHints
 				.add("The critical design month is the month with the lowest solar insolation.");
 		
-		// Initialize Header
-				Rectangle headerLocation = new Rectangle(122, 10, 592-122-32, 300);
-				TextAreaX header = new TextAreaX(headerLocation, .95f,
-						null);
-				header.setFontSize(LARGE_FONT_SIZE);
-				header.setFontColor(FONT_COLOR1);
-				header.setText("Location: Niger, Niamey" + "\n" + "Latitude: 13° 31 N, Longitude: 2° 6 E");
+		
+				
 				
 		//earth
 		Image Earth = new Image(Earths.get(index));
@@ -211,9 +207,10 @@ public class CDPart1 extends gameTemplate {
 		Rectangle textBounds = UtilFunctions.getImageBounds(readyButtonImage);
 		int readyButtonOffSet = container.getWidth() - READY_BUTTON_X
 				- textBounds.width;
-
-		sel.setX(READY_BUTTON_X - readyButtonOffSet - sel.getBounds().width);
-		sel.setY(sel.getY() +5);
+		Rectangle selectorRect = sel.getBounds();
+		UtilFunctions.centerRectangle(control.getBounds(), selectorRect);
+		sel.setX((int)selectorRect.getX());
+		sel.setY((int)selectorRect.getY());
 		// Main Selector
 		Rectangle textLocation = new Rectangle(0, 0, sel.getMainBounds().width,
 				sel.getMainBounds().height / 4);
@@ -294,6 +291,8 @@ public class CDPart1 extends gameTemplate {
 		left1.setText(months.get(5).get(0));
 		left2.setText(months.get(5).get(1));
 		left3.setText(months.get(5).get(2));
+		
+
 
 		
 		this.addComponent(sel);
@@ -307,7 +306,8 @@ public class CDPart1 extends gameTemplate {
 		this.addComponent(left2);
 		this.addComponent(left3);
 		this.addComponent(earths);
-		this.addComponent(header);
+		this.addComponent(topText);
+		
 
 		hintButton.addActionListener(new CDHintListener());
 		readyButton.addActionListener(new CDReadyListener());
@@ -482,67 +482,6 @@ public class CDPart1 extends gameTemplate {
 
 	}
 
-	/*public void intializeDefaults() throws SlickException {
-		// Initialize Header
-		Rectangle headerLocation = new Rectangle(32, 52, 350, 500);
-		TextAreaX header = new TextAreaX(headerLocation, .95f,
-				null);
-		header.setFontSize(MEDIUM_FONT_SIZE);
-		header.setFontColor(FONT_COLOR1);
-		header.setText("Location: Niger, Niamey" + "\n" + "Latitude: 13° 31 N, Longitude: 2° 6 E");
-		
-		// Hint Box Initialization
-		// Hint Bounds
-		Rectangle hintBounds = new Rectangle(398, 57, 370, 160);
-		Rectangle relativeHintTextBounds = UtilFunctions.dialateRectangle(
-				new Rectangle(0, 0, 370, 160), 0.92f);
-		TextAreaX hintBox = new TextAreaX(hintBounds, relativeHintTextBounds,
-				null);
-
-		Image hintBoxBackground = new Image(
-				ImagePaths.Selector.HINT_BOX_BACKGROUND);
-		hintBox.setCurrentImage(hintBoxBackground, true);
-
-		// Format hint box
-		hintBox.setFontSize(Fonts.FONT_SIZE_MEDIUM);
-
-		hintBox.setFontColor(Fonts.FONT_COLOR);
-
-		// Back Button
-		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
-				new Rectangle(0, 0, 50, 25), "Back");
-		backButton.addActionListener(new TransitionButtonListener(
-				CDIntroScreen.class));
-		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
-		backButton.positionText(Position.RIGHT);
-		// Ready Button
-		Image readyButtonImage = new Image(ImagePaths.READY_BUTTON);
-		Rectangle textBounds = UtilFunctions.getImageBounds(readyButtonImage);
-		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.80f);
-		Button readyButton = new Button(readyButtonImage, 600, 500, textBounds,
-				null);
-		readyButton.addActionListener(new CDReadyListener());
-
-		// Hint Button
-		Image hintButtonImage = (new Image(ImagePaths.HINT_BUTTON));
-		textBounds = UtilFunctions.getImageBounds(hintButtonImage);
-		Button Hint = new Button(hintButtonImage, readyButton.getX() + 18,
-				readyButton.getY() - textBounds.height - 5, textBounds,
-				"HINT");
-		Hint.addActionListener(new CDHintListener());
-		Hint.rescale(.8f, 1f);
-		Hint.setX(readyButton.getX() + 28);
-		Hint.getTextField().center();
-		Hint.setFontColor(FONT_COLOR);
-
-		this.addComponent(hintBox);
-		this.addComponent(header);
-		this.addComponent(backButton);
-		this.addComponent(readyButton);
-
-		this.addComponent(Hint);
-
-	}
-	*/
+	
 
 }
