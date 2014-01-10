@@ -158,7 +158,6 @@ public class ControllerSizingPart1 extends GUI {
 			try {
 				updateInstructions();
 			} catch (SlickException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -345,33 +344,32 @@ public class ControllerSizingPart1 extends GUI {
 
 			addComponent(star);
 		}
-		// Hints(398, 57, 370, 160);
-		instructions = new TextArea(new Rectangle(408, 67, 350, 450), .95f, "");
-		instructions.setFontSize(MEDIUM_FONT_SIZE);
-		instructions.setFontColor(FONT_COLOR1);
+		// Hints(398, 57, 370, 160); //TODO
+		//instructions = new TextArea(new Rectangle(408, 67, 350, 450), .95f, "");
+		Image hintBoxBackground = new Image(
+				ImagePaths.HINT_BOX_TEMPLATE);
+		
+		//Instruction Box Initialization
+		Rectangle hintBounds = new Rectangle(600, 8, 192, 192);
+		
+		Rectangle relativeHintTextBounds = UtilFunctions.dialateRectangle(
+				new Rectangle(0, 0, 192, 192), 0.92f);
+		instructions = new TextAreaX(hintBounds, relativeHintTextBounds,
+				null);
+		instructions.setCurrentImage(hintBoxBackground, true);
+		instructions = new TextArea(new Rectangle(800, 67, 350, 450), .95f, "");
+		instructions.setFontSize(Fonts.FONT_SIZE_MEDIUM);
+		instructions.setFontColor(Fonts.FONT_COLOR);
 		instructions
 				.setText("You chose the right controller. Now you are going to see how it works... Press continue.");
 
-		// Hint Box Initialization
-		// Hint Bounds
-		Rectangle hintBounds = new Rectangle(398, 57, 370, 160);
-		Rectangle relativeHintTextBounds = UtilFunctions.dialateRectangle(
-				new Rectangle(0, 0, 370, 160), 0.92f);
-		TextAreaX hintBox = new TextAreaX(hintBounds, relativeHintTextBounds,
-				null);
-
-		Image hintBoxBackground = new Image(
-				ImagePaths.Selector.HINT_BOX_BACKGROUND);
-		hintBox.setCurrentImage(hintBoxBackground, true);
+		
 		
 		//danger
 		
 		danger = new BasicComponent(new Image(DANGER), 800, 600);
 
-		// Format hint box
-		hintBox.setFontSize(Fonts.FONT_SIZE_MEDIUM);
-
-		hintBox.setFontColor(Fonts.FONT_COLOR);
+	
 		addComponent(sun);
 		addComponent(ground);
 		addComponent(pole);
@@ -391,7 +389,7 @@ public class ControllerSizingPart1 extends GUI {
 		addComponent(backButton);
 		addComponent(introScreens);
 		
-		addComponent(hintBox);
+	
 		addComponent(instructions);
 		addComponent(cont);
 		addComponent(danger);
@@ -402,7 +400,10 @@ public class ControllerSizingPart1 extends GUI {
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		super.update(container, game, delta);
-
+		//TODO
+		intro = false;
+		walkthrough = false;
+		simulating = true;
 		if (!panelOn && !houseOn && !houseNeed) {
 			layout.setCurrentImage(new Image(LAYOUT_PANEL_OFF), true);
 		}
