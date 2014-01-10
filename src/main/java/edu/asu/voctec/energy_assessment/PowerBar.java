@@ -27,11 +27,12 @@ public class PowerBar extends BasicComponent{
 		maxPower = (int) (minLimit+(0.28*minLimit));
 		powerBarWidth = (int) (powerBarWidth*scale);
 		powerBarRelativeY = (int) (powerBarRelativeY*scale);
+		powerBarMaxHeight = (int) (powerBarMaxHeight*scale);
 		
 		powerBarBackgroundCorrectImage = new Image(POWER_BAR_BACKGROUND_CORRECT);
 		powerBarBackgroundImage = new Image(POWER_BAR_BACKGROUND);
 		
-		powerBarIndicator = new BasicComponent(POWER_BAR_INDICATOR, x+powerBarRelativeX, y+powerBarRelativeY-powerBarHeight);
+		powerBarIndicator = new BasicComponent(POWER_BAR_INDICATOR, x+((int) (powerBarRelativeX*scale)), y+powerBarRelativeY-powerBarHeight);
 		powerBarIndicator.resize(powerBarWidth,powerBarHeight);
 		//gameClass.addComponent(powerBarIndicator);
 	}
