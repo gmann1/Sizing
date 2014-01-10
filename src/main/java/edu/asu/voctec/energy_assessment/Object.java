@@ -5,13 +5,14 @@ import org.newdawn.slick.Image;
 import edu.asu.voctec.GUI.BasicComponent;
 import edu.asu.voctec.batter_sizing.Battery;
 import edu.asu.voctec.batter_sizing.BatteryGameScreen;
+import edu.asu.voctec.batter_sizing.InitialBattery;
 
 import java.util.List;
 import java.util.ArrayList;
 
 public class Object extends ObjectMove
 {
-	public static List<ArrayList<Object>> ObjectArray = new ArrayList<ArrayList<Object>>();
+	public static List<Object> objectArray = new ArrayList<Object>();
 	private int index = 10;
 	private int device, watt;
 	private static EAPart2 gameWorld;
@@ -29,6 +30,7 @@ public class Object extends ObjectMove
 				EAPart2.applianceArray[v] = device;
 				index = v;
 				setObjectLocation();
+				addToArray();
 				EAPart2.updatePowerRating();
 				break;
 			}
@@ -49,6 +51,7 @@ public class Object extends ObjectMove
 					EAPart2.applianceArray[v] = device;
 					index = v;
 					setObjectLocation();
+					addToArray();
 					EAPart2.updatePowerRating();
 					break;
 				}
@@ -88,8 +91,28 @@ public class Object extends ObjectMove
     	return false;
     }
     
+    public void addToArray()
+    {
+       objectArray.add(this);
+    }
+    
+    public void removeFromArray()
+    {
+       objectArray.add(this);
+    }
+    
     public static void reset()
     {
-    	
+    	System.out.println(objectArray.size());
+    	if(!objectArray.isEmpty())
+    	{
+	    	for(int indexRows = 0; indexRows<objectArray.size(); indexRows++)
+	    	{
+	    		System.out.println(objectArray.size());
+	    			Object removedObject = objectArray.get(indexRows);
+	    			gameWorld.removeObject(removedObject);
+	    	}
+	    	objectArray.clear();
+    	}
     }
 }
