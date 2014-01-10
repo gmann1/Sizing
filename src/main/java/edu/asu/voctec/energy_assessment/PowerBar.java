@@ -26,6 +26,7 @@ public class PowerBar extends BasicComponent{
 		maxLimit = maxWinningLimit;
 		maxPower = (int) (minLimit+(0.28*minLimit));
 		powerBarWidth = (int) (powerBarWidth*scale);
+		powerBarRelativeY = (int) (powerBarRelativeY*scale);
 		
 		powerBarBackgroundCorrectImage = new Image(POWER_BAR_BACKGROUND_CORRECT);
 		powerBarBackgroundImage = new Image(POWER_BAR_BACKGROUND);
@@ -50,7 +51,10 @@ public class PowerBar extends BasicComponent{
 	{
 		double newHeight;
 		newHeight = ((double) (totalPower)/(double) (maxPower));
-		newHeight *= powerBarMaxHeight;
+		if(newHeight < 1)
+			newHeight *= powerBarMaxHeight;
+		else
+			newHeight = powerBarMaxHeight;
 		
 		return (int) newHeight;
 	}
