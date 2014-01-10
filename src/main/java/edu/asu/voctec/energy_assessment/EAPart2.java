@@ -64,7 +64,7 @@ public class EAPart2 extends gameTemplate
 		{135,210},
 		{245,210},
 		{355,210},
-		{465,210}
+		{135,320}
 	};
 	public static int powerRatings[] = {14,9,30,60,40};
 	
@@ -111,11 +111,9 @@ public class EAPart2 extends gameTemplate
 		this.addComponent(laptop);
 		
 		//initializeWatts();
-		powerBar = new PowerBar(20,20,1,81,81);
-		
+		powerBar = new PowerBar(500,75,.8,81,81);
 		this.addComponent(powerBar);
 		this.addComponent(powerBar.powerBarIndicator);
-		
 		powerBar.updatePowerBar(totalPowerRating);
 		
 		this.addComponent(topText);
