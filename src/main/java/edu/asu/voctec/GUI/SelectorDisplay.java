@@ -53,7 +53,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	public class ChoiceListener extends ButtonListener
 	{
 		private static final long serialVersionUID = -5724209354491062766L;
-
+		
 		@Override
 		protected void actionPerformed()
 		{
@@ -190,9 +190,9 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 			choiceBorders = borders.toArray(new BasicComponent[borders.size()]);
 			
 			// Setup each choiceBorder
-			setupChoiceBorders(true); // Set screen-relative positions,
-										// associate with
-			// GUI, and listen for mouse clicks
+			// Set screen-relative positions, associate with GUI, and listen for
+			// mouse clicks
+			setupChoiceBorders(true);
 			
 			// Position arrows
 			setupAethsteticComponents(true);
@@ -342,8 +342,9 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 			else
 				keyWord = Step0.Hints.AFTER.getTranslation();
 			
-			hint = element.getName() + " " + Step0.Hints.HINT_BODY.getTranslation() + " "
-					+ keyWord + " " + root.getName() + ".";
+			hint = element.getName() + " "
+					+ Step0.Hints.HINT_BODY.getTranslation() + " " + keyWord
+					+ " " + root.getName() + ".";
 		}
 		
 		return hint;
@@ -384,7 +385,18 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 			ArrayList<Component> extraComponentContainer)
 	{
 		ArrayList<BasicComponent> borders = new ArrayList<>(5);
+		spacing += defaultBorder.getWidth();
 		
+		// Populate default borders - Place 5 borders side-by-side
+		{
+			Point relativeLocation = new Point(0, 0);
+			for (int index = 0; index < 5; index++)
+			{
+				borders.add(new BasicComponent(defaultBorder, relativeLocation));
+				relativeLocation.translate(spacing, 0);
+			}
+		}
+		/*
 		// Populate default borders - Make a '5-domino' formation
 		// Top left border
 		Point relativeLocation = new Point(0, 0);
@@ -435,7 +447,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 				+ borders.get(3).getBounds().width, borders.get(3).getY());
 		extraComponentContainer.add(new BasicComponent(largeArrow,
 				relativeLocation));
-		
+		*/
 		return borders;
 	}
 	
@@ -655,7 +667,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		int firstNull = elements.indexOf(null);
 		return (firstNull < 0 || firstNull > capacity);
 	}
-
+	
 	public boolean isEmpty()
 	{
 		boolean empty = true;
@@ -688,12 +700,12 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		
 		return currentIndex;
 	}
-
+	
 	public ArrayList<T> getElements()
 	{
 		return elements;
 	}
-
+	
 	public void setElements(ArrayList<T> elements)
 	{
 		this.elements = elements;

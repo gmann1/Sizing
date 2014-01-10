@@ -105,7 +105,12 @@ public class CDPart2 extends gameTemplate {
 		@Override
 		protected void actionPerformed() {
 			
-			winConditional();
+			try {
+				winConditional();
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 
