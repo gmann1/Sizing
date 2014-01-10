@@ -22,8 +22,6 @@ import edu.asu.voctec.GUI.SelectorDisplay;
 import edu.asu.voctec.GUI.SelectorDisplay.DisplayIsFullException;
 import edu.asu.voctec.GUI.SelectorIcon;
 import edu.asu.voctec.GUI.TextAreaX;
-import edu.asu.voctec.GUI.TextDisplay;
-import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.information.SizingStepsData;
 import edu.asu.voctec.information.TaskData;
@@ -42,9 +40,10 @@ public class SelectorTest extends gameTemplate
 	private Selector<SelectorIcon> selector;
 	private Animation endingAnimation;
 	private Rectangle endingAnimationBounds;
-	private TextAreaX hintBox;
-	private TextField instructionBox;
-	private Button readyButton;
+	/*
+	 * private TextAreaX hintBox; private TextField instructionBox; private
+	 * Button readyButton;
+	 */
 	private boolean complete;
 	
 	/**
@@ -67,17 +66,12 @@ public class SelectorTest extends gameTemplate
 		@Override
 		protected void actionPerformed()
 		{
-			if (complete)
-			{
-				Game.getCurrentGame().enterState(StepSelectionExitScreen.class);
-			}
-			else
+			if (!complete)
 			{
 				if (!selectorDisplay.isFull())
 				{
-					instructionBox
-							.setText(Labels.Step0.INSTRUCTIONS_INCOMPLETE
-									.getTranslation());
+					instructionBox.setText(Labels.Step0.INSTRUCTIONS_INCOMPLETE
+							.getTranslation());
 				}
 				else
 				{
@@ -85,9 +79,16 @@ public class SelectorTest extends gameTemplate
 					
 					if (complete)
 					{
-						updateInstructions();
-						readyButton.getTextField().setText("Continue");
-						hintBox.clear();
+						try
+						{
+							updateInstructions();
+							hintBox.clear();
+							continueButtonOn();
+						}
+						catch (Exception e)
+						{
+							e.printStackTrace();
+						}
 					}
 					else
 					{
@@ -97,6 +98,34 @@ public class SelectorTest extends gameTemplate
 					}
 				}
 			}
+		}
+		
+	}
+
+	public class HintButtonListener extends ButtonListener
+	{
+		private static final long serialVersionUID = -914640823203112459L;
+		
+		@Override
+		protected void actionPerformed()
+		{
+			if (!complete)
+			{
+				displayGenericHint();
+			}
+		}
+		
+	}
+	
+	public class ContinueButtonListener extends ButtonListener
+	{
+		private static final long serialVersionUID = -914640823203112459L;
+		
+		@Override
+		protected void actionPerformed()
+		{
+			if (complete)
+				Game.getCurrentGame().enterState(StepSelectionExitScreen.class);
 		}
 		
 	}
@@ -119,17 +148,35 @@ public class SelectorTest extends gameTemplate
 		// Selector Display
 		instantiateSelectorDisplay();
 		
+		// Ending Animation
+		instantiateEndingAnimation();
+		
+		// Add Listeners to all Buttons
+		setupButtonListeners();
+		
+		// TODO REMOVE
+		this.removeComponent(hintButton);
+		
 		// Hint Box
-		//instantiateHintBox();
+		// instantiateHintBox();
 		
 		// Buttons
-		//instantiateButtons();
+		// instantiateButtons();
 		
 		// Background Image
-		//Image background = new Image(ImagePaths.MainMenuBackground);
-		//setBackgroundImage(background.getScaledCopy(800, 600));
+		// Image background = new Image(ImagePaths.MainMenuBackground);
+		// setBackgroundImage(background.getScaledCopy(800, 600));
 		
 		System.out.println("SelectorTest: Initialization Finished.\n");
+	}
+	
+	public void setupButtonListeners()
+	{
+		continueButton.addActionListener(new ContinueButtonListener());
+		readyButton.addActionListener(new ReadyButtonListener());
+		hintButton.addActionListener(new HintButtonListener());
+		backButton.addActionListener(new TransitionButtonListener(
+				ScenarioIntroductionScreen.class));
 	}
 	
 	public void instantiateSelector() throws SlickException
@@ -140,9 +187,8 @@ public class SelectorTest extends gameTemplate
 		
 		// Center the selector, along the bottom of the screen
 		Rectangle centered = new Rectangle(selector.getBounds());
-		UtilFunctions.centerRectangleHorizontally(
-				new Rectangle(Main.getCurrentScreenDimension()), centered);
-		selector.translate(centered.x - 0, 580 - centered.height);
+		UtilFunctions.centerRectangle(control.getBounds(), centered);
+		selector.translate(centered.x, centered.y);
 		
 		// Format selector, and add it to this screen
 		selector.displayLabel();
@@ -152,7 +198,7 @@ public class SelectorTest extends gameTemplate
 	public void instantiateSelectorDisplay()
 	{
 		// Setup a new selector display (using the default appearance)
-		selectorDisplay = new SelectorDisplay<>(50, 60, true);
+		selectorDisplay = new SelectorDisplay<>(0, 0, true);
 		
 		// Size Display
 		selectorDisplay.rescale(0.80f);
@@ -160,8 +206,36 @@ public class SelectorTest extends gameTemplate
 		// Link Display to Selector
 		selectorDisplay.link(selector);
 		
+		// Center the display in the middle of the play-area
+		Rectangle playArea = new Rectangle(Main.getCurrentScreenDimension());
+		System.out.println("\tPlayArea Bounds: " + playArea);
+		int width = playArea.width - sidePanel.getBounds().width;
+		int height = playArea.height - control.getBounds().height;
+		playArea.setSize(width, height);
+		System.out.println("\tPlayArea Bounds: " + playArea);
+		System.out.println("\tDisplay Bounds: " + selectorDisplay.getBounds());
+		Rectangle centered = new Rectangle(selectorDisplay.getBounds());
+		UtilFunctions.centerRectangle(playArea, centered);
+		System.out.println("\tCentered Bounds: " + centered);
+		selectorDisplay.translate(centered.x, centered.y);
+		
 		// Add the display to this screen
 		this.addComponent(selectorDisplay);
+	}
+	
+	private void instantiateEndingAnimation() throws SlickException
+	{
+		// Ending Animation
+		Image spriteSheetImage = new Image(endingAnimationPath);
+		int fps = 6;
+		int frameWidth = 115;
+		int frameHeight = 150;
+		endingAnimationBounds = new Rectangle(0, 0, frameWidth, frameHeight);
+		UtilFunctions.centerRectangle(hintBox.getBounds(),
+				endingAnimationBounds);
+		SpriteSheet endingAnimationSprites = new SpriteSheet(spriteSheetImage,
+				frameWidth, frameHeight);
+		endingAnimation = new Animation(endingAnimationSprites, 1000 / fps);
 	}
 	
 	private void instantiateHintBox() throws SlickException
@@ -170,12 +244,9 @@ public class SelectorTest extends gameTemplate
 		Rectangle hintBounds = new Rectangle(398, 62, 370, 320);
 		Rectangle relativeHintTextBounds = UtilFunctions.dialateRectangle(
 				new Rectangle(0, 0, 370, 320), 0.92f);
-		Rectangle instructionBounds = new Rectangle(398, 0, 370, 62);
 		
 		// Hint Box
 		hintBox = new TextAreaX(hintBounds, relativeHintTextBounds, null);
-		instructionBox = new TextField(instructionBounds, 0.95f, null,
-				TextDisplay.FormattingOption.FIT_TEXT);
 		Image hintBoxBackground = new Image(
 				ImagePaths.Selector.HINT_BOX_BACKGROUND);
 		hintBox.setCurrentImage(hintBoxBackground, true);
@@ -183,24 +254,13 @@ public class SelectorTest extends gameTemplate
 		// Format hint box
 		hintBox.setFontSize(Fonts.FONT_SIZE_MEDIUM);
 		hintBox.setFontColor(Fonts.FONT_COLOR);
-		instructionBox.center();
+		// instructionBox.center();
 		instructionBox.setFontColor(Fonts.FONT_COLOR);
 		instructionBox.setFontSize(Fonts.FONT_SIZE_MEDIUM);
 		
 		// Add hint box to this screen
 		this.addComponent(hintBox);
 		this.addComponent(instructionBox);
-		
-		// Ending Animation
-		Image spriteSheetImage = new Image(endingAnimationPath);
-		int fps = 6;
-		int frameWidth = 115;
-		int frameHeight = 150;
-		endingAnimationBounds = new Rectangle(0, 0, frameWidth, frameHeight);
-		UtilFunctions.centerRectangle(hintBounds, endingAnimationBounds);
-		SpriteSheet endingAnimationSprites = new SpriteSheet(spriteSheetImage,
-				frameWidth, frameHeight);
-		endingAnimation = new Animation(endingAnimationSprites, 1000 / fps);
 	}
 	
 	private void instantiateButtons() throws SlickException
@@ -284,11 +344,28 @@ public class SelectorTest extends gameTemplate
 		// Derive hints from the user's current choices (shuffle the hints)
 		ArrayList<String> hints = selectorDisplay.deriveHints(true);
 		
+		// Determine number of hints (2 wrong answers = 1 hint; min 1 hint)
+		int answerHintRatio = 2;
+		int numberOfHints = hints.size();
+		numberOfHints = (answerHintRatio > numberOfHints) ? 1
+				: (numberOfHints / answerHintRatio);
+		
+		// Reduce number of hints to numberOfHints
+		while (hints.size() > numberOfHints)
+			hints.remove(0);
+		
 		// Update the number of hints used
 		Game.getCurrentTask().getCurrentAttempt().addHints(hints.size());
 		
 		// Add hints to the hint box (double-spaced)
 		hintBox.addLines(hints, true);
+	}
+	
+	public void displayGenericHint()
+	{
+		hintBox.clear();
+		String hint = selectorDisplay.deriveHint();
+		hintBox.addLine(hint);
 	}
 	
 	public void load()
@@ -319,8 +396,16 @@ public class SelectorTest extends gameTemplate
 		
 		if (selectorDisplay.isFull() && complete)
 		{
-			selectorDisplay.updateChoiceBorders();
-			readyButton.getTextField().setText("Continue");
+			try
+			{
+				selectorDisplay.updateChoiceBorders();
+				continueButtonOn();
+			}
+			catch (SlickException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else
 		{
