@@ -308,7 +308,33 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		return hints;
 	}
 	
+	public String deriveHint()
+	{
+		ArrayList<T> orderedElements = generateOrderedElementsArray();
+		System.out.println("Ordered: " + Arrays.toString(orderedElements.toArray()));
+		Random random = new Random();
+		int index = random.nextInt() % orderedElements.size();
+		System.out.println("Index: " + index);
+		T element = orderedElements.get(index);
+		System.out.println("Element: " + element);
+		int invalidIndex;
+		do
+		{
+			invalidIndex = random.nextInt() % orderedElements.size();
+		} while (invalidIndex == element.getId());
+		
+		invalidIndex = (invalidIndex < 0) ? -invalidIndex : invalidIndex;
+		
+		return deriveHint(element, orderedElements, invalidIndex);
+	}
+	
 	protected String deriveHint(T element, ArrayList<T> orderedElements)
+	{
+		int actualIndex = this.elements.indexOf(element);
+		return deriveHint(element, orderedElements, actualIndex);
+	}
+	
+	protected String deriveHint(T element, ArrayList<T> orderedElements, int actualIndex)
 	{
 		if (element == null)
 			throw new NullPointerException("Hint cannot be derived from null!");
@@ -316,7 +342,6 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 			throw new NullPointerException("Ordered Array Required");
 		
 		String hint;
-		int actualIndex = this.elements.indexOf(element);
 		int properIndex = element.getId();
 		
 		if (actualIndex == properIndex)
@@ -397,57 +422,46 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 			}
 		}
 		/*
-		// Populate default borders - Make a '5-domino' formation
-		// Top left border
-		Point relativeLocation = new Point(0, 0);
-		borders.add(new BasicComponent(defaultBorder, relativeLocation));
-		
-		// Top right border
-		relativeLocation.translate(2 * spacing + 2 * defaultBorder.getWidth(),
-				0);
-		borders.add(new BasicComponent(defaultBorder, relativeLocation));
-		
-		// Middle Border
-		relativeLocation.setLocation(spacing + defaultBorder.getWidth(),
-				spacing + defaultBorder.getHeight());
-		borders.add(new BasicComponent(defaultBorder, relativeLocation));
-		
-		// Bottom left border
-		relativeLocation.setLocation(0,
-				2 * spacing + 2 * defaultBorder.getHeight());
-		borders.add(new BasicComponent(defaultBorder, relativeLocation));
-		
-		// Bottom right border
-		relativeLocation.translate(2 * spacing + 2 * defaultBorder.getWidth(),
-				0);
-		borders.add(new BasicComponent(defaultBorder, relativeLocation));
-		
-		// Small arrows
-		// Step 2-3
-		relativeLocation.setLocation(borders.get(2).getX()
-				+ borders.get(2).getBounds().width - 5, borders.get(2).getY()
-				- spacing - 5);
-		extraComponentContainer.add(new BasicComponent(smallArrow,
-				relativeLocation));
-		// Step 3-4
-		relativeLocation.setLocation(borders.get(3).getX()
-				+ borders.get(3).getBounds().width - 5, borders.get(3).getY()
-				- spacing - 5);
-		extraComponentContainer.add(new BasicComponent(smallArrow,
-				relativeLocation));
-		
-		// Large arrows
-		// Step 1-2
-		relativeLocation.setLocation(borders.get(0).getX()
-				+ borders.get(0).getBounds().width, borders.get(0).getY());
-		extraComponentContainer.add(new BasicComponent(largeArrow,
-				relativeLocation));
-		// Step 4-5
-		relativeLocation.setLocation(borders.get(3).getX()
-				+ borders.get(3).getBounds().width, borders.get(3).getY());
-		extraComponentContainer.add(new BasicComponent(largeArrow,
-				relativeLocation));
-		*/
+		 * // Populate default borders - Make a '5-domino' formation // Top left
+		 * border Point relativeLocation = new Point(0, 0); borders.add(new
+		 * BasicComponent(defaultBorder, relativeLocation));
+		 * 
+		 * // Top right border relativeLocation.translate(2 * spacing + 2 *
+		 * defaultBorder.getWidth(), 0); borders.add(new
+		 * BasicComponent(defaultBorder, relativeLocation));
+		 * 
+		 * // Middle Border relativeLocation.setLocation(spacing +
+		 * defaultBorder.getWidth(), spacing + defaultBorder.getHeight());
+		 * borders.add(new BasicComponent(defaultBorder, relativeLocation));
+		 * 
+		 * // Bottom left border relativeLocation.setLocation(0, 2 * spacing + 2
+		 * * defaultBorder.getHeight()); borders.add(new
+		 * BasicComponent(defaultBorder, relativeLocation));
+		 * 
+		 * // Bottom right border relativeLocation.translate(2 * spacing + 2 *
+		 * defaultBorder.getWidth(), 0); borders.add(new
+		 * BasicComponent(defaultBorder, relativeLocation));
+		 * 
+		 * // Small arrows // Step 2-3
+		 * relativeLocation.setLocation(borders.get(2).getX() +
+		 * borders.get(2).getBounds().width - 5, borders.get(2).getY() - spacing
+		 * - 5); extraComponentContainer.add(new BasicComponent(smallArrow,
+		 * relativeLocation)); // Step 3-4
+		 * relativeLocation.setLocation(borders.get(3).getX() +
+		 * borders.get(3).getBounds().width - 5, borders.get(3).getY() - spacing
+		 * - 5); extraComponentContainer.add(new BasicComponent(smallArrow,
+		 * relativeLocation));
+		 * 
+		 * // Large arrows // Step 1-2
+		 * relativeLocation.setLocation(borders.get(0).getX() +
+		 * borders.get(0).getBounds().width, borders.get(0).getY());
+		 * extraComponentContainer.add(new BasicComponent(largeArrow,
+		 * relativeLocation)); // Step 4-5
+		 * relativeLocation.setLocation(borders.get(3).getX() +
+		 * borders.get(3).getBounds().width, borders.get(3).getY());
+		 * extraComponentContainer.add(new BasicComponent(largeArrow,
+		 * relativeLocation));
+		 */
 		return borders;
 	}
 	
@@ -565,10 +579,9 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	public Rectangle getBounds()
 	{
 		// TODO calculate width and height based on components
-		return new Rectangle(x, y, choiceBorders[1].getX()
-				+ choiceBorders[1].getBounds().width - x,
-				choiceBorders[1].getY() + choiceBorders[1].getBounds().height
-						- y);
+		return new Rectangle(x, y, choiceBorders[4].getX()
+				+ choiceBorders[4].getBounds().width - x,
+				choiceBorders[0].getBounds().height);
 	}
 	
 	@Override

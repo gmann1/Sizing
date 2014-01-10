@@ -24,7 +24,9 @@ import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
+import edu.asu.voctec.GameDefaults.Fonts;
 import edu.asu.voctec.GameDefaults.ImagePaths;
+import edu.asu.voctec.batter_sizing.Battery;
 import edu.asu.voctec.batter_sizing.BatteryControl;
 import edu.asu.voctec.batter_sizing.InitialBattery;
 import edu.asu.voctec.cdmg.CDIntroScreen;
@@ -50,8 +52,16 @@ public class EAPart2 extends gameTemplate
 	private static final String TELIVISION = "resources/default/img/minigames/energyAssessment/New/TV.png";
 	private static final String LAPTOP = "resources/default/img/minigames/energyAssessment/New/Laptop.png";
 	
-	private TextAreaX watt1, watt2, watt3, watt4, watt5;
+	private static TextAreaX watt1, watt2, watt3, watt4, watt5;
 	static PowerBar powerBar;
+	
+	private static int hintNumber = 2;
+	private String[] hintArray = 
+		{
+			"hint0",
+			"hint1",
+			"hint2"
+		};
 	
 	private boolean continueGood = false;
 	public static int totalPowerRating = 0;
@@ -64,7 +74,7 @@ public class EAPart2 extends gameTemplate
 		{135,210},
 		{245,210},
 		{355,210},
-		{465,210}
+		{135,320}
 	};
 	public static int powerRatings[] = {14,9,30,60,40};
 	
@@ -111,15 +121,12 @@ public class EAPart2 extends gameTemplate
 		this.addComponent(laptop);
 		
 		//initializeWatts();
-		powerBar = new PowerBar(20,20,1,81,81);
-		
+		powerBar = new PowerBar(500,50,.8,81,81);
 		this.addComponent(powerBar);
 		this.addComponent(powerBar.powerBarIndicator);
-		
 		powerBar.updatePowerBar(totalPowerRating);
 		
-		this.addComponent(topText);
-		topText.setText("Drag the diffrent appliances to the diffrent boxs to meet the total power rating.");
+		instructionBox.setText("Drag the diffrent appliances to the boxs to meet the total power rating.");
 		
 		initialObjects.add(new InitialObjects(new Image(CFL), 25, 475, this,1,14));
 		initialObjects.add(new InitialObjects(new Image(LED), 135, 475, this,2,9));
@@ -134,6 +141,7 @@ public class EAPart2 extends gameTemplate
 		
 		readyButton.addActionListener(new ReadyButtonListener());
 		continueButton.addActionListener(new ContinueButtonListener());
+		hintButton.addActionListener(new HintButtonListener());
 		backButton.addActionListener(new TransitionButtonListener(EAPart1IntroScreen.class));
 		
 		////Testing Stuff can be deleted later////
@@ -216,7 +224,7 @@ public class EAPart2 extends gameTemplate
 				try {
 					continueButtonOn();
 					continueGood = true;
-					topText.setText("Good Job! you have have the correct combination of items.");
+					hintBox.setText("Good Job! you have have the correct combination of items.");
 				} catch (SlickException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -232,6 +240,19 @@ public class EAPart2 extends gameTemplate
 		{
 			if(continueGood == true)
 				Game.getCurrentGame().enterState(EAPart2ScoreScreen.class);
+		}
+	}
+	
+	public class HintButtonListener extends ButtonListener
+	{
+		@Override
+		protected void actionPerformed()
+		{
+			if(hintNumber < 2)
+				hintNumber++;
+			else
+				hintNumber = 0;
+			hintBox.setText(hintArray[hintNumber]);
 		}
 	}
 	
@@ -268,9 +289,22 @@ public class EAPart2 extends gameTemplate
 		this.addComponent(watt5);
 	}
 	
+	public void nonStaticReset()
+	{
+		hintNumber = 0;
+		hintBox.setText("");
+		continueGood = false;
+		Object.reset();
+		
+		reset();
+		System.out.println("eaPart2 Reset1");
+		
+	}
+	
 	public static void reset()
 	{
-		System.out.println("eaPart2 Reset");
+		
+		System.out.println("eaPart2 Reset2");
 	}
 	
 }
