@@ -22,7 +22,7 @@ public interface GameDefaults
 		public static final String BLACK_BACKGROUND = "resources/default/img/blackBackground.jpg";
 		
 		// Buttons
-		public static final String BASE_BUTTON = "resources/default/img/buttons/testButton.png";
+		public static final String BASE_BUTTON = "resources/default/img/buttons/readyButton.png";
 		public static final String NEW_GAME_BUTTON = "resources/default/img/buttons/newProfileButtonR.png";
 		public static final String OPTIONS_BUTTON = "resources/default/img/buttons/optionsButtonR.png";
 		public static final String INSTRUCTOR_CONTROL_PANEL_BUTTON = "resources/default/img/buttons/optionsButtonR.png";
