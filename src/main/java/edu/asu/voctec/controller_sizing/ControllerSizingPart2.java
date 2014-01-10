@@ -76,6 +76,7 @@ public class ControllerSizingPart2 extends gameTemplate
 		backButton.addActionListener(new TransitionButtonListener(ControllerSizingIntroScreen.class));
 		readyButton.addActionListener(new DoneButtonListener());
 		continueButton.addActionListener(new ContinueButtonListener());
+		this.removeComponent(hintButton);
 	}
 	
 	private void initializeText()
