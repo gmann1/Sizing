@@ -18,6 +18,7 @@ import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.cdmg.CDPart1;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.utilities.Position;
 public class ControllerSizingIntroScreen extends GUI
 {
 
@@ -55,24 +56,28 @@ public class ControllerSizingIntroScreen extends GUI
 						+ "The charge controller will help in regulating and controlling, the flow of current to and from the battery in order to protect it from overcharging and to increase its life. ");
 		introduction.setFontColor(FONT_COLOR);
 
-		// start button
-		Button Start = new Button(new Image(ARROW_RIGHT), 750, 550,
-				new Rectangle(0, 0, 50, 25), "Begin!");
-		Start.setFontColor(Color.darkGray);
-		Start.addActionListener(new TransitionButtonListener(ControllerSizingPart2.class));
+		// Start Button
+				Button startButton = new Button(new Image(ARROW_RIGHT), 750, 550,
+						new Rectangle(0, 0, 50, 25), "Begin!");
+				startButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+				startButton.addActionListener(new TransitionButtonListener(
+						ControllerSizingPart2.class));
+				startButton.positionText(Position.LEFT);
 
-		// Back Button
-		Button Back = new Button(new Image(ImagePaths.BACK_BUTTON), 0, 0,
-				new Rectangle(0, 0, 50, 25), "Back");
-		Back.addActionListener(new TransitionButtonListener(TaskScreen.class));
-		Back.setFontColor(Color.darkGray);
+				// Back Button
+				Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
+						new Rectangle(0, 0, 50, 25), "Back");
+				backButton.addActionListener(new TransitionButtonListener(
+						TaskScreen.class));
+				backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+				backButton.positionText(Position.RIGHT);
 
 		welcome.center();
 
-		this.addComponent(Start);
+		this.addComponent(startButton);
 		this.addComponent(welcome);
 		this.addComponent(introduction);
-		this.addComponent(Back);
+		this.addComponent(backButton);
 		// this.addComponent(new Selector<SelectorIcon>(100, 100));
 
 		System.out

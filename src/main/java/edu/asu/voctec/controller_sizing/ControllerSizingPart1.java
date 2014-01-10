@@ -31,11 +31,11 @@ public class ControllerSizingPart1 extends GUI {
 	private int houseTransition = 0;
 	private boolean day = true;
 	private boolean stars_on = true;
-	private boolean houseHalf = false;
+
 	private boolean houseFull = false;
 	private double batteryPercent = 80;
-	private int timer = 0;
-	private boolean startTimer = false;
+
+
 	private int gameTimer = 0;
 
 
@@ -51,8 +51,8 @@ public class ControllerSizingPart1 extends GUI {
 	private boolean a = false;
 	private boolean d = false;
 
-	private static final int BATTERY_MIN = 15;
-	private static final int BATTERY_MAX = 90;
+	private static final int BATTERY_MIN = 25;
+	private static final int BATTERY_MAX = 100;
 	private static final int RECHARGE_LEVEL = 39;
 
 	public static final float LARGE_FONT_SIZE = 18f;
@@ -66,7 +66,7 @@ public class ControllerSizingPart1 extends GUI {
 	public static final String BACKGROUND_NIGHT = "resources/default/img/minigames/ControllerSizing/backgroundnight.png";
 	public static final String GROUND = "resources/default/img/minigames/ControllerSizing/hills.png";
 	public static final String HOUSE_OFF = "resources/default/img/minigames/ControllerSizing/HouseOff.png";
-	public static final String HOUSE_HALF = "resources/default/img/minigames/ControllerSizing/HouseOn.png";
+
 	public static final String HOUSE_FULL = "resources/default/img/minigames/ControllerSizing/HouseOn.png";
 	public static final String SUN = "resources/default/img/minigames/ControllerSizing/sun.png";
 	public static final String MOON = "resources/default/img/minigames/ControllerSizing/moon.png";
@@ -98,6 +98,7 @@ public class ControllerSizingPart1 extends GUI {
 	public static final String BATTERY_FIVE = "resources/default/img/minigames/ControllerSizing/battery5.png";
 	public static final String TRANS_6 = "resources/default/img/minigames/ControllerSizing/backgroundday6.png";
 
+	public static final String DANGER = "resources/default/img/minigames/ControllerSizing/danger.png";
 	public static final String PANEL = "resources/default/img/minigames/criticalDesign/Panel.png";
 	public static final String POLE = "resources/default/img/minigames/criticalDesign/Pole.png";
 	public static final String STAR = "resources/default/img/minigames/ControllerSizing/star.png";
@@ -117,6 +118,7 @@ public class ControllerSizingPart1 extends GUI {
 	BasicComponent battery;
 	BasicComponent layout;
 	BasicComponent introScreens;
+	BasicComponent danger;
 	ArrayList<BasicComponent> stars = new ArrayList<>();
 	ArrayList<Integer> houseIncrements = new ArrayList<>();
 	
@@ -130,7 +132,7 @@ public class ControllerSizingPart1 extends GUI {
 	int starsOffSet[] = new int[15];
 	public static final String batteryStrings[] = new String[5];
 
-	String instructionSet[] = new String[4];
+	String instructionSet[] = new String[5];
 	String instructionSet1[] = new String[5];
 	String introScreenImages[] = new String[4];
 
@@ -142,6 +144,12 @@ public class ControllerSizingPart1 extends GUI {
 	private BasicComponent panel;
 	private TextArea instructions;
 	private boolean intro = true;
+	private boolean walkthrough = false;
+	private boolean step1 = true;
+	private boolean cycleEnd = true;
+	private boolean step2 = false;
+	private boolean firstTime = true;
+	private boolean step3 = true;
 
 	public class contListener extends ButtonListener {
 
@@ -173,12 +181,13 @@ public class ControllerSizingPart1 extends GUI {
 		instructionSet[3] = "Once the battery reaches " + BATTERY_MIN + " percent it will need to recharge to 40 percent before it can discharge again.";
 		
 
-		instructionSet1[0] = "Now that you know how a controller works, it's time for you to control the controller...";
-		instructionSet1[1] = "Press the 'a' key to charge the battery when the sun is out. Go ahead and try it.";
-		instructionSet1[2] = "Charge the battery when the solar panel is receiving power and discharge the battery when the house...";
-		instructionSet1[3] = "requests power. Remember. Don't let the battery overcharge past "
+		instructionSet[4] = "Now that you know how a controller works, it's time for you to control the controller...";
+		
+		instructionSet1[0] = "Press the 'a' key to charge the battery when the sun is out. Go ahead and try it.";
+		instructionSet1[1] = "Charge the battery when the solar panel is receiving power and discharge the battery when the house...";
+		instructionSet1[2] = "requests power. Remember. Don't let the battery overcharge past "
 				+ BATTERY_MAX + "% ('a' key)...";
-		instructionSet1[4] = "or discharge below " + BATTERY_MIN
+		instructionSet1[3] = "or discharge below " + BATTERY_MIN
 				+ "% ('d' key)... Press continue when you are ready!";
 
 		batteryStrings[0] = BATTERY_ONE;
@@ -246,7 +255,7 @@ public class ControllerSizingPart1 extends GUI {
 		battery = new BasicComponent(new Image(BATTERY_ONE), 300, 510);
 		// battery life
 		s = String.format("%d", (int) batteryPercent);
-		Rectangle textLocation = new Rectangle(330, 540, 300, 50);
+		Rectangle textLocation = new Rectangle(324, 540, 300, 50);
 		batteryLife = new TextField(textLocation, 0.95f, s + "%",
 				TextDisplay.FormattingOption.CLIP_TEXT);
 		batteryLife.setFontSize(LARGE_FONT_SIZE);
@@ -354,6 +363,10 @@ public class ControllerSizingPart1 extends GUI {
 		Image hintBoxBackground = new Image(
 				ImagePaths.Selector.HINT_BOX_BACKGROUND);
 		hintBox.setCurrentImage(hintBoxBackground, true);
+		
+		//danger
+		
+		danger = new BasicComponent(new Image(DANGER), 800, 600);
 
 		// Format hint box
 		hintBox.setFontSize(Fonts.FONT_SIZE_MEDIUM);
@@ -381,6 +394,7 @@ public class ControllerSizingPart1 extends GUI {
 		addComponent(hintBox);
 		addComponent(instructions);
 		addComponent(cont);
+		addComponent(danger);
 
 	}
 
@@ -389,50 +403,316 @@ public class ControllerSizingPart1 extends GUI {
 			throws SlickException {
 		super.update(container, game, delta);
 
-		
+		if (!panelOn && !houseOn && !houseNeed) {
+			layout.setCurrentImage(new Image(LAYOUT_PANEL_OFF), true);
+		}
+		if (!panelOn && houseOn && !houseNeed) {
+			layout.setCurrentImage(new Image(LAYOUT_PANEL_OFF1), true);
+		}
+		if (!panelOn && !houseOn && houseNeed) {
+			layout.setCurrentImage(new Image(LAYOUT_PANEL_OFF2), true);
+		}
+		if (panelOn && !houseOn && !houseNeed) {
+			layout.setCurrentImage(new Image(LAYOUT_PANEL_ON), true);
+		}
+		if (panelOn && houseOn && !houseNeed) {
+			layout.setCurrentImage(new Image(LAYOUT_PANEL_ON1), true);
+		}
+		if (panelOn && !houseOn && houseNeed) {
+			layout.setCurrentImage(new Image(LAYOUT_PANEL_ON2), true);
+		}
+		previousBattery = currentBattery;
+		if (batteryPercent <= ((BATTERY_MAX - BATTERY_MIN) / 5)
+				+ BATTERY_MIN) {
+			currentBattery = 1;
+		} else if (batteryPercent <= (2 * (BATTERY_MAX - BATTERY_MIN) / 5)
+				+ BATTERY_MIN) {
+			currentBattery = 2;
+		} else if (batteryPercent <= (3 * (BATTERY_MAX - BATTERY_MIN) / 5)
+				+ BATTERY_MIN) {
+			currentBattery = 3;
+		} else if (batteryPercent <= (4 * (BATTERY_MAX - BATTERY_MIN) / 5)
+				+ BATTERY_MIN) {
+			currentBattery = 4;
+		} else {
+			currentBattery = 5;
+		}
+		if (previousBattery != currentBattery) {
+			battery.setCurrentImage(new Image(
+					batteryStrings[currentBattery - 1]), true);
+		}
 		
 		if (intro ) {
 			
-		} else {
+		} 
+		else if (walkthrough ){
 			
-			if (gameTimer < 30000) {
-				if (startTimer) {
-					timer += delta;
+			if (!day) {
+				panelOn = false;
+
+			}
+
+			if (step1 && cycleEnd){
+				if (firstTime){
+					instructions.setText("Press the 'a' key to charge the battery when the sun is out. Go ahead and try it.");
+				}
+				else{
+					instructions.setText("Try again. Press the 'a' key to charge the battery when the sun is out. Go ahead and try it.");
+				}
+				counter = 0;
+				a = false;
+				d = false;
+				starCounter = 0;
+				cycleEnd = false;
+				sunImage = new Image(SUN);
+				sun.setCurrentImage(sunImage, true);
+
+				day = true;
+			}
+			if (step1 && container.getInput().isKeyPressed(Input.KEY_A)){
+				a = !a;
+				instructions.setText("Good Job! The battery is charging.");
+				step1 = false;
+				step2  = true;
+				firstTime = true;
+				cycleEnd = true;
+			}
+			if(step2 && batteryPercent > 90){
+				if (!firstTime){
+					instructions.setText("Deactivate charging immediately by pressing the 'a' key. Severe battery damage will occur.");
+				}
+				else{
+				instructions.setText("Look out! Make sure you stop charging the battery when it reaches " + BATTERY_MAX + "%. Press the 'a' key again to deactivate.");
+				}
+				if (container.getInput().isKeyPressed(Input.KEY_A)){
+					a = !a;
+					instructions.setText("Good Job! The battery isn't charging anymore.");
+					
+					firstTime = true;
+					cycleEnd = true;
 				}
 				
+			}
+			
+			sun.setX((int) (350 * Math.sin(Math.toRadians(counter - 90))) + 365);
+			sun.setY((int) (300 * Math.cos(Math.toRadians(counter + 90))) + 350);
+			if (stars_on) {
+				for (int i = 0; i < starsx.length; i++) {
+
+					stars.get(i)
+							.setX((int) (starsx[i] * Math.sin(Math
+									.toRadians(starCounter - starsOffSet[i]))) + 394);
+					stars.get(i)
+							.setY((int) (starsy[i] * Math.cos(Math
+									.toRadians(starCounter
+											+ (180 - starsOffSet[i])))) + 390);
+				}
+			}
+			counter = counter + .3;
+			starCounter = starCounter + .3;
+			if ((int) counter == 182) {
+				if (day) {
+					this.backgroundImage = new Image(TRANS_6);
+				} else {
+
+				}
+			}
+			if ((int) counter == 186) {
+				if (day) {
+					this.backgroundImage = new Image(TRANS_5);
+				} else {
+
+				}
+			}
+
+			if ((int) counter == 190) {
+				if (day) {
+					this.backgroundImage = new Image(TRANS_4);
+				} else {
+					this.backgroundImage = new Image(TRANS_0);
+				}
+			}
+			if ((int) counter == -2) {
+				if (day) {
+
+					this.backgroundImage = new Image(TRANS_3);
+				} else {
+					stars_on = true;
+					starCounter = counter;
+				}
+
+			}
+			if ((int) counter == 2) {
+				if (day) {
+					panelOn = true;
+					stars_on = false;
+					for (int i = 0; i < starsx.length; i++) {
+
+						stars.get(i).setX(800);
+						stars.get(i).setY(600);
+					}
+					this.backgroundImage = new Image(TRANS_5);
+				} else {
+					this.backgroundImage = new Image(TRANS_2);
+				}
+			}
+			if ((int) counter == 6) {
+
+				if (day) {
+
+					this.backgroundImage = new Image(TRANS_6);
+				} else {
+
+					this.backgroundImage = new Image(TRANS_1);
+				}
+			}
+			if ((int) counter == 10) {
+				if (day) {
+					
+					this.backgroundImage = new Image(BACKGROUND_DAY);
+				} else {
+					
+					this.backgroundImage = new Image(BACKGROUND_NIGHT);
+				}
+			}
+
+			if (counter >= 190) {
+				firstTime = false;
+				cycleEnd = true;
+				if (day) {
+					sunImage = new Image(MOON);
+					sun.setCurrentImage(sunImage, true);
+
+					day = false;
+				} else {
+					sunImage = new Image(SUN);
+					sun.setCurrentImage(sunImage, true);
+
+					day = true;
+				}
+				counter = -15;
+			}
+			if (container.getInput().isKeyPressed(Input.KEY_A)) {
+				a = !a;
+			}
+			if (container.getInput().isKeyPressed(Input.KEY_D)) {
+				d = !d;
+			}
+			if (panelOn) {
+				if (a){
+					charge.setText("Charging...");
+					if (batteryPercent >= BATTERY_MAX){
+					
+					danger.setX(222);
+					danger.setY(514);
+					}
+					else{
+						danger.setX(800);
+						danger.setY(600);
+					}
+				}
+				else {
+					danger.setX(800);
+					danger.setY(600);
+					charge.setText("");
+				}
+				if (a && batteryPercent < BATTERY_MAX) {
+					batteryPercent += .2;
+				}
 				
 
-				previousBattery = currentBattery;
-				if (batteryPercent <= ((BATTERY_MAX - BATTERY_MIN) / 5)
-						+ BATTERY_MIN) {
-					currentBattery = 1;
-				} else if (batteryPercent <= (2 * (BATTERY_MAX - BATTERY_MIN) / 5)
-						+ BATTERY_MIN) {
-					currentBattery = 2;
-				} else if (batteryPercent <= (3 * (BATTERY_MAX - BATTERY_MIN) / 5)
-						+ BATTERY_MIN) {
-					currentBattery = 3;
-				} else if (batteryPercent <= (4 * (BATTERY_MAX - BATTERY_MIN) / 5)
-						+ BATTERY_MIN) {
-					currentBattery = 4;
+			}
+			else{
+				danger.setX(800);
+				danger.setY(600);
+				charge.setText("");
+			}
+			if (houseFull) {
+				if (d){
+					discharge.setText("Discharging...");
+					if (batteryPercent <= BATTERY_MIN){
+						danger.setX(222);
+						danger.setY(514);
+					}
+				}
+				else{
+					discharge.setText("");
+					danger.setX(800);
+					danger.setY(600);
+				}
+				
+				if (d && batteryPercent > BATTERY_MIN) {
+					house.setCurrentImage(new Image(HOUSE_FULL), true);
+					danger.setX(800);
+					danger.setY(600);
+					houseOn = true;
+					houseNeed = false;
+				
+						batteryPercent -= .2;
+
+					
 				} else {
-					currentBattery = 5;
+					house.setCurrentImage(new Image(HOUSE_OFF), true);
+					
+					houseOn = false;
+					houseNeed = true;
 				}
-				if (previousBattery != currentBattery) {
-					battery.setCurrentImage(new Image(
-							batteryStrings[currentBattery - 1]), true);
+			} else {
+				discharge.setText("");
+				danger.setX(800);
+				danger.setY(600);
+				houseOn = false;
+				houseNeed = false;
+			}
+			if (batteryPercent <= BATTERY_MIN) {
+				batteryPrompt
+						.setText("Battery too low. Turn off power to house to prevent battery damage. Recharge to 40%");
+			}
+			if (batteryPercent >= BATTERY_MAX) {
+				batteryPrompt
+						.setText("Battery at capacity. Do not overcharge.");
+			}
+			if (batteryPercent <= 0) {
+				batteryPercent = 0;
+			}
+			if (batteryPercent >= 100) {
+				batteryPercent = 100;
+			}
+			if (a || d) {
+				s = String
+						.format("%d", (int) Math.ceil(batteryPercent));
+				batteryLife.setText(s + "%");
+			}
+			if (batteryPercent > BATTERY_MIN
+					&& batteryPercent < BATTERY_MAX) {
+				batteryWithinRange = true;
+				if (batteryPercent >= RECHARGE_LEVEL) {
+					batteryPrompt.setText("");
+
 				}
+
+			}
+		}
+			
+		else {
+			if (gameTimer < 30000) {
+				
+				
+				
+				
 				if (!day) {
 					panelOn = false;
 
 				}
 
 				if (simulating) {
-					if (houseHalf || houseFull) {
+					if (houseFull) {
 						if (batteryPercent > BATTERY_MIN && !wait) {
+							house.setCurrentImage(new Image(HOUSE_FULL), true);
 							houseOn = true;
 							houseNeed = false;
 						} else {
+							house.setCurrentImage(new Image(HOUSE_OFF), true);
 							houseNeed = true;
 							wait = true;
 
@@ -457,13 +737,10 @@ public class ControllerSizingPart1 extends GUI {
 					if (houseOn && !wait) {
 
 						discharging = true;
-						if (houseHalf) {
-							batteryPercent -= .1;
-
-						} else {
+						
 							batteryPercent -= .2;
 
-						}
+						
 					} else {
 						discharging = false;
 					}
@@ -501,11 +778,7 @@ public class ControllerSizingPart1 extends GUI {
 						d = !d;
 					}
 					if (panelOn) {
-						if (a) {
-							panelOn = true;
-						} else {
-							panelOn = false;
-						}
+						
 						if (a && batteryPercent < 100) {
 							batteryPercent += .2;
 							charge.setText("Charging...");
@@ -516,19 +789,18 @@ public class ControllerSizingPart1 extends GUI {
 					} else {
 						charge.setText("");
 					}
-					if (houseHalf || houseFull) {
+					if (houseFull) {
 						if (d && batteryPercent > 0) {
+							house.setCurrentImage(new Image(HOUSE_FULL), true);
 							discharge.setText("Discharging...");
 							houseOn = true;
 							houseNeed = false;
-							if (houseHalf) {
-								batteryPercent -= .1;
-
-							} else {
+						
 								batteryPercent -= .2;
 
-							}
+							
 						} else {
+							house.setCurrentImage(new Image(HOUSE_OFF), true);
 							discharge.setText("");
 							houseOn = false;
 							houseNeed = true;
@@ -558,24 +830,7 @@ public class ControllerSizingPart1 extends GUI {
 						batteryLife.setText(s + "%");
 					}
 				}
-				if (!panelOn && !houseOn && !houseNeed) {
-					layout.setCurrentImage(new Image(LAYOUT_PANEL_OFF), true);
-				}
-				if (!panelOn && houseOn && !houseNeed) {
-					layout.setCurrentImage(new Image(LAYOUT_PANEL_OFF1), true);
-				}
-				if (!panelOn && !houseOn && houseNeed) {
-					layout.setCurrentImage(new Image(LAYOUT_PANEL_OFF2), true);
-				}
-				if (panelOn && !houseOn && !houseNeed) {
-					layout.setCurrentImage(new Image(LAYOUT_PANEL_ON), true);
-				}
-				if (panelOn && houseOn && !houseNeed) {
-					layout.setCurrentImage(new Image(LAYOUT_PANEL_ON1), true);
-				}
-				if (panelOn && !houseOn && houseNeed) {
-					layout.setCurrentImage(new Image(LAYOUT_PANEL_ON2), true);
-				}
+				
 				if (batteryPercent > BATTERY_MIN
 						&& batteryPercent < BATTERY_MAX) {
 					batteryWithinRange = true;
@@ -590,22 +845,17 @@ public class ControllerSizingPart1 extends GUI {
 						% (houseIncrements.get(currentHouseIndex) * 10) == 0) {
 					houseTransition = 0;
 					
-						if (generator.nextInt(3) == 0) {
-							houseHalf = false;
+						if (generator.nextInt(2) == 0) {
+							
 							houseFull = false;
 							house.setCurrentImage(new Image(HOUSE_OFF), true);
 	
-						} else if (generator.nextInt(3) == 1) {
-							houseHalf = true;
-							houseFull = false;
-	
-							house.setCurrentImage(new Image(HOUSE_HALF), true);
-	
-						} else {
-							houseHalf = false;
+						}  else {
+							
 							houseFull = true;
-	
-							house.setCurrentImage(new Image(HOUSE_FULL), true);
+							if (!wait){
+								house.setCurrentImage(new Image(HOUSE_FULL), true);
+							}
 	
 						}
 					
@@ -730,19 +980,29 @@ public class ControllerSizingPart1 extends GUI {
 		if (intro) {
 			if (setIndex == instructionSet.length) {
 				intro = false;
+				walkthrough = true;
 				introScreens.setX(800);
 				introScreens.setY(600);
 				instructions.setText("Take a minute to watch the controller function... Press continue when you understand how it works.");
 				setIndex = 0;
 			} else {
+				if (setIndex < 4){
 				introScreens.setCurrentImage(new Image(introScreenImages[setIndex]), true);
+				}
 				instructions.setText(instructionSet[setIndex]);
 				++setIndex;
 			}
-		} else {
-			timer = 0;
+		}
+		else if(walkthrough){
+			if (step2){
+				step2 = false;
+				step3   = true;
+			}
+		}
+		else {
+		
 			if (setIndex == instructionSet.length) {
-				startTimer = false;
+			
 				simulating = false;
 
 				cont.setX(800);

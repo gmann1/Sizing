@@ -291,6 +291,8 @@ public class CDPart1 extends gameTemplate {
 		left1.setText(months.get(5).get(0));
 		left2.setText(months.get(5).get(1));
 		left3.setText(months.get(5).get(2));
+		
+
 
 		
 		this.addComponent(sel);

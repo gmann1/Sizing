@@ -52,7 +52,8 @@ public class CDIntroScreen extends GUI {
 
 		// introduction
 		textLocation.setLocation(50, 250);
-		textLocation = new Rectangle(150, 100, 500, 400);
+		
+		textLocation = new Rectangle(150, 200, 500, 400);
 		TextArea introduction = new TextArea(textLocation, 0.95f, "");
 		introduction.setFontSize(LARGE_FONT_SIZE);
 		introduction
