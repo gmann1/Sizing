@@ -224,12 +224,14 @@ public class EAPart2 extends gameTemplate
 				try {
 					continueButtonOn();
 					continueGood = true;
-					hintBox.setText("Good Job! you have have the correct combination of items.");
+					hintBox.setText("Good Job! you have the correct combination of items.");
 				} catch (SlickException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
+			else
+				resetContinue();
 		}
 	}
  	
@@ -239,7 +241,10 @@ public class EAPart2 extends gameTemplate
 		protected void actionPerformed()
 		{
 			if(continueGood == true)
+			{
+				reset();
 				Game.getCurrentGame().enterState(EAPart2ScoreScreen.class);
+			}
 		}
 	}
 	
@@ -289,22 +294,31 @@ public class EAPart2 extends gameTemplate
 		this.addComponent(watt5);
 	}
 	
-	public void nonStaticReset()
+	public void resetContinue()
 	{
+		continueGood = false;
+		continueButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
+		try {
+			continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_OFF), true);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void reset()
+	{
+		
 		hintNumber = 0;
 		hintBox.setText("");
-		continueGood = false;
 		Object.reset();
 		
-		reset();
-		System.out.println("eaPart2 Reset1");
+		resetContinue();
+		for(int v = 0; v<5;v++)
+		{
+			applianceArray[v] = 0;
+		}
+		System.out.println("eaPart2 Reset");
 		
 	}
-	
-	public static void reset()
-	{
-		
-		System.out.println("eaPart2 Reset2");
-	}
-	
 }
