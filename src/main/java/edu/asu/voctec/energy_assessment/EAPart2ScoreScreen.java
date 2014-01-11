@@ -37,7 +37,7 @@ public class EAPart2ScoreScreen extends GUI
 		this.addComponent(congratulation);
 		
 		Rectangle textLocation2 = new Rectangle(35, 140, 500, 500);
-		congratulation2 = new TextArea(textLocation2, 0.95f,"You have successfully inventoried the energy consuming devices and determined their power rating.");
+		congratulation2 = new TextArea(textLocation2, 0.95f,"You have successfully found a combination of items that meet the target power consumtion.");
 		congratulation2.setFontSize(25);
 		congratulation2.setFontColor(Color.white);
 		this.addComponent(congratulation2);
