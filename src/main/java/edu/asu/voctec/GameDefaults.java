@@ -31,6 +31,8 @@ public interface GameDefaults
 		public static final String READY_BUTTON = "resources/default/img/buttons/readyButton.png";
 		public static final String CONTINUE_BUTTON_ON = "resources/default/img/buttons/continueButton.png";
 		public static final String CONTINUE_BUTTON_OFF = "resources/default/img/buttons/continueHidden.png";
+		public static final String REPLAY_BUTTON = "resources/default/img/buttons/ReplayButton.png";
+		public static final String SKIP_BUTTON = "resources/default/img/buttons/SkipButton.png";
 		
 		// changes
 		public static final String HINT_BUTTON = "resources/default/img/buttons/hintButton.png";
