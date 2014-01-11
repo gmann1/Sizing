@@ -121,9 +121,9 @@ public class EAPart2 extends gameTemplate
 		this.addComponent(laptop);
 		
 		//initializeWatts();
-		powerBar = new PowerBar(500,50,.8,81,81);
+		powerBar = new PowerBar(500,50,.8,81,81,300);
 		this.addComponent(powerBar);
-		this.addComponent(powerBar.powerBarIndicator);
+		powerBar.addPowerBarComponents(this);
 		powerBar.updatePowerBar(totalPowerRating);
 		
 		instructionBox.setText("Drag the diffrent appliances to the boxs to meet the total power rating.");
