@@ -58,6 +58,13 @@ import edu.asu.voctec.utilities.Singleton;
  * ModifiedGameState. States that do not meet these requirements will not be
  * added to the state list of this game.
  * 
+ * This class handles information tracking, saving, and loading as follows: When
+ * a user beings a "task," a new AttemptData object will be created. That object
+ * will be set as the"currentAttempt" of the "currentTask" in this Class, which
+ * can be accessed by other classes using {@link #getCurrentTask()}. It is up to
+ * each task (i.e. each minigame) to update the current AttemptData object, as
+ * progress is made by the user.
+ * 
  * @author Zach Moore
  * @see ModifiedGameState
  * @see Singleton
@@ -147,6 +154,10 @@ public class Game extends StateBasedGame implements Singleton
 		return currentGame;
 	}
 	
+	/**
+	 * @return A collection of all GameStates used by this Game.
+	 * @see HashMap#values()
+	 */
 	public static Collection<Integer> getGameStates()
 	{
 		return Game.gameStates.values();
@@ -224,6 +235,11 @@ public class Game extends StateBasedGame implements Singleton
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.newdawn.slick.state.StateBasedGame#enterState(int)
+	 */
 	@Override
 	public void enterState(int id)
 	{
@@ -244,6 +260,9 @@ public class Game extends StateBasedGame implements Singleton
 				+ this.getCurrentStateID());
 	}
 	
+	/**
+	 * @see #enterState(int)
+	 */
 	public void enterState(Class<?> state)
 	{
 		this.enterState(getStateID(state));
@@ -254,6 +273,14 @@ public class Game extends StateBasedGame implements Singleton
 		return currentTask;
 	}
 	
+	/**
+	 * Returns the id of the GameState referenced by the provided class. If this
+	 * Game does not have a matching state, null will be returned.
+	 * 
+	 * @param state
+	 *            The class of the desired state.
+	 * @return The GameState object matching the procided class.
+	 */
 	public static int getStateID(Class<?> state)
 	{
 		System.out.println("State Receieved: " + state);
@@ -266,6 +293,15 @@ public class Game extends StateBasedGame implements Singleton
 		Game.currentTask = currentTask;
 	}
 	
+	/**
+	 * Returns the GameState used by this Game, that is of the type matching the
+	 * "state" parameter.
+	 * 
+	 * @param state
+	 *            The class of the requested gameState.
+	 * @return The GameState object that corresponds to the provided class
+	 *         object. If the "state" parameter is null, null will be returned.
+	 */
 	public static GameState getGameState(Class<?> state)
 	{
 		if (state != null)
@@ -274,17 +310,44 @@ public class Game extends StateBasedGame implements Singleton
 			return null;
 	}
 	
+	/**
+	 * Equivalent to a call to {@link #getCurrentGame()}{@link #getState(int)}
+	 * using the return of {@link #getStateID(ExitScreen.class)} as a parameter.
+	 * 
+	 * @return The ExitScreen object used by this Game.
+	 */
 	public static ExitScreen getExitScreen()
 	{
 		return (ExitScreen) currentGame.getState(getStateID(ExitScreen.class));
 	}
 	
+	/**
+	 * Wrapper for exitScreen.updateExitText(String, String).
+	 * 
+	 * @see ExitScreen#updateExitText(String, String)
+	 * @param titleField
+	 *            Text to display at the top left of the screen (e.g. "Good Job"
+	 *            or "Well Done!")
+	 * @param feedback
+	 *            Feedback paragraph to display underneath the titleField.
+	 */
 	public static void updateExitText(String titleField, String feedback)
 	{
 		getExitScreen().updateExitText(titleField, feedback);
 	}
 	
-	public static void updateExitText(String titleField, ArrayList<String> feedback)
+	/**
+	 * Wrapper for exitScreen.updateExitText(String, ArrayList).
+	 * 
+	 * @see ExitScreen#updateExitText(String, ArrayList)
+	 * @param titleField
+	 *            Text to display at the top left of the screen (e.g. "Good Job"
+	 *            or "Well Done!")
+	 * @param feedback
+	 *            Feedback paragraph to display underneath the titleField.
+	 */
+	public static void updateExitText(String titleField,
+			ArrayList<String> feedback)
 	{
 		getExitScreen().updateExitText(titleField, feedback);
 	}
@@ -294,6 +357,13 @@ public class Game extends StateBasedGame implements Singleton
 		return currentUser;
 	}
 	
+	/**
+	 * Sets the currentUser, but does not overwite the profile in the (hard)
+	 * save-file. In order to save the profile to a file,
+	 * {@link #saveToFile(String)} must be called.
+	 * 
+	 * @see #saveToFile(String)
+	 */
 	public static void setCurrentUser(UserProfile currentUser)
 	{
 		Game.currentUser = currentUser;
@@ -309,18 +379,30 @@ public class Game extends StateBasedGame implements Singleton
 		Game.currentScenario = currentScenario;
 	}
 	
+	/**
+	 * Saves the current UserProfile to a save file. The old file (referenced by
+	 * the same UserProfile object) will be overwritten.
+	 * 
+	 * @param relativePath
+	 *            Location to save the current data.
+	 */
 	public static void saveToFile(String relativePath)
 	{
 		try
 		{
 			// Open save file
-			FileOutputStream baseOutputStream = new FileOutputStream(
+			FileOutputStream fileOutputStream = new FileOutputStream(
 					relativePath);
 			ObjectOutputStream outputStream = new ObjectOutputStream(
-					baseOutputStream);
+					fileOutputStream);
 			
+			// Save the current UserProfile
 			outputStream.writeObject(currentUser);
+			// TODO save only altered profiles
+			// TODO overwrite the altered profile, but leave all other profiles
+			// in tact.
 			
+			// Free Resources
 			outputStream.close();
 		}
 		catch (Exception e)

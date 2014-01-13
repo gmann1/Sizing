@@ -366,6 +366,9 @@ public class SelectorTest extends gameTemplate
 		hintBox.clear();
 		String hint = selectorDisplay.deriveHint();
 		hintBox.addLine(hint);
+		
+		// Update the number of hints used
+		Game.getCurrentTask().getCurrentAttempt().addHints(1);
 	}
 	
 	public void load()
@@ -403,7 +406,6 @@ public class SelectorTest extends gameTemplate
 			}
 			catch (SlickException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

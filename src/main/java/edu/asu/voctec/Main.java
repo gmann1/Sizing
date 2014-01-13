@@ -12,8 +12,19 @@ import edu.asu.voctec.utilities.Resizable;
 import edu.asu.voctec.utilities.ScreenResolution;
 import edu.asu.voctec.utilities.Translatable;
 
+/**
+ * Initializes game, and sets up the container and all other necessities. Game,
+ * along with AppGameContainer, handles all central game logic.
+ * 
+ * @see #main(String[])
+ * @see Game
+ * @author Moore, Zachary
+ * 
+ */
+// TODO move all other logic to Game
 public class Main
 {
+	// TODO move defaults to GameDefaults
 	public static final int TARGET_FRAME_RATE = 30;
 	public static final String GAME_TITLE = "Sizing";
 	public static final boolean SHOW_FPS = false;
@@ -21,11 +32,24 @@ public class Main
 	
 	private static final int DEFAULT_WINDOW_WIDTH = 800;
 	private static final int DEFAULT_WINDOW_HEIGHT = 600;
+	// TODO move to Game
 	private static ScreenResolution currentScreenDimension;
 	private static AppGameContainer gameContainer;
 	private static Dictionary currentLanguage = Dictionary
 			.constructDictionary("default");
 	
+	/**
+	 * Initializes the game, and sets up the current and supported languages and
+	 * settings. All central game logic is handled by AppGameContainer and Game.
+	 * 
+	 * @see Game
+	 * @see AppGameContainer
+	 * @param args
+	 *            Unused.
+	 * @throws ResolutionNotSupportedException
+	 *             Thrown if the defaults are set to an unsupported resolution
+	 *             (e.g. 0x0)
+	 */
 	public static void main(String[] args) throws SlickException,
 			ResolutionNotSupportedException
 	{
@@ -71,7 +95,7 @@ public class Main
 				if (gameState instanceof Resizable)
 				{
 					// TODO implement resizing
-					//((Resizable) gameState).resize();
+					// ((Resizable) gameState).resize();
 				}
 			}
 			

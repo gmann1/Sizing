@@ -10,6 +10,18 @@ import org.newdawn.slick.TrueTypeFont;
 
 import edu.asu.voctec.language.LabelName;
 
+/**
+ * Contains all constants used across multiple GameStates. This includes all
+ * resources (images, sounds, etc) as well as the defaults for all game text (in
+ * case it cannot be loaded from the appropriate file). GameDefaults also
+ * contains paths for save files, default settings for various fonts, L&F
+ * information, etc.
+ * 
+ * @author Moore, Zachary
+ * 
+ */
+// TODO This file should be reviewed and cleaned. Unused constants may be
+// removed.
 public interface GameDefaults
 {
 	public interface ImagePaths
@@ -131,7 +143,7 @@ public interface GameDefaults
 		public static final Color FONT_COLOR = Color.white;
 		public static final Color TRANSITION_FONT_COLOR = Color.white;
 		public static final Color BUTTON_FONT_COLOR = Color.black;
-	   public static final Color DISABLED_BUTTON_FONT_COLOR = Color.lightGray;
+		public static final Color DISABLED_BUTTON_FONT_COLOR = Color.lightGray;
 		
 		public static final float FONT_SIZE_SMALL = 8f;
 		public static final float FONT_SIZE_MEDIUM = 12f;
