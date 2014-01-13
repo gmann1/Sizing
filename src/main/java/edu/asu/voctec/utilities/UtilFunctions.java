@@ -1,5 +1,6 @@
 package edu.asu.voctec.utilities;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -18,6 +19,26 @@ import edu.asu.voctec.GUI.Component;
  */
 public abstract class UtilFunctions
 {
+	public static Rectangle[][] divideScreen(Dimension plane, int rows,
+			int columns)
+	{
+		Rectangle[][] sections = new Rectangle[rows][columns];
+		int width = plane.width / columns;
+		int height = plane.height / rows;
+		
+		for (int row = 0; row < rows; row++)
+		{
+			for (int column = 0; column < columns; column++)
+			{
+				int x = width * column;
+				int y = height * row;
+				sections[row][column] = new Rectangle(x, y, width, height);
+			}
+		}
+		
+		return sections;
+	}
+	
 	public static Image createImage(String imagePath)
 	{
 		System.out.println("Loading Image...");
@@ -256,5 +277,31 @@ public abstract class UtilFunctions
 		list.clear();
 		for (int index = 0; index < numberOfElements; index++)
 			list.add(null);
+	}
+	
+	public static String formatTime(long miliseconds, boolean showHours,
+			boolean showSeconds)
+	{
+		// Obtain raw values
+		long seconds = miliseconds / 1000;
+		long minutes = seconds / 60;
+		long hours = minutes / 60;
+		
+		// Normalize Values, and Adjust for Preferences
+		if (showSeconds)
+			seconds = seconds % 60;
+		if (showHours)
+			minutes = minutes % 60;
+		
+		// Create String
+		StringBuilder timeString = new StringBuilder();
+		if (showHours)
+			timeString.append(hours + ":");
+		if (true)
+			timeString.append(minutes);
+		if (showSeconds)
+			timeString.append(":" + seconds);
+		
+		return timeString.toString();
 	}
 }
