@@ -2,6 +2,7 @@ package edu.asu.voctec;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -28,6 +29,7 @@ import edu.asu.voctec.energy_assessment.EAPart1ScoreScreen;
 import edu.asu.voctec.energy_assessment.EAPart2;
 import edu.asu.voctec.energy_assessment.EAPart2IntroScreen;
 import edu.asu.voctec.energy_assessment.EAPart2ScoreScreen;
+import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.game_states.InstructorControlPanel;
 import edu.asu.voctec.game_states.LanguageMenu;
 import edu.asu.voctec.game_states.MainMenu;
@@ -164,6 +166,7 @@ public class Game extends StateBasedGame implements Singleton
 		// Initialize & Add all GameStates
 		this.addState(new MainMenu());
 		this.addState(new MenuTest());
+		this.addState(new ExitScreen());
 		this.addState(new InstructorControlPanel());
 		this.addState(new LanguageMenu());
 		this.addState(new TaskScreen());
@@ -269,6 +272,21 @@ public class Game extends StateBasedGame implements Singleton
 			return currentGame.getState(getStateID(state));
 		else
 			return null;
+	}
+	
+	public static ExitScreen getExitScreen()
+	{
+		return (ExitScreen) currentGame.getState(getStateID(ExitScreen.class));
+	}
+	
+	public static void updateExitText(String titleField, String feedback)
+	{
+		getExitScreen().updateExitText(titleField, feedback);
+	}
+	
+	public static void updateExitText(String titleField, ArrayList<String> feedback)
+	{
+		getExitScreen().updateExitText(titleField, feedback);
 	}
 	
 	public static UserProfile getCurrentUser()
