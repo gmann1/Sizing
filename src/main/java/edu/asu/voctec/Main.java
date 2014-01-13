@@ -17,10 +17,8 @@ import edu.asu.voctec.utilities.AspectRatio.ResolutionNotSupportedException;
  * @author Moore, Zachary
  * 
  */
-// TODO move all other logic to Game
 public class Main implements GameDefaults
 {
-	// TODO move to Game
 	private static AppGameContainer gameContainer;
 	
 	/**

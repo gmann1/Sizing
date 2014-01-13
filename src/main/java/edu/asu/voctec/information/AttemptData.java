@@ -49,8 +49,7 @@ public class AttemptData implements Comparable<AttemptData>, Finalizable,
 	@Override
 	public int compareTo(AttemptData otherAttemptData)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return this.score - otherAttemptData.score;
 	}
 	
 	@Override
