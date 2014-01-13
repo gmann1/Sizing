@@ -15,7 +15,9 @@ public class AttemptData implements Comparable<AttemptData>, Finalizable,
 		Serializable
 {
 	private static final long serialVersionUID = 6482578605941748609L;
-
+	public static final int MAX_STARS = 6;
+	public static final int MIN_STARS = 1;
+	
 	protected boolean finalized;
 	
 	protected int numberOfUniqueHints;
@@ -118,6 +120,14 @@ public class AttemptData implements Comparable<AttemptData>, Finalizable,
 	public void setPercentCompletion(int percentCompletion)
 	{
 		this.percentCompletion = percentCompletion;
+	}
+	
+	public int calculateStarScore()
+	{
+		// Deduct one half-star for each hint used
+		int numberOfStars = MAX_STARS - numberOfUniqueHints;
+		
+		return (numberOfStars <= MIN_STARS) ? MIN_STARS : numberOfStars;
 	}
 	
 }
