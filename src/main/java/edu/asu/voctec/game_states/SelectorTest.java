@@ -14,7 +14,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
 import edu.asu.voctec.GameDefaults.ImagePaths.SelectorIcons;
-import edu.asu.voctec.Main;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.Selector;
@@ -207,7 +206,7 @@ public class SelectorTest extends gameTemplate
 		selectorDisplay.link(selector);
 		
 		// Center the display in the middle of the play-area
-		Rectangle playArea = new Rectangle(Main.getCurrentScreenDimension());
+		Rectangle playArea = new Rectangle(Game.getCurrentScreenDimension());
 		System.out.println("\tPlayArea Bounds: " + playArea);
 		int width = playArea.width - sidePanel.getBounds().width;
 		int height = playArea.height - control.getBounds().height;

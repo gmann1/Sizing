@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.GameDefaults.MainDefaults;
 import edu.asu.voctec.batter_sizing.BatteryExitScreen;
 import edu.asu.voctec.batter_sizing.BatteryGameScreen;
 import edu.asu.voctec.batter_sizing.BatteryIntro;
@@ -41,12 +42,17 @@ import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.information.ScenarioData;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.information.UserProfile;
+import edu.asu.voctec.language.Dictionary;
 import edu.asu.voctec.pv_game.PVExit;
 import edu.asu.voctec.pv_game.PVGame;
 import edu.asu.voctec.pv_game.PVIntro;
 import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
 import edu.asu.voctec.step_selection.StepSelectionExitScreen;
+import edu.asu.voctec.utilities.AspectRatio.ResolutionNotSupportedException;
+import edu.asu.voctec.utilities.Resizable;
+import edu.asu.voctec.utilities.ScreenResolution;
 import edu.asu.voctec.utilities.Singleton;
+import edu.asu.voctec.utilities.Translatable;
 
 /**
  * Singleton class representing the currently running game. The singleton Game
@@ -81,6 +87,8 @@ public class Game extends StateBasedGame implements Singleton
 	private static ScenarioData currentScenario;
 	private static TaskData currentTask;
 	private static UserProfile currentUser;
+	private static ScreenResolution currentScreenDimension;
+	private static Dictionary currentLanguage;
 	
 	/** GameState to enter upon launching the application */
 	public static final Class<?> DEFAULT_GAME_STATE = MainMenu.class;
@@ -93,10 +101,19 @@ public class Game extends StateBasedGame implements Singleton
 	 * @throws DuplicateInstantiationException
 	 *             if an attempt is made to create more than one instance of
 	 *             this class.
+	 * @throws ResolutionNotSupportedException
+	 *             Thrown if the defaults are set to an unsupported resolution
+	 *             (e.g. 0x0)
 	 */
-	private Game(String gameTitle) throws DuplicateInstantiationException
+	private Game(String gameTitle) throws DuplicateInstantiationException,
+			ResolutionNotSupportedException
 	{
 		super(gameTitle);
+		currentLanguage = Dictionary.constructDictionary("default");
+		currentScreenDimension = new ScreenResolution(
+				MainDefaults.DEFAULT_WINDOW_WIDTH,
+				MainDefaults.DEFAULT_WINDOW_HEIGHT);
+		
 		if (Game.currentGame == null)
 			Game.currentGame = this;
 		else
@@ -114,7 +131,7 @@ public class Game extends StateBasedGame implements Singleton
 	 */
 	public static Game constructGame()
 	{
-		return constructGame(Main.GAME_TITLE);
+		return constructGame(MainDefaults.GAME_TITLE);
 	}
 	
 	/**
@@ -139,11 +156,91 @@ public class Game extends StateBasedGame implements Singleton
 			{
 				return Game.currentGame;
 			}
+			catch (ResolutionNotSupportedException e)
+			{
+				e.printStackTrace();
+				return null;
+			}
 		}
 		else
 		{
 			return Game.currentGame;
 		}
+	}
+	
+	public static boolean resize(final ScreenResolution screenDimension)
+	{
+		boolean resizeSuccessfull;
+		
+		// Update dimension information
+		Game.currentScreenDimension = screenDimension;
+		
+		try
+		{
+			// Resize all gameStates
+			for (int id : Game.getGameStates())
+			{
+				// Iterate through each GameState
+				GameState gameState = currentGame.getState(id);
+				if (gameState instanceof Resizable)
+				{
+					// TODO implement resizing
+					// ((Resizable) gameState).resize();
+				}
+			}
+			
+			// Resize container (user window)
+			Main.getGameContainer().setDisplayMode(screenDimension.width,
+					screenDimension.height, false);
+			
+			// If no exceptions were thrown while resizing, then resizing was
+			// successful
+			resizeSuccessfull = true;
+		}
+		catch (SlickException e)
+		{
+			e.printStackTrace();
+			resizeSuccessfull = false;
+		}
+		
+		return resizeSuccessfull;
+	}
+	
+	/**
+	 * @return a copy of the current resolution Dimension object (i.e. current
+	 *         game window resolution)
+	 */
+	public static ScreenResolution getCurrentScreenDimension()
+	{
+		// TODO replace with copy
+		return currentScreenDimension;
+	}
+	
+	/**
+	 * @return The current language being used by this Game
+	 */
+	public static Dictionary getCurrentLanguage()
+	{
+		return currentLanguage;
+	}
+	
+	public static void setCurrentLanguage(Dictionary currentLanguage)
+	{
+		Game.currentLanguage = currentLanguage;
+		System.out.println("Updating Language...");
+		// translate gameStates
+		for (int id : Game.getGameStates())
+		{
+			// Iterate through each GameState
+			GameState gameState = Game.getCurrentGame().getState(id);
+			// TODO only translate the current state
+			// TODO translate each state upon entry
+			// label updates are handled in each gamestate
+			if (gameState instanceof Translatable)
+				((Translatable) gameState).updateTranslation();
+		}
+		
+		System.out.println("Language Updates Complete.");
 	}
 	
 	/**

@@ -24,6 +24,16 @@ import edu.asu.voctec.language.LabelName;
 // removed.
 public interface GameDefaults
 {
+	public interface MainDefaults
+	{
+		public static final int DEFAULT_WINDOW_WIDTH = 800;
+		public static final int DEFAULT_WINDOW_HEIGHT = 600;
+		public static final int TARGET_FRAME_RATE = 30;
+		public static final String GAME_TITLE = "Sizing";
+		public static final boolean SHOW_FPS = false;
+		public static final String DEFAULT_LANGUAGE = "english";
+	}
+	
 	public interface ImagePaths
 	{
 		// Backgrounds

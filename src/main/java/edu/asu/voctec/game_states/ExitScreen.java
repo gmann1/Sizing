@@ -9,7 +9,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
-import edu.asu.voctec.Main;
 import edu.asu.voctec.GUI.Column;
 import edu.asu.voctec.GUI.StarDisplay;
 import edu.asu.voctec.GUI.TextAreaX;
@@ -33,7 +32,7 @@ public class ExitScreen extends GUI
 	{
 		// Divide the screen into 6 sections (2 rows, 2 columns)
 		Rectangle[][] screenDivisions = UtilFunctions.divideScreen(
-				Main.getCurrentScreenDimension(), 2, 2);
+				Game.getCurrentScreenDimension(), 2, 2);
 		
 		// Setup Background
 		this.backgroundImage = new Image(ImagePaths.MainMenuBackground);
