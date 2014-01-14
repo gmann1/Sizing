@@ -16,6 +16,7 @@ import edu.asu.voctec.GameDefaults.ImagePaths;
 import edu.asu.voctec.GameDefaults.Labels.Step0;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.SelectorTest;
+import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class SelectorDisplay<T extends SelectorIcon> extends Component
@@ -34,7 +35,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	protected static Image largeArrow;
 	
 	protected Rectangle borderBounds;
-	protected BasicComponent[] choiceBorders;
+	protected Button[] choiceBorders;
 	protected ArrayList<T> elements;
 	protected ArrayList<Component> aethsteticComponents;
 	protected Selector<T> associatedSelector;
@@ -171,7 +172,7 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 			elements.add(null);
 	}
 	
-	public SelectorDisplay(int x, int y, boolean useDefaults)
+	public SelectorDisplay(int x, int y, boolean useDefaults) throws SlickException
 	{
 		this(x, y, 5);
 		
@@ -183,11 +184,11 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 			 * Create the choice borders for this component, using the default
 			 * image and format; relative to this component
 			 */
-			ArrayList<BasicComponent> borders = generateDefaultFormation(
+			ArrayList<Button> borders = generateDefaultFormation(
 					spacing, aethsteticComponents);
 			
 			// Instantiate choice borders with the values defined above.
-			choiceBorders = borders.toArray(new BasicComponent[borders.size()]);
+			choiceBorders = borders.toArray(new Button[borders.size()]);
 			
 			// Setup each choiceBorder
 			// Set screen-relative positions, associate with GUI, and listen for
@@ -311,7 +312,8 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	public String deriveHint()
 	{
 		ArrayList<T> orderedElements = generateOrderedElementsArray();
-		System.out.println("Ordered: " + Arrays.toString(orderedElements.toArray()));
+		System.out.println("Ordered: "
+				+ Arrays.toString(orderedElements.toArray()));
 		Random random = new Random();
 		int index = random.nextInt() % orderedElements.size();
 		System.out.println("Index: " + index);
@@ -334,7 +336,8 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		return deriveHint(element, orderedElements, actualIndex);
 	}
 	
-	protected String deriveHint(T element, ArrayList<T> orderedElements, int actualIndex)
+	protected String deriveHint(T element, ArrayList<T> orderedElements,
+			int actualIndex)
 	{
 		if (element == null)
 			throw new NullPointerException("Hint cannot be derived from null!");
@@ -406,10 +409,10 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 		return sortedElements;
 	}
 	
-	protected ArrayList<BasicComponent> generateDefaultFormation(int spacing,
-			ArrayList<Component> extraComponentContainer)
+	protected ArrayList<Button> generateDefaultFormation(int spacing,
+			ArrayList<Component> extraComponentContainer) throws SlickException
 	{
-		ArrayList<BasicComponent> borders = new ArrayList<>(5);
+		ArrayList<Button> borders = new ArrayList<>(5);
 		spacing += defaultBorder.getWidth();
 		
 		// Populate default borders - Place 5 borders side-by-side
@@ -417,7 +420,10 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 			Point relativeLocation = new Point(0, 0);
 			for (int index = 0; index < 5; index++)
 			{
-				borders.add(new BasicComponent(defaultBorder, relativeLocation));
+				Button border = new Button(defaultBorder, relativeLocation.x,
+						relativeLocation.y, 0.95f, Integer.toString(index + 1));
+				border.positionText(Position.BOTTOM);
+				borders.add(border);
 				relativeLocation.translate(spacing, 0);
 			}
 		}

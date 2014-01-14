@@ -164,6 +164,10 @@ public interface GameDefaults
 				AWT_FONT, ANTI_ALLIAS);
 	}
 	
+	/**
+	 * Positions and Dimensions of all selector components (relative to the
+	 * selector).
+	 */
 	public interface SelectorDefaults
 	{
 		public static Dimension ARROW_SIZE = new Dimension(41, 123);
@@ -200,8 +204,8 @@ public interface GameDefaults
 						+ PRIMARY_SELECTION_LOCATION.x + PRIMARY_SELECTION_SIZE.width),
 				(PRIMARY_SELECTION_SIZE.height - SECONDARY_SELECTION_SIZE.height) / 2);
 		
-		// Position Label
-		public static Rectangle ICON_LABEL_BOUNDS = new Rectangle(0, 200, 183,
+		// Position Label (relative)
+		public static Rectangle ICON_LABEL_BOUNDS = new Rectangle(0, -75, 183,
 				75);
 	}
 	

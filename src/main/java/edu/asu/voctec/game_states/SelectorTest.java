@@ -25,7 +25,6 @@ import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.information.SizingStepsData;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
-import edu.asu.voctec.step_selection.StepSelectionExitScreen;
 import edu.asu.voctec.utilities.CircularList;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
@@ -200,7 +199,7 @@ public class SelectorTest extends gameTemplate
 		this.addComponent(selector);
 	}
 	
-	public void instantiateSelectorDisplay()
+	public void instantiateSelectorDisplay() throws SlickException
 	{
 		// Setup a new selector display (using the default appearance)
 		selectorDisplay = new SelectorDisplay<>(0, 0, true);

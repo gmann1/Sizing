@@ -42,6 +42,13 @@ public class Button extends BasicComponent
 		}
 	}
 	
+	public Button(Image image, int x, int y, float relativeTextBounds,
+			String text) throws SlickException
+	{
+		this(image, x, y, UtilFunctions.dialateRectangle(image,
+				relativeTextBounds), text);
+	}
+	
 	public Button(String imagePath, int x, int y, Rectangle relativeTextBounds,
 			String text) throws SlickException
 	{
