@@ -65,8 +65,8 @@ public class StarDisplay extends Component
 	
 	protected void formatStars()
 	{
-		positionStars();
 		rotateStars();
+		positionStars();
 	}
 	
 	protected void rotateStars()

@@ -124,5 +124,10 @@ public class TextArea extends TextDisplay
 	{
 		wrapText();
 	}
-	
+
+	@Override
+	public void center()
+	{
+		// TODO Auto-generated method stub
+	}
 }

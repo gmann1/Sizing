@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -447,6 +448,15 @@ public class Game extends StateBasedGame implements Singleton
 			ArrayList<String> feedback)
 	{
 		getExitScreen().updateExitText(titleField, feedback);
+	}
+	
+	public static void updateExitText(String titleField, String feedback,
+			Image backgroundImage)
+	{
+		ExitScreen exitScreen = getExitScreen();
+		
+		exitScreen.updateExitText(titleField, feedback);
+		exitScreen.updateExitScreen(backgroundImage);
 	}
 	
 	public static UserProfile getCurrentUser()

@@ -110,6 +110,10 @@ public abstract class TextDisplay extends Component
 	
 	protected abstract void formatText();
 	
+	public abstract void setText(String text);
+	
+	public abstract void center();
+	
 	// TODO Implement
 	/*
 	 * protected abstract void centerText();

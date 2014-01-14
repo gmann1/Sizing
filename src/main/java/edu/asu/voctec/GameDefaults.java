@@ -18,7 +18,6 @@ import edu.asu.voctec.language.LabelName;
  * information, etc.
  * 
  * @author Moore, Zachary
- * 
  */
 // TODO This file should be reviewed and cleaned. Unused constants may be
 // removed.

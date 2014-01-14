@@ -100,7 +100,7 @@ public class SelectorTest extends gameTemplate
 		}
 		
 	}
-
+	
 	public class HintButtonListener extends ButtonListener
 	{
 		private static final long serialVersionUID = -914640823203112459L;
@@ -124,7 +124,13 @@ public class SelectorTest extends gameTemplate
 		protected void actionPerformed()
 		{
 			if (complete)
-				Game.getCurrentGame().enterState(StepSelectionExitScreen.class);
+			{
+				// TODO clean
+				Game.updateExitText(
+						"Good Job!",
+						"You have successfully completed the sizing process. Now get ready to play with each of the sizing steps.");
+				Game.getCurrentGame().enterState(ExitScreen.class);
+			}
 		}
 		
 	}

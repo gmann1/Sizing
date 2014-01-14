@@ -29,15 +29,24 @@ public abstract class GUI extends ModifiedGameState implements GameDefaults
 	protected final ArrayList<Component> components = new ArrayList<>();
 	protected final ArrayList<ActionListener> listeners = new ArrayList<>();
 	protected boolean trackTime;
+	protected boolean loaded;
 	
 	@Override
 	public void onEnter()
 	{
+		if (!loaded)
+			initiateInBackground();
 		// TODO Remove?
 	}
 
 	@Override
 	public void onExit()
+	{
+		// TODO Remove?
+	}
+	
+	@Override
+	public void initiateInBackground()
 	{
 		// TODO Remove?
 	}

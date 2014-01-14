@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.TrueTypeFont;
 
 import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.GUI.Component;
@@ -145,6 +146,15 @@ public abstract class UtilFunctions
 	public static Rectangle getImageBounds(Image image)
 	{
 		return new Rectangle(0, 0, image.getWidth(), image.getHeight());
+	}
+	
+	public static Rectangle getTextBounds(String text, TrueTypeFont font)
+	{
+		int width = font.getWidth(text);
+		int height = font.getHeight();
+		Rectangle textBounds = new Rectangle(0, 0, width, height);
+		
+		return textBounds;
 	}
 	
 	public static void translateAll(Point translationAmount,

@@ -25,6 +25,7 @@ public class ExitScreen extends GUI
 	protected StarDisplay starDisplay;
 	protected Column<TextField> dataLabels;
 	protected Column<TextField> dataDisplay;
+	protected Rectangle starDisplayBounds;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -60,8 +61,9 @@ public class ExitScreen extends GUI
 		// UtilFunctions.centerRectangle(new Rectangle(400, 300, 400, 300),
 		// componentBounds);
 		UtilFunctions.centerRectangle(screenDivisions[1][1], componentBounds);
+		starDisplayBounds = new Rectangle(componentBounds);
 		starDisplay = new StarDisplay(0, 0, 0);
-		starDisplay.setBounds(componentBounds);
+		starDisplay.setBounds(starDisplayBounds);
 		this.addComponent(starDisplay);
 		
 		// Label Column
@@ -123,6 +125,7 @@ public class ExitScreen extends GUI
 			dataDisplay.getUnitAt(0).setText(
 					Integer.toString(currentAttempt.getNumberOfUniqueHints()));
 			starDisplay.setScore(currentAttempt.calculateStarScore());
+			starDisplay.setBounds(starDisplayBounds);
 		}
 	}
 	
@@ -136,6 +139,11 @@ public class ExitScreen extends GUI
 	{
 		this.titleField.setText(titleField);
 		this.feedback.setText(feedback);
+	}
+
+	public void updateExitScreen(Image backgroundImage)
+	{
+		this.backgroundImage = backgroundImage;
 	}
 	
 }
