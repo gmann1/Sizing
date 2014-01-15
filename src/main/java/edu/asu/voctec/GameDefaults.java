@@ -272,8 +272,10 @@ public interface GameDefaults
 						"hintBody", "should be completed");
 			}
 			
+			public static final LabelName INSTRUCTIONS_BEGIN = new LabelName(
+					"instructionsBegin", "Use the arrows to cycle through the items of the sizing process. Then, click on the item in the middle box to select and place as step 1.");
 			public static final LabelName INSTRUCTIONS1 = new LabelName(
-					"instructions1", "Select which step to complete");
+					"instructions1", "Click on the item in the middle box to select and place as step");
 			public static final LabelName INSTRUCTIONS2 = new LabelName(
 					"instructions2", ".");
 			public static final LabelName INSTRUCTIONS_RED = new LabelName(
@@ -288,7 +290,7 @@ public interface GameDefaults
 			
 			public static final LabelName INTRODUCTION = new LabelName(
 					"step0Intro",
-					"You are about to take the first steps to sizing a standalone PV system. However, before sizing the array, it is important to develop a plan of action, and understand the steps involved in sizing a PV system. \n\n On the next screen, there are 5 steps listed (out of order). Use the arrows to cycle through each option, and decide the order in which you wish to complete the steps. When you are ready, press the start button.");
+					"Welcome! You are about to take an interactive journey to sizing a small standalone PV system. Before you start, however, it is important to understand the project and customer requirements and the major steps involved in sizing a PV system. \n\n On the next screen, you will see 5 major sizing items (not in the right order). Use the arrows to cycle through each option, and decide the order in which you would like  to complete the sizing process.");
 		}
 		
 		public interface TaskScreen
