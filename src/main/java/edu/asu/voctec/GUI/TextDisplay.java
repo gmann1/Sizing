@@ -112,7 +112,10 @@ public abstract class TextDisplay extends Component
 	
 	public abstract void setText(String text);
 	
-	public abstract void center();
+	public void center()
+	{
+		center = true;
+	}
 	
 	// TODO Implement
 	/*

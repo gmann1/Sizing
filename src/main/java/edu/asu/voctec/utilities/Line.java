@@ -34,7 +34,10 @@ public class Line
 
 	public void recalculateBounds(TrueTypeFont font)
 	{
-		this.bounds = UtilFunctions.getTextBounds(text, font);
+		if (text != null)
+			this.bounds = UtilFunctions.getTextBounds(text, font);
+		else
+			bounds = null;
 	}
 	
 	public static ArrayList<String> toStringList(ArrayList<Line> lines)
@@ -44,5 +47,20 @@ public class Line
 			linesAsStrings.add(line.text);
 		
 		return linesAsStrings;
+	}
+	
+	public static ArrayList<Line> fromStringList(ArrayList<String> lines, TrueTypeFont font)
+	{
+		ArrayList<Line> linesList = new ArrayList<>();
+		
+		for (String line : lines)
+			linesList.add(new Line(line, font));
+		
+		return linesList;
+	}
+	
+	public String toString()
+	{
+		return text;
 	}
 }

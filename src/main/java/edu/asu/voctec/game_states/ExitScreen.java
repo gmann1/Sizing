@@ -9,23 +9,46 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
+import edu.asu.voctec.GUI.Button;
+import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.Column;
 import edu.asu.voctec.GUI.StarDisplay;
 import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
+import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.information.AttemptData;
 import edu.asu.voctec.information.TaskData;
+import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class ExitScreen extends GUI
 {
+	public class ReplayButtonListener extends ButtonListener
+	{
+		private static final long serialVersionUID = -3113125282264208671L;
+		
+		@Override
+		protected void actionPerformed()
+		{
+			if (associatedTask != null)
+			{
+				Game.getCurrentTask().addAttempt(null);
+				Game.getCurrentGame().enterState(associatedTask);
+			}
+		}
+		
+	}
+	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
+	public static final String ARROW_LEFT = "resources/default/img/arrow-left.png";
+	
 	protected TextField titleField;
 	protected TextAreaX feedback;
 	protected StarDisplay starDisplay;
 	protected Column<TextField> dataLabels;
 	protected Column<TextField> dataDisplay;
 	protected Rectangle starDisplayBounds;
+	protected Class<?> associatedTask;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -102,6 +125,24 @@ public class ExitScreen extends GUI
 		unit.center();
 		dataDisplay.add(unit);
 		this.addComponent(dataDisplay);
+		
+		// Continue Button
+		Button continueButton = new Button(new Image(ARROW_RIGHT), 750, 550,
+				new Rectangle(0, 0, 50, 25), "Exit!");
+		continueButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+		continueButton.addActionListener(new TransitionButtonListener(
+				TaskScreen.class));
+		continueButton.positionText(Position.LEFT);
+		this.addComponent(continueButton);
+		
+		// Replay Button
+		Button replayButton = new Button(new Image(ARROW_LEFT), 5, 5,
+				new Rectangle(0, 0, 50, 25), "Replay");
+		replayButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
+		replayButton.addActionListener(new ReplayButtonListener());
+		replayButton.positionText(Position.RIGHT);
+		this.addComponent(replayButton);
+		
 	}
 	
 	@Override
@@ -122,7 +163,7 @@ public class ExitScreen extends GUI
 		{
 			dataDisplay.getUnitAt(0).setText(
 					UtilFunctions.formatTime(currentAttempt.getTimeSpent(), false, true));
-			dataDisplay.getUnitAt(0).setText(
+			dataDisplay.getUnitAt(1).setText(
 					Integer.toString(currentAttempt.getNumberOfUniqueHints()));
 			starDisplay.setScore(currentAttempt.calculateStarScore());
 			starDisplay.setBounds(starDisplayBounds);
@@ -141,9 +182,20 @@ public class ExitScreen extends GUI
 		this.feedback.setText(feedback);
 	}
 
+	public void updateExitScreen(Image backgroundImage, Class<?> associatedTask)
+	{
+		updateExitScreen(associatedTask);
+		updateExitScreen(backgroundImage);
+	}
+
 	public void updateExitScreen(Image backgroundImage)
 	{
 		this.backgroundImage = backgroundImage;
+	}
+
+	public void updateExitScreen(Class<?> associatedTask)
+	{
+		this.associatedTask = associatedTask;
 	}
 	
 }
