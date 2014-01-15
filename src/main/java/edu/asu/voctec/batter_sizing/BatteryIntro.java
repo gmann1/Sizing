@@ -70,7 +70,6 @@ public class BatteryIntro extends GUI
 		@Override
 		protected void actionPerformed()
 		{
-			BatteryGameScreen.playAnimation();
 			Game.getCurrentGame().enterState(BatteryGameScreen.class);
 		}
 	}

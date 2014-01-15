@@ -76,7 +76,6 @@ public class PVIntro extends GUI
 		@Override
 		protected void actionPerformed()
 		{
-			PVGame.playAnimation();
 			Game.getCurrentGame().enterState(PVGame.class);
 		}
 	}

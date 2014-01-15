@@ -78,13 +78,11 @@ public class PVGame extends gameTemplate
 	private static int currentHintText = 0;
 	public static List<BatteryControl> objectsArray = new ArrayList<BatteryControl>();
 	private List<InitialBattery> initialBatteries = new ArrayList<InitialBattery>();
-	private static final int RequiredCapacity = 127, RequiredVoltage = 12, animationIntervals = 60, maxChances = 5;
+	private static final int RequiredCapacity = 127, RequiredVoltage = 12, maxChances = 5;
 	private boolean firstRoundOfHints = true, parallelHintNOtDisplayed = true, seriesHintNOtDisplayed = true;
 	public static int totalNumberOfHintsUsed = 0, doneButtonCounter = 0;
-	private BasicComponent animationImage;
 	private static BasicComponent batteryBankArea;
-	private static boolean playingAnimation = false, CompletedGame = false;
-	private static int animationTimeCounter = 0;
+	private static boolean CompletedGame = false;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -142,9 +140,6 @@ public class PVGame extends gameTemplate
 		readyButton.addActionListener(new DoneButtonListener());
 		hintButton.addActionListener(new HintsButtonListener());
 		continueButton.addActionListener(new ContinueButtonListener());
-		
-		animationImage = new BasicComponent(FirstImage,batteryBankArea.getBounds().x, batteryBankArea.getBounds().y);
-		this.addComponent(animationImage);
 	}
 	
 	public void addObject(BatteryControl object)
@@ -168,33 +163,12 @@ public class PVGame extends gameTemplate
 		else
 			continueButtonOff();
 		
-		if(playingAnimation)
+		super.update(container,game,delta);
+		
+		for(int index =0; index<objectsArray.size(); index++)
 		{
-			if(animationImage == null)
-			{
-				playingAnimation = false;
-			}
-			if(animationTimeCounter == animationIntervals)
-			{
-				animationImage.setCurrentImage(PVImage, true);
-			}
-			if(animationTimeCounter == (2*animationIntervals))
-			{
-				this.removeComponent(animationImage);
-				animationImage = null;
-				playingAnimation = false;
-			}
-			animationTimeCounter++;
-		}
-		else
-		{
-			super.update(container,game,delta);
-			
-			for(int index =0; index<objectsArray.size(); index++)
-			{
-				BatteryControl invokedObject = objectsArray.get(index);
-				invokedObject.update();
-			}
+			BatteryControl invokedObject = objectsArray.get(index);
+			invokedObject.update();
 		}
 	}
 
@@ -410,20 +384,22 @@ public class PVGame extends gameTemplate
 				if(Battery.getNumberOfBatteries() > 2)
 				{
 					hintBox.setText(ExtraObjectsUsedMessage);
-					hintBox.setFontColor(Color.red);
+					hintBox.setFontColor(Color.white);
 					CompletedGame = false;
+					doneButtonCounter++;
 				}
 				else if(Battery.getNumberOfBatteries() <= 2)
 				{
 					if(Battery.batteryArray.size() == 2)
 					{
 						hintBox.setText(ExtraObjectsUsedMessage);
-						hintBox.setFontColor(Color.red);
+						hintBox.setFontColor(Color.white);
 						CompletedGame = false;
+						doneButtonCounter++;
 					}
 					else
 					{
-						hintBox.setText(CorrectAnswerCongratulation+"\n"+CompletingGameMessage+"\n"+CorrectAnswerMessage);
+						hintBox.setText(CorrectAnswerCongratulation+" "+CompletingGameMessage+" "+CorrectAnswerMessage);
 						
 						PVExit.passEndGameMessage(CorrectAnswerCongratulation,
 								CompletingGameMessage,
@@ -436,15 +412,14 @@ public class PVGame extends gameTemplate
 			{
 				showNextHintText(IncorrectAnswerMessage);
 				CompletedGame = false;
+				doneButtonCounter++;
 			}
 			
 			if(doneButtonCounter >= maxChances)
 			{
 				hintBox.setText(GameAnswer);
-				hintBox.setFontColor(Color.red);
+				hintBox.setFontColor(Color.white);
 			}
-			
-			doneButtonCounter++;
 		}
 	}
 	
@@ -460,12 +435,6 @@ public class PVGame extends gameTemplate
 			}
 		}
 		
-	}
-	
-	public static void playAnimation()
-	{
-		playingAnimation = true;
-		animationTimeCounter = 0;
 	}
 	
 	public void continueButtonOff() throws SlickException{
