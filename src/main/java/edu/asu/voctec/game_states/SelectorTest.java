@@ -312,15 +312,23 @@ public class SelectorTest extends gameTemplate
 		{
 			// Determine which step is to be decided next
 			int firstEmpty = this.selectorDisplay.getCurrentIndex() + 1;
-			
-			// Convert integer to an ordinal string
-			String ordinalNumber = UtilFunctions
-					.getOrdinalRepresentation(firstEmpty);
+			String instructions;
 			
 			// Set instructions label text
-			String instructions = Labels.Step0.INSTRUCTIONS1.getTranslation()
-					+ " " + ordinalNumber
-					+ Labels.Step0.INSTRUCTIONS2.getTranslation();
+			if (firstEmpty == 1)
+			{
+				// Unique instructions for Instruction1
+				instructions = Labels.Step0.INSTRUCTIONS_BEGIN.getTranslation();
+			}
+			else
+			{
+				// Standard format for instructions 2-5
+				instructions = Labels.Step0.INSTRUCTIONS1.getTranslation()
+						+ " " + firstEmpty
+						+ Labels.Step0.INSTRUCTIONS2.getTranslation();
+			}
+			
+			
 			this.instructionBox.setText(instructions);
 			System.out.println("Update Instructions: " + instructions);
 		}
@@ -447,17 +455,17 @@ public class SelectorTest extends gameTemplate
 		try
 		{
 			selectorContents.add(new SelectorIcon(
-					SelectorIcons.ENERGY_ASSESSMENT, "Energy Assessment", 0));
+					SelectorIcons.ENERGY_ASSESSMENT, "Assess Energy Requirements", 0));
 			selectorContents.add(new SelectorIcon(
 					SelectorIcons.CRITICAL_DESIGN_MONTH,
-					"Critical Design Month", 1));
+					"Find the Critical Design Month", 1));
 			selectorContents.add(new SelectorIcon(SelectorIcons.BATTERY_SIZING,
 					"Size the Battery", 2));
 			selectorContents.add(new SelectorIcon(SelectorIcons.PV_SIZING,
 					"Size the PV Array", 3));
 			selectorContents
 					.add(new SelectorIcon(SelectorIcons.CONTROLLER_SIZING,
-							"Size the Controllers", 4));
+							"Size the Controller", 4));
 		}
 		catch (SlickException e)
 		{
