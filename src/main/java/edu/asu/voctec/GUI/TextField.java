@@ -133,8 +133,10 @@ public class TextField extends TextDisplay
 		formatText();
 	}
 	
+	@Override
 	public void center()
 	{
+		super.center();
 		center(true, true);
 	}
 	

@@ -7,7 +7,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.BasicComponent;
-import edu.asu.voctec.energy_assessment.EAPart1ScoreScreen;
 
 public class InstructorControlPanel extends GUI
 {

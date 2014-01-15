@@ -14,7 +14,7 @@ import edu.asu.voctec.utilities.UtilFunctions;
 public class Button extends BasicComponent
 {
 	private static final long serialVersionUID = -5092146334779020324L;
-	protected TextField textField;
+	protected TextDisplay textDisplay;
 	
 	public Button(Image image, int x, int y, Rectangle relativeTextBounds,
 			String text)
@@ -35,10 +35,18 @@ public class Button extends BasicComponent
 					absoluteTextBounds);
 			
 			// Create and format text field
-			this.textField = new TextField(absoluteTextBounds, 1.0f, text,
+			TextField textField = new TextField(absoluteTextBounds, 1.0f, text,
 					TextDisplay.FormattingOption.FIT_TEXT);
-			this.textField.center();
+			textField.center();
+			this.textDisplay = textField;
 		}
+	}
+	
+	public Button(Image image, int x, int y, float relativeTextBounds,
+			String text) throws SlickException
+	{
+		this(image, x, y, UtilFunctions.dialateRectangle(image,
+				relativeTextBounds), text);
 	}
 	
 	public Button(String imagePath, int x, int y, Rectangle relativeTextBounds,
@@ -71,26 +79,26 @@ public class Button extends BasicComponent
 	public void draw(Graphics graphics)
 	{
 		super.draw(graphics);
-		if (textField != null)
-			textField.draw(graphics);
+		if (textDisplay != null)
+			textDisplay.draw(graphics);
 	}
 	
 	public void setX(int x)
 	{
-		if (textField != null)
+		if (textDisplay != null)
 		{
 			int deltaX = x - (int) this.x;
-			textField.translate(deltaX, 0);
+			textDisplay.translate(deltaX, 0);
 		}
 		super.setX(x);
 	}
 	
 	public void setY(int y)
 	{
-		if (textField != null)
+		if (textDisplay != null)
 		{
 			int deltaY = y - (int) this.y;
-			textField.translate(0, deltaY);
+			textDisplay.translate(0, deltaY);
 		}
 		super.setY(y);
 	}
@@ -100,22 +108,22 @@ public class Button extends BasicComponent
 	{
 		boolean success;
 		
-		if (textField != null)
+		if (textDisplay != null)
 		{
 			// Give textField a relative position
-			textField.setX(textField.getX() - (int) this.x);
-			textField.setY(textField.getY() - (int) this.y);
+			textDisplay.setX(textDisplay.getX() - (int) this.x);
+			textDisplay.setY(textDisplay.getY() - (int) this.y);
 			
 			// Deterime horizontal and vertical scales, for resizing the text
 			float[] scales = getScales(width, height);
 			
 			// Resize this button, and rescale the relative text field
 			success = super.resize(width, height)
-					&& textField.rescale(scales[0], scales[1]);
+					&& textDisplay.rescale(scales[0], scales[1]);
 			
 			// Give textField an absolute location
-			textField.setX(textField.getX() + (int) this.x);
-			textField.setY(textField.getY() + (int) this.y);
+			textDisplay.setX(textDisplay.getX() + (int) this.x);
+			textDisplay.setY(textDisplay.getY() + (int) this.y);
 		}
 		else
 			success = super.resize(width, height);
@@ -123,15 +131,15 @@ public class Button extends BasicComponent
 		return success;
 	}
 	
-	public TextField getTextField()
+	public TextDisplay getTextField()
 	{
-		return textField;
+		return textDisplay;
 	}
 	
 	public void setFontColor(Color color)
 	{
 		
-		this.textField.setFontColor(color);
+		this.textDisplay.setFontColor(color);
 	}
 	
 	public void positionText(Position position)
@@ -157,7 +165,7 @@ public class Button extends BasicComponent
 				break;
 		}
 		
-		this.textField.translate(translationVector);
+		this.textDisplay.translate(translationVector);
 	}
 	
 }

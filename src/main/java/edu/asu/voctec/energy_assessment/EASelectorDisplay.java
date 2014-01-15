@@ -9,15 +9,18 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import edu.asu.voctec.GameDefaults.ImagePaths;
 import edu.asu.voctec.GUI.BasicComponent;
+import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.Component;
 import edu.asu.voctec.GUI.SelectorDisplay;
 import edu.asu.voctec.GUI.SelectorIcon;
-import edu.asu.voctec.GameDefaults.ImagePaths;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class EASelectorDisplay<T extends SelectorIcon> extends SelectorDisplay<T>
 {
+	private static final long serialVersionUID = 3141827850596081521L;
+	
 	protected static Image bottomBox;
 	protected static Image rightArrow;
 	protected static Image downArrow;
@@ -52,7 +55,8 @@ public class EASelectorDisplay<T extends SelectorIcon> extends SelectorDisplay<T
 		}
 	}
 	
-	public EASelectorDisplay(int x, int y, boolean useDefaults) {
+	public EASelectorDisplay(int x, int y, boolean useDefaults)
+			throws SlickException {
 		super(x, y, true);//have to decide if true or false
 		// TODO Auto-generated constructor stub
 		
@@ -112,16 +116,17 @@ public class EASelectorDisplay<T extends SelectorIcon> extends SelectorDisplay<T
 		throw new UnsupportedOperationException();
 	}
 	
-	protected ArrayList<BasicComponent> generateDefaultFormation(int spacing,
+	protected ArrayList<Button> generateDefaultFormation(int spacing,
 			ArrayList<Component> extraComponentContainer)
 	{
-		ArrayList<BasicComponent> borders = new ArrayList<>(5);
+		ArrayList<Button> borders = new ArrayList<>(5);
 		
 		// Populate default borders - Make a 'inverted pyramid' formation
 		Point relativeLocation = new Point(0, 0);
 		
+		// TODO generate default formation
 		// Top left border
-		relativeLocation.setLocation(0,0);
+		/*relativeLocation.setLocation(0,0);
 		borders.add(new BasicComponent(defaultBorder, relativeLocation));
 		
 		// Top middle border
@@ -142,7 +147,7 @@ public class EASelectorDisplay<T extends SelectorIcon> extends SelectorDisplay<T
 		
 		// Bottom right border
 		relativeLocation.setLocation(3*defaultBorder.getWidth(),1.5*defaultBorder.getHeight()+5);
-		borders.add(new BasicComponent(defaultBorder, relativeLocation));
+		borders.add(new BasicComponent(defaultBorder, relativeLocation));*/
 		
 		//bottom back box
 		//relativeLocation.setLocation(defaultBorder.getWidth()-5,1.5*defaultBorder.getHeight());

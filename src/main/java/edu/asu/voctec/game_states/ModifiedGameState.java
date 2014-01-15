@@ -27,6 +27,8 @@ public abstract class ModifiedGameState extends BasicGameState implements
 		currentID++;
 	}
 	
+	public abstract void initiateInBackground();
+	
 	@Override
 	public final int getID()
 	{

@@ -10,6 +10,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
+import edu.asu.voctec.GUI.BasicComponent;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.Component;
@@ -24,6 +25,7 @@ import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TaskScreen extends GUI
 {
+	public static final String SIDE_BAR = "resources/default/img/taskScreen/SideBar.png";
 	public static BackButtonListener activeListener;
 	private ArrayList<TaskData> tasks;
 	private ArrayList<Component> confirmationComponents;
@@ -91,12 +93,18 @@ public class TaskScreen extends GUI
 		tasks = new ArrayList<>();
 		System.out.println("TaskScreen: Defaults Set.");
 		
+		// Side Bar
+		BasicComponent sideBar = new BasicComponent(SIDE_BAR, 0, 0);
+		sideBar.resize(226, 600);
+		this.addComponent(sideBar);
+		
 		// Back Button
 		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
 				new Rectangle(0, 0, 50, 25), "Exit");
 		backButton.addActionListener(new BackButtonListener());
 		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 		backButton.positionText(Position.RIGHT);
+		this.addComponent(backButton);
 		
 		// Confirmation Components
 		// Define the location of the component block relative to the screen
@@ -131,7 +139,6 @@ public class TaskScreen extends GUI
 		confirmationComponents.add(nameLabel);
 		confirmationComponents.add(exitButton);
 		confirmationComponents.add(replayButton);
-		this.addComponent(backButton);
 
 		// Scale Components
 		for (Component component : confirmationComponents)

@@ -10,8 +10,29 @@ import org.newdawn.slick.TrueTypeFont;
 
 import edu.asu.voctec.language.LabelName;
 
+/**
+ * Contains all constants used across multiple GameStates. This includes all
+ * resources (images, sounds, etc) as well as the defaults for all game text (in
+ * case it cannot be loaded from the appropriate file). GameDefaults also
+ * contains paths for save files, default settings for various fonts, L&F
+ * information, etc.
+ * 
+ * @author Moore, Zachary
+ */
+// TODO This file should be reviewed and cleaned. Unused constants may be
+// removed.
 public interface GameDefaults
 {
+	public interface MainDefaults
+	{
+		public static final int DEFAULT_WINDOW_WIDTH = 800;
+		public static final int DEFAULT_WINDOW_HEIGHT = 600;
+		public static final int TARGET_FRAME_RATE = 30;
+		public static final String GAME_TITLE = "Sizing";
+		public static final boolean SHOW_FPS = false;
+		public static final String DEFAULT_LANGUAGE = "english";
+	}
+	
 	public interface ImagePaths
 	{
 		// Backgrounds
@@ -31,6 +52,8 @@ public interface GameDefaults
 		public static final String READY_BUTTON = "resources/default/img/buttons/readyButton.png";
 		public static final String CONTINUE_BUTTON_ON = "resources/default/img/buttons/continueButton.png";
 		public static final String CONTINUE_BUTTON_OFF = "resources/default/img/buttons/continueHidden.png";
+		public static final String REPLAY_BUTTON = "resources/default/img/buttons/ReplayButton.png";
+		public static final String SKIP_BUTTON = "resources/default/img/buttons/SkipButton.png";
 		
 		// changes
 		public static final String HINT_BUTTON = "resources/default/img/buttons/hintButton.png";
@@ -129,7 +152,7 @@ public interface GameDefaults
 		public static final Color FONT_COLOR = Color.white;
 		public static final Color TRANSITION_FONT_COLOR = Color.white;
 		public static final Color BUTTON_FONT_COLOR = Color.black;
-	   public static final Color DISABLED_BUTTON_FONT_COLOR = Color.lightGray;
+		public static final Color DISABLED_BUTTON_FONT_COLOR = Color.lightGray;
 		
 		public static final float FONT_SIZE_SMALL = 8f;
 		public static final float FONT_SIZE_MEDIUM = 12f;
@@ -141,6 +164,10 @@ public interface GameDefaults
 				AWT_FONT, ANTI_ALLIAS);
 	}
 	
+	/**
+	 * Positions and Dimensions of all selector components (relative to the
+	 * selector).
+	 */
 	public interface SelectorDefaults
 	{
 		public static Dimension ARROW_SIZE = new Dimension(41, 123);
@@ -177,8 +204,8 @@ public interface GameDefaults
 						+ PRIMARY_SELECTION_LOCATION.x + PRIMARY_SELECTION_SIZE.width),
 				(PRIMARY_SELECTION_SIZE.height - SECONDARY_SELECTION_SIZE.height) / 2);
 		
-		// Position Label
-		public static Rectangle ICON_LABEL_BOUNDS = new Rectangle(0, 200, 183,
+		// Position Label (relative)
+		public static Rectangle ICON_LABEL_BOUNDS = new Rectangle(0, -75, 183,
 				75);
 	}
 	

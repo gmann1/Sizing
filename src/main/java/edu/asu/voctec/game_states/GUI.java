@@ -16,7 +16,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
 import edu.asu.voctec.GameDefaults;
-import edu.asu.voctec.Main;
 import edu.asu.voctec.GUI.ActionListener;
 import edu.asu.voctec.GUI.Component;
 import edu.asu.voctec.utilities.UtilFunctions;
@@ -30,15 +29,24 @@ public abstract class GUI extends ModifiedGameState implements GameDefaults
 	protected final ArrayList<Component> components = new ArrayList<>();
 	protected final ArrayList<ActionListener> listeners = new ArrayList<>();
 	protected boolean trackTime;
+	protected boolean loaded;
 	
 	@Override
 	public void onEnter()
 	{
+		if (!loaded)
+			initiateInBackground();
 		// TODO Remove?
 	}
 
 	@Override
 	public void onExit()
+	{
+		// TODO Remove?
+	}
+	
+	@Override
+	public void initiateInBackground()
 	{
 		// TODO Remove?
 	}
@@ -86,7 +94,7 @@ public abstract class GUI extends ModifiedGameState implements GameDefaults
 	{
 		// Define the bounds of this GUI
 		Rectangle guiBounds = new Rectangle(new Point(0, 0),
-				Main.getCurrentScreenDimension());
+				Game.getCurrentScreenDimension());
 		UtilFunctions.centerComponentsStacked(guiBounds,
 				spaceBetweenComponents,
 				components.toArray(new Component[components.size()]));
