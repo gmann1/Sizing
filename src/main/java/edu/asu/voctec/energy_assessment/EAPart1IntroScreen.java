@@ -15,7 +15,7 @@ import edu.asu.voctec.utilities.Position;
 public class EAPart1IntroScreen extends GUI
 {
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
-	public static final String INTRODUCTION = "Needs to be edited";
+	public static final String INTRODUCTION = "In this game you will need to find a correct combinations of appliances that add up to to the target power rating.";
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
