@@ -124,7 +124,6 @@ public class SelectorTest extends gameTemplate
 		{
 			if (complete)
 			{
-				// TODO clean
 				Game.updateExitText(
 						"Good Job!",
 						"You have successfully completed the sizing process. Now get ready to play with each of the sizing steps.");

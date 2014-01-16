@@ -7,6 +7,8 @@ import edu.asu.voctec.utilities.CircularList;
 
 public class SizingStepsData extends AttemptData
 {
+	private static final long serialVersionUID = 7276084073137860427L;
+	
 	private ArrayList<SelectorIcon> selectorDisplayContents;
 	private CircularList<SelectorIcon> selectorContents;
 	private ArrayList<String> currentHints;
