@@ -33,8 +33,8 @@ import edu.asu.voctec.cdmg.CDIntroScreen;
 import edu.asu.voctec.cdmg.CDPart1.CDContinueListener;
 import edu.asu.voctec.cdmg.CDPart1.CDHintListener;
 import edu.asu.voctec.cdmg.CDPart1.CDReadyListener;
-import edu.asu.voctec.energy_assessment.EAPart1.ReadyButtonListener;
 import edu.asu.voctec.game_states.GUI;
+import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 import edu.asu.voctec.utilities.gameTemplate;
 
@@ -157,6 +157,9 @@ public class EAPart2 extends gameTemplate
 		//Button Start = new Button(new Image(ImagePaths.ARROW_RIGHT), 750, 0, new Rectangle(50,50,300,50), "Start!");
 		//Start.addActionListener(new TransitionButtonListener(EAPart2ScoreScreen.class));
 		//this.addComponent(Start);
+		Button testButton = new Button(new Image(STARTSQUARE), 750, 550, new Rectangle(0, 0, 50, 25), "Testing");
+		testButton.addActionListener(new TransitionButtonListener(EAPart1.class));
+		this.addComponent(testButton);
 	}
 	
 	@Override

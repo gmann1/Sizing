@@ -22,8 +22,34 @@ import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
+/**
+ * GameState that serves as an exit "splash" screen for all minigames, that
+ * displays text (i.e. feedback or "next steps") to the user, in addition to
+ * other data such as numberOfHintsUsed and timeSpent.
+ * 
+ * The text to be displayed on this screen should be set by the function that
+ * transitions the game to this specific state (presumably each minigame). All
+ * other (applicable) data will be loaded from the current AttemptData, as
+ * defined by the currentGame; this will be done automatically. As such, all
+ * minigames are expected to update the current Task- and Attempt- Data at least
+ * before transitioning to this screen.
+ * 
+ * @author Moore, Zachary
+ * @see #updateExitText(String, String)
+ * 
+ */
 public class ExitScreen extends GUI
 {
+	/**
+	 * Listens for a mouse click to the replay button. When this listener is
+	 * activated (i.e. when the replay button is clicked), a new attempt will be
+	 * created for the current Task, and the game will transition to the screen
+	 * described by the associatedClass.
+	 * 
+	 * @author Moore, Zachary
+	 * @see edu.asu.voctec.game_states.ExitScreen#associatedTask
+	 * 
+	 */
 	public class ReplayButtonListener extends ButtonListener
 	{
 		private static final long serialVersionUID = -3113125282264208671L;
@@ -39,30 +65,60 @@ public class ExitScreen extends GUI
 		}
 		
 	}
+	
+	// TODO move to GameDefaults
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
 	public static final String ARROW_LEFT = "resources/default/img/arrow-left.png";
 	
+	/** Single line of text to display at the top of the screen (aligned left) */
 	protected TextField titleField;
+	
+	/** Paragraph to display below the title field */
 	protected TextAreaX feedback;
+	
+	/** The display for the StarScore of the current Task */
 	protected StarDisplay starDisplay;
+	
+	/** The first column of the data table to display AttemptData statistics */
 	protected Column<TextField> dataLabels;
+	
+	/** The second column of the data table to display AttemptData statistics */
 	protected Column<TextField> dataDisplay;
+	
+	// TODO move to StarDisplay
 	protected Rectangle starDisplayBounds;
+	
+	/** Indicates which minigame (i.e. task) this ExitScreen is displaying */
 	protected Class<?> associatedTask;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
-		// Divide the screen into 6 sections (2 rows, 2 columns)
+		// Setup Background
+		this.backgroundImage = new Image(ImagePaths.MainMenuBackground);
+		
+		// Divide the screen into 4 quadrants (2 rows, 2 columns)
 		Rectangle[][] screenDivisions = UtilFunctions.divideScreen(
 				Game.getCurrentScreenDimension(), 2, 2);
 		
-		// Setup Background
-		this.backgroundImage = new Image(ImagePaths.MainMenuBackground);
-		Rectangle componentBounds = new Rectangle(0, 50, 300, 50);
+		// Text Displays
+		initiateTextDisplays();
 		
+		// Star Display (bottom-right quadrant)
+		initiateStarDisplay(screenDivisions[1][1]);
+		
+		// Data Table (bottom-left quadrant)
+		initiateDataTable(screenDivisions[1][0]);
+		
+		// Buttons
+		initiateButtons();
+	}
+	
+	private void initiateTextDisplays()
+	{
 		// Title
+		Rectangle componentBounds = new Rectangle(0, 50, 300, 50);
 		titleField = new TextField(componentBounds, 0.95f, "Good Job!",
 				TextDisplay.FormattingOption.FIT_TEXT);
 		titleField.setFontColor(Fonts.FONT_COLOR);
@@ -78,21 +134,26 @@ public class ExitScreen extends GUI
 		feedback.setFontSize(Fonts.FONT_SIZE_LARGE);
 		feedback.setFontColor(Fonts.FONT_COLOR);
 		this.addComponent(feedback);
-		
+	}
+	
+	private void initiateStarDisplay(Rectangle subContainer)
+			throws SlickException
+	{
 		// Star Display (center in bottom-right section)
-		componentBounds = new Rectangle(0, 0, 300, 150);
-		// UtilFunctions.centerRectangle(new Rectangle(400, 300, 400, 300),
-		// componentBounds);
-		UtilFunctions.centerRectangle(screenDivisions[1][1], componentBounds);
+		Rectangle componentBounds = new Rectangle(0, 0, 300, 150);
+		UtilFunctions.centerRectangle(subContainer, componentBounds);
 		starDisplayBounds = new Rectangle(componentBounds);
 		starDisplay = new StarDisplay(0, 0, 0);
 		starDisplay.setBounds(starDisplayBounds);
 		this.addComponent(starDisplay);
-		
+	}
+	
+	private void initiateDataTable(Rectangle subContainer)
+	{
 		// Label Column
 		float fontSize = 26f;
-		componentBounds = new Rectangle(0, 0, 250, 100);
-		UtilFunctions.centerRectangle(screenDivisions[1][0], componentBounds);
+		Rectangle componentBounds = new Rectangle(0, 0, 250, 100);
+		UtilFunctions.centerRectangle(subContainer, componentBounds);
 		componentBounds.translate(-50, 0);
 		dataLabels = new Column<>(componentBounds);
 		componentBounds = new Rectangle(0, 0, 250, 50);
@@ -110,7 +171,7 @@ public class ExitScreen extends GUI
 		
 		// Data Column
 		componentBounds = new Rectangle(0, 0, 150, 100);
-		UtilFunctions.centerRectangle(screenDivisions[1][0], componentBounds);
+		UtilFunctions.centerRectangle(subContainer, componentBounds);
 		componentBounds.translate(80, 0);
 		dataDisplay = new Column<>(componentBounds);
 		componentBounds = new Rectangle(0, 0, 150, 50);
@@ -125,7 +186,10 @@ public class ExitScreen extends GUI
 		unit.center();
 		dataDisplay.add(unit);
 		this.addComponent(dataDisplay);
-		
+	}
+	
+	private void initiateButtons() throws SlickException
+	{
 		// Continue Button
 		Button continueButton = new Button(new Image(ARROW_RIGHT), 750, 550,
 				new Rectangle(0, 0, 50, 25), "Exit!");
@@ -142,7 +206,6 @@ public class ExitScreen extends GUI
 		replayButton.addActionListener(new ReplayButtonListener());
 		replayButton.positionText(Position.RIGHT);
 		this.addComponent(replayButton);
-		
 	}
 	
 	@Override
@@ -162,7 +225,8 @@ public class ExitScreen extends GUI
 		if (currentAttempt != null)
 		{
 			dataDisplay.getUnitAt(0).setText(
-					UtilFunctions.formatTime(currentAttempt.getTimeSpent(), false, true));
+					UtilFunctions.formatTime(currentAttempt.getTimeSpent(),
+							false, true));
 			dataDisplay.getUnitAt(1).setText(
 					Integer.toString(currentAttempt.getNumberOfUniqueHints()));
 			starDisplay.setScore(currentAttempt.calculateStarScore());
@@ -170,30 +234,56 @@ public class ExitScreen extends GUI
 		}
 	}
 	
+	/**
+	 * Set the text to be displayed by this screen.
+	 * 
+	 * @param titleField
+	 *            Single line of text to display at the top of the screen
+	 *            (aligned left)
+	 * @param feedback
+	 *            Paragraph to display below the title field, in the upper-half
+	 *            of the screen.
+	 */
 	public void updateExitText(String titleField, String feedback)
 	{
 		this.titleField.setText(titleField);
 		this.feedback.setText(feedback);
 	}
 	
+	/**
+	 * @see #updateExitText(String, String)
+	 */
 	public void updateExitText(String titleField, ArrayList<String> feedback)
 	{
 		this.titleField.setText(titleField);
 		this.feedback.setText(feedback);
 	}
-
-	public void updateExitScreen(Image backgroundImage, Class<?> associatedTask)
+	
+	/**
+	 * Set the background image and associate class for this screen. A value of
+	 * null for backgroundImage will remove the current background of this
+	 * screen.
+	 * 
+	 * @param backgroundImage
+	 *            The desired background. Null will remove the background.
+	 * @param associatedTask
+	 *            The task which this screen is to display. The replay button
+	 *            will correspond to this task.
+	 */
+	public void updateExitScreen(Image backgroundImage, Class<? extends Task> associatedTask)
 	{
 		updateExitScreen(associatedTask);
 		updateExitScreen(backgroundImage);
 	}
-
+	
+	// TODO replace with this.setBackgroundImage
 	public void updateExitScreen(Image backgroundImage)
 	{
 		this.backgroundImage = backgroundImage;
 	}
-
-	public void updateExitScreen(Class<?> associatedTask)
+	
+	// TODO refactor to: setAssociatedTask(Class<?>) OR associate(Class<?>)
+	public void updateExitScreen(Class<? extends Task> associatedTask)
 	{
 		this.associatedTask = associatedTask;
 	}

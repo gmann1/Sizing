@@ -68,7 +68,7 @@ public class EAPart1ScoreScreen extends GUI
 		@Override
 		protected void actionPerformed()
 		{
-			EAPart1.reset();
+			//EAPart1.reset();
 			Game.getCurrentGame().enterState(EAPart2IntroScreen.class);
 		}
 	}
@@ -78,7 +78,7 @@ public class EAPart1ScoreScreen extends GUI
 		@Override
 		protected void actionPerformed()
 		{
-			EAPart1.reset();
+			//EAPart1.reset();
 			Game.getCurrentGame().enterState(EAPart1.class);
 		}
 	}
