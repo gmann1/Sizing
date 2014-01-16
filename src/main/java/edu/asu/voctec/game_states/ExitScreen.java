@@ -47,6 +47,7 @@ public class ExitScreen extends GUI
 	protected StarDisplay starDisplay;
 	protected Column<TextField> dataLabels;
 	protected Column<TextField> dataDisplay;
+	// TODO move to GameDefaults
 	protected Rectangle starDisplayBounds;
 	protected Class<?> associatedTask;
 	
@@ -81,8 +82,6 @@ public class ExitScreen extends GUI
 		
 		// Star Display (center in bottom-right section)
 		componentBounds = new Rectangle(0, 0, 300, 150);
-		// UtilFunctions.centerRectangle(new Rectangle(400, 300, 400, 300),
-		// componentBounds);
 		UtilFunctions.centerRectangle(screenDivisions[1][1], componentBounds);
 		starDisplayBounds = new Rectangle(componentBounds);
 		starDisplay = new StarDisplay(0, 0, 0);

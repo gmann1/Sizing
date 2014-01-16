@@ -169,6 +169,13 @@ public class Game extends StateBasedGame implements Singleton
 		}
 	}
 	
+	/**
+	 * Resize all game states, so that they display at the desired resolution.
+	 * 
+	 * @param screenDimension The desired resolution.
+	 * @return Whether or not the resize was successful.
+	 * @see ScreenResolution
+	 */
 	public static boolean resize(final ScreenResolution screenDimension)
 	{
 		boolean resizeSuccessfull;
@@ -225,6 +232,12 @@ public class Game extends StateBasedGame implements Singleton
 		return currentLanguage;
 	}
 	
+	/**
+	 * Updates the current language of all game states, so that all text will
+	 * display in the desired language.
+	 * 
+	 * @see Dictionary
+	 */
 	public static void setCurrentLanguage(Dictionary currentLanguage)
 	{
 		Game.currentLanguage = currentLanguage;
@@ -366,6 +379,9 @@ public class Game extends StateBasedGame implements Singleton
 		this.enterState(getStateID(state));
 	}
 	
+	/**
+	 * @see TaskData
+	 */
 	public static TaskData getCurrentTask()
 	{
 		return currentTask;
@@ -386,6 +402,15 @@ public class Game extends StateBasedGame implements Singleton
 		return gameStates.get(state);
 	}
 	
+	/**
+	 * Should be called when the current Task changes (i.e. the user starts a
+	 * new task).
+	 * 
+	 * @see TaskScreen
+	 * @see TaskData
+	 * @param currentTask
+	 *            The task started by the user.
+	 */
 	public static void setCurrentTask(TaskData currentTask)
 	{
 		Game.currentTask = currentTask;
@@ -450,22 +475,41 @@ public class Game extends StateBasedGame implements Singleton
 		getExitScreen().updateExitText(titleField, feedback);
 	}
 	
+	/**
+	 * Used to update the generic ExitScreen from a static call. This should be
+	 * called whenever a mini-game finishes, and transitions to ExitScreen.
+	 * Note: all data related to the current attempt will be loaded
+	 * automatically (hints used, time spent, etc).
+	 * 
+	 * @param titleField
+	 *            Text to display at the top of the screen
+	 * @param feedback
+	 *            Paragraph to display below the titleField
+	 * @param backgroundImage
+	 *            Desired background for the exit screen. If this value is null,
+	 *            the background will not be updated.
+	 */
 	public static void updateExitText(String titleField, String feedback,
 			Image backgroundImage)
 	{
 		ExitScreen exitScreen = getExitScreen();
 		
 		exitScreen.updateExitText(titleField, feedback);
-		exitScreen.updateExitScreen(backgroundImage);
+		
+		if (backgroundImage != null)
+			exitScreen.updateExitScreen(backgroundImage);
 	}
 	
+	/**
+	 * @see UserProfile
+	 */
 	public static UserProfile getCurrentUser()
 	{
 		return currentUser;
 	}
 	
 	/**
-	 * Sets the currentUser, but does not overwite the profile in the (hard)
+	 * Sets the currentUser, but does not overwrite the profile in the (hard)
 	 * save-file. In order to save the profile to a file,
 	 * {@link #saveToFile(String)} must be called.
 	 * 
@@ -476,11 +520,17 @@ public class Game extends StateBasedGame implements Singleton
 		Game.currentUser = currentUser;
 	}
 	
+	/**
+	 * @see ScenarioData
+	 */
 	public static ScenarioData getCurrentScenario()
 	{
 		return currentScenario;
 	}
 	
+	/**
+	 * @see ScenarioData
+	 */
 	public static void setCurrentScenario(ScenarioData currentScenario)
 	{
 		Game.currentScenario = currentScenario;
