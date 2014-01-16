@@ -348,8 +348,10 @@ public class CDPart2 extends gameTemplate {
 		if ((panel1.getRotation() > (28.3 - 5))
 				&& (panel1.getRotation() < (28.3 + 5))) {
 			if ((int) ((panel1.getRotation()) * 10) == 283) {
+				criticalMonth.setX(800);
 				hintBox.setText("Great Job! You got the correct answer exactly.");
 			} else {
+				criticalMonth.setX(800);
 				hintBox.setText("Good job! However, the precise answer is 28.3 degrees (latitude + 15 degrees)");
 			}
 			continueButtonOn();
