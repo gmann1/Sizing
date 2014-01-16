@@ -19,8 +19,9 @@ import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
+import edu.asu.voctec.utilities.gameTemplate;
 
-public class ControllerSizingPart2 extends GUI
+public class ControllerSizingPart2 extends gameTemplate
 {
 	public static final String GameBackground = "resources/default/img/minigames/ControllerSizing/Step1Background.png";
 	public static final String OriginalControllerPath = "resources/default/img/minigames/ControllerSizing/NormalController.png";
@@ -42,17 +43,15 @@ public class ControllerSizingPart2 extends GUI
 	
 	private List<BasicComponent> controllers = new ArrayList<BasicComponent>();
 	private static BasicComponent chosenController;
-	private BasicComponent continueButton;
 	private Image OriginalControllerImage, ChosenControllerImage, IncorrectControllerImage, CorrectControllerImage, ContinueButtonImage;
 	private boolean stepCompleted = false;
-	private TextAreaX instructions;
 	private int doneButtonCounter = 0;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
-		this.backgroundImage = new Image(GameBackground);
+		super.init(container,game);
 		
 		OriginalControllerImage = new Image(OriginalControllerPath);
 		ChosenControllerImage = new Image(ChosenControllerPath);
@@ -62,9 +61,9 @@ public class ControllerSizingPart2 extends GUI
 		
 		
 		
-		controllers.add(new BasicComponent(OriginalControllerPath, 100, 250, 110, 100));
-		controllers.add(new BasicComponent(OriginalControllerPath, 350, 250, 110, 100));
-		controllers.add(new BasicComponent(OriginalControllerPath, 600, 250, 110, 100));
+		controllers.add(new BasicComponent(OriginalControllerPath, 20, 180, 110, 100));
+		controllers.add(new BasicComponent(OriginalControllerPath, 210, 180, 110, 100));
+		controllers.add(new BasicComponent(OriginalControllerPath, 400, 180, 110, 100));
 		
 		for(BasicComponent controller :controllers)
 		{
@@ -74,31 +73,16 @@ public class ControllerSizingPart2 extends GUI
 		
 		initializeText();
 		
-		Button backButton = new Button(new Image("resources/default/img/buttons/backButton.png"), 2, 2,
-			    new Rectangle(1, 1, 40, 40), "Back");
-		backButton.setFontColor(Color.blue);
 		backButton.addActionListener(new TransitionButtonListener(ControllerSizingIntroScreen.class));
-		
-		Button doneButton = new Button(new Image(DoneButtonPath), 630, 535,
-			    new Rectangle(660, 350, 83, 30), "");
-		doneButton.addActionListener(new DoneButtonListener());
-		
-		continueButton = new BasicComponent(new Image(InvisibleContinueButtonPath), 630, 475);
+		readyButton.addActionListener(new DoneButtonListener());
 		continueButton.addActionListener(new ContinueButtonListener());
-		
-		this.addComponent(backButton);
-		this.addComponent(doneButton);
-		this.addComponent(continueButton);
+		this.removeComponent(hintButton);
 	}
 	
 	private void initializeText()
 	{
-		Rectangle textLocation = new Rectangle( 50, 100, 500, 500);
-		TextField minimumPowerCurrentText = new TextField(textLocation, 0.95f,
-				"Minimum Power Current: "+minimumPowerCurrent+" A",
-				TextDisplay.FormattingOption.FIT_TEXT);
-		minimumPowerCurrentText.setFontColor(Color.white);
-		this.addComponent(minimumPowerCurrentText);
+		topText.setText("Minimum Power Current: "+minimumPowerCurrent+" A");
+		this.addComponent(topText);
 		
 		for(int index = 0; index<controllers.size(); index++)
 		{
@@ -112,12 +96,8 @@ public class ControllerSizingPart2 extends GUI
 			this.addComponent(controllerValue);
 		}
 		
-		Rectangle textLocation3 = new Rectangle(20, 480, 600, 600);
-		instructions = new TextAreaX(textLocation3, 0.95f,
-				instructionMessage);
-		instructions.setFontColor(Color.white);
-		instructions.setFontSize(20);
-		this.addComponent(instructions);
+		
+				instructionBox.setText(instructionMessage);
 	}
 	
 	public class ControllerListener extends ButtonListener
@@ -153,23 +133,28 @@ public class ControllerSizingPart2 extends GUI
 				if(controllersValues[controllers.indexOf(chosenController)] == solution)
 				{
 					chosenController.setCurrentImage(CorrectControllerImage, true);
-					instructions.setText(correctSolutionMessage);
-					instructions.setFontColor(new Color(140,198,63));
+					hintBox.setText(correctSolutionMessage);
+					hintBox.setFontColor(new Color(140,198,63));
 					stepCompleted = true;
-					continueButton.setCurrentImage(ContinueButtonImage, true);
+					try {
+						continueButtonOn();
+					} catch (SlickException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				else
 				{
 					chosenController.setCurrentImage(IncorrectControllerImage, true);
 					if(controllersValues[controllers.indexOf(chosenController)] > solution)
 					{
-						instructions.setText(largerControllerMessage);
-						instructions.setFontColor(new Color(237,28,36));
+						hintBox.setText(largerControllerMessage);
+						hintBox.setFontColor(new Color(237,28,36));
 					}
 					else
 					{
-						instructions.setText(smallerControllerMessage);
-						instructions.setFontColor(new Color(237,28,36));
+						hintBox.setText(smallerControllerMessage);
+						hintBox.setFontColor(new Color(237,28,36));
 					}
 					doneButtonCounter++;
 					System.out.println("Number of tries: "+doneButtonCounter);

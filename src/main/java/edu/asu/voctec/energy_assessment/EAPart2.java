@@ -24,7 +24,9 @@ import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
+import edu.asu.voctec.GameDefaults.Fonts;
 import edu.asu.voctec.GameDefaults.ImagePaths;
+import edu.asu.voctec.batter_sizing.Battery;
 import edu.asu.voctec.batter_sizing.BatteryControl;
 import edu.asu.voctec.batter_sizing.InitialBattery;
 import edu.asu.voctec.cdmg.CDIntroScreen;
@@ -38,7 +40,7 @@ import edu.asu.voctec.utilities.gameTemplate;
 
 public class EAPart2 extends gameTemplate
 {
-	private static final String BACKGROUND = "resources/default/img/minigames/energyAssessment/background.png";
+	private static final String BACKGROUND = "resources/default/img/minigames/energyAssessment/New/Game1Background.png";
 	private static final String APPBACKGROUND = "resources/default/img/minigames/energyAssessment/background.png";
 	private static final String DRAGBACKGROUND = "resources/default/img/minigames/energyAssessment/background.png";
 	private static final String SQUARE = "resources/default/img/minigames/energyAssessment/New/AppBoxTransparent.png";
@@ -48,25 +50,43 @@ public class EAPart2 extends gameTemplate
 	private static final String LED = "resources/default/img/minigames/energyAssessment/New/LED.png";
 	private static final String RADIO = "resources/default/img/minigames/energyAssessment/New/Radio.png";
 	private static final String TELIVISION = "resources/default/img/minigames/energyAssessment/New/TV.png";
-	private static final String LAPTOP = "resources/default/img/minigames/energyAssessment/New/Laptop.png";
-	
-	private TextAreaX watt1, watt2, watt3, watt4, watt5;
+	private static final String PHONE = "resources/default/img/minigames/energyAssessment/New/Cellphone.png";
+
 	static PowerBar powerBar;
 	
+	private static int hintNumber = 2;
+	private String[] hintArray = 
+		{
+			"There is at least 2 CFLs",
+			"There is at least 1 LED",
+			"There is at least 1 Radio"
+		};
+	
 	private boolean continueGood = false;
+	protected static int targetPowerRating = 81;
 	public static int totalPowerRating = 0;
 	public static int[] applianceArray = {0,0,0,0,0};
+	public static int[] powerRatings = {14,9,30,60,2};
+	public static String[] applianceNames = {"CFL","LED","Radio","TV","Cellphone"};
 	public static List<ObjectMove> objectsArray = new ArrayList<ObjectMove>();
 	private List<InitialObjects> initialObjects = new ArrayList<InitialObjects>();
 	public static int locationArray[][] = 
 	{
-		{25,210},
-		{135,210},
-		{245,210},
-		{355,210},
-		{135,320}
+		{145,175},
+		{255,175},
+		{365,175},
+		{200,285},
+		{310,285}
 	};
-	public static int powerRatings[] = {14,9,30,60,40};
+	
+	public static int initialArray[][] = 
+	{
+		{25,475},
+		{135,475},
+		{245,475},
+		{355,475},
+		{465,475}
+	};
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException
@@ -95,35 +115,33 @@ public class EAPart2 extends gameTemplate
 		this.addComponent(square5);
 		
 		//appliances Plate
-		BasicComponent cfl = new BasicComponent(SQUARE,25,475);
+		BasicComponent cfl = new BasicComponent(SQUARE,initialArray[0][0],initialArray[0][1]);
 		this.addComponent(cfl);
-		
-		BasicComponent led = new BasicComponent(SQUARE,135,475);
+		BasicComponent led = new BasicComponent(SQUARE,initialArray[1][0],initialArray[1][1]);
 		this.addComponent(led);
-		
-		BasicComponent radio = new BasicComponent(SQUARE,245,475);
+		BasicComponent radio = new BasicComponent(SQUARE,initialArray[2][0],initialArray[2][1]);
 		this.addComponent(radio);
-		
-		BasicComponent telivision = new BasicComponent(SQUARE,355,475);
+		BasicComponent telivision = new BasicComponent(SQUARE,initialArray[3][0],initialArray[3][1]);
 		this.addComponent(telivision);
-		
-		BasicComponent laptop = new BasicComponent(SQUARE,465,475);
+		BasicComponent laptop = new BasicComponent(SQUARE,initialArray[4][0],initialArray[4][1]);
 		this.addComponent(laptop);
 		
-		//initializeWatts();
-		powerBar = new PowerBar(500,75,.8,81,81);
+		initializeWatts();
+		initializeNames();
+		initializeText();
+		
+		powerBar = new PowerBar(500,50,.8,81,81,100);
 		this.addComponent(powerBar);
-		this.addComponent(powerBar.powerBarIndicator);
+		powerBar.addPowerBarComponents(this);
 		powerBar.updatePowerBar(totalPowerRating);
 		
-		this.addComponent(topText);
-		topText.setText("Drag the diffrent appliances to the diffrent boxs to meet the total power rating.");
+		instructionBox.setText("Drag the diffrent appliances to the boxs to meet the target power rating.");
 		
 		initialObjects.add(new InitialObjects(new Image(CFL), 25, 475, this,1,14));
 		initialObjects.add(new InitialObjects(new Image(LED), 135, 475, this,2,9));
 		initialObjects.add(new InitialObjects(new Image(RADIO), 245, 475, this,3,30));
 		initialObjects.add(new InitialObjects(new Image(TELIVISION), 355, 475, this,4,60));
-		initialObjects.add(new InitialObjects(new Image(LAPTOP), 465, 475, this,5,40));
+		initialObjects.add(new InitialObjects(new Image(PHONE), 465, 475, this,5,40));
 		
 		for(InitialObjects addInitialObjects :initialObjects)
 		{
@@ -132,6 +150,7 @@ public class EAPart2 extends gameTemplate
 		
 		readyButton.addActionListener(new ReadyButtonListener());
 		continueButton.addActionListener(new ContinueButtonListener());
+		hintButton.addActionListener(new HintButtonListener());
 		backButton.addActionListener(new TransitionButtonListener(EAPart1IntroScreen.class));
 		
 		////Testing Stuff can be deleted later////
@@ -209,17 +228,19 @@ public class EAPart2 extends gameTemplate
 		@Override
 		protected void actionPerformed()
 		{
-			if(totalPowerRating == 81 && allFilled() == true)
+			if(totalPowerRating == targetPowerRating && allFilled() == true)
 			{
 				try {
 					continueButtonOn();
 					continueGood = true;
-					topText.setText("Good Job! you have have the correct combination of items.");
+					hintBox.setText("Good Job! you have the correct combination of items.");
 				} catch (SlickException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
+			else
+				resetContinue();
 		}
 	}
  	
@@ -229,46 +250,117 @@ public class EAPart2 extends gameTemplate
 		protected void actionPerformed()
 		{
 			if(continueGood == true)
+			{
+				reset();
 				Game.getCurrentGame().enterState(EAPart2ScoreScreen.class);
+			}
+		}
+	}
+	
+	public class HintButtonListener extends ButtonListener
+	{
+		@Override
+		protected void actionPerformed()
+		{
+			if(hintNumber < 2)
+				hintNumber++;
+			else
+				hintNumber = 0;
+			hintBox.setText(hintArray[hintNumber]);
 		}
 	}
 	
 	private void initializeText()
 	{
-
+		TextAreaX targetPower = new TextAreaX(new Rectangle(425,400, 200, 100), 0.95f, "Target: "+targetPowerRating + " Watts");
+		targetPower.setFontSize(16);
+		targetPower.setFontColor(Color.white);
+		this.addComponent(targetPower);
 	}
 	
 	private void initializeWatts()
 	{
-		watt1 = new TextAreaX(new Rectangle(25, 570, 90, 20), 0.95f, "14 Watt");
-		//watt1.setFontSize(16);
-		//watt1.setFontColor(Color.white);
+		TextAreaX watt1 = new TextAreaX(new Rectangle(initialArray[0][0],initialArray[0][1]+90, 100, 50), 0.95f, powerRatings[0]+" Watt");
+		watt1.setFontSize(16);
+		watt1.setFontColor(Color.white);
 		this.addComponent(watt1);
 		
-		watt2 = new TextAreaX(new Rectangle(25, 570, 90, 20), 0.95f, "9 Watt");
-		//watt2.setFontSize(16);
-		//watt2.setFontColor(Color.white);
+		TextAreaX watt2 = new TextAreaX(new Rectangle(initialArray[1][0],initialArray[1][1]+90, 100, 50), 0.95f, powerRatings[1]+" Watt");
+		watt2.setFontSize(16);
+		watt2.setFontColor(Color.white);
 		this.addComponent(watt2);
 		
-		watt3 = new TextAreaX(new Rectangle(25, 570, 90, 20), 0.95f, "30 Watt");
-		//watt3.setFontSize(16);
-		//watt3.setFontColor(Color.white);
+		TextAreaX watt3 = new TextAreaX(new Rectangle(initialArray[2][0],initialArray[2][1]+90, 100, 50), 0.95f, powerRatings[2]+" Watt");
+		watt3.setFontSize(16);
+		watt3.setFontColor(Color.white);
 		this.addComponent(watt3);
 		
-		watt4 = new TextAreaX(new Rectangle(25, 570, 90, 20), 0.95f, "60 Watt");
-		//watt4.setFontSize(16);
-		//watt4.setFontColor(Color.white);
+		TextAreaX watt4 = new TextAreaX(new Rectangle(initialArray[3][0],initialArray[3][1]+90, 100, 50), 0.95f, powerRatings[3]+" Watt");
+		watt4.setFontSize(16);
+		watt4.setFontColor(Color.white);
 		this.addComponent(watt4);
 		
-		watt5 = new TextAreaX(new Rectangle(25, 570, 90, 20), 0.95f, "40 Watt");
-		//watt5.setFontSize(16);
-		//watt5.setFontColor(Color.white);
+		TextAreaX watt5 = new TextAreaX(new Rectangle(initialArray[4][0],initialArray[4][1]+90, 100, 50), 0.95f, powerRatings[4]+" Watt");
+		watt5.setFontSize(16);
+		watt5.setFontColor(Color.white);
 		this.addComponent(watt5);
 	}
 	
-	public static void reset()
+	private void initializeNames()
 	{
-		System.out.println("eaPart2 Reset");
+		TextAreaX name1 = new TextAreaX(new Rectangle(initialArray[0][0],initialArray[0][1]-30, 200, 50), 0.95f, applianceNames[0]);
+		name1.setFontSize(16);
+		name1.setFontColor(Color.white);
+		this.addComponent(name1);
+		
+		TextAreaX name2 = new TextAreaX(new Rectangle(initialArray[1][0],initialArray[1][1]-30, 200, 50), 0.95f, applianceNames[1]);
+		name2.setFontSize(16);
+		name2.setFontColor(Color.white);
+		this.addComponent(name2);
+		
+		TextAreaX name3 = new TextAreaX(new Rectangle(initialArray[2][0],initialArray[2][1]-30, 200, 50), 0.95f, applianceNames[2]);
+		name3.setFontSize(16);
+		name3.setFontColor(Color.white);
+		this.addComponent(name3);
+		
+		TextAreaX name4 = new TextAreaX(new Rectangle(initialArray[3][0],initialArray[3][1]-30, 200, 50), 0.95f, applianceNames[3]);
+		name4.setFontSize(16);
+		name4.setFontColor(Color.white);
+		this.addComponent(name4);
+		
+		TextAreaX name5 = new TextAreaX(new Rectangle(initialArray[4][0],initialArray[4][1]-30, 200, 50), 0.95f, applianceNames[4]);
+		name5.setFontSize(16);
+		name5.setFontColor(Color.white);
+		this.addComponent(name5);
 	}
 	
+	public void resetContinue()
+	{
+		continueGood = false;
+		continueButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
+		try {
+			continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_OFF), true);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void reset()
+	{
+		
+		hintNumber = 0;
+		hintBox.setText("");
+		Object.reset();
+		totalPowerRating = 0;
+		powerBar.updatePowerBar(totalPowerRating);
+		
+		resetContinue();
+		for(int v = 0; v<5;v++)
+		{
+			applianceArray[v] = 0;
+		}
+		System.out.println("eaPart2 Reset");
+		
+	}
 }

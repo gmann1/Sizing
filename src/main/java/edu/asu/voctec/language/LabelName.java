@@ -2,7 +2,7 @@ package edu.asu.voctec.language;
 
 import java.util.HashMap;
 
-import edu.asu.voctec.Main;
+import edu.asu.voctec.Game;
 
 public class LabelName
 {
@@ -52,7 +52,7 @@ public class LabelName
 	public String getTranslation()
 	{
 		String translation;
-		Dictionary currentLanguage = Main.getCurrentLanguage();
+		Dictionary currentLanguage = Game.getCurrentLanguage();
 		
 		if (currentLanguage == null || currentLanguage.get(this) == null)
 			translation = this.defaultTranslation;

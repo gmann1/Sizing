@@ -62,28 +62,28 @@ public class UserProfile implements Serializable
 		
 		// Task 1
 		TaskData energyAssessment = new TaskData(EAPart1IntroScreen.class,
-				taskScreen, textBoundScale, "Energy Assessment");
+				taskScreen, textBoundScale, null);
 		energyAssessment.setImages(ImagePaths.TaskScreen.STEP_ONE,
 				ImagePaths.TaskScreen.STEP_ONE_COMPLETE,
 				ImagePaths.TaskScreen.STEP_ONE_SELECTED);
 		
 		// Task 2
 		TaskData criticalDesignMonth = new TaskData(CDIntroScreen.class,
-				taskScreen, textBoundScale, "Critical Design Month");
+				taskScreen, textBoundScale, null);
 		criticalDesignMonth.setImages(ImagePaths.TaskScreen.STEP_TWO,
 				ImagePaths.TaskScreen.STEP_TWO_COMPLETE,
 				ImagePaths.TaskScreen.STEP_TWO_SELECTED);
 		
 		// Task 3
 		TaskData batterySizing = new TaskData(BatteryIntro.class, taskScreen,
-				textBoundScale, "Size Battery");
+				textBoundScale, null);
 		batterySizing.setImages(ImagePaths.TaskScreen.STEP_THREE,
 				ImagePaths.TaskScreen.STEP_THREE_COMPLETE,
 				ImagePaths.TaskScreen.STEP_THREE_SELECTED);
 		
 		// Task 4
 		TaskData pvSizing = new TaskData(PVIntro.class, taskScreen,
-				textBoundScale, "Size PV Array");
+				textBoundScale, null);
 		pvSizing.setImages(ImagePaths.TaskScreen.STEP_FOUR,
 				ImagePaths.TaskScreen.STEP_FOUR_COMPLETE,
 				ImagePaths.TaskScreen.STEP_FOUR_SELECTED);
@@ -91,7 +91,7 @@ public class UserProfile implements Serializable
 		// Task 5
 		TaskData controllerSizing = new TaskData(
 				ControllerSizingIntroScreen.class, taskScreen, textBoundScale,
-				"Size Controllers");
+				null);
 		controllerSizing.setImages(ImagePaths.TaskScreen.STEP_FIVE,
 				ImagePaths.TaskScreen.STEP_FIVE_COMPLETE,
 				ImagePaths.TaskScreen.STEP_FIVE_SELECTED);
@@ -114,7 +114,7 @@ public class UserProfile implements Serializable
 			// Format taskIcon
 			Button taskIcon = task.getTaskIcon();
 			taskIcon.setFontColor(Color.white);
-			taskIcon.rescale(0.85f);
+			taskIcon.rescale((float) (0.85 * 0.85));
 			
 			taskButtons.add(taskIcon);
 		}
@@ -123,7 +123,7 @@ public class UserProfile implements Serializable
 		energyAssessment.setAccessible(true);
 		
 		// Define the rectangle that holds the taskButtons
-		Rectangle taskButtonContainer = new Rectangle(0, 0, 200, 600);
+		Rectangle taskButtonContainer = new Rectangle(0, 0, 226, 600);
 		
 		// Center the task buttons in their container
 		UtilFunctions.centerComponentsStacked(taskButtonContainer,

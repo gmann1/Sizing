@@ -70,6 +70,12 @@ public class ScenarioIntroductionScreen extends GUI implements Task
 	}
 	
 	@Override
+	public void onEnter()
+	{
+		Game.getExitScreen().updateExitScreen(this.getClass());
+	}
+	
+	@Override
 	public void load()
 	{
 		SelectorTest mainScreen = (SelectorTest) Game
