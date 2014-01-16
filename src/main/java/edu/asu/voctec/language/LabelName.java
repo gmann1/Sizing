@@ -2,7 +2,7 @@ package edu.asu.voctec.language;
 
 import java.util.HashMap;
 
-import edu.asu.voctec.Main;
+import edu.asu.voctec.Game;
 
 public class LabelName
 {
@@ -15,19 +15,6 @@ public class LabelName
 			"Replay");
 	public static final LabelName returnButton = new LabelName("returnButton",
 			"Return");
-	public static final LabelName instructionsLine1 = new LabelName(
-			"criticalDesignInstructionsLn1", "Welcome!");
-	public static final LabelName instructionsLine2 = new LabelName(
-			"criticalDesignInstructionsLn2",
-			"Collect Energy with your solar panel.");
-	public static final LabelName instructionsLine3 = new LabelName(
-			"criticalDesignInstructionsLn3", "Controls:");
-	public static final LabelName instructionsLine4 = new LabelName(
-			"criticalDesignInstructionsLn4", "Move Left: left arrow");
-	public static final LabelName instructionsLine5 = new LabelName(
-			"criticalDesignInstructionsLn5", "Move Right: right arrow");
-	public static final LabelName instructionsLine6 = new LabelName(
-			"criticalDesignInstructionsLn6", "Rotate Panel: 'q' and 'r' keys");
 	
 	public final String xmlListing;
 	public final String defaultTranslation;
@@ -52,7 +39,7 @@ public class LabelName
 	public String getTranslation()
 	{
 		String translation;
-		Dictionary currentLanguage = Main.getCurrentLanguage();
+		Dictionary currentLanguage = Game.getCurrentLanguage();
 		
 		if (currentLanguage == null || currentLanguage.get(this) == null)
 			translation = this.defaultTranslation;

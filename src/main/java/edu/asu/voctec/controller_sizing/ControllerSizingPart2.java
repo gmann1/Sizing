@@ -134,7 +134,7 @@ public class ControllerSizingPart2 extends gameTemplate
 				{
 					chosenController.setCurrentImage(CorrectControllerImage, true);
 					hintBox.setText(correctSolutionMessage);
-					hintBox.setFontColor(new Color(140,198,63));
+					hintBox.setFontColor(Color.white);
 					stepCompleted = true;
 					try {
 						continueButtonOn();
@@ -149,12 +149,12 @@ public class ControllerSizingPart2 extends gameTemplate
 					if(controllersValues[controllers.indexOf(chosenController)] > solution)
 					{
 						hintBox.setText(largerControllerMessage);
-						hintBox.setFontColor(new Color(237,28,36));
+						hintBox.setFontColor(Color.white);
 					}
 					else
 					{
 						hintBox.setText(smallerControllerMessage);
-						hintBox.setFontColor(new Color(237,28,36));
+						hintBox.setFontColor(Color.white);
 					}
 					doneButtonCounter++;
 					System.out.println("Number of tries: "+doneButtonCounter);

@@ -14,7 +14,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
 import edu.asu.voctec.GameDefaults.ImagePaths.SelectorIcons;
-import edu.asu.voctec.Main;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.Selector;
@@ -26,7 +25,6 @@ import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.information.SizingStepsData;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
-import edu.asu.voctec.step_selection.StepSelectionExitScreen;
 import edu.asu.voctec.utilities.CircularList;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
@@ -101,7 +99,7 @@ public class SelectorTest extends gameTemplate
 		}
 		
 	}
-
+	
 	public class HintButtonListener extends ButtonListener
 	{
 		private static final long serialVersionUID = -914640823203112459L;
@@ -125,7 +123,13 @@ public class SelectorTest extends gameTemplate
 		protected void actionPerformed()
 		{
 			if (complete)
-				Game.getCurrentGame().enterState(StepSelectionExitScreen.class);
+			{
+				// TODO clean
+				Game.updateExitText(
+						"Good Job!",
+						"You have successfully completed the sizing process. Now get ready to play with each of the sizing steps.");
+				Game.getCurrentGame().enterState(ExitScreen.class);
+			}
 		}
 		
 	}
@@ -195,7 +199,7 @@ public class SelectorTest extends gameTemplate
 		this.addComponent(selector);
 	}
 	
-	public void instantiateSelectorDisplay()
+	public void instantiateSelectorDisplay() throws SlickException
 	{
 		// Setup a new selector display (using the default appearance)
 		selectorDisplay = new SelectorDisplay<>(0, 0, true);
@@ -207,7 +211,7 @@ public class SelectorTest extends gameTemplate
 		selectorDisplay.link(selector);
 		
 		// Center the display in the middle of the play-area
-		Rectangle playArea = new Rectangle(Main.getCurrentScreenDimension());
+		Rectangle playArea = new Rectangle(Game.getCurrentScreenDimension());
 		System.out.println("\tPlayArea Bounds: " + playArea);
 		int width = playArea.width - sidePanel.getBounds().width;
 		int height = playArea.height - control.getBounds().height;
@@ -308,15 +312,23 @@ public class SelectorTest extends gameTemplate
 		{
 			// Determine which step is to be decided next
 			int firstEmpty = this.selectorDisplay.getCurrentIndex() + 1;
-			
-			// Convert integer to an ordinal string
-			String ordinalNumber = UtilFunctions
-					.getOrdinalRepresentation(firstEmpty);
+			String instructions;
 			
 			// Set instructions label text
-			String instructions = Labels.Step0.INSTRUCTIONS1.getTranslation()
-					+ " " + ordinalNumber
-					+ Labels.Step0.INSTRUCTIONS2.getTranslation();
+			if (firstEmpty == 1)
+			{
+				// Unique instructions for Instruction1
+				instructions = Labels.Step0.INSTRUCTIONS_BEGIN.getTranslation();
+			}
+			else
+			{
+				// Standard format for instructions 2-5
+				instructions = Labels.Step0.INSTRUCTIONS1.getTranslation()
+						+ " " + firstEmpty
+						+ Labels.Step0.INSTRUCTIONS2.getTranslation();
+			}
+			
+			
 			this.instructionBox.setText(instructions);
 			System.out.println("Update Instructions: " + instructions);
 		}
@@ -366,6 +378,9 @@ public class SelectorTest extends gameTemplate
 		hintBox.clear();
 		String hint = selectorDisplay.deriveHint();
 		hintBox.addLine(hint);
+		
+		// Update the number of hints used
+		Game.getCurrentTask().getCurrentAttempt().addHints(1);
 	}
 	
 	public void load()
@@ -403,7 +418,6 @@ public class SelectorTest extends gameTemplate
 			}
 			catch (SlickException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -441,17 +455,17 @@ public class SelectorTest extends gameTemplate
 		try
 		{
 			selectorContents.add(new SelectorIcon(
-					SelectorIcons.ENERGY_ASSESSMENT, "Energy Assessment", 0));
+					SelectorIcons.ENERGY_ASSESSMENT, "Assess Energy Requirements", 0));
 			selectorContents.add(new SelectorIcon(
 					SelectorIcons.CRITICAL_DESIGN_MONTH,
-					"Critical Design Month", 1));
+					"Find the Critical Design Month", 1));
 			selectorContents.add(new SelectorIcon(SelectorIcons.BATTERY_SIZING,
 					"Size the Battery", 2));
 			selectorContents.add(new SelectorIcon(SelectorIcons.PV_SIZING,
 					"Size the PV Array", 3));
 			selectorContents
 					.add(new SelectorIcon(SelectorIcons.CONTROLLER_SIZING,
-							"Size the Controllers", 4));
+							"Size the Controller", 4));
 		}
 		catch (SlickException e)
 		{

@@ -10,8 +10,29 @@ import org.newdawn.slick.TrueTypeFont;
 
 import edu.asu.voctec.language.LabelName;
 
+/**
+ * Contains all constants used across multiple GameStates. This includes all
+ * resources (images, sounds, etc) as well as the defaults for all game text (in
+ * case it cannot be loaded from the appropriate file). GameDefaults also
+ * contains paths for save files, default settings for various fonts, L&F
+ * information, etc.
+ * 
+ * @author Moore, Zachary
+ */
+// TODO This file should be reviewed and cleaned. Unused constants may be
+// removed.
 public interface GameDefaults
 {
+	public interface MainDefaults
+	{
+		public static final int DEFAULT_WINDOW_WIDTH = 800;
+		public static final int DEFAULT_WINDOW_HEIGHT = 600;
+		public static final int TARGET_FRAME_RATE = 30;
+		public static final String GAME_TITLE = "Sizing";
+		public static final boolean SHOW_FPS = false;
+		public static final String DEFAULT_LANGUAGE = "english";
+	}
+	
 	public interface ImagePaths
 	{
 		// Backgrounds
@@ -131,7 +152,7 @@ public interface GameDefaults
 		public static final Color FONT_COLOR = Color.white;
 		public static final Color TRANSITION_FONT_COLOR = Color.white;
 		public static final Color BUTTON_FONT_COLOR = Color.black;
-	   public static final Color DISABLED_BUTTON_FONT_COLOR = Color.lightGray;
+		public static final Color DISABLED_BUTTON_FONT_COLOR = Color.lightGray;
 		
 		public static final float FONT_SIZE_SMALL = 8f;
 		public static final float FONT_SIZE_MEDIUM = 12f;
@@ -143,6 +164,10 @@ public interface GameDefaults
 				AWT_FONT, ANTI_ALLIAS);
 	}
 	
+	/**
+	 * Positions and Dimensions of all selector components (relative to the
+	 * selector).
+	 */
 	public interface SelectorDefaults
 	{
 		public static Dimension ARROW_SIZE = new Dimension(41, 123);
@@ -179,8 +204,8 @@ public interface GameDefaults
 						+ PRIMARY_SELECTION_LOCATION.x + PRIMARY_SELECTION_SIZE.width),
 				(PRIMARY_SELECTION_SIZE.height - SECONDARY_SELECTION_SIZE.height) / 2);
 		
-		// Position Label
-		public static Rectangle ICON_LABEL_BOUNDS = new Rectangle(0, 200, 183,
+		// Position Label (relative)
+		public static Rectangle ICON_LABEL_BOUNDS = new Rectangle(0, -75, 183,
 				75);
 	}
 	
@@ -247,8 +272,10 @@ public interface GameDefaults
 						"hintBody", "should be completed");
 			}
 			
+			public static final LabelName INSTRUCTIONS_BEGIN = new LabelName(
+					"instructionsBegin", "Use the arrows to cycle through the items of the sizing process. Then, click on the item in the middle box to select and place as step 1.");
 			public static final LabelName INSTRUCTIONS1 = new LabelName(
-					"instructions1", "Select which step to complete");
+					"instructions1", "Click on the item in the middle box to select and place as step");
 			public static final LabelName INSTRUCTIONS2 = new LabelName(
 					"instructions2", ".");
 			public static final LabelName INSTRUCTIONS_RED = new LabelName(
@@ -263,7 +290,7 @@ public interface GameDefaults
 			
 			public static final LabelName INTRODUCTION = new LabelName(
 					"step0Intro",
-					"You are about to take the first steps to sizing a standalone PV system. However, before sizing the array, it is important to develop a plan of action, and understand the steps involved in sizing a PV system. \n\n On the next screen, there are 5 steps listed (out of order). Use the arrows to cycle through each option, and decide the order in which you wish to complete the steps. When you are ready, press the start button.");
+					"Welcome! You are about to take an interactive journey to sizing a small standalone PV system. Before you start, however, it is important to understand the project and customer requirements and the major steps involved in sizing a PV system. \n\n On the next screen, you will see 5 major sizing items (not in the right order). Use the arrows to cycle through each option, and decide the order in which you would like  to complete the sizing process.");
 		}
 		
 		public interface TaskScreen

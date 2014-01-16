@@ -8,19 +8,20 @@ import java.util.Arrays;
 import org.newdawn.slick.Graphics;
 
 import edu.asu.voctec.GameDefaults.Fonts;
+import edu.asu.voctec.utilities.Line;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class TextAreaX extends TextArea
 {
 	private static final long serialVersionUID = -7152954056850354098L;
-
+	
 	public TextAreaX(Rectangle bounds, Rectangle textBounds, Font awtFont,
 			boolean antiAlias, String text)
 	{
 		super(bounds, textBounds, awtFont, antiAlias, null);
 		setText(text);
 		System.out.println("Lines: "
-				+ Arrays.toString(lines.toArray(new String[lines.size()])));
+				+ Arrays.toString(lines.toArray(new Line[lines.size()])));
 	}
 	
 	public TextAreaX(Rectangle bounds, Rectangle textBounds, String text)
@@ -91,7 +92,7 @@ public class TextAreaX extends TextArea
 			wrappedText.remove(wrappedText.size() - 1);
 		
 		lines.clear();
-		lines.addAll(wrappedText);
+		lines.addAll(Line.fromStringList(wrappedText, font));
 		this.clipedText = determineClipedText();
 	}
 	
@@ -101,7 +102,7 @@ public class TextAreaX extends TextArea
 		this.clipedText = "";
 		
 		if (text != null)
-			lines.addAll(getTextBlocks(text));
+			lines.addAll(Line.fromStringList(getTextBlocks(text), font));
 		
 		formatText();
 	}
@@ -111,7 +112,8 @@ public class TextAreaX extends TextArea
 		this.lines.clear();
 		this.clipedText = "";
 		StringBuilder textAsString = new StringBuilder();
-		System.out.println("\tMid4: Current Hints: " + Arrays.toString(text.toArray()));
+		System.out.println("\tMid4: Current Hints: "
+				+ Arrays.toString(text.toArray()));
 		
 		if (text != null)
 		{
@@ -123,13 +125,17 @@ public class TextAreaX extends TextArea
 					textAsString.append(line + " ");
 			}
 		}
-		System.out.println("\tMid5: Current Hints: " + Arrays.toString(text.toArray()));
+		System.out.println("\tMid5: Current Hints: "
+				+ Arrays.toString(text.toArray()));
 		
-		lines.addAll(getTextBlocks(textAsString.toString()));
-		System.out.println("\tMid6: Current Hints: " + Arrays.toString(text.toArray()));
+		lines.addAll(Line.fromStringList(
+				getTextBlocks(textAsString.toString()), font));
+		System.out.println("\tMid6: Current Hints: "
+				+ Arrays.toString(text.toArray()));
 		
 		formatText();
-		System.out.println("\tMid7: Current Hints: " + Arrays.toString(text.toArray()));
+		System.out.println("\tMid7: Current Hints: "
+				+ Arrays.toString(text.toArray()));
 	}
 	
 	protected ArrayList<String> getTextBlocks(String text)
@@ -169,7 +175,7 @@ public class TextAreaX extends TextArea
 			int startingIndex = maximumDisplayLines;
 			for (int lineIndex = startingIndex; lineIndex < lines.size(); lineIndex++)
 			{
-				String line = lines.get(lineIndex);
+				String line = lines.get(lineIndex).getText();
 				
 				if (line == null)
 					clip.append("\n");
@@ -191,12 +197,18 @@ public class TextAreaX extends TextArea
 		int maxLine = (maximumDisplayLines < lines.size()) ? maximumDisplayLines
 				: lines.size();
 		
-		int x = textBounds.x + bounds.x;
+		int boundX = textBounds.x + bounds.x;
 		int y = textBounds.y + bounds.y;
 		
 		for (int lineIndex = 0; lineIndex < maxLine; lineIndex++)
 		{
-			String lineText = lines.get(lineIndex);
+			int x = boundX;
+			Line currentLine = lines.get(lineIndex);
+			String lineText = (currentLine == null) ? null : currentLine
+					.getText();
+			
+			if (center && currentLine != null)
+				x += ((textBounds.width - currentLine.getBounds().width) / 2);
 			
 			// Disregard single newLine marks
 			if (lineText != null)
@@ -236,8 +248,9 @@ public class TextAreaX extends TextArea
 		
 		for (String textBlock : textBlocks)
 		{
-			lines.addAll(TextSupport
-					.wrapText(font, textBlock, textBounds.width));
+			lines.addAll(Line.fromStringList(
+					TextSupport.wrapText(font, textBlock, textBounds.width),
+					font));
 			lines.add(null);
 			extraNull = true;
 		}
@@ -291,7 +304,7 @@ public class TextAreaX extends TextArea
 	
 	public ArrayList<String> getText()
 	{
-		return lines;
+		return Line.toStringList(lines);
 	}
 	
 }
