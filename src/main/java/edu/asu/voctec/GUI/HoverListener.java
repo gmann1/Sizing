@@ -40,6 +40,14 @@ public abstract class HoverListener extends ActionListener
 		return (activated ^ collision);
 	}
 	
+	/**
+	 * Evaluates the type of event (mouseEnter or mouseExit) and calls the
+	 * appropriate function (see the {@link #mouseEntered()} and
+	 * {@link #mouseExited()} methods).
+	 * 
+	 * @see #mouseEntered()
+	 * @see #mouseExited()
+	 */
 	@Override
 	protected void actionPerformed()
 	{
