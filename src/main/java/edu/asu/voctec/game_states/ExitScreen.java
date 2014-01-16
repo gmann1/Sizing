@@ -22,6 +22,22 @@ import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
+/**
+ * GameState that serves as an exit "splash" screen for all minigames, that
+ * displays text (i.e. feedback or "next steps") to the user, in addition to
+ * other data such as numberOfHintsUsed and timeSpent.
+ * 
+ * The text to be displayed on this screen should be set by the function that
+ * transitions the game to this specific state (presumably each minigame). All
+ * other (applicable) data will be loaded from the current AttemptData, as
+ * defined by the currentGame; this will be done automatically. As such, all
+ * minigames are expected to update the current Task- and Attempt- Data at least
+ * before transitioning to this screen.
+ * 
+ * @author Moore, Zachary
+ * @see #updateExitText(String, String)
+ * 
+ */
 public class ExitScreen extends GUI
 {
 	public class ReplayButtonListener extends ButtonListener
@@ -39,15 +55,20 @@ public class ExitScreen extends GUI
 		}
 		
 	}
+	
+	// TODO move to GameDefaults
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
 	public static final String ARROW_LEFT = "resources/default/img/arrow-left.png";
 	
+	/**Single line of text to display at the top of the screen (aligned left)*/
 	protected TextField titleField;
+	
+	/**Paragraph to display below the title field*/
 	protected TextAreaX feedback;
 	protected StarDisplay starDisplay;
 	protected Column<TextField> dataLabels;
 	protected Column<TextField> dataDisplay;
-	// TODO move to GameDefaults
+	// TODO move to StarDisplay
 	protected Rectangle starDisplayBounds;
 	protected Class<?> associatedTask;
 	
@@ -161,7 +182,8 @@ public class ExitScreen extends GUI
 		if (currentAttempt != null)
 		{
 			dataDisplay.getUnitAt(0).setText(
-					UtilFunctions.formatTime(currentAttempt.getTimeSpent(), false, true));
+					UtilFunctions.formatTime(currentAttempt.getTimeSpent(),
+							false, true));
 			dataDisplay.getUnitAt(1).setText(
 					Integer.toString(currentAttempt.getNumberOfUniqueHints()));
 			starDisplay.setScore(currentAttempt.calculateStarScore());
@@ -169,6 +191,16 @@ public class ExitScreen extends GUI
 		}
 	}
 	
+	/**
+	 * Set the text to be displayed by this screen.
+	 * 
+	 * @param titleField
+	 *            Single line of text to display at the top of the screen
+	 *            (aligned left)
+	 * @param feedback
+	 *            Paragraph to display below the title field, in the upper-half
+	 *            of the screen.
+	 */
 	public void updateExitText(String titleField, String feedback)
 	{
 		this.titleField.setText(titleField);
@@ -180,18 +212,20 @@ public class ExitScreen extends GUI
 		this.titleField.setText(titleField);
 		this.feedback.setText(feedback);
 	}
-
+	
 	public void updateExitScreen(Image backgroundImage, Class<?> associatedTask)
 	{
 		updateExitScreen(associatedTask);
 		updateExitScreen(backgroundImage);
 	}
-
+	
+	// TODO replace with this.setBackgroundImage
 	public void updateExitScreen(Image backgroundImage)
 	{
 		this.backgroundImage = backgroundImage;
 	}
-
+	
+	// TODO refactor to: setAssociatedTask(Class<?>) OR associate(Class<?>)
 	public void updateExitScreen(Class<?> associatedTask)
 	{
 		this.associatedTask = associatedTask;

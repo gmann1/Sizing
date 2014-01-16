@@ -38,10 +38,6 @@ public class SelectorTest extends gameTemplate
 	private Selector<SelectorIcon> selector;
 	private Animation endingAnimation;
 	private Rectangle endingAnimationBounds;
-	/*
-	 * private TextAreaX hintBox; private TextField instructionBox; private
-	 * Button readyButton;
-	 */
 	private boolean complete;
 	
 	/**
@@ -50,10 +46,12 @@ public class SelectorTest extends gameTemplate
 	 * complete his/her selections. Otherwise, the user's choices will be
 	 * verified and the instructions and hints will be updated accordingly.
 	 * 
-	 * If this listener is activated after the choices have been verified and
-	 * this state is marked as complete, the user will be transfered to the
-	 * StepSelectionExitScreen.
+	 * The following feature was removed as of Jan 12, 2013, and replaced by
+	 * ContinueButtonListener per client preference. If this listener is
+	 * activated after the choices have been verified and this state is marked
+	 * as complete, the user will be transfered to the StepSelectionExitScreen.
 	 * 
+	 * @see ContinueButtonListener
 	 * @author Moore, Zachary
 	 * 
 	 */
@@ -100,6 +98,14 @@ public class SelectorTest extends gameTemplate
 		
 	}
 	
+	/**
+	 * Listener for the hint button. When this button is pressed, the user is
+	 * shown a single hint, displayed in the hintBox.
+	 * 
+	 * @see #displayGenericHint()
+	 * @author Moore, Zachary
+	 * 
+	 */
 	public class HintButtonListener extends ButtonListener
 	{
 		private static final long serialVersionUID = -914640823203112459L;
@@ -115,6 +121,12 @@ public class SelectorTest extends gameTemplate
 		
 	}
 	
+	/**
+	 * Listener for the continue button.This event can only be
+	 * 
+	 * @author Moore, Zachary
+	 * 
+	 */
 	public class ContinueButtonListener extends ButtonListener
 	{
 		private static final long serialVersionUID = -914640823203112459L;
@@ -133,6 +145,13 @@ public class SelectorTest extends gameTemplate
 		
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.asu.voctec.utilities.gameTemplate#init(org.newdawn.slick.GameContainer
+	 * , org.newdawn.slick.state.StateBasedGame)
+	 */
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
@@ -160,19 +179,13 @@ public class SelectorTest extends gameTemplate
 		// TODO REMOVE
 		this.removeComponent(hintButton);
 		
-		// Hint Box
-		// instantiateHintBox();
-		
-		// Buttons
-		// instantiateButtons();
-		
-		// Background Image
-		// Image background = new Image(ImagePaths.MainMenuBackground);
-		// setBackgroundImage(background.getScaledCopy(800, 600));
-		
 		System.out.println("SelectorTest: Initialization Finished.\n");
 	}
 	
+	/**
+	 * Add all action listeners to the buttons on this screen. Note: the buttons
+	 * are initialized by GameTemplate; they are formatted here.
+	 */
 	public void setupButtonListeners()
 	{
 		continueButton.addActionListener(new ContinueButtonListener());
@@ -182,6 +195,20 @@ public class SelectorTest extends gameTemplate
 				ScenarioIntroductionScreen.class));
 	}
 	
+	/**
+	 * Initiates the selector field of this class, with a new Selector object,
+	 * centered in the control bar at the bottom of the screen. This method
+	 * depends on the control bar being instantiated. As such, super.init()
+	 * should be called prior to calling this method.
+	 * 
+	 * Note: the content of the selector is handled by the load method, more
+	 * specifically by populateSelectorContents.
+	 * 
+	 * @see #populateSelectorContents(CircularList)
+	 * @see #generateDefaultData()
+	 * @throws SlickException
+	 *             Indicates a failure to load or resize the selector images.
+	 */
 	public void instantiateSelector() throws SlickException
 	{
 		// Create and size a new selector object
@@ -198,6 +225,22 @@ public class SelectorTest extends gameTemplate
 		this.addComponent(selector);
 	}
 	
+	/**
+	 * Initiates the selectorDisplay field of this class, with a new
+	 * SelectorDisplay object, centered in the main portion of this screen (the
+	 * top-left section, not occupied by the control panel or the side bar) of
+	 * the screen. This method depends on the control bar and sideBar being
+	 * instantiated. As such, super.init() should be called prior to calling
+	 * this method.
+	 * 
+	 * Note: the content of the selectorDisplay is handled by the load method,
+	 * and by the user's actions during gameplay.
+	 * 
+	 * @see #load()
+	 * @throws SlickException
+	 *             Indicates a failure to load or resize the selectorDisplay
+	 *             images.
+	 */
 	public void instantiateSelectorDisplay() throws SlickException
 	{
 		// Setup a new selector display (using the default appearance)
@@ -211,21 +254,26 @@ public class SelectorTest extends gameTemplate
 		
 		// Center the display in the middle of the play-area
 		Rectangle playArea = new Rectangle(Game.getCurrentScreenDimension());
-		System.out.println("\tPlayArea Bounds: " + playArea);
 		int width = playArea.width - sidePanel.getBounds().width;
 		int height = playArea.height - control.getBounds().height;
 		playArea.setSize(width, height);
-		System.out.println("\tPlayArea Bounds: " + playArea);
-		System.out.println("\tDisplay Bounds: " + selectorDisplay.getBounds());
 		Rectangle centered = new Rectangle(selectorDisplay.getBounds());
 		UtilFunctions.centerRectangle(playArea, centered);
-		System.out.println("\tCentered Bounds: " + centered);
 		selectorDisplay.translate(centered.x, centered.y);
 		
 		// Add the display to this screen
 		this.addComponent(selectorDisplay);
 	}
 	
+	/**
+	 * Instantiate and format the animation to be played when the user selects a
+	 * correct combination.
+	 * 
+	 * Note: This method depends on the hintBox being instantiated. As such,
+	 * super.init() should be called prior to calling this method.
+	 * 
+	 * @throws SlickException
+	 */
 	private void instantiateEndingAnimation() throws SlickException
 	{
 		// Ending Animation
@@ -288,12 +336,18 @@ public class SelectorTest extends gameTemplate
 		this.addComponent(backButton);
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.asu.voctec.game_states.GUI#onExit()
+	 */
 	@Override
 	public void onExit()
 	{
 		save();
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.asu.voctec.game_states.GUI#render(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, org.newdawn.slick.Graphics)
+	 */
 	@Override
 	public void render(GameContainer container, StateBasedGame game,
 			Graphics graphics) throws SlickException
@@ -326,7 +380,6 @@ public class SelectorTest extends gameTemplate
 						+ " " + firstEmpty
 						+ Labels.Step0.INSTRUCTIONS2.getTranslation();
 			}
-			
 			
 			this.instructionBox.setText(instructions);
 			System.out.println("Update Instructions: " + instructions);
@@ -406,7 +459,7 @@ public class SelectorTest extends gameTemplate
 		hintBox.setText(currentHints);
 		selector.updateChoiceLabel();
 		updateInstructions();
-		complete = currentAttempt.isStepsVerified();
+		complete = currentAttempt.isPartOneComplete();
 		
 		if (selectorDisplay.isFull() && complete)
 		{
@@ -454,7 +507,8 @@ public class SelectorTest extends gameTemplate
 		try
 		{
 			selectorContents.add(new SelectorIcon(
-					SelectorIcons.ENERGY_ASSESSMENT, "Assess Energy Requirements", 0));
+					SelectorIcons.ENERGY_ASSESSMENT,
+					"Assess Energy Requirements", 0));
 			selectorContents.add(new SelectorIcon(
 					SelectorIcons.CRITICAL_DESIGN_MONTH,
 					"Find the Critical Design Month", 1));
@@ -462,9 +516,8 @@ public class SelectorTest extends gameTemplate
 					"Size the Battery", 2));
 			selectorContents.add(new SelectorIcon(SelectorIcons.PV_SIZING,
 					"Size the PV Array", 3));
-			selectorContents
-					.add(new SelectorIcon(SelectorIcons.CONTROLLER_SIZING,
-							"Size the Controller", 4));
+			selectorContents.add(new SelectorIcon(
+					SelectorIcons.CONTROLLER_SIZING, "Size the Controller", 4));
 		}
 		catch (SlickException e)
 		{
@@ -491,6 +544,6 @@ public class SelectorTest extends gameTemplate
 		currentAttempt.setCurrentHints(currentHints);
 		currentAttempt.setSelectorContents(selectorContents);
 		currentAttempt.setSelectorDisplayContents(selectorDisplayContents);
-		currentAttempt.setStepsVerified(complete);
+		currentAttempt.setPartOneComplete(complete);
 	}
 }
