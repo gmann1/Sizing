@@ -57,9 +57,7 @@ public class CDIntroScreen extends GUI {
 		TextArea introduction = new TextArea(textLocation, 0.95f, "");
 		introduction.setFontSize(LARGE_FONT_SIZE);
 		introduction
-				.setText("In this step you will be determining the critical design month. This step evaluates the month with the worst sun light to energy-use ratio. "
-						+ "By designing the system to meet the requirements of the "
-						+ "worst month, it will be able to deliver energy requirements year-round.");
+				.setText("In the following game, you will be determining the peak sun hours (PSH) for the most appropriate month (critical design month) for a small DC lighting system with constant loads as well as the most appropriate array orientation and tilt angle for the conditions of that month for a location in Africa.");
 		introduction.setFontColor(FONT_COLOR);
 
 		// Start Button
