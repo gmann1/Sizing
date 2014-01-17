@@ -86,7 +86,7 @@ public class ExitScreen extends GUI
 	protected Column<TextField> dataDisplay;
 	
 	// TODO move to StarDisplay
-	protected Rectangle starDisplayBounds;
+	//protected Rectangle starDisplayBounds;
 	
 	/** Indicates which minigame (i.e. task) this ExitScreen is displaying */
 	protected Class<?> associatedTask;
@@ -142,7 +142,8 @@ public class ExitScreen extends GUI
 		// Star Display (center in bottom-right section)
 		Rectangle componentBounds = new Rectangle(0, 0, 300, 150);
 		UtilFunctions.centerRectangle(subContainer, componentBounds);
-		starDisplayBounds = new Rectangle(componentBounds);
+		// TODO verify
+		Rectangle starDisplayBounds = new Rectangle(componentBounds);
 		starDisplay = new StarDisplay(0, 0, 0);
 		starDisplay.setBounds(starDisplayBounds);
 		this.addComponent(starDisplay);
@@ -230,7 +231,7 @@ public class ExitScreen extends GUI
 			dataDisplay.getUnitAt(1).setText(
 					Integer.toString(currentAttempt.getNumberOfUniqueHints()));
 			starDisplay.setScore(currentAttempt.calculateStarScore());
-			starDisplay.setBounds(starDisplayBounds);
+			//starDisplay.setBounds(starDisplayBounds);
 		}
 	}
 	

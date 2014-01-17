@@ -36,7 +36,7 @@ public abstract class HoverListener extends ActionListener
 		boolean collision = (associatedComponent.getBounds()
 				.contains(mousePosition));
 		
-		// Return true if the mouse has entered OR exited the component
+		// Return true if the mouse has entered OR exited the component (xor)
 		return (activated ^ collision);
 	}
 	
