@@ -15,7 +15,9 @@ public abstract class ModifiedGameState extends BasicGameState implements
 	private int ID;
 	
 	public abstract Dimension getDesignResolution();
+	
 	public abstract void onEnter();
+	
 	public abstract void onExit();
 	
 	public ModifiedGameState()
@@ -27,6 +29,14 @@ public abstract class ModifiedGameState extends BasicGameState implements
 		currentID++;
 	}
 	
+	/**
+	 * This method serves as a secondary initiation. Where the
+	 * {@link #init(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame)}
+	 * function is called before the game starts, the
+	 * {@link #initiateInBackground()} method is called while the introduction
+	 * animation plays, or on the instruction screen for the game (depending on
+	 * the circumstances of the child class).
+	 */
 	public abstract void initiateInBackground();
 	
 	@Override
