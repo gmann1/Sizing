@@ -10,12 +10,14 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.TextArea;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
+import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.gameTemplate;
@@ -26,7 +28,7 @@ import edu.asu.voctec.utilities.gameTemplate;
  * 
  */
 
-public class CDIntroScreen extends GUI {
+public class CDIntroScreen extends GUI implements Task{
 
 	private static final Color FONT_COLOR = Color.white;
 	public static final float SMALL_FONT_SIZE = 8f;
@@ -92,6 +94,18 @@ public class CDIntroScreen extends GUI {
 	public Dimension getDesignResolution() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public void onEnter()
+	{
+		Game.getExitScreen().updateExitScreen(this.getClass());
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
