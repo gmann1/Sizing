@@ -127,8 +127,8 @@ public class StarDisplay extends Component
 	@Override
 	public Rectangle getBounds()
 	{
-		int width = stars[2].x + stars[2].data.getWidth();
-		int height = stars[0].y + stars[0].data.getHeight();
+		int width = stars[2].x + stars[2].data.getWidth() - stars[0].x;
+		int height = stars[0].y + stars[0].data.getHeight() - stars[1].y;
 		
 		return new Rectangle(x, y, width, height);
 	}
