@@ -107,6 +107,8 @@ public class StarDisplay extends Component
 		
 		for (PositionedImage star : stars)
 			star.translate(delta, 0);
+		
+		this.x = x;
 	}
 	
 	@Override
@@ -116,6 +118,8 @@ public class StarDisplay extends Component
 		
 		for (PositionedImage star : stars)
 			star.translate(0, delta);
+		
+		this.y = y;
 	}
 	
 	@Override
