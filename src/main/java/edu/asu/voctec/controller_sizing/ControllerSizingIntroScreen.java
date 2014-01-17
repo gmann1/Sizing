@@ -103,19 +103,6 @@ public class ControllerSizingIntroScreen extends GUI implements Task
 	{
 		Game.getExitScreen().updateExitScreen(this.getClass());
 	}
-
-	
-	@Override
-	public void onEnter()
-	{
-		Game.getExitScreen().updateExitScreen(this.getClass());
-	}
-
-	@Override
-	public void load() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }
 

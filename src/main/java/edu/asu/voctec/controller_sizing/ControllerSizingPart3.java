@@ -33,9 +33,8 @@ public class ControllerSizingPart3 extends gameTemplate{
 	public static final String TransparentObjects = "resources/default/img/minigames/ControllerSizing/TransparentObject.png";
 	private static Image TransparentObjectImage;
 	
-	private static final String[] hintsTextArray = {"hint 1",
-													"hint 2",
-													"hint 3"};
+	private static final String[] hintsTextArray = {"You only need 3 disconnect switches for the Installation.",
+													"You only need one of each of the other system parts in order to complete the Installation."};
 
 	
 	public static final String PVArraysLabel = "PV Arrays";
@@ -54,7 +53,7 @@ public class ControllerSizingPart3 extends gameTemplate{
 	private static BasicComponent installationArea;
 	private static int currentHintText = 0;
 	public static int totalNumberOfHintsUsed = 0, doneButtonCounter = 0;
-	private static final int maxChances = 4;
+	private static final int maxChances = 3;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -121,7 +120,7 @@ public class ControllerSizingPart3 extends gameTemplate{
 		
 		if(stepCompleted){
 			   if (sequenceStep != 4000){
-			   sequenceStep = initiateStars(6-totalNumberOfHintsUsed, sequenceStep);
+			   sequenceStep = initiateStars(6-(2*totalNumberOfHintsUsed), sequenceStep);
 			   }
 			  }
 	}
