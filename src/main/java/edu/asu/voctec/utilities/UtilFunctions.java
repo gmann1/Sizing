@@ -13,7 +13,11 @@ import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.GUI.Component;
 
 /**
- * Provides additional transformation functions for java.awt.Rectangle
+ * Provides generic support functions, for use in a variety of applications,
+ * such as: additional transformation functions for java.awt.Rectangle; batch
+ * support for component operations, such as rescale and translate; and display
+ * support, for positioning groups of components, relative to the screen and
+ * other components.
  * 
  * @author Moore, Zachary
  * 

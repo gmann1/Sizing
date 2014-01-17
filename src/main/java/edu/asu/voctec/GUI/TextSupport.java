@@ -64,6 +64,7 @@ public abstract class TextSupport
 		if (allWords.length < 1)
 			return blanks;
 		
+		// TODO replace with binary algorithm; optimize
 		// Determine the number of words that can fit in the desired width.
 		int wordIndex;
 		int lineWidth = 0;

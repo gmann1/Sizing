@@ -192,7 +192,7 @@ public class EASelectorDisplay<T extends SelectorIcon> extends SelectorDisplay<T
 			
 			elements.set(currentIndex, element);
 			accepted = true;
-			EAPart1.updateInstructions();
+			//EAPart1.updateInstructions();
 			System.out.println("SelectorDisplay: Element Accepted.\n");
 		}
 		else

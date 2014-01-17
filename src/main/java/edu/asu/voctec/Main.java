@@ -56,6 +56,10 @@ public class Main implements GameDefaults
 		gameContainer.start();
 	}
 	
+	/**
+	 * @see AppGameContainer
+	 * @return The container that hosts this game.
+	 */
 	public static AppGameContainer getGameContainer()
 	{
 		return gameContainer;

@@ -15,10 +15,10 @@ public enum AspectRatio
 	 * well as 805x605 and 795x600, etc. This constant should generally be 0,
 	 * unless imprecise image resizing is being done outside of this class.
 	 */
-	public static final int	ASPECT_RATIO_MARGIN	= 0;
+	public static final int ASPECT_RATIO_MARGIN = 0;
 	
-	public final int		width;
-	public final int		height;
+	public final int width;
+	public final int height;
 	
 	private AspectRatio(int width, int height)
 	{
@@ -123,7 +123,7 @@ public enum AspectRatio
 	// TODO move to exceptions package
 	public static class ResolutionNotSupportedException extends Exception
 	{
-		private static final long	serialVersionUID	= 1548486820456150649L;
+		private static final long serialVersionUID = 1548486820456150649L;
 		
 		public ResolutionNotSupportedException(int width, int height)
 		{

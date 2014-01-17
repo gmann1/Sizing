@@ -7,10 +7,12 @@ import edu.asu.voctec.utilities.CircularList;
 
 public class SizingStepsData extends AttemptData
 {
+	private static final long serialVersionUID = 7276084073137860427L;
+	
 	private ArrayList<SelectorIcon> selectorDisplayContents;
 	private CircularList<SelectorIcon> selectorContents;
 	private ArrayList<String> currentHints;
-	private boolean stepsVerified;
+	private boolean partOneComplete;
 	
 	public SizingStepsData(ArrayList<SelectorIcon> selectorDisplayContents,
 			CircularList<SelectorIcon> selectorContents,
@@ -20,7 +22,7 @@ public class SizingStepsData extends AttemptData
 		this.selectorDisplayContents = selectorDisplayContents;
 		this.selectorContents = selectorContents;
 		this.currentHints = currentHints;
-		this.stepsVerified = stepsVerified;
+		this.partOneComplete = stepsVerified;
 	}
 	
 	public ArrayList<SelectorIcon> getSelectorDisplayContents()
@@ -54,14 +56,14 @@ public class SizingStepsData extends AttemptData
 		this.currentHints = currentHints;
 	}
 
-	public boolean isStepsVerified()
+	public boolean isPartOneComplete()
 	{
-		return stepsVerified;
+		return partOneComplete;
 	}
 
-	public void setStepsVerified(boolean stepsVerified)
+	public void setPartOneComplete(boolean stepsVerified)
 	{
-		this.stepsVerified = stepsVerified;
+		this.partOneComplete = stepsVerified;
 	}
 	
 }

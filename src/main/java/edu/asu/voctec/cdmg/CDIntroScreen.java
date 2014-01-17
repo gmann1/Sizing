@@ -10,12 +10,14 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.TextArea;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
+import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.gameTemplate;
@@ -26,7 +28,7 @@ import edu.asu.voctec.utilities.gameTemplate;
  * 
  */
 
-public class CDIntroScreen extends GUI {
+public class CDIntroScreen extends GUI implements Task{
 
 	private static final Color FONT_COLOR = Color.white;
 	public static final float SMALL_FONT_SIZE = 8f;
@@ -57,9 +59,7 @@ public class CDIntroScreen extends GUI {
 		TextArea introduction = new TextArea(textLocation, 0.95f, "");
 		introduction.setFontSize(LARGE_FONT_SIZE);
 		introduction
-				.setText("In this step you will be determining the critical design month. This step evaluates the month with the worst sun light to energy-use ratio. "
-						+ "By designing the system to meet the requirements of the "
-						+ "worst month, it will be able to deliver energy requirements year-round.");
+				.setText("In the following game, you will be determining the peak sun hours (PSH) for the most appropriate month (critical design month) for a small DC lighting system with constant loads as well as the most appropriate array orientation and tilt angle for the conditions of that month for a location in Africa.");
 		introduction.setFontColor(FONT_COLOR);
 
 		// Start Button
@@ -94,6 +94,18 @@ public class CDIntroScreen extends GUI {
 	public Dimension getDesignResolution() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public void onEnter()
+	{
+		Game.getExitScreen().updateExitScreen(this.getClass());
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

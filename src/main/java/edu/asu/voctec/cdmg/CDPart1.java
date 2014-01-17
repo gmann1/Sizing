@@ -38,6 +38,7 @@ public class CDPart1 extends gameTemplate {
 	private static int index = 0;
 	public static int hints = 0;
 	private int hintCount = 0;
+
 	private boolean correctAnswer = false;
 
 	private static final Color FONT_COLOR = Color.darkGray;
@@ -49,6 +50,10 @@ public class CDPart1 extends gameTemplate {
 	public static final String OCTOBER = "resources/default/img/minigames/criticalDesign/October.png";
 	public static final String SEPTEMBER = "resources/default/img/minigames/criticalDesign/September.png";
 	public static final String JUNE = "resources/default/img/minigames/criticalDesign/June.png";
+	public static final String SPRING = "resources/default/img/minigames/criticalDesign/Spring.png";
+	public static final String SUMMER = "resources/default/img/minigames/criticalDesign/Summer.png";
+	public static final String WINTER = "resources/default/img/minigames/criticalDesign/Winter.png";
+	public static final String FALL = "resources/default/img/minigames/criticalDesign/Fall.png";
 	public static final String BACKGROUND = "resources/default/img/minigames/criticalDesign/space.jpg";
 	public static final String BOX = "resources/default/img/selector/display/EmptyBox.png";
 	public static final String MOUSE_OVER_BOX = "resources/default/img/minigames/criticalDesign/MouseOverBox.png";
@@ -69,7 +74,7 @@ public class CDPart1 extends gameTemplate {
 	private static boolean ju = false;
 
 	static ArrayList<String> Earths = new ArrayList<>();
-	static ArrayList<String> April = new ArrayList<>();
+	
 	static ArrayList<String> February = new ArrayList<>();
 	static ArrayList<String> December = new ArrayList<>();
 	static ArrayList<String> October = new ArrayList<>();
@@ -91,6 +96,10 @@ public class CDPart1 extends gameTemplate {
 	BasicComponent box2;
 	BasicComponent box3;
 	BasicComponent box4;
+	BasicComponent box1Image;
+	BasicComponent box2Image;
+	BasicComponent box3Image;
+	BasicComponent box4Image;
 
 	static BasicComponent earths;
 	ArrayList<String> monthlyHints = new ArrayList<>();
@@ -103,19 +112,65 @@ public class CDPart1 extends gameTemplate {
 	private boolean box3Hover = false;
 	private boolean box4Selected = false;
 	private boolean box4Hover = false;
+	private boolean hoverAny = false;
+	private TextField box1Text1;
+	private TextField box1Text2;
+	private TextField box2Text1;
+	private TextField box2Text2;
+	private TextField box3Text1;
+	private TextField box3Text2;
+	private TextField box4Text1;
+	private TextField box4Text2;
 
 	public class CDReadyListener extends ButtonListener {
 
 		@Override
 		protected void actionPerformed() {
 
+		if (box1Selected){
 			try {
-				userAnswer(index);
+				box1.setCurrentImage(new Image(INCORRECT_BOX), true);
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			hintBox.setText(monthlyHints.get(0));
+		}
+		else if(box2Selected){
+			
+			correctAnswer = true;
+			try {
+				box2.setCurrentImage(new Image(CORRECT_BOX), true);
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				continueButtonOn();
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			hintBox.setText(monthlyHints.get(1));
+		}
+		else if(box3Selected){
+			try {
+				box3.setCurrentImage(new Image(INCORRECT_BOX), true);
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			hintBox.setText(monthlyHints.get(2));
+		}
+		else if(box4Selected){
+			try {
+				box4.setCurrentImage(new Image(INCORRECT_BOX), true);
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			hintBox.setText(monthlyHints.get(3));
+		}
 		}
 
 	}
@@ -161,7 +216,7 @@ public class CDPart1 extends gameTemplate {
 		UtilFunctions.centerRectangle(control.getBounds(), boxBounds);
 		box1.setBounds(boxBounds);
 		spacing = (control.getBounds().width - 4 * box1.getBounds().width) / 7;
-		System.out.println("spacing = " + spacing);
+
 
 		box2.setX(box1.getX());
 		box2.setY(box1.getY());
@@ -174,8 +229,25 @@ public class CDPart1 extends gameTemplate {
 		box2.setX(box1.getBounds().width + box1.getX() + spacing);
 		box3.setX(box2.getBounds().width + box2.getX() + spacing);
 		box4.setX(box3.getBounds().width + box3.getX() + spacing);
+		
+		box1Image = new BasicComponent(new Image(SPRING), box1.getX(), box1.getY());
+		box1Image.rescale(box1.getBounds().width, box1.getBounds().height);
+		box1Image.setX(box1.getX());
+		box1Image.setY(box1.getY());
+		box2Image = new BasicComponent(new Image(WINTER), box2.getX(), box2.getY());
+		box2Image.rescale(box2.getBounds().width, box2.getBounds().height);
+		box2Image.setX(box2.getX());
+		box2Image.setY(box2.getY());
+		box3Image = new BasicComponent(new Image(FALL), box3.getX(), box3.getY());
+		box3Image.rescale(box3.getBounds().width, box3.getBounds().height);
+		box3Image.setX(box3.getX());
+		box3Image.setY(box3.getY());
+		box4Image = new BasicComponent(new Image(SUMMER), box4.getX(), box4.getY());
+		box4Image.rescale(box4.getBounds().width, box4.getBounds().height);
+		box4Image.setX(box4.getX());
+		box4Image.setY(box4.getY());
 
-		instructionBox.setText("Select the Critical Design Month.");
+		instructionBox.setText("Select the season that includes the critical design month by clicking on one of the four seasons.");
 		topText.setText("Location: Niger, Niamey" + "\n"
 				+ "Latitude: 13° 31 N, Longitude: 2° 6 E");
 		// add initial things to the arraylists
@@ -186,56 +258,30 @@ public class CDPart1 extends gameTemplate {
 		Earths.add(SEPTEMBER);
 		Earths.add(JUNE);
 
-		months.add(April);
-		months.add(February);
-		months.add(December);
-		months.add(October);
-		months.add(September);
-		months.add(June);
+	
+		
 
-		April.add("April");
-		April.add("\tSpring");
-		April.add("\t7.02 PSH/Day");
+	
 
-		February.add("February");
-		February.add("\tWinter");
-		February.add("\t6.38 PSH/Day");
-
-		December.add("December");
-		December.add("Winter");
-		December.add("5.24 PSH/Day");
-
-		October.add("October");
-		October.add("\tAutumn");
-		October.add("\t6.05 PSH/Day");
-
-		September.add("September");
-		September.add("\tAutumn");
-		September.add("\t5.96 PSH/Day");
-
-		June.add("June");
-		June.add("\tSummer");
-		June.add("\t6.64 PSH/Day");
+		
 
 		monthlyHints
-				.add("Sorry, April is not the critical design month. Try again.");
+				.add("The critical design month is not in the Spring season.");
+		
 		monthlyHints
-				.add("Sorry, February is not the critical design month. Try again.");
+				.add("Good Job! You have selected the season that contains the critical design month. Press continue when you are ready to move on.");
 		monthlyHints
-				.add("Good Job! The critical design month is the month with the highest ratio of load to solar insolation.");
+				.add("The critical design month is not in the Fall season");
 		monthlyHints
-				.add("Sorry, October is not the critical design month. Try again.");
-		monthlyHints
-				.add("Sorry, September is not the critical design month. Try again.");
-		monthlyHints
-				.add("Sorry, June is not the critical design month. Try again.");
+				.add("The critical design month is not in the Summer season.");
+	
 
 		genericHints
 				.add("The Earth has a tilt of 23.5 degrees. Because of this, different parts of the Earth are tilted closer to the Sun during different times of the year. This is why we have seasons.");
 		genericHints
 				.add("PSH or peak sun-hours is a measure of the amount of solar insolation being received. ");
 		genericHints
-				.add("The critical design month is the month with the lowest solar insolation.");
+				.add("The critical design month is usually the month with the lowest solar insolation.");
 
 		// earth
 		Image Earth = new Image(Earths.get(index));
@@ -249,97 +295,76 @@ public class CDPart1 extends gameTemplate {
 		int readyButtonOffSet = container.getWidth() - READY_BUTTON_X
 				- textBounds.width;
 
-		// Main Selector
-		Rectangle textLocation = new Rectangle(0, 0, 50, 50);
-
-		// UtilFunctions.centerRectangle(sel.getMainBounds(), textLocation);
-		textLocation.x = textLocation.x + 10;
-		main2 = new TextField(textLocation, 0.95f, "",
-				TextDisplay.FormattingOption.CLIP_TEXT);
-		main2.setFontSize(LARGE_FONT_SIZE);
-		main2.setFontColor(FONT_COLOR);
-		textLocation.y = textLocation.y - textLocation.height;
-		main1 = new TextField(textLocation, 0.95f, "",
-				TextDisplay.FormattingOption.CLIP_TEXT);
-		textLocation.y = textLocation.y + textLocation.height;
-		textLocation.y = textLocation.y + textLocation.height;
-		main1.setFontSize(LARGE_FONT_SIZE);
-		main1.setFontColor(FONT_COLOR);
-		main3 = new TextField(textLocation, 0.95f, "",
-				TextDisplay.FormattingOption.CLIP_TEXT);
-		main3.setFontSize(MEDIUM_FONT_SIZE);
-		main3.setFontColor(FONT_COLOR);
-		main1.setText(months.get(index).get(0));
-		main2.setText(months.get(index).get(1));
-		main3.setText(months.get(index).get(2));
-
-		// Right
-		textLocation = new Rectangle(0, 0, 50, 50);
-
-		// UtilFunctions.centerRectangle(sel.getRightBounds(), textLocation);
-		textLocation.x = textLocation.x + 5;
-		right2 = new TextField(textLocation, 0.95f,
-				"Fit Text Field ... CLIP CLIP CLIP",
-				TextDisplay.FormattingOption.CLIP_TEXT);
-		right2.setFontSize(MEDIUM_FONT_SIZE);
-		right2.setFontColor(FONT_COLOR);
-		textLocation.y = textLocation.y - textLocation.height;
-		right1 = new TextField(textLocation, 0.95f,
-				"Fit Text Field ... CLIP CLIP CLIP",
-				TextDisplay.FormattingOption.CLIP_TEXT);
-		textLocation.y = textLocation.y + textLocation.height;
-		textLocation.y = textLocation.y + textLocation.height;
-		right1.setFontSize(MEDIUM_FONT_SIZE);
-		right1.setFontColor(FONT_COLOR);
-		right3 = new TextField(textLocation, 0.95f,
-				"Fit Text Field ... CLIP CLIP CLIP",
-				TextDisplay.FormattingOption.CLIP_TEXT);
-		right3.setFontSize(SMALL_FONT_SIZE);
-		right3.setFontColor(FONT_COLOR);
-		right1.setText(months.get(index + 1).get(0));
-		right2.setText(months.get(index + 1).get(1));
-		right3.setText(months.get(index + 1).get(2));
-
-		// Left
-		textLocation = new Rectangle(0, 0, 50, 50);
-
-		// UtilFunctions.centerRectangle(sel.getLeftBounds(), textLocation);
-		textLocation.x = textLocation.x + 5;
-		left2 = new TextField(textLocation, 0.95f,
-				"Fit Text Field ... CLIP CLIP CLIP",
-				TextDisplay.FormattingOption.CLIP_TEXT);
-		left2.setFontSize(MEDIUM_FONT_SIZE);
-		left2.setFontColor(FONT_COLOR);
-		textLocation.y = textLocation.y - textLocation.height;
-		left1 = new TextField(textLocation, 0.95f,
-				"Fit Text Field ... CLIP CLIP CLIP",
-				TextDisplay.FormattingOption.CLIP_TEXT);
-		textLocation.y = textLocation.y + textLocation.height;
-		textLocation.y = textLocation.y + textLocation.height;
-		left1.setFontSize(MEDIUM_FONT_SIZE);
-		left1.setFontColor(FONT_COLOR);
-		left3 = new TextField(textLocation, 0.95f,
-				"Fit Text Field ... CLIP CLIP CLIP",
-				TextDisplay.FormattingOption.CLIP_TEXT);
-		left3.setFontSize(SMALL_FONT_SIZE);
-		left3.setFontColor(FONT_COLOR);
-		left1.setText(months.get(5).get(0));
-		left2.setText(months.get(5).get(1));
-		left3.setText(months.get(5).get(2));
-
+		box1Text1 = new TextField(new Rectangle(box1.getX()+2, box1.getY()+10, box1.getBounds().width-5, box1.getBounds().height/4), 0.95f,
+				"Spring", TextDisplay.FormattingOption.FIT_TEXT);
+		
+		box1Text1.setFontColor(FONT_COLOR);
+		box1Text1.setFormatting(TextDisplay.FormattingOption.CLIP_TEXT);
+		box1Text1.center();
+		box1Text2 = new TextField(new Rectangle(box1.getX()+2, box1.getY()+box1.getBounds().height - 40, box1.getBounds().width-5, box1.getBounds().height/4), 0.95f,
+				"7.02 PSH/Day", TextDisplay.FormattingOption.FIT_TEXT);
+		
+		box1Text2.setFontColor(FONT_COLOR);
+		box1Text2.setFormatting(TextDisplay.FormattingOption.CLIP_TEXT);
+		box1Text2.center();
+		
+		box2Text1 = new TextField(new Rectangle(box2.getX()+2, box2.getY()+10, box2.getBounds().width-5, box2.getBounds().height/4), 0.95f,
+				"Winter", TextDisplay.FormattingOption.FIT_TEXT);
+		
+		box2Text1.setFontColor(FONT_COLOR);
+		box2Text1.setFormatting(TextDisplay.FormattingOption.CLIP_TEXT);
+		box2Text1.center();
+		box2Text2 = new TextField(new Rectangle(box2.getX()+2, box2.getY()+box2.getBounds().height - 40, box2.getBounds().width-5, box2.getBounds().height/4), 0.95f,
+				"5.24 PSH/Day", TextDisplay.FormattingOption.FIT_TEXT);
+		
+		box2Text2.setFontColor(FONT_COLOR);
+		box2Text2.setFormatting(TextDisplay.FormattingOption.CLIP_TEXT);
+		box2Text2.center();
+		
+		
+		box3Text1 = new TextField(new Rectangle(box3.getX()+2, box3.getY()+10, box3.getBounds().width-5, box3.getBounds().height/4), 0.95f,
+				"Fall", TextDisplay.FormattingOption.FIT_TEXT);
+		
+		box3Text1.setFontColor(FONT_COLOR);
+		box3Text1.setFormatting(TextDisplay.FormattingOption.CLIP_TEXT);
+		box3Text1.center();
+		box3Text2 = new TextField(new Rectangle(box3.getX()+2, box1.getY()+box3.getBounds().height - 40, box3.getBounds().width-5, box3.getBounds().height/4), 0.95f,
+				"5.96 PSH/Day", TextDisplay.FormattingOption.FIT_TEXT);
+		
+		box3Text2.setFontColor(FONT_COLOR);
+		box3Text2.setFormatting(TextDisplay.FormattingOption.CLIP_TEXT);
+		box3Text2.center();
+		
+		box4Text1 = new TextField(new Rectangle(box4.getX()+2, box4.getY()+10, box4.getBounds().width-5, box4.getBounds().height/4), 0.95f,
+				"Summer", TextDisplay.FormattingOption.FIT_TEXT);
+		
+		box4Text1.setFontColor(FONT_COLOR);
+		box4Text1.setFormatting(TextDisplay.FormattingOption.CLIP_TEXT);
+		box4Text1.center();
+		box4Text2 = new TextField(new Rectangle(box4.getX()+2, box4.getY()+box4.getBounds().height - 40, box4.getBounds().width-5, box4.getBounds().height/4), 0.95f,
+				"6.64 PSH/Day", TextDisplay.FormattingOption.FIT_TEXT);
+		
+		box4Text2.setFontColor(FONT_COLOR);
+		box4Text2.setFormatting(TextDisplay.FormattingOption.CLIP_TEXT);
+		box4Text2.center();
+		
 		this.addComponent(box1);
 		this.addComponent(box2);
 		this.addComponent(box3);
 		this.addComponent(box4);
-		this.addComponent(main1);
-		this.addComponent(main2);
-		this.addComponent(main3);
-		this.addComponent(right1);
-		this.addComponent(right2);
-		this.addComponent(right3);
-		this.addComponent(left1);
-		this.addComponent(left2);
-		this.addComponent(left3);
+		this.addComponent(box1Image);
+		this.addComponent(box2Image);
+		this.addComponent(box3Image);
+		this.addComponent(box4Image);
+		this.addComponent(box1Text1);
+		this.addComponent(box1Text2);
+		this.addComponent(box2Text1);
+		this.addComponent(box2Text2);
+		this.addComponent(box3Text1);
+		this.addComponent(box3Text2);
+		this.addComponent(box4Text1);
+		this.addComponent(box4Text2);
+
 		this.addComponent(earths);
 		this.addComponent(topText);
 
@@ -407,115 +432,198 @@ public class CDPart1 extends gameTemplate {
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		super.update(container, game, delta);
+		if(correctAnswer){
+			if (sequenceStep != 4000){
+			sequenceStep = initiateStars(6, sequenceStep);
+			}
+		}
 		int MouseX = container.getInput().getMouseX();
 		int MouseY = container.getInput().getMouseY();
-		if ((MouseX >= box1.getX() && MouseX <= (box1.getX() + box1.getBounds().width))																// range
-				&& (MouseY >= box1.getY() && MouseY <= (box1.getY() + box1
-						.getBounds().height))) {
-				if(!box1Selected){
-					if(!box1Hover){
-						box1.setCurrentImage(new Image(MOUSE_OVER_BOX), true);
-						box1Hover = true;
-					}
-					if (container.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
-						box1.setCurrentImage(new Image(SELECTED_BOX), true);
-						box2.setCurrentImage(new Image(BOX), true);
-						box3.setCurrentImage(new Image(BOX), true);
-						box4.setCurrentImage(new Image(BOX), true);
-						box1Selected = true;
-						box2Selected = false;
-						box3Selected = false;
-						box4Selected = false;
-						
-						box1Hover = false;
-					}
-				}
+		if (box1Hover || box2Hover || box3Hover || box4Hover){
+			hoverAny = true;
 		}
 		else{
-			if (box1Hover){
+			hoverAny = false;
+		}
+		if ((MouseX >= box1.getX() && MouseX <= (box1.getX() + box1.getBounds().width)) // range
+				&& (MouseY >= box1.getY() && MouseY <= (box1.getY() + box1
+						.getBounds().height))) {
+			if (!box1Selected) {
+				if (!box1Hover) {
+					box1.setCurrentImage(new Image(MOUSE_OVER_BOX), true);
+					box1Hover = true;
+					earths.setCurrentImage(new Image(APRIL), true);
+				}
+				if (container.getInput().isMouseButtonDown(
+						Input.MOUSE_LEFT_BUTTON) && !correctAnswer) {
+					box1.setCurrentImage(new Image(SELECTED_BOX), true);
+				
+					box2.setCurrentImage(new Image(BOX), true);
+					
+					box3.setCurrentImage(new Image(BOX), true);
+					box4.setCurrentImage(new Image(BOX), true);
+					box1Selected = true;
+					box2Selected = false;
+					box3Selected = false;
+					box4Selected = false;
+
+					box1Hover = false;
+				}
+			}
+		} else {
+			if (box1Hover) {
 				box1.setCurrentImage(new Image(BOX), true);
 				box1Hover = false;
 			}
-		}
-		if ((MouseX >= box2.getX() && MouseX <= (box2.getX() + box2.getBounds().width))																// range
-				&& (MouseY >= box2.getY() && MouseY <= (box2.getY() + box2
-						.getBounds().height))) {
-				if(!box2Selected){
-					if(!box2Hover){
-						box2.setCurrentImage(new Image(MOUSE_OVER_BOX), true);
-						box2Hover = true;
-					}
-					if (container.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
-						box1.setCurrentImage(new Image(BOX), true);
-						box2.setCurrentImage(new Image(SELECTED_BOX), true);
-						box3.setCurrentImage(new Image(BOX), true);
-						box4.setCurrentImage(new Image(BOX), true);
-						box2Selected = true;
-						box1Selected = false;
-						box3Selected = false;
-						box4Selected = false;
-						box2Hover = false;
-					}
+			if (!hoverAny){
+				if (box2Selected) {
+					earths.setCurrentImage(new Image(DECEMBER), true);
 				}
+				if (box3Selected) {
+					earths.setCurrentImage(new Image(SEPTEMBER), true);
+				}
+				if (box4Selected) {
+					earths.setCurrentImage(new Image(JUNE), true);
+				}
+			}
+		}
+		if (box1Hover || box2Hover || box3Hover || box4Hover){
+			hoverAny = true;
 		}
 		else{
-			if (box2Hover){
+			hoverAny = false;
+		}
+		if ((MouseX >= box2.getX() && MouseX <= (box2.getX() + box2.getBounds().width)) // range
+				&& (MouseY >= box2.getY() && MouseY <= (box2.getY() + box2
+						.getBounds().height))) {
+			if (!box2Selected && !correctAnswer) {
+				if (!box2Hover) {
+					box2.setCurrentImage(new Image(MOUSE_OVER_BOX), true);
+					box2Hover = true;
+					earths.setCurrentImage(new Image(DECEMBER), true);
+				}
+				if (container.getInput().isMouseButtonDown(
+						Input.MOUSE_LEFT_BUTTON)) {
+					box1.setCurrentImage(new Image(BOX), true);
+					box2.setCurrentImage(new Image(SELECTED_BOX), true);
+					box3.setCurrentImage(new Image(BOX), true);
+					box4.setCurrentImage(new Image(BOX), true);
+					box2Selected = true;
+					box1Selected = false;
+					box3Selected = false;
+					box4Selected = false;
+					box2Hover = false;
+				}
+			}
+		} else {
+			if (box2Hover) {
 				box2.setCurrentImage(new Image(BOX), true);
 				box2Hover = false;
 			}
-		}
-		if ((MouseX >= box3.getX() && MouseX <= (box3.getX() + box3.getBounds().width))																// range
-				&& (MouseY >= box3.getY() && MouseY <= (box3.getY() + box3
-						.getBounds().height))) {
-				if(!box3Selected){
-					if(!box3Hover){
-						box3.setCurrentImage(new Image(MOUSE_OVER_BOX), true);
-						box3Hover = true;
-					}
-					if (container.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
-						box1.setCurrentImage(new Image(BOX), true);
-						box2.setCurrentImage(new Image(BOX), true);
-						box3.setCurrentImage(new Image(SELECTED_BOX), true);
-						box4.setCurrentImage(new Image(BOX), true);
-						box3Selected = true;
-						box1Selected = false;
-						box2Selected = false;
-						box4Selected = false;
-						box3Hover = false;
-					}
+			if (!hoverAny ){
+				if (box1Selected) {
+					earths.setCurrentImage(new Image(APRIL), true);
 				}
+				if (box3Selected) {
+					earths.setCurrentImage(new Image(SEPTEMBER), true);
+				}
+				if (box4Selected) {
+					earths.setCurrentImage(new Image(JUNE), true);
+				}
+			}
+		}
+		if (box1Hover || box2Hover || box3Hover || box4Hover){
+			hoverAny = true;
 		}
 		else{
-			if (box3Hover){
+			hoverAny = false;
+		}
+		if ((MouseX >= box3.getX() && MouseX <= (box3.getX() + box3.getBounds().width)) // range
+				&& (MouseY >= box3.getY() && MouseY <= (box3.getY() + box3
+						.getBounds().height))) {
+			if (!box3Selected) {
+				if (!box3Hover) {
+					box3.setCurrentImage(new Image(MOUSE_OVER_BOX), true);
+					box3Hover = true;
+					earths.setCurrentImage(new Image(SEPTEMBER), true);
+				}
+				if (container.getInput().isMouseButtonDown(
+						Input.MOUSE_LEFT_BUTTON) && !correctAnswer) {
+					box1.setCurrentImage(new Image(BOX), true);
+				
+					box2.setCurrentImage(new Image(BOX), true);
+					
+					box3.setCurrentImage(new Image(SELECTED_BOX), true);
+					box4.setCurrentImage(new Image(BOX), true);
+					box3Selected = true;
+					box1Selected = false;
+					box2Selected = false;
+					box4Selected = false;
+					box3Hover = false;
+				}
+			}
+		} else {
+			if (box3Hover) {
 				box3.setCurrentImage(new Image(BOX), true);
 				box3Hover = false;
 			}
-		}
-		if ((MouseX >= box4.getX() && MouseX <= (box4.getX() + box4.getBounds().width))																// range
-				&& (MouseY >= box4.getY() && MouseY <= (box4.getY() + box4
-						.getBounds().height))) {
-				if(!box4Selected){
-					if(!box4Hover){
-						box4.setCurrentImage(new Image(MOUSE_OVER_BOX), true);
-						box4Hover = true;
-					}
-					if (container.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
-						box1.setCurrentImage(new Image(BOX), true);
-						box2.setCurrentImage(new Image(BOX), true);
-						box3.setCurrentImage(new Image(BOX), true);
-						box4.setCurrentImage(new Image(SELECTED_BOX), true);
-						box4Selected = true;
-						box2Selected = false;
-						box3Selected = false;
-						box1Selected = false;
-						box4Hover = false;
-					}
+			if (!hoverAny){
+				if (box2Selected) {
+					earths.setCurrentImage(new Image(DECEMBER), true);
 				}
+				if (box1Selected) {
+					earths.setCurrentImage(new Image(APRIL), true);
+				}
+				if (box4Selected) {
+					earths.setCurrentImage(new Image(JUNE), true);
+				}
+			}
+		}
+		if (box1Hover || box2Hover || box3Hover || box4Hover){
+			hoverAny = true;
 		}
 		else{
-			if (box4Hover){
+			hoverAny = false;
+		}
+		if ((MouseX >= box4.getX() && MouseX <= (box4.getX() + box4.getBounds().width)) // range
+				&& (MouseY >= box4.getY() && MouseY <= (box4.getY() + box4
+						.getBounds().height))) {
+			if (!box4Selected) {
+				if (!box4Hover) {
+					box4.setCurrentImage(new Image(MOUSE_OVER_BOX), true);
+					box4Hover = true;
+					earths.setCurrentImage(new Image(JUNE), true);
+				}
+				if (container.getInput().isMouseButtonDown(
+						Input.MOUSE_LEFT_BUTTON) && !correctAnswer) {
+					box1.setCurrentImage(new Image(BOX), true);
+				
+					box2.setCurrentImage(new Image(BOX), true);
+				
+					box3.setCurrentImage(new Image(BOX), true);
+					box4.setCurrentImage(new Image(SELECTED_BOX), true);
+					box4Selected = true;
+					box2Selected = false;
+					box3Selected = false;
+					box1Selected = false;
+					box4Hover = false;
+				}
+			}
+		} else {
+			if (box4Hover) {
 				box4.setCurrentImage(new Image(BOX), true);
 				box4Hover = false;
+			}
+			if (!hoverAny){
+				if (box2Selected) {
+					earths.setCurrentImage(new Image(DECEMBER), true);
+				}
+				if (box3Selected) {
+					earths.setCurrentImage(new Image(SEPTEMBER), true);
+				}
+				if (box1Selected) {
+					earths.setCurrentImage(new Image(APRIL), true);
+				}
 			}
 		}
 	}
@@ -578,54 +686,8 @@ public class CDPart1 extends gameTemplate {
 		return null;
 	}
 
-	public static void changeImage(boolean right) throws SlickException {
-		if (right) {
-			index++;
-			if (index == Earths.size()) {
-				index = 0;
 
-			}
 
-		} else {
-			index--;
-			if (index == -1) {
-				index = Earths.size() - 1;
-			}
-		}
-		if (index == 5) {
-			changeRight(0);
-		} else {
-			changeRight(index + 1);
-		}
-		if (index == 0) {
-			changeLeft(5);
-		} else {
-			changeLeft(index - 1);
-		}
-		changeMain(index);
-		earths.setCurrentImage(new Image(Earths.get(index)), true);
 
-	}
-
-	public static void changeMain(int ind) {
-		main1.setText(months.get(ind).get(0));
-		main2.setText(months.get(ind).get(1));
-		main3.setText(months.get(ind).get(2));
-
-	}
-
-	public static void changeRight(int ind) {
-		right1.setText(months.get(ind).get(0));
-		right2.setText(months.get(ind).get(1));
-		right3.setText(months.get(ind).get(2));
-
-	}
-
-	public static void changeLeft(int ind) {
-		left1.setText(months.get(ind).get(0));
-		left2.setText(months.get(ind).get(1));
-		left3.setText(months.get(ind).get(2));
-
-	}
 
 }
