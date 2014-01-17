@@ -153,9 +153,9 @@ public class EAPart2 extends gameTemplate
 		backButton.addActionListener(new TransitionButtonListener(EAPart1IntroScreen.class));
 		
 		////Testing Stuff can be deleted later////
-		Button testButton = new Button(new Image(STARTSQUARE), 750, 550, new Rectangle(0, 0, 50, 25), "Testing");
+		/*Button testButton = new Button(new Image(STARTSQUARE), 750, 550, new Rectangle(0, 0, 50, 25), "Testing");
 		testButton.addActionListener(new TransitionButtonListener(EAPart1.class));
-		this.addComponent(testButton);
+		this.addComponent(testButton);*/
 	}
 	
 	@Override
