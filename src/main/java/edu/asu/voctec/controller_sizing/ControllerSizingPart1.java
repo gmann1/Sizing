@@ -437,7 +437,7 @@ public class ControllerSizingPart1 extends gameTemplate {
 		
 //Replay Button
 		replay = new Button(new Image(ImagePaths.REPLAY_BUTTON), 1000, 5,
-				new Rectangle(15, 0, 50, 45), "Replay Tutorial");
+				new Rectangle(30, 0, 50, 45), "Replay Tutorial");
 	
 		replay.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 	
@@ -1041,7 +1041,7 @@ public class ControllerSizingPart1 extends gameTemplate {
 						charge.setText("");
 					}
 					if (houseFull) {
-						if (d && batteryPercent > BATTERY_MIN) {
+						if (d && batteryPercent > 0) {
 							house.setCurrentImage(new Image(HOUSE_FULL), true);
 							discharge.setText("Discharging...");
 							houseOn = true;
@@ -1068,8 +1068,8 @@ public class ControllerSizingPart1 extends gameTemplate {
 						batteryPrompt
 								.setText("Battery at capacity. Do not overcharge.");
 					}
-					if (batteryPercent <= BATTERY_MIN) {
-						batteryPercent = BATTERY_MIN;
+					if (batteryPercent <= 0) {
+						batteryPercent = 0;
 					}
 					if (batteryPercent >= BATTERY_MAX) {
 						batteryPercent = BATTERY_MAX;
@@ -1217,7 +1217,7 @@ public class ControllerSizingPart1 extends gameTemplate {
 				}
 			} else {
 				//TODO
-				replay.setX(800);
+				
 				hintBox.setText("Good Job! Press continue when you are ready to move on.");
 				continueButton.setX(continueButtonLocation);
 				continueButtonOn();
@@ -1268,6 +1268,7 @@ public class ControllerSizingPart1 extends gameTemplate {
 
 				simulating = false;
 				instructions.setX(800);
+				replay.setX(800);
 				cont.setX(800);
 				cont.setY(600);
 
