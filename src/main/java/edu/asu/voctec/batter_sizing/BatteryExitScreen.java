@@ -75,7 +75,6 @@ public class BatteryExitScreen extends GUI
 		@Override
 		protected void actionPerformed()
 		{
-			BatteryGameScreen.reset();
 			Game.getCurrentGame().enterState(TaskScreen.class);
 		}
 	}
@@ -85,7 +84,6 @@ public class BatteryExitScreen extends GUI
 		@Override
 		protected void actionPerformed()
 		{
-			BatteryGameScreen.reset();
 			Game.getCurrentGame().enterState(BatteryGameScreen.class);
 		}
 	}

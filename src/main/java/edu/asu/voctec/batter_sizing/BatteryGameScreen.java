@@ -16,6 +16,7 @@ import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
+import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.utilities.gameTemplate;
 
 public class BatteryGameScreen extends gameTemplate
@@ -31,6 +32,7 @@ public class BatteryGameScreen extends gameTemplate
 	public static final String RedBattery = "resources/default/img/minigames/BatterySizing/RedBattery.png";
 	public static final String GreenBattery = "resources/default/img/minigames/BatterySizing/GreenBattery.png";
 	public static final String Trash = "resources/default/img/minigames/BatterySizing/GarbageBin.png";
+	public static final String END_BACKGROUND = "resources/default/img/minigames/BatterySizing/Game2End-02.png";
 	
 	public static final String FirstImage = "resources/default/img/minigames/BatterySizing/FirstImage.png";
 	public static final String SecondImage = "resources/default/img/minigames/BatterySizing/SecondImageBattery.png";
@@ -63,13 +65,13 @@ public class BatteryGameScreen extends gameTemplate
 	public static final String CurrentOutputLabel = "Total Amp Hours: ";
 	public static final String CurrentVoltageLabel = "Total System Voltage: ";
 	public static final String BatteryBankLabel = "Battery Bank";
-	public static final String ExtraObjectsUsedMessage = "You were not able to solve the Battery Sizing Game correctly. You need to use fewer number of batteries.";
+	public static final String ExtraObjectsUsedMessage = "You need to use fewer number of batteries.";
 	public static final String UnfavourableAnswerCongratulation = "Nice Job...";
-	public static final String CompletingGameMessage = "You have successfully completed the Battery Sizing Game.";
-	public static final String UnfavourableAnswerMessage = "However, This solution is not recommended.";
+	public static final String CompletingGameMessage = "You were able to figure out one of the solutions for this game.";
+	public static final String UnfavourableAnswerMessage = " Press continue when you are ready to move on.";
 	public static final String CorrectAnswerCongratulation = "Well Done...";
-	public static final String CorrectAnswerMessage = "You were able to solve the game in an optimal combination.";
-	public static final String IncorrectAnswerMessage = "You didn't solve the Game correctly. Remember: ";
+	public static final String CorrectAnswerMessage = " Press continue when you are ready to move on.";
+	public static final String IncorrectAnswerMessage = "Remember: ";
 	public static final String GameAnswer = "Using a 200Ah and 12V battery will solve the game.";
 	
 	public static final int [] Capacities = {90,200,200};
@@ -81,7 +83,7 @@ public class BatteryGameScreen extends gameTemplate
 	public static List<BatteryControl> objectsArray = new ArrayList<BatteryControl>();
 	private List<InitialBattery> initialBatteries = new ArrayList<InitialBattery>();
 	private static final int RequiredCapacity = 174, RequiredVoltage = 12, maxChances = 5;
-	private boolean firstRoundOfHints = true, parallelHintNOtDisplayed = true, seriesHintNOtDisplayed = true;;
+	private boolean firstRoundOfHints = true, parallelHintNOtDisplayed = true, seriesHintNOtDisplayed = true;
 	public static int totalNumberOfHintsUsed = 0, doneButtonCounter = 0;
 	private static BasicComponent batteryBankArea;
 	private static boolean CompletedGame = false;
@@ -172,6 +174,12 @@ public class BatteryGameScreen extends gameTemplate
 			BatteryControl invokedObject = objectsArray.get(index);
 			invokedObject.update();
 		}
+		
+		if(CompletedGame){
+			   if (sequenceStep != 4000){
+			   sequenceStep = initiateStars(6-totalNumberOfHintsUsed, sequenceStep);
+			   }
+			  }
 	}
 
 	public static Image getVerticalLinesImage() {
@@ -229,7 +237,8 @@ public class BatteryGameScreen extends gameTemplate
 			hintBox.setFontColor(Color.white);
 			if(parallelHintNOtDisplayed)
 			{
-				totalNumberOfHintsUsed++;
+				if(!CompletedGame)
+					totalNumberOfHintsUsed++;
 				parallelHintNOtDisplayed = false;
 			}
 		}
@@ -239,7 +248,8 @@ public class BatteryGameScreen extends gameTemplate
 			hintBox.setFontColor(Color.white);
 			if(seriesHintNOtDisplayed)
 			{
-				totalNumberOfHintsUsed++;
+				if(!CompletedGame)
+					totalNumberOfHintsUsed++;
 				seriesHintNOtDisplayed = false;
 			}
 		}
@@ -247,7 +257,7 @@ public class BatteryGameScreen extends gameTemplate
 		{
 			hintBox.setText(hintsTextArray[currentHintText]);
 			hintBox.setFontColor(Color.white);
-			if(firstRoundOfHints)
+			if(firstRoundOfHints && !CompletedGame)
 				totalNumberOfHintsUsed++;
 			if(currentHintText == (hintsTextArray.length-1))
 			{
@@ -267,7 +277,8 @@ public class BatteryGameScreen extends gameTemplate
 			hintBox.setFontColor(Color.white);
 			if(parallelHintNOtDisplayed)
 			{
-				totalNumberOfHintsUsed++;
+				if(!CompletedGame)
+					totalNumberOfHintsUsed++;
 				parallelHintNOtDisplayed = false;
 			}
 		}
@@ -277,7 +288,8 @@ public class BatteryGameScreen extends gameTemplate
 			hintBox.setFontColor(Color.white);
 			if(seriesHintNOtDisplayed)
 			{
-				totalNumberOfHintsUsed++;
+				if(!CompletedGame)
+					totalNumberOfHintsUsed++;
 				seriesHintNOtDisplayed = false;
 			}
 		}
@@ -285,7 +297,7 @@ public class BatteryGameScreen extends gameTemplate
 		{
 			hintBox.setText(doneButtonMessage+hintsTextArray[currentHintText]);
 			hintBox.setFontColor(Color.white);
-			if(firstRoundOfHints)
+			if(firstRoundOfHints && !CompletedGame)
 				totalNumberOfHintsUsed++;
 			if(currentHintText == (hintsTextArray.length-1))
 			{
@@ -386,7 +398,6 @@ public class BatteryGameScreen extends gameTemplate
 				{
 					hintBox.setText(ExtraObjectsUsedMessage);
 					hintBox.setFontColor(Color.white);
-					CompletedGame = false;
 					doneButtonCounter++;
 				}
 				else if(Battery.getNumberOfBatteries() <= 2)
@@ -404,7 +415,6 @@ public class BatteryGameScreen extends gameTemplate
 					{
 						hintBox.setText(ExtraObjectsUsedMessage);
 						hintBox.setFontColor(Color.white);
-						CompletedGame = false;
 						doneButtonCounter++;
 					}
 					else
@@ -421,8 +431,8 @@ public class BatteryGameScreen extends gameTemplate
 			else
 			{
 				showNextHintText(IncorrectAnswerMessage);
-				CompletedGame = false;
-				doneButtonCounter++;
+				if(!CompletedGame)
+					doneButtonCounter++;
 			}
 			
 			if(doneButtonCounter >= maxChances)
@@ -440,8 +450,14 @@ public class BatteryGameScreen extends gameTemplate
 		protected void actionPerformed() {
 			if(CompletedGame)
 			{
-				hintBox.setText("");
-				Game.getCurrentGame().enterState(BatteryExitScreen.class);
+				try {
+					Game.updateExitText("Good Job!", "You have successfully completed the Battery Sizing Game", new Image(END_BACKGROUND));
+				} catch (SlickException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				reset();
+				Game.getCurrentGame().enterState(ExitScreen.class);
 			}
 		}
 		
@@ -452,8 +468,9 @@ public class BatteryGameScreen extends gameTemplate
 		continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_OFF), true);
 	}
 	
-	public static void reset()
+	public void reset()
 	{
+		hintBox.setText("");
 		batteryBankText.setText(BatteryBankLabel);
 		currentHintText = 0;
 		doneButtonCounter = 0;

@@ -10,15 +10,16 @@ import org.newdawn.slick.state.StateBasedGame;
 import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.*;
 import edu.asu.voctec.game_states.GUI;
+import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.utilities.Position;
 
-public class BatteryIntro extends GUI
+public class BatteryIntro extends GUI implements Task
 {
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
 	public static final String Right_ARROW_TEXT = "Begin!";
 	public static final String LEFT_ARROW_TEXT = "Back";
-	public static final String WELCOME_Text = "Welcome!";
+	public static final String WELCOME_Text = "";
 	public static final String INTRODUCTION = "In this game you need to figure out the best combination of batteries and how to connect them"
 				+ " in order to achieve the required Battery-Bank output and system voltage.";
 	
@@ -72,6 +73,18 @@ public class BatteryIntro extends GUI
 		{
 			Game.getCurrentGame().enterState(BatteryGameScreen.class);
 		}
+	}
+	
+	@Override
+	public void onEnter()
+	{
+		Game.getExitScreen().updateExitScreen(this.getClass());
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
