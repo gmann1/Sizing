@@ -38,6 +38,7 @@ public class CDPart1 extends gameTemplate {
 	private static int index = 0;
 	public static int hints = 0;
 	private int hintCount = 0;
+
 	private boolean correctAnswer = false;
 
 	private static final Color FONT_COLOR = Color.darkGray;
@@ -136,6 +137,7 @@ public class CDPart1 extends gameTemplate {
 			hintBox.setText(monthlyHints.get(0));
 		}
 		else if(box2Selected){
+			
 			correctAnswer = true;
 			try {
 				box2.setCurrentImage(new Image(CORRECT_BOX), true);
@@ -267,7 +269,7 @@ public class CDPart1 extends gameTemplate {
 				.add("The critical design month is not in the Spring season.");
 		
 		monthlyHints
-				.add("Good Job! You have selected the season that contains the critical design month.");
+				.add("Good Job! You have selected the season that contains the critical design month. Press continue when you are ready to move on.");
 		monthlyHints
 				.add("The critical design month is not in the Fall season");
 		monthlyHints
@@ -430,6 +432,11 @@ public class CDPart1 extends gameTemplate {
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		super.update(container, game, delta);
+		if(correctAnswer){
+			if (sequenceStep != 4000){
+			sequenceStep = initiateStars(6, sequenceStep);
+			}
+		}
 		int MouseX = container.getInput().getMouseX();
 		int MouseY = container.getInput().getMouseY();
 		if (box1Hover || box2Hover || box3Hover || box4Hover){

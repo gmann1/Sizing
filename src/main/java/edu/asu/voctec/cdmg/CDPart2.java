@@ -22,6 +22,7 @@ import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
+import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
@@ -47,6 +48,7 @@ public class CDPart2 extends gameTemplate {
 	private int hintCount = 0;
 
 	public static final String BACKGROUND = "resources/default/img/minigames/criticalDesign/Part2back.png";
+	public static final String END_BACKGROUND = "resources/default/img/minigames/criticalDesign/Game2End.png";
 	public static final String CRITICAL_MONTH_IMAGE = "resources/default/img/minigames/criticalDesign/criticalMonth1.png";
 	public static final String PANEL = "resources/default/img/minigames/criticalDesign/Panel.png";
 	public static final String POLE = "resources/default/img/minigames/criticalDesign/Pole.png";
@@ -59,11 +61,13 @@ public class CDPart2 extends gameTemplate {
 	public static final String NEEDLE = "resources/default/img/minigames/criticalDesign/Needle.png";
 	
 
+
 	
 	public TextField angle;
 	public String s;
 	public Image panel1;
 
+	private boolean south = true;
 	private boolean arrowChange = false;
 	BasicComponent upArrow;
 	BasicComponent downArrow;
@@ -102,6 +106,7 @@ public class CDPart2 extends gameTemplate {
 		protected void actionPerformed() {
 			
 			rotate();
+			south = !south;
 		}
 
 	}
@@ -125,7 +130,14 @@ public class CDPart2 extends gameTemplate {
 		@Override
 		protected void actionPerformed() {
 			if (correctAnswer){
-				Game.getCurrentGame().enterState(CDExtra.class);
+				
+				try {
+					Game.updateExitText("Good Job!", "You have successfully completed both parts of the Critical Design Month game", new Image(END_BACKGROUND));
+				} catch (SlickException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Game.getCurrentGame().enterState(ExitScreen.class);
 			}
 			
 		}
@@ -275,7 +287,7 @@ public class CDPart2 extends gameTemplate {
 	}
 
 	private void displayHint(int hCount, boolean readyClick) {
-		if (hCount != 4){
+		if (hCount != 4 || readyClick){
 			criticalMonth.setX(800);
 		}
 		if (hCount == 0) {
@@ -328,8 +340,10 @@ public class CDPart2 extends gameTemplate {
 					}
 			}
 			else{
+				if (!readyClick){
 				criticalMonth.setX(hintBox.getX());
 				hintBox.setText("");
+				}
 				
 			}
 			++hintCount;
@@ -345,14 +359,14 @@ public class CDPart2 extends gameTemplate {
 	}
 
 	private void winConditional() throws SlickException {
-		if ((panel1.getRotation() > (28.3 - 5))
+		if ((panel1.getRotation() > (28.3 - 5) && south)
 				&& (panel1.getRotation() < (28.3 + 5))) {
 			if ((int) ((panel1.getRotation()) * 10) == 283) {
 				criticalMonth.setX(800);
-				hintBox.setText("Great Job! You got the correct answer exactly.");
+				hintBox.setText("Great Job! You got the correct answer exactly. Press continue when you are ready to move on.");
 			} else {
 				criticalMonth.setX(800);
-				hintBox.setText("Good job! However, the precise answer is 28.3 degrees (latitude + 15 degrees)");
+				hintBox.setText("Good job! However, the precise answer is 28.3 degrees (latitude + 15 degrees). Press continue when you are ready to move on.");
 			}
 			continueButtonOn();
 			correctAnswer = true;
@@ -365,7 +379,11 @@ public class CDPart2 extends gameTemplate {
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		super.update(container, game, delta);
-		
+		if (correctAnswer){
+			if (sequenceStep != 4000){
+				sequenceStep = initiateStars(6, sequenceStep);
+				}
+		}
 		
 			
 		

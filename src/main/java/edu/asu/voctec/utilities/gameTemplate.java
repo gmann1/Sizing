@@ -10,6 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.GUI.BasicComponent;
 import edu.asu.voctec.GUI.Button;
+import edu.asu.voctec.GUI.StarDisplay;
 import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
@@ -19,21 +20,33 @@ import edu.asu.voctec.utilities.UtilFunctions;
 
 public class gameTemplate extends GUI {
 	
+	protected int sequenceStep;
 
 	
 	protected TextAreaX hintBox;
 	protected TextAreaX instructionBox;
 	protected TextAreaX topText;
 	
+	
+	
 	protected BasicComponent sidePanel;
 	protected BasicComponent control;
-
+	protected BasicComponent flare;
 	
 	protected Button backButton;
 	protected Button readyButton;
 	protected Button hintButton;
 	protected Button contButton;
 	protected Button continueButton;
+	private StarDisplay sDisplay;
+	
+	public static final String STAR1 = "resources/default/img/gameTemplate/Star1.png";
+	public static final String STAR2 = "resources/default/img/gameTemplate/Star2.png";
+	public static final String STAR3 = "resources/default/img/gameTemplate/Star3.png";
+	public static final String STAR4 = "resources/default/img/gameTemplate/Star4.png";
+	public static final String STAR5 = "resources/default/img/gameTemplate/Star5.png";
+	public static final String STAR6 = "resources/default/img/gameTemplate/Star6.png";
+	public static final String STAR7 = "resources/default/img/gameTemplate/Star7.png";
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -44,6 +57,9 @@ public class gameTemplate extends GUI {
 		
 	}
 	public void intializeDefaults() throws SlickException {
+		
+	    
+		
 		//initialize top text
 		
 		Rectangle textLocation = new Rectangle(135, 15, 410, 150);
@@ -138,9 +154,111 @@ public class gameTemplate extends GUI {
 
 	}
 	
+	
+	
 	public void continueButtonOn() throws SlickException{
 		continueButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
 		continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_ON), true);
+	}
+	
+	public int initiateStars(int starCount, int sequenceCount) throws SlickException{
+		if (sDisplay != null){
+			this.removeComponent(sDisplay);
+			}
+		if (sequenceCount < 50){
+			sDisplay = new StarDisplay(starCount, 400, 400);
+			sDisplay.rescale(.54f);
+			sDisplay.setX(hintBox.getX());
+			sDisplay.setY(hintBox.getBounds().height + hintBox.getY() -35 -sDisplay.getBounds().height/2);
+			if(sequenceCount == 0){
+				if(flare!=null){
+					this.removeComponent(flare);
+				}
+				flare = new BasicComponent(new Image(STAR1), 400,400);
+			
+			}
+			if(sequenceCount == 3){
+				if(flare!=null){
+					this.removeComponent(flare);
+				}
+				flare = new BasicComponent(new Image(STAR2), 400,400);
+			
+			}
+			if(sequenceCount == 6){
+				if(flare!=null){
+					this.removeComponent(flare);
+				}
+				flare = new BasicComponent(new Image(STAR3), 400,400);
+			
+			}
+			if(sequenceCount == 9){
+				if(flare!=null){
+					this.removeComponent(flare);
+				}
+				flare = new BasicComponent(new Image(STAR4), 400,400);
+			
+			}
+			if(sequenceCount == 12){
+				if(flare!=null){
+					this.removeComponent(flare);
+				}
+				flare = new BasicComponent(new Image(STAR5), 400,400);
+			
+			}
+			if(sequenceCount == 15){
+				if(flare!=null){
+					this.removeComponent(flare);
+				}
+				flare = new BasicComponent(new Image(STAR6), 400,400);
+				
+			}
+			if(sequenceCount == 18){
+				if(flare!=null){
+					this.removeComponent(flare);
+				}
+				flare = new BasicComponent(new Image(STAR7), 400,400);
+				
+			}
+			if(sequenceCount == 21){
+				if(flare!=null){
+					
+					this.removeComponent(flare);
+					
+					
+					
+				}
+			}
+			if (flare!=null ){
+				flare.rescale(sDisplay.getBounds().width, sDisplay.getBounds().height+8);
+				flare.setX(sDisplay.getX());
+				flare.setY(sDisplay.getY());
+			}
+			if(sequenceCount <21 && sequenceCount%3==0){
+			this.addComponent(flare);
+			}
+			this.addComponent(sDisplay);
+			
+		}
+		if (sequenceCount >= 50){
+			
+			double calculation;
+			sDisplay = new StarDisplay(starCount, 400, 400);
+			
+			sDisplay.rescale(.5f - (float).008*(sequenceCount-55));
+		
+				sDisplay.setY(hintBox.getBounds().height + hintBox.getY() -35 -sDisplay.getBounds().height/2);
+			
+			calculation = hintBox.getX() + (sequenceCount - 50)*58/40;
+
+			sDisplay.setX((int)calculation);
+			this.addComponent(sDisplay);
+			if (sequenceCount == 90){
+				sequenceCount = 3999;
+			}
+		}
+		++sequenceCount;
+		return sequenceCount;
+		
 	}
 
 }
