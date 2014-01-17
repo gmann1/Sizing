@@ -25,7 +25,7 @@ public class EAPart1IntroScreen extends GUI
 		Rectangle textLocation = new Rectangle(0, 50, 300, 50);
 		
 		// Title
-		TextField welcomeLabel = new TextField(textLocation, 0.95f, "Welcome!",
+		TextField welcomeLabel = new TextField(textLocation, 0.95f, "Energy Consumption",
 				TextDisplay.FormattingOption.FIT_TEXT);
 		welcomeLabel.setFontColor(Fonts.FONT_COLOR);
 		welcomeLabel.center();
