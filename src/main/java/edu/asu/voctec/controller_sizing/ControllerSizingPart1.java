@@ -12,6 +12,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.BasicComponent;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
@@ -19,19 +20,22 @@ import edu.asu.voctec.GUI.TextArea;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TransitionButtonListener;
+import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
+import edu.asu.voctec.utilities.gameTemplate;
 import edu.asu.voctec.GUI.TextDisplay;
 
-public class ControllerSizingPart1 extends GUI {
+public class ControllerSizingPart1 extends gameTemplate {
 
 	private double counter = -15;
 	private double starCounter;
 	private int houseTransition = 0;
 	private boolean day = true;
 	private boolean stars_on = true;
-
+  private int continueButtonLocation= 0;
+  private int hintBoxLocation = 0 ;
 	private boolean houseFull = false;
 	private double batteryPercent = 80;
 
@@ -64,10 +68,11 @@ public class ControllerSizingPart1 extends GUI {
 	public static final String BACKGROUND_NIGHT = "resources/default/img/minigames/ControllerSizing/backgroundnight.png";
 	public static final String GROUND = "resources/default/img/minigames/ControllerSizing/hills.png";
 	public static final String HOUSE_OFF = "resources/default/img/minigames/ControllerSizing/HouseOff.png";
-
+	public static final String END_BACKGROUND = "resources/default/img/minigames/ControllerSizing/GameEnd.png";
 	public static final String HOUSE_FULL = "resources/default/img/minigames/ControllerSizing/HouseOn.png";
 	public static final String SUN = "resources/default/img/minigames/ControllerSizing/sun.png";
 	public static final String MOON = "resources/default/img/minigames/ControllerSizing/moon.png";
+	public static final String CONTROLLER = "resources/default/img/minigames/ControllerSizing/regularController.png";
 	public static final String TRANS_0 = "resources/default/img/minigames/ControllerSizing/backgroundnight0.png";
 	public static final String TRANS_1 = "resources/default/img/minigames/ControllerSizing/backgroundnight1.png";
 	public static final String TRANS_2 = "resources/default/img/minigames/ControllerSizing/backgroundnight2.png";
@@ -108,7 +113,7 @@ public class ControllerSizingPart1 extends GUI {
 	TextField discharge;
 	TextAreaX batteryPrompt;
 
-	Button Back;
+	
 	Button cont;
 	Button skip;
 	Button replay;
@@ -156,6 +161,7 @@ public class ControllerSizingPart1 extends GUI {
 	private boolean step8 = false;
 	private boolean step9 = false;
 	private boolean initialStep = true;
+	private boolean gameOver = false;
 
 
 	public class contListener extends ButtonListener {
@@ -169,6 +175,27 @@ public class ControllerSizingPart1 extends GUI {
 			}
 
 		}
+
+	}
+	public class continueListener extends ButtonListener {
+
+		@Override
+		protected void actionPerformed() {
+			
+				
+				try {
+					Game.updateExitText("Good Job!", "You have successfully completed both parts of the Critical Design Month game", new Image(END_BACKGROUND));
+				} catch (SlickException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Game.getCurrentGame().enterState(ExitScreen.class);
+			
+			
+		}
+			
+
+		
 
 	}
 	public class replayListener extends ButtonListener {
@@ -203,6 +230,7 @@ public class ControllerSizingPart1 extends GUI {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
+		super.init(container, game);
 		this.backgroundImage = new Image(TRANS_3);
 
 		instructionSet[0] = "When the sun is out the solar panel will attempt to charge the battery. The controller will not allow the battery to charge past "
@@ -238,11 +266,26 @@ public class ControllerSizingPart1 extends GUI {
 		houseIncrements.add(81);
 		houseIncrements.add(81);
 		houseIncrements.add(123);
+		
+		//continue Button
+		continueButton.addActionListener(new continueListener());
+		continueButtonLocation = continueButton.getX();
+		continueButton.setX(800);
+		//hintBox
+		hintBoxLocation = hintBox.getX();
+		hintBox.setX(800);
 		// introscreens
 		introScreens = new BasicComponent(new Image(PANEL_ON), 0, 0);
 		// Collections.shuffle(houseIncrements);
 		// layout
 		layout = new BasicComponent(new Image(LAYOUT_PANEL_OFF), 45, 390);
+		
+		//new controller
+		//TODO
+		BasicComponent regController = new BasicComponent(new Image(CONTROLLER), 207, 407);
+		regController.rescale(regController.getBounds().width +2, regController.getBounds().height + 6);
+		regController.setX(207);
+		regController.setY(406);
 
 		// Back Button
 		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
@@ -314,12 +357,7 @@ public class ControllerSizingPart1 extends GUI {
 		batteryPrompt
 				.setText("Battery low. Turning off power to house to prevent battery damage. Recharging to " + (RECHARGE_LEVEL + 1) + "%");
 
-		// Back Button
-		Back = new Button(new Image(ImagePaths.BACK_BUTTON), 800, 600,
-				new Rectangle(0, 0, 50, 25), "Back");
-		Back.addActionListener(new TransitionButtonListener(
-				ControllerSizingIntroScreen.class));
-		Back.setFontColor(Color.darkGray);
+		
 
 		// stars
 
@@ -386,7 +424,7 @@ public class ControllerSizingPart1 extends GUI {
 		// Skip Button
 		Image skipButtonImage = new Image(ImagePaths.SKIP_BUTTON);
 		skip = new Button(skipButtonImage, 1000, 5,
-				new Rectangle(0, 0, 50, 45), "Skip Tutorial");
+				new Rectangle(15, 0, 50, 45), "Skip Tutorial");
 	
 		skip.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 		
@@ -399,7 +437,7 @@ public class ControllerSizingPart1 extends GUI {
 		
 //Replay Button
 		replay = new Button(new Image(ImagePaths.REPLAY_BUTTON), 1000, 5,
-				new Rectangle(0, 0, 50, 45), "Replay Tutorial");
+				new Rectangle(30, 0, 50, 45), "Replay Tutorial");
 	
 		replay.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 	
@@ -435,7 +473,7 @@ public class ControllerSizingPart1 extends GUI {
 		addComponent(batteryLife);
 		addComponent(batteryPrompt);
 
-		addComponent(Back);
+		
 		addComponent(charge);
 		addComponent(discharge);
 		addComponent(backButton);
@@ -446,13 +484,24 @@ public class ControllerSizingPart1 extends GUI {
 		addComponent(danger);
 		addComponent(skip);
 		addComponent(replay);
-
+		addComponent(hintBox);
+		addComponent(continueButton);
+		addComponent(regController);
+		this.removeComponent(control);
+		this.removeComponent(readyButton);
+		this.removeComponent(sidePanel);
+		this.removeComponent(instructionBox);
 	}
 	
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		super.update(container, game, delta);
+		if (gameOver){
+			if (sequenceStep != 4000){
+				sequenceStep = initiateStars(6, sequenceStep);
+				}
+		}
 
 		if (!panelOn && !houseOn && !houseNeed) {
 			layout.setCurrentImage(new Image(LAYOUT_PANEL_OFF), true);
@@ -899,7 +948,7 @@ public class ControllerSizingPart1 extends GUI {
 
 		else {
 
-			if (gameTimer < 30000) {
+			if (gameTimer < 100000) {
 
 				if (!day) {
 					panelOn = false;
@@ -992,7 +1041,7 @@ public class ControllerSizingPart1 extends GUI {
 						charge.setText("");
 					}
 					if (houseFull) {
-						if (d && batteryPercent > BATTERY_MIN) {
+						if (d && batteryPercent > 0) {
 							house.setCurrentImage(new Image(HOUSE_FULL), true);
 							discharge.setText("Discharging...");
 							houseOn = true;
@@ -1019,8 +1068,8 @@ public class ControllerSizingPart1 extends GUI {
 						batteryPrompt
 								.setText("Battery at capacity. Do not overcharge.");
 					}
-					if (batteryPercent <= BATTERY_MIN) {
-						batteryPercent = BATTERY_MIN;
+					if (batteryPercent <= 0) {
+						batteryPercent = 0;
 					}
 					if (batteryPercent >= BATTERY_MAX) {
 						batteryPercent = BATTERY_MAX;
@@ -1167,9 +1216,13 @@ public class ControllerSizingPart1 extends GUI {
 					counter = -15;
 				}
 			} else {
-				System.out.println("Game Over");
-				Back.setX(0);
-				Back.setY(0);
+				//TODO
+				
+				hintBox.setText("Good Job! Press continue when you are ready to move on.");
+				continueButton.setX(continueButtonLocation);
+				continueButtonOn();
+				hintBox.setX(hintBoxLocation);
+				gameOver = true;
 			}
 		}
 	}
@@ -1211,10 +1264,11 @@ public class ControllerSizingPart1 extends GUI {
 			//TODO
 		} else {
 
-			if (setIndex == instructionSet.length) {
+			if (setIndex == instructionSet1.length) {
 
 				simulating = false;
 				instructions.setX(800);
+				replay.setX(800);
 				cont.setX(800);
 				cont.setY(600);
 
