@@ -37,6 +37,7 @@ import edu.asu.voctec.game_states.LanguageMenu;
 import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.MenuTest;
 import edu.asu.voctec.game_states.ModifiedGameState;
+import edu.asu.voctec.game_states.ScenarioHub;
 import edu.asu.voctec.game_states.SelectorTest;
 import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
@@ -288,6 +289,7 @@ public class Game extends StateBasedGame implements Singleton
 		// Initialize & Add all GameStates
 		this.addState(new MainMenu());
 		this.addState(new MenuTest());
+		this.addState(new ScenarioHub());
 		this.addState(new ExitScreen());
 		this.addState(new InstructorControlPanel());
 		this.addState(new LanguageMenu());
