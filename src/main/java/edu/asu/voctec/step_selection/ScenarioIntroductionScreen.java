@@ -17,6 +17,7 @@ import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.MainMenu;
+import edu.asu.voctec.game_states.ScenarioHub;
 import edu.asu.voctec.game_states.SelectorTest;
 import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.utilities.Position;
@@ -58,7 +59,7 @@ public class ScenarioIntroductionScreen extends GUI implements Task
 		// Back Button
 		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
 				new Rectangle(0, 0, 50, 25), "Back");
-		backButton.addActionListener(new TransitionButtonListener(MainMenu.class));
+		backButton.addActionListener(new TransitionButtonListener(ScenarioHub.class));
 		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 		backButton.positionText(Position.RIGHT);
 		

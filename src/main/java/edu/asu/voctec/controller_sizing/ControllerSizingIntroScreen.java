@@ -91,6 +91,19 @@ public class ControllerSizingIntroScreen extends GUI implements Task
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void onEnter()
+	{
+		Game.getExitScreen().updateExitScreen(this.getClass());
+	}
+
 	
 	@Override
 	public void onEnter()
