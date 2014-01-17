@@ -2,8 +2,6 @@ package edu.asu.voctec.information;
 
 import java.io.Serializable;
 
-import edu.asu.voctec.utilities.Finalizable;
-
 /**
  * Contains information related to a single attempt made by a user at a
  * mini-game.
@@ -11,28 +9,45 @@ import edu.asu.voctec.utilities.Finalizable;
  * @author Moore, Zachary
  * 
  */
-public class AttemptData implements Comparable<AttemptData>, Finalizable,
-		Serializable
+public class AttemptData implements Comparable<AttemptData>, Serializable
 {
 	private static final long serialVersionUID = 6482578605941748609L;
 	public static final int MAX_STARS = 6;
 	public static final int MIN_STARS = 1;
 	
-	protected boolean finalized;
-	
+	/** The number of unique hints the user has received, during this attempt */
 	protected int numberOfUniqueHints;
-	protected long timeSpent; // in milliseconds
-	protected int score;
-	protected int maximumPossibleScore;
+	
+	/** Time spent playing during this attempt (in milliseconds) */
+	protected long timeSpent;
+	
+	/**
+	 * How far the user has progressed in the associated task, relative to this
+	 * attempt
+	 */
 	protected int percentCompletion;
 	
+	/**
+	 * Arbitrary score, defined by each minigame. This will be normalized before
+	 * it is displayed to the user.
+	 */
+	protected int score;
+	
+	/**
+	 * Arbitrary score component, defined by each minigame. This will be used to
+	 * normalize the 'score' field before it is displayed to the user.
+	 */
+	protected int maximumPossibleScore;
+	
+	/**
+	 * No-arg constructor; initializes all values to their defaults (maxScore =
+	 * 100). 
+	 */
 	public AttemptData()
 	{
-		this.finalized = false;
-		
 		this.numberOfUniqueHints = 0;
 		this.timeSpent = 0;
-		percentCompletion = 0;
+		this.percentCompletion = 0;
 		this.score = 0;
 		this.maximumPossibleScore = 100;
 	}
@@ -52,12 +67,6 @@ public class AttemptData implements Comparable<AttemptData>, Finalizable,
 		return this.score - otherAttemptData.score;
 	}
 	
-	@Override
-	public void makeFinal()
-	{
-		this.finalized = true;
-	}
-	
 	public int getScore()
 	{
 		return score;
@@ -65,8 +74,7 @@ public class AttemptData implements Comparable<AttemptData>, Finalizable,
 	
 	public void setScore(int score)
 	{
-		if (!finalized)
-			this.score = score;
+		this.score = score;
 	}
 	
 	public int getMaximumPossibleScore()
@@ -76,8 +84,7 @@ public class AttemptData implements Comparable<AttemptData>, Finalizable,
 	
 	public void setMaximumPossibleScore(int maximumPossibleScore)
 	{
-		if (!finalized)
-			this.maximumPossibleScore = maximumPossibleScore;
+		this.maximumPossibleScore = maximumPossibleScore;
 	}
 	
 	public int getNumberOfUniqueHints()
@@ -92,16 +99,14 @@ public class AttemptData implements Comparable<AttemptData>, Finalizable,
 	
 	public long addTime(long time)
 	{
-		if (!finalized)
-			this.timeSpent += time;
+		this.timeSpent += time;
 		
 		return timeSpent;
 	}
 	
 	public int addHints(int hints)
 	{
-		if (!finalized)
-			this.numberOfUniqueHints += hints;
+		this.numberOfUniqueHints += hints;
 		
 		return numberOfUniqueHints;
 	}

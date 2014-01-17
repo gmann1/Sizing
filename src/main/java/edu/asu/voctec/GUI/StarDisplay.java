@@ -34,10 +34,20 @@ public class StarDisplay extends Component
 	
 	public void updateStars() throws SlickException
 	{
-		for (int index = 0; index < stars.length; index++)
-			stars[index] = new PositionedImage(STAR_IMAGE);
+		PositionedImage star = stars[1];
+		int starWidth = 0;
+		int starHeight = 0;
+		
+		if (star != null)
+		{
+			starWidth = stars[1].data.getWidth();
+			starHeight = stars[1].data.getHeight();
+		}
+		else
+			resetStars();
 		
 		fillStars();
+		resizeStars(starWidth, starHeight);
 		formatStars();
 	}
 	
@@ -48,6 +58,7 @@ public class StarDisplay extends Component
 		
 		for (int index = 0; index < stars.length; index++)
 		{
+			
 			if (numberOfFullStars > 0)
 			{
 				stars[index].setImage(STAR_IMAGE_FULL);
@@ -61,6 +72,23 @@ public class StarDisplay extends Component
 			else
 				stars[index].setImage(STAR_IMAGE);
 		}
+	}
+	
+	protected void resetStars() throws SlickException
+	{
+		for (int index = 0; index < stars.length; index++)
+			stars[index] = new PositionedImage(STAR_IMAGE);
+	}
+	
+	protected void resizeStars(int width, int height)
+	{
+		// Do nothing if width or height is 0.
+		if (width == 0 || height == 0)
+			return;
+		
+		// Resize all stars to the desired width and height.
+		for (int index = 0; index < stars.length; index++)
+			stars[index].data = stars[index].data.getScaledCopy(width, height);
 	}
 	
 	protected void formatStars()
@@ -107,6 +135,8 @@ public class StarDisplay extends Component
 		
 		for (PositionedImage star : stars)
 			star.translate(delta, 0);
+		
+		this.x = x;
 	}
 	
 	@Override
@@ -116,6 +146,8 @@ public class StarDisplay extends Component
 		
 		for (PositionedImage star : stars)
 			star.translate(0, delta);
+		
+		this.y = y;
 	}
 	
 	@Override
@@ -127,8 +159,8 @@ public class StarDisplay extends Component
 	@Override
 	public Rectangle getBounds()
 	{
-		int width = stars[2].x + stars[2].data.getWidth();
-		int height = stars[0].y + stars[0].data.getHeight();
+		int width = stars[2].x + stars[2].data.getWidth() - stars[0].x;
+		int height = stars[0].y + stars[0].data.getHeight() - stars[1].y;
 		
 		return new Rectangle(x, y, width, height);
 	}
