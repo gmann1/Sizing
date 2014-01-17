@@ -28,9 +28,6 @@ public class ControllerSizingPart2 extends gameTemplate
 	public static final String ChosenControllerPath = "resources/default/img/minigames/ControllerSizing/ChosenController.png";
 	public static final String IncorrectControllerPath = "resources/default/img/minigames/ControllerSizing/IncorrectController.png";
 	public static final String CorrectControllerPath = "resources/default/img/minigames/ControllerSizing/CorrectController.png";
-	public static final String DoneButtonPath = "resources/default/img/minigames/ControllerSizing/LargeDoneButton.png";
-	public static final String ContinueButtonPath = "resources/default/img/minigames/ControllerSizing/ContinueButton.png";
-	public static final String InvisibleContinueButtonPath = "resources/default/img/minigames/ControllerSizing/invisibleContinueButton.png";
 	
 	public static final String instructionMessage = "Select the most cost-effective controller that best satisfy the minimum power current.";
 	public static final String correctSolutionMessage = "This is the correct answer.\nPress the Continue Button to advance to the next step.";
@@ -57,7 +54,6 @@ public class ControllerSizingPart2 extends gameTemplate
 		ChosenControllerImage = new Image(ChosenControllerPath);
 		IncorrectControllerImage = new Image(IncorrectControllerPath);
 		CorrectControllerImage = new Image(CorrectControllerPath);
-		ContinueButtonImage = new Image(ContinueButtonPath);
 		
 		
 		
@@ -169,7 +165,12 @@ public class ControllerSizingPart2 extends gameTemplate
 		protected void actionPerformed()
 		{
 			if(stepCompleted)
-				Game.getCurrentGame().enterState(ControllerSizingPart1.class);
+			{
+				chosenController.setCurrentImage(OriginalControllerImage, true);
+				hintBox.setText("");
+				chosenController = null;
+				Game.getCurrentGame().enterState(ControllerSizingPart3.class);
+			}
 		}
 	}
 

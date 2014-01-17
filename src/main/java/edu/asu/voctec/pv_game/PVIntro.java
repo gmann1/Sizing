@@ -16,16 +16,17 @@ import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
+import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.utilities.Position;
 
-public class PVIntro extends GUI
+public class PVIntro extends GUI implements Task
 {
 
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
 	public static final String Right_ARROW_TEXT = "Begin!";
 	public static final String LEFT_ARROW_TEXT = "Back";
-	public static final String WELCOME_Text = "Welcome!";
+	public static final String WELCOME_Text = "";
 	public static final String INTRODUCTION = "In this game you need to figure out the best combination of PV panels and how to connect them"
 			+ " in order to achieve the required charging power and system voltage.";
 	
@@ -78,6 +79,18 @@ public class PVIntro extends GUI
 		{
 			Game.getCurrentGame().enterState(PVGame.class);
 		}
+	}
+	
+	@Override
+	public void onEnter()
+	{
+		Game.getExitScreen().updateExitScreen(this.getClass());
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
