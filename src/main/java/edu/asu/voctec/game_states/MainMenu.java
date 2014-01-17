@@ -28,14 +28,8 @@ public class MainMenu extends GUI implements GameDefaults
 		@Override
 		protected void actionPerformed()
 		{
-			ScenarioData scenario = Game.getCurrentScenario();
-			if (scenario.getEntryStep().isComplete())
-				Game.getCurrentGame().enterState(TaskScreen.class);
-			else
-				Game.getCurrentGame().enterState(
-						ScenarioIntroductionScreen.class);
+				Game.getCurrentGame().enterState(ScenarioHub.class);
 		}
-		
 	}
 	
 	@Override
