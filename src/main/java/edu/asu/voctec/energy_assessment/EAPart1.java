@@ -17,7 +17,10 @@ import edu.asu.voctec.GameDefaults.Fonts;
 import edu.asu.voctec.GameDefaults.ImagePaths;
 import edu.asu.voctec.energy_assessment.EAPart2.ReadyButtonListener;
 import edu.asu.voctec.game_states.GUI;
+import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.information.ScenarioData;
+import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
 import edu.asu.voctec.utilities.Position;
 
 public class EAPart1 extends GUI
@@ -25,6 +28,8 @@ public class EAPart1 extends GUI
 	private static final String BACKGROUND = "resources/default/img/scenarioHub/Region.png";
 	private static final String HOUSE      = "resources/default/img/scenarioHub/House.png";
 	private static final String HOUSE_GRAY = "resources/default/img/scenarioHub/HouseGray.png";
+	private static final String SCENARIO1_BUTTON = "resources/default/img/scenarioHub/Scenario1Button.png";
+	private static final String SCENARIO_BUTTON_GRAY = "resources/default/img/scenarioHub/ScenarioButtonGray.png";
 	
 	public static boolean scenerio1On = true;
 	public static boolean scenerio2On = false;
@@ -35,23 +40,23 @@ public class EAPart1 extends GUI
 	
 	private int[][] scenarioPosition = 
 		{
-			{132,355},
-			{354,155},
-			{576,305}
+			{500,355},
+			{500,155},
+			{500,305}
 		};
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException
 	{
-		this.backgroundImage = new Image(BACKGROUND);
+		this.backgroundImage = new Image(ImagePaths.MainMenuBackground);
 		
 		//Scenario Buttons
-		scenario1Button = new Button(new Image(HOUSE_GRAY), scenarioPosition[0][0], scenarioPosition[0][1], new Rectangle(0, 90, 90, 40), "");
-		scenario2Button = new Button(new Image(HOUSE_GRAY), scenarioPosition[1][0], scenarioPosition[1][1], new Rectangle(0, 90, 90, 40), "");
-		scenario3Button = new Button(new Image(HOUSE_GRAY), scenarioPosition[2][0], scenarioPosition[2][1], new Rectangle(0, 90, 90, 40), "");
-		scenario1Button.setFontColor(Color.white);
-		scenario2Button.setFontColor(Color.white);
-		scenario3Button.setFontColor(Color.white);
+		scenario1Button = new Button(new Image(SCENARIO1_BUTTON),225 ,162 , new Rectangle(75, 0, 300, 75), "Senario 1");
+		scenario2Button = new Button(new Image(SCENARIO_BUTTON_GRAY),225 ,262 , new Rectangle(75, 0, 300, 75), "Senario 2");
+		scenario3Button = new Button(new Image(SCENARIO_BUTTON_GRAY),225 ,362 , new Rectangle(75, 0, 300, 75), "Senario 3");
+		scenario1Button.setFontColor(Color.black);
+		scenario2Button.setFontColor(Color.gray);
+		scenario3Button.setFontColor(Color.gray);
 		scenario1Button.addActionListener(new Scenario1ButtonListener());
 		scenario2Button.addActionListener(new Scenario2ButtonListener());
 		scenario3Button.addActionListener(new Scenario3ButtonListener());
@@ -60,14 +65,14 @@ public class EAPart1 extends GUI
 		this.addComponent(scenario3Button);
 		
 		//add Text
-		initializeText();
+		//initializeText();
 		
 		//update values
-		updateStart();
+		//updateStart();
 
 		//Back Button
 		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5, new Rectangle(0, 0, 50, 25), "Back");
-		backButton.addActionListener(new TransitionButtonListener(TaskScreen.class));
+		backButton.addActionListener(new TransitionButtonListener(MainMenu.class));
 		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 		backButton.positionText(Position.RIGHT);
 		this.addComponent(backButton);
@@ -75,13 +80,16 @@ public class EAPart1 extends GUI
 	
 	public class Scenario1ButtonListener extends ButtonListener 
 	{
+		
 		@Override
 		protected void actionPerformed()
 		{
-			if(scenerio1On == true)
-			{
+			ScenarioData scenario = Game.getCurrentScenario();
+			if (scenario.getEntryStep().isComplete())
 				Game.getCurrentGame().enterState(TaskScreen.class);
-			}
+			else
+				Game.getCurrentGame().enterState(
+						ScenarioIntroductionScreen.class);
 		}
 	}
 	public class Scenario2ButtonListener extends ButtonListener 
@@ -120,7 +128,7 @@ public class EAPart1 extends GUI
 	private void initializeText()
 	{
 		//Scenario Names
-		TextAreaX scenario1Text = new TextAreaX(new Rectangle(scenarioPosition[0][0], scenarioPosition[0][1]+90,200,100),0.95f,"Scenario 1");
+		/*TextAreaX scenario1Text = new TextAreaX(new Rectangle(scenarioPosition[0][0], scenarioPosition[0][1]+90,200,100),0.95f,"Scenario 1");
 		TextAreaX scenario2Text = new TextAreaX(new Rectangle(scenarioPosition[1][0], scenarioPosition[1][1]+90,200,100),0.95f,"Scenario 2");
 		TextAreaX scenario3Text = new TextAreaX(new Rectangle(scenarioPosition[2][0], scenarioPosition[2][1]+90,200,100),0.95f,"Scenario 3");
 		scenario1Text.setFontSize(16);
@@ -131,10 +139,10 @@ public class EAPart1 extends GUI
 		scenario3Text.setFontColor(Color.white);
 		this.addComponent(scenario1Text);
 		this.addComponent(scenario2Text);
-		this.addComponent(scenario3Text);
+		this.addComponent(scenario3Text);*/
 		
 		//description Area Text
-		descriptionText = new TextAreaX(new Rectangle(100,20,600,300),0.95f,"Description: ...");
+		descriptionText = new TextAreaX(new Rectangle(50,400,600,300),0.95f,"Here you can choose a Scenario to complete.");
 		descriptionText.setFontSize(16);
 		descriptionText.setFontColor(Color.white);
 		this.addComponent(descriptionText);
