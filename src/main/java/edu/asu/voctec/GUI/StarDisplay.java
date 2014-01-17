@@ -34,10 +34,20 @@ public class StarDisplay extends Component
 	
 	public void updateStars() throws SlickException
 	{
-		for (int index = 0; index < stars.length; index++)
-			stars[index] = new PositionedImage(STAR_IMAGE);
+		PositionedImage star = stars[1];
+		int starWidth = 0;
+		int starHeight = 0;
+		
+		if (star != null)
+		{
+			starWidth = stars[1].data.getWidth();
+			starHeight = stars[1].data.getHeight();
+		}
+		else
+			resetStars();
 		
 		fillStars();
+		resizeStars(starWidth, starHeight);
 		formatStars();
 	}
 	
@@ -48,6 +58,7 @@ public class StarDisplay extends Component
 		
 		for (int index = 0; index < stars.length; index++)
 		{
+			
 			if (numberOfFullStars > 0)
 			{
 				stars[index].setImage(STAR_IMAGE_FULL);
@@ -61,6 +72,23 @@ public class StarDisplay extends Component
 			else
 				stars[index].setImage(STAR_IMAGE);
 		}
+	}
+	
+	protected void resetStars() throws SlickException
+	{
+		for (int index = 0; index < stars.length; index++)
+			stars[index] = new PositionedImage(STAR_IMAGE);
+	}
+	
+	protected void resizeStars(int width, int height)
+	{
+		// Do nothing if width or height is 0.
+		if (width == 0 || height == 0)
+			return;
+		
+		// Resize all stars to the desired width and height.
+		for (int index = 0; index < stars.length; index++)
+			stars[index].data = stars[index].data.getScaledCopy(width, height);
 	}
 	
 	protected void formatStars()
