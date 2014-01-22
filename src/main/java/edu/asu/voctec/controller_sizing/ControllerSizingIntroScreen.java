@@ -10,6 +10,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.TextArea;
 import edu.asu.voctec.GUI.TextDisplay;
@@ -17,9 +18,10 @@ import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.cdmg.CDPart1;
 import edu.asu.voctec.game_states.GUI;
+import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.utilities.Position;
-public class ControllerSizingIntroScreen extends GUI
+public class ControllerSizingIntroScreen extends GUI implements Task
 {
 
 	private static final Color FONT_COLOR = Color.white;
@@ -41,7 +43,7 @@ public class ControllerSizingIntroScreen extends GUI
 
 		// textLocation.setLocation(50, 150);
 		// welcome
-		TextField welcome = new TextField(textLocation, 0.95f, "Welcome!",
+		TextField welcome = new TextField(textLocation, 0.95f, "",
 				TextDisplay.FormattingOption.FIT_TEXT);
 		welcome.setFontColor(FONT_COLOR);
 
@@ -88,6 +90,18 @@ public class ControllerSizingIntroScreen extends GUI
 	public Dimension getDesignResolution() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void onEnter()
+	{
+		Game.getExitScreen().updateExitScreen(this.getClass());
 	}
 	
 }

@@ -204,9 +204,12 @@ public interface GameDefaults
 						+ PRIMARY_SELECTION_LOCATION.x + PRIMARY_SELECTION_SIZE.width),
 				(PRIMARY_SELECTION_SIZE.height - SECONDARY_SELECTION_SIZE.height) / 2);
 		
-		// Position Label (relative)
-		public static Rectangle ICON_LABEL_BOUNDS = new Rectangle(0, -75, 183,
+		// Position Label above selector (relative)
+		public static Rectangle ICON_LABEL_BOUNDS = new Rectangle(0, -75, 320,
 				75);
+		
+		// Desired font size for selector label
+		public static float LABEL_FONT_SIZE = Fonts.FONT_SIZE_MEDIUM;
 	}
 	
 	public interface TaskScreenDefaults

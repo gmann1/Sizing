@@ -434,7 +434,7 @@ public class CDPart1 extends gameTemplate {
 		super.update(container, game, delta);
 		if(correctAnswer){
 			if (sequenceStep != 4000){
-			sequenceStep = initiateStars(6, sequenceStep);
+			sequenceStep = initiateStars(1, sequenceStep);
 			}
 		}
 		int MouseX = container.getInput().getMouseX();
