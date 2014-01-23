@@ -92,10 +92,10 @@ public class MainMenu extends GUI implements GameDefaults
 		gameTitle.center();
 		
 		// Add buttons to this menu
+		this.addComponent(gameTitle);
 		this.addComponent(startButton);
 		this.addComponent(languageButton);
 		this.addComponent(instructorButton);
-		this.addComponent(gameTitle);
 		
 		this.centerComponentsStacked(buttonSpacing);
 		
