@@ -17,8 +17,7 @@ import edu.asu.voctec.utilities.CircularList;
 import edu.asu.voctec.utilities.PositionedObject;
 import edu.asu.voctec.utilities.UtilFunctions;
 
-public class Selector<T extends SelectorIcon> extends Component implements
-		Displayable
+public class Selector<T extends SelectorIcon> extends Component
 {
 	private static final long serialVersionUID = -852158435078638038L;
 	
@@ -175,7 +174,8 @@ public class Selector<T extends SelectorIcon> extends Component implements
 		
 		// Setup choice label
 		choiceLabel = new TextField(SelectorDefaults.ICON_LABEL_BOUNDS, 0.99f,
-				emptyText, TextDisplay.FormattingOption.FIT_TEXT);
+				emptyText, TextDisplay.FormattingOption.CLIP_TEXT);
+		choiceLabel.setFontSize(SelectorDefaults.LABEL_FONT_SIZE);
 		
 		// Define relative bounds for this selector
 		int width = this.rightArrow.getX() + this.rightArrow.getBounds().width

@@ -12,6 +12,8 @@ import edu.asu.voctec.Game;
 import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
+import edu.asu.voctec.GUI.TextDisplay;
+import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.information.ScenarioData;
 import edu.asu.voctec.information.TaskData;
@@ -28,14 +30,8 @@ public class MainMenu extends GUI implements GameDefaults
 		@Override
 		protected void actionPerformed()
 		{
-			ScenarioData scenario = Game.getCurrentScenario();
-			if (scenario.getEntryStep().isComplete())
-				Game.getCurrentGame().enterState(TaskScreen.class);
-			else
-				Game.getCurrentGame().enterState(
-						ScenarioIntroductionScreen.class);
+				Game.getCurrentGame().enterState(ScenarioHub.class);
 		}
-		
 	}
 	
 	@Override
@@ -80,17 +76,26 @@ public class MainMenu extends GUI implements GameDefaults
 		Button instructorButton = new Button(
 				ImagePaths.INSTRUCTOR_CONTROL_PANEL_BUTTON, buttonBounds,
 				relativeTextBounds, "Instructor");
-		instructorButton.addActionListener(new TransitionButtonListener(
-				InstructorControlPanel.class));
+		/*instructorButton.addActionListener(new TransitionButtonListener(
+				InstructorControlPanel.class));*/
 		
 		// Color text
 		setButtonFontColor(Color.darkGray, startButton, languageButton,
 				instructorButton);
 		
+		//Game Title
+		Rectangle textLocation = new Rectangle(0, 0, 2*buttonWidth, buttonHeight);
+		TextField gameTitle = new TextField(textLocation, 0.95f,
+				"PV System Sizing Game",
+				TextDisplay.FormattingOption.FIT_TEXT);
+		gameTitle.setFontColor(Color.white);
+		gameTitle.center();
+		
 		// Add buttons to this menu
 		this.addComponent(startButton);
 		this.addComponent(languageButton);
 		this.addComponent(instructorButton);
+		this.addComponent(gameTitle);
 		
 		this.centerComponentsStacked(buttonSpacing);
 		

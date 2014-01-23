@@ -1,4 +1,4 @@
-package edu.asu.voctec.energy_assessment;
+package edu.asu.voctec.game_states;
 
 import java.awt.Rectangle;
 
@@ -23,7 +23,7 @@ import edu.asu.voctec.information.ScenarioData;
 import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
 import edu.asu.voctec.utilities.Position;
 
-public class EAPart1 extends GUI
+public class ScenarioHub extends GUI
 {
 	private static final String BACKGROUND = "resources/default/img/scenarioHub/Region.png";
 	private static final String HOUSE      = "resources/default/img/scenarioHub/House.png";

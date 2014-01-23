@@ -204,9 +204,12 @@ public interface GameDefaults
 						+ PRIMARY_SELECTION_LOCATION.x + PRIMARY_SELECTION_SIZE.width),
 				(PRIMARY_SELECTION_SIZE.height - SECONDARY_SELECTION_SIZE.height) / 2);
 		
-		// Position Label (relative)
-		public static Rectangle ICON_LABEL_BOUNDS = new Rectangle(0, -75, 183,
+		// Position Label above selector (relative)
+		public static Rectangle ICON_LABEL_BOUNDS = new Rectangle(0, -75, 320,
 				75);
+		
+		// Desired font size for selector label
+		public static float LABEL_FONT_SIZE = Fonts.FONT_SIZE_MEDIUM;
 	}
 	
 	public interface TaskScreenDefaults
@@ -290,7 +293,7 @@ public interface GameDefaults
 			
 			public static final LabelName INTRODUCTION = new LabelName(
 					"step0Intro",
-					"Welcome! You are about to take an interactive journey to sizing a small standalone PV system. Before you start, however, it is important to understand the project and customer requirements and the major steps involved in sizing a PV system. \n\n On the next screen, you will see 5 major sizing items (not in the right order). Use the arrows to cycle through each option, and decide the order in which you would like  to complete the sizing process.");
+					"Welcome! You are about to take an interactive journey to sizing a small standalone PV system. Before you start, however, it is important to understand the project and customer requirements and the major steps involved in sizing a PV system. On the next screen, you will see 5 major sizing items (not in the right order). Use the arrows to cycle through each option, and decide the order in which you would like  to complete the sizing process.");
 		}
 		
 		public interface TaskScreen

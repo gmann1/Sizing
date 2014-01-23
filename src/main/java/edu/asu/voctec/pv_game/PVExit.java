@@ -75,7 +75,6 @@ public class PVExit extends GUI
 		@Override
 		protected void actionPerformed()
 		{
-			PVGame.reset();
 			Game.getCurrentGame().enterState(TaskScreen.class);
 		}
 	}
@@ -85,7 +84,6 @@ public class PVExit extends GUI
 		@Override
 		protected void actionPerformed()
 		{
-			PVGame.reset();
 			Game.getCurrentGame().enterState(PVGame.class);
 		}
 	}

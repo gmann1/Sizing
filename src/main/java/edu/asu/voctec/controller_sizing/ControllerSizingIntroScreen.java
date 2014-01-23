@@ -43,7 +43,7 @@ public class ControllerSizingIntroScreen extends GUI implements Task
 
 		// textLocation.setLocation(50, 150);
 		// welcome
-		TextField welcome = new TextField(textLocation, 0.95f, "Welcome!",
+		TextField welcome = new TextField(textLocation, 0.95f, "",
 				TextDisplay.FormattingOption.FIT_TEXT);
 		welcome.setFontColor(FONT_COLOR);
 
@@ -103,7 +103,6 @@ public class ControllerSizingIntroScreen extends GUI implements Task
 	{
 		Game.getExitScreen().updateExitScreen(this.getClass());
 	}
-
 	
 }
 
