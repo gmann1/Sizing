@@ -7,12 +7,14 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.*;
 import edu.asu.voctec.game_states.GUI;
+import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.utilities.Position;
 
-public class EAPart1IntroScreen extends GUI
+public class EAPart1IntroScreen extends GUI implements Task
 {
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
 	public static final String INTRODUCTION = "In this game you will need to find a correct combinations of appliances that add up to to the target power rating.";
@@ -59,5 +61,16 @@ public class EAPart1IntroScreen extends GUI
 		this.addComponent(backButton);
 
 	}
+
+	@Override
+	public void load() {
+
+		
+	}
 	
+	@Override
+	public void onEnter()
+	{
+		Game.getExitScreen().updateExitScreen(this.getClass());
+	}
 }
