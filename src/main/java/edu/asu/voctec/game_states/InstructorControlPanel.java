@@ -41,26 +41,26 @@ public class InstructorControlPanel extends GUI
 		{
 			logo.setCurrentImage(new Image(LOGO1), true);
 		}
-		else if(counter== frame*2)
+		else if(counter== frame*4)
 		{
 			logo.setCurrentImage(new Image(LOGO2), true);
 		}
-		else if(counter == frame*3)
+		else if(counter == frame*6)
 		{
 			logo.setCurrentImage(new Image(LOGO3), true);
 		}
-		else if(counter == frame*4)
+		else if(counter == frame*8)
 		{
 			logo.setCurrentImage(new Image(LOGO4), true);
 		}
-		else if(counter == frame*5)
+		else if(counter == frame*10)
 		{
 			logo.setCurrentImage(new Image(LOGO5), true);
 		}
-		else if(counter>=90)
+		else if(counter>=20)
 		{
 			counter = 0;
-			Game.getCurrentGame().enterState(MainMenu.class);
+			Game.getCurrentGame().secondaryStatesList(container);
 		}
 		
 		counter ++;
