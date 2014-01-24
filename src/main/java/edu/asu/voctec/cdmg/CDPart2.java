@@ -137,6 +137,7 @@ public class CDPart2 extends gameTemplate {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
 				Game.getCurrentGame().enterState(ExitScreen.class);
 			}
 			
@@ -292,7 +293,7 @@ public class CDPart2 extends gameTemplate {
 		}
 		if (hCount == 0) {
 			if (readyClick){
-			hintBox.setText("Sorry that is incorrect.\n" + genericHints.get(0));
+			hintBox.setText("Sorry that is incorrect." + genericHints.get(0));
 			}
 			else
 			{
@@ -369,6 +370,7 @@ public class CDPart2 extends gameTemplate {
 				hintBox.setText("Good job! However, the precise answer is 28.3 degrees (latitude + 15 degrees). Press continue when you are ready to move on.");
 			}
 			continueButtonOn();
+			readyButtonOff();
 			correctAnswer = true;
 		} else {
 			displayHint(hintCount, true);
