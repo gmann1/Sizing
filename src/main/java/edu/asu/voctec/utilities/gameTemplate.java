@@ -167,10 +167,18 @@ public class gameTemplate extends GUI {
 		continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_ON), true);
 		
 	}
+	public void continueButtonOff() throws SlickException{
+		continueButton.setFontColor(Fonts.DISABLED_BUTTON_FONT_COLOR);
+		continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_OFF), true);
+	}
 	
 	public void readyButtonOff(){
 		readyButtonOff.setX(readyButton.getX());
 		readyButton.setX(800);
+	}
+	public void readyButtonOn(){
+		readyButton.setX(readyButtonOff.getX());
+		readyButtonOff.setX(800);
 	}
 	
 	public int initiateStars(int starCount, int sequenceCount) throws SlickException{
