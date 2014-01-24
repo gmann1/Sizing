@@ -354,9 +354,9 @@ public class SelectorTest extends gameTemplate
 	{
 		super.render(container, game, graphics);
 		
-		if (complete)
+		/*if (complete)
 			endingAnimation.draw(endingAnimationBounds.x,
-					endingAnimationBounds.y);
+					endingAnimationBounds.y);*/
 	}
 	
 	public void updateInstructions()
