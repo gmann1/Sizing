@@ -34,6 +34,7 @@ import edu.asu.voctec.cdmg.CDIntroScreen;
 import edu.asu.voctec.cdmg.CDPart1.CDContinueListener;
 import edu.asu.voctec.cdmg.CDPart1.CDHintListener;
 import edu.asu.voctec.cdmg.CDPart1.CDReadyListener;
+import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.information.SizingStepsData;
 import edu.asu.voctec.information.TaskData;
@@ -44,6 +45,7 @@ import edu.asu.voctec.utilities.gameTemplate;
 public class EAPart2 extends gameTemplate
 {
 	private static final String BACKGROUND     = "resources/default/img/minigames/energyAssessment/New/Game1Background.png";
+	private static final String EA_END_BACKGROUND = "resources/default/img/scoreScreenBackgrounds/ScoreBackgroundTask1.png";
 	private static final String SQUARE         = "resources/default/img/minigames/energyAssessment/New/AppBoxTransparent.png";
 	private static final String STARTSQUARE    = "resources/default/img/minigames/energyAssessment/New/AppBox.png";
 	private static final String GARBAGEBIN     = "resources/default/img/minigames/energyAssessment/New/GarbageBin.png";
@@ -57,6 +59,7 @@ public class EAPart2 extends gameTemplate
 	static PowerBar powerBar;
 	
 	private static int hintNumber = 2;
+	private static int hintsUsed = 0;
 	private String[] hintArray    = 
 		{
 			"There is at least 2 CFLs",
@@ -152,6 +155,7 @@ public class EAPart2 extends gameTemplate
 		hintButton.addActionListener(new HintButtonListener());
 		backButton.addActionListener(new TransitionButtonListener(EAPart1IntroScreen.class));
 		
+		
 		////Testing Stuff can be deleted later////
 		/*Button testButton = new Button(new Image(STARTSQUARE), 750, 550, new Rectangle(0, 0, 50, 25), "Testing");
 		testButton.addActionListener(new TransitionButtonListener(EAPart1.class));
@@ -230,7 +234,9 @@ public class EAPart2 extends gameTemplate
 			if(totalPowerRating == targetPowerRating && allFilled() == true)
 			{
 				try {
+					//readyButtonOff();
 					continueButtonOn();
+					
 					continueGood = true;
 					hintBox.setText("Good Job! you have the correct combination of items.");
 				} catch (SlickException e) {
@@ -249,8 +255,18 @@ public class EAPart2 extends gameTemplate
 		{
 			if(continueGood == true)
 			{
+				
+				
+				try {
+					Game.updateExitText("Good Job!","You have successfully found a combination of items that meet the target power consumtion.",new Image(EA_END_BACKGROUND));
+				} catch (SlickException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				reset();
-				Game.getCurrentGame().enterState(EAPart2ScoreScreen.class);
+				Game.getCurrentGame().enterState(ExitScreen.class);
+				
+				//Game.getCurrentGame().enterState(EAPart2ScoreScreen.class);
 			}
 		}
 	}
@@ -264,6 +280,7 @@ public class EAPart2 extends gameTemplate
 				hintNumber++;
 			else
 				hintNumber = 0;
+			hintsUsed++;
 			hintBox.setText(hintArray[hintNumber]);
 		}
 	}
