@@ -154,7 +154,10 @@ public class ControllerSizingPart3 extends GameTemplate{
 	{
 		hintBox.setText(hintsTextArray[currentHintText]);
 		if(firstRoundOfHints && !stepCompleted)
+		{
 			totalNumberOfHintsUsed++;
+			Game.getCurrentTask().getCurrentAttempt().addHints(1);
+		}
 		if(currentHintText == (hintsTextArray.length-1))
 		{
 			currentHintText = 0;
@@ -236,6 +239,7 @@ public class ControllerSizingPart3 extends GameTemplate{
 			if(gameOver())
 			{
 				stepCompleted = true;
+				trackTime = false;
 				hintBox.setText(CompletingGameMessage);
 				continueButtonOn();
 				readyButtonOff();
@@ -283,8 +287,17 @@ public class ControllerSizingPart3 extends GameTemplate{
 		doneButtonCounter = 0;
 		Part.reset();
 		stepCompleted = false;
-		continueButtonOff();
-		readyButtonOn();
-		removeComponent(sDisplay);
+		resetButtons();
 	}
+	
+	public void onEnter()
+	 {
+		// TODO fix crash
+		trackTime = true;
+	 }
+	public void onExit()
+	 {
+		// TODO fix crash
+		trackTime = false;
+	 }
 }
