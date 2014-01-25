@@ -77,7 +77,7 @@ public class PVGame extends gameTemplate
 	public static List<BatteryControl> objectsArray = new ArrayList<BatteryControl>();
 	private List<InitialBattery> initialBatteries = new ArrayList<InitialBattery>();
 	private static final int RequiredCapacity = 127, RequiredVoltage = 12, maxChances = 5;
-	private boolean firstRoundOfHints = true, parallelHintNOtDisplayed = true, seriesHintNOtDisplayed = true;
+	private boolean firstRoundOfHints = true, parallelHintNOtDisplayed = true, seriesHintNOtDisplayed = true, doneButtonPressed = false;;
 	public static int totalNumberOfHintsUsed = 0, doneButtonCounter = 0, deductedScore = 0;
 	private static BasicComponent batteryBankArea;
 	private static boolean CompletedGame = false;
@@ -293,7 +293,7 @@ public class PVGame extends gameTemplate
 					totalNumberOfHintsUsed++;
 					// TODO fix crash (initialize taskData)
 					//Game.getCurrentTask().getCurrentAttempt().addHints(1);
-					if(deductedScore < 5)
+					if(deductedScore < 5 && !doneButtonPressed)
 						deductedScore++;
 				}
 				parallelHintNOtDisplayed = false;
@@ -310,7 +310,7 @@ public class PVGame extends gameTemplate
 					totalNumberOfHintsUsed++;
 					// TODO fix crash (initialize taskData)
 					//Game.getCurrentTask().getCurrentAttempt().addHints(1);
-					if(deductedScore < 5)
+					if(deductedScore < 5 && !doneButtonPressed)
 						deductedScore++;
 				}
 				seriesHintNOtDisplayed = false;
@@ -325,7 +325,7 @@ public class PVGame extends gameTemplate
 				totalNumberOfHintsUsed++;
 				// TODO fix crash (initialize taskData)
 				//Game.getCurrentTask().getCurrentAttempt().addHints(1);
-				if(deductedScore < 5)
+				if(deductedScore < 5 && !doneButtonPressed)
 					deductedScore++;
 			}
 			if(currentHintText == (hintsTextArray.length-1))
@@ -463,13 +463,15 @@ public class PVGame extends gameTemplate
 			}
 			else
 			{
-				showNextHintText(IncorrectAnswerMessage);
 				if(!CompletedGame)
 				{
 					doneButtonCounter++;
+					doneButtonPressed = true;
 					if(deductedScore < 5)
 						deductedScore++;
 				}
+				showNextHintText(IncorrectAnswerMessage);
+				doneButtonPressed = false;
 			}
 			
 			if(doneButtonCounter >= maxChances)
