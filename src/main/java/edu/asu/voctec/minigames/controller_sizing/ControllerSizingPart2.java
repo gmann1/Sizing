@@ -132,12 +132,7 @@ public class ControllerSizingPart2 extends GameTemplate
 					hintBox.setText(correctSolutionMessage);
 					hintBox.setFontColor(Color.white);
 					stepCompleted = true;
-					try {
-						continueButtonOn();
-					} catch (SlickException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					continueButtonOn();
 				}
 				else
 				{

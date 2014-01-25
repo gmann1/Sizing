@@ -461,17 +461,7 @@ public class StepSelection extends GameTemplate
 		// Create a new attempt instance, if necessary
 		if (currentAttempt == null)
 		{
-			try {
-				continueButtonOff();
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			readyButtonOn();
-			if (sDisplay != null){
-			removeComponent(sDisplay);
-			}
-			sequenceStep = 0;
+			resetButtons();
 			currentTask.setCurrentAttempt(generateDefaultData());
 			currentAttempt = (SizingStepsData) currentTask.getCurrentAttempt();
 			System.out.println("Current Attempt is null... Resetting...");
@@ -491,15 +481,8 @@ public class StepSelection extends GameTemplate
 		
 		if (selectorDisplay.isFull() && complete)
 		{
-			try
-			{
-				selectorDisplay.updateChoiceBorders();
-				continueButtonOn();
-			}
-			catch (SlickException e)
-			{
-				e.printStackTrace();
-			}
+			selectorDisplay.updateChoiceBorders();
+			continueButtonOn();
 		}
 		else
 		{

@@ -237,13 +237,8 @@ public class ControllerSizingPart3 extends GameTemplate{
 			{
 				stepCompleted = true;
 				hintBox.setText(CompletingGameMessage);
-				try {
-					continueButtonOn();
-					readyButtonOff();
-				} catch (SlickException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				continueButtonOn();
+				readyButtonOff();
 			}
 			else
 			{
@@ -288,13 +283,8 @@ public class ControllerSizingPart3 extends GameTemplate{
 		doneButtonCounter = 0;
 		Part.reset();
 		stepCompleted = false;
-		try {
-			continueButtonOff();
-			readyButtonOn();
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		continueButtonOff();
+		readyButtonOn();
 		removeComponent(sDisplay);
 	}
 }
