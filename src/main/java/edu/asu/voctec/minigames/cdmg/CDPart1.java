@@ -154,12 +154,8 @@ public class CDPart1 extends GameTemplate {
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
-			try {
-				readyButtonOff();
-				continueButtonOn();
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}
+			readyButtonOff();
+			continueButtonOn();
 			hintBox.setText(monthlyHints.get(1));
 		}
 		else if(box3Selected){
