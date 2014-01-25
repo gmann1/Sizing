@@ -239,6 +239,7 @@ public class ControllerSizingPart3 extends GameTemplate{
 				hintBox.setText(CompletingGameMessage);
 				try {
 					continueButtonOn();
+					readyButtonOff();
 				} catch (SlickException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -280,11 +281,6 @@ public class ControllerSizingPart3 extends GameTemplate{
 		}
 	}
 	
-	public void continueButtonOff() throws SlickException{
-		continueButton.setFontColor(Fonts.DISABLED_BUTTON_FONT_COLOR);
-		continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_OFF), true);
-	}
-	
 	public void reset()
 	{
 		hintBox.setText("");
@@ -294,9 +290,11 @@ public class ControllerSizingPart3 extends GameTemplate{
 		stepCompleted = false;
 		try {
 			continueButtonOff();
+			readyButtonOn();
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		removeComponent(sDisplay);
 	}
 }
