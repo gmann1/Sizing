@@ -15,17 +15,11 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.BasicComponent;
-import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
-import edu.asu.voctec.GUI.SelectorIcon;
-import edu.asu.voctec.GUI.TextArea;
-import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GameTemplate;
-import edu.asu.voctec.game_states.TaskScreen;
-import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 /**
@@ -136,6 +130,7 @@ public class CDPart1 extends GameTemplate {
 		if (box1Selected){
 			if (!box1Used){
 			box1Used = true;
+			Game.getCurrentTask().getCurrentAttempt().addHints(1);
 			++hints;
 			}
 			try {
@@ -149,6 +144,7 @@ public class CDPart1 extends GameTemplate {
 		else if(box2Selected){
 			
 			correctAnswer = true;
+			
 			try {
 				box2.setCurrentImage(new Image(CORRECT_BOX), true);
 			} catch (SlickException e) {
@@ -161,6 +157,7 @@ public class CDPart1 extends GameTemplate {
 		else if(box3Selected){
 			if (!box3Used){
 				box3Used = true;
+				Game.getCurrentTask().getCurrentAttempt().addHints(1);
 				++hints;
 				}
 			try {
@@ -173,6 +170,7 @@ public class CDPart1 extends GameTemplate {
 		else if(box4Selected){
 			if (!box4Used){
 				box4Used = true;
+				Game.getCurrentTask().getCurrentAttempt().addHints(1);
 				++hints;
 				}
 			try {
@@ -655,6 +653,7 @@ public class CDPart1 extends GameTemplate {
 			hintBox.setText(genericHints.get(0));
 			++hintCount;
 			if (!correctAnswer) {
+				Game.getCurrentTask().getCurrentAttempt().addHints(1);
 				++hints;
 			}
 			System.out.println("Generic Hint1 shown, total hints: " + hints);
@@ -663,6 +662,7 @@ public class CDPart1 extends GameTemplate {
 			hintBox.setText(genericHints.get(1));
 			++hintCount;
 			if (!correctAnswer) {
+				Game.getCurrentTask().getCurrentAttempt().addHints(1);
 				++hints;
 			}
 			System.out.println("Generic Hint2 shown, total hints: " + hints);
@@ -672,6 +672,7 @@ public class CDPart1 extends GameTemplate {
 			++hintCount;
 			if (!correctAnswer) {
 				++hints;
+				Game.getCurrentTask().getCurrentAttempt().addHints(1);
 			}
 			System.out.println("Generic Hint2 shown, total hints: " + hints);
 		}

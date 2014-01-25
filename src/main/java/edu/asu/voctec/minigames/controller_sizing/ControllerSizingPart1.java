@@ -264,7 +264,7 @@ public class ControllerSizingPart1 extends GameTemplate
 		instructionSet1[0] = "You are about to start the game. Take a minute and make sure you understand how the controller functions.";
 		instructionSet1[1] = "Remember: 'a' turns on and off charging and 'd' turns on and off discharging.";
 		instructionSet1[2] = "If 'a' and 'd' are on, the battery will only charge if the solar panel is receiving sunlight and the house will only power on if it is requesting power.";
-		instructionSet1[3] = "Press continue when you are ready to start the game.";
+		instructionSet1[3] = "Press arrow button when you are ready to start the game.";
 		
 		batteryStrings[0] = BATTERY_ONE;
 		batteryStrings[1] = BATTERY_TWO;
@@ -437,7 +437,7 @@ public class ControllerSizingPart1 extends GameTemplate
 		instructions.setFontSize(Fonts.FONT_SIZE_MEDIUM);
 		instructions.setFontColor(Fonts.FONT_COLOR);
 		instructions
-				.setText("You set up the PV system! Now you are going to see how it works... Press the continue button.");
+				.setText("You set up the PV system! Now you are going to see how it works... Press the arrow button.");
 		
 		// Skip Button
 		Image skipButtonImage = new Image(ImagePaths.SKIP_BUTTON);
@@ -661,7 +661,7 @@ public class ControllerSizingPart1 extends GameTemplate
 					{
 						a = !a;
 						instructions
-								.setText("Good Job! The battery isn't charging anymore. Press the continue button.");
+								.setText("Good Job! The battery isn't charging anymore. Press the arrow button.");
 						step2 = false;
 						step3 = true;
 						contAppear();
@@ -737,7 +737,7 @@ public class ControllerSizingPart1 extends GameTemplate
 					{
 						d = !d;
 						instructions
-								.setText("Good Job! The battery isn't discharging anymore. Press the continue button.");
+								.setText("Good Job! The battery isn't discharging anymore. Press the arrow button.");
 						step5 = false;
 						step6 = true;
 						contAppear();
@@ -847,7 +847,7 @@ public class ControllerSizingPart1 extends GameTemplate
 			if (step9 && batteryPercent < 35)
 			{
 				instructions
-						.setText("This is the end of the tutorial. Press the continue button to move on or replay button to replay the tutorial. ");
+						.setText("This is the end of the tutorial. Press the arrow button to move on or replay button to replay the tutorial. ");
 				walkthrough = false;
 				replay.setX(instructions.getX());
 				replay.setY(instructions.getY()
@@ -1473,7 +1473,7 @@ public class ControllerSizingPart1 extends GameTemplate
 			{
 				// TODO
 				
-				hintBox.setText("Good Job! Press continue when you are ready to move on.");
+				hintBox.setText("Good Job! Press arrow button when you are ready to move on.");
 				continueButton.setX(continueButtonLocation);
 				continueButtonOn();
 				hintBox.setX(hintBoxLocation);
@@ -1494,7 +1494,7 @@ public class ControllerSizingPart1 extends GameTemplate
 				introScreens.setX(800);
 				introScreens.setY(600);
 				instructions
-						.setText("Take a minute to watch the controller function... Press continue when you understand how it works.");
+						.setText("Take a minute to watch the controller function... Press arrow button when you understand how it works.");
 				setIndex = 0;
 			}
 			else

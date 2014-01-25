@@ -171,7 +171,7 @@ public class CDPart2 extends GameTemplate {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		super.init(container, game);
-		instructionBox.setText("Determine the tilt and orientation. Click the arrows to adjust tilt and orientation of the solar panel for the critical design month, December.");
+		instructionBox.setText("Determine the tilt and orientation. Click the arrows to adjust tilt and orientation of the solar panel for the critical design month.");
 		this.backgroundImage = new Image(BACKGROUND);
 		topText.setText("Location: Niger, Niamey" + "\n" + "Latitude: 13° 31 N, Longitude: 2° 6 E");
 		BasicComponent compass = new BasicComponent(new Image(COMPASS), 205 + 248 -35, 516 - 59); 
@@ -260,10 +260,13 @@ public class CDPart2 extends GameTemplate {
 		// panel.getX() + 11,panel.getY() + 30);
 
 		genericHints
-				.add("Point the solar panel in the direction that captures the most sun. ");
+				.add("In the Southern Hemisphere, point the PV array toward true North and in the Northern Hemisphere towards true South. ");
 		genericHints
-				.add("Make adjustments due to the latitude and the tilt of the earth.");
-
+				.add("Best tilt angle for all year is latitude.");
+		genericHints
+		.add("Best tilt angle for winter conditions is latitude plus 15 degrees. ");
+genericHints
+		.add("Best tilt angle for summer conditions is latitude minus 15 degrees.");
 	
 
 		this.addComponent(criticalMonth);
@@ -314,6 +317,7 @@ public class CDPart2 extends GameTemplate {
 			++hintCount;
 			if (!correctAnswer) {
 				score -= 1;
+				Game.getCurrentTask().getCurrentAttempt().addHints(1);
 				++CDPart1.hints;
 			}
 			System.out.println("Generic Hint1 shown, total hints: "
@@ -329,6 +333,7 @@ public class CDPart2 extends GameTemplate {
 				}
 			hintCount = 4;
 			if (!correctAnswer) {
+				Game.getCurrentTask().getCurrentAttempt().addHints(1);
 				score -=1;
 				++CDPart1.hints;
 			}
@@ -336,10 +341,11 @@ public class CDPart2 extends GameTemplate {
 					+ CDPart1.hints);
 		}
 		if (hCount > 1) {
+			Game.getCurrentTask().getCurrentAttempt().addHints(1);
 			score -= 1;
 			if (hCount == 2) {
 				if (readyClick){
-					hintBox.setText("Sorry that is incorrect.\n" + genericHints.get(0));
+					hintBox.setText("Sorry that is incorrect.\n" + genericHints.get(2));
 					}
 					else
 					{
@@ -347,7 +353,7 @@ public class CDPart2 extends GameTemplate {
 					}
 			} else if (hCount == 3) {
 				if (readyClick){
-					hintBox.setText("Sorry that is incorrect.\n" + genericHints.get(1));
+					hintBox.setText("Sorry that is incorrect.\n" + genericHints.get(3));
 					}
 					else
 					{
@@ -363,7 +369,7 @@ public class CDPart2 extends GameTemplate {
 			}
 			++hintCount;
 			if (hintCount == 5){
-				hintCount = 2;
+				hintCount = 0;
 			}
 			System.out
 					.println("User requested more hints, none to give. total hints: "
