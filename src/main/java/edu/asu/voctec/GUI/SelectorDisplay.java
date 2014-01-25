@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 import edu.asu.voctec.GameDefaults.ImagePaths;
 import edu.asu.voctec.GameDefaults.Labels.Step0;
 import edu.asu.voctec.game_states.GUI;
-import edu.asu.voctec.game_states.SelectorTest;
+import edu.asu.voctec.minigames.step_selection.StepSelection;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
@@ -202,8 +202,8 @@ public class SelectorDisplay<T extends SelectorIcon> extends Component
 	
 	protected void updateInstructions()
 	{
-		if (getAssociatedGUI() instanceof SelectorTest)
-			((SelectorTest) getAssociatedGUI()).updateInstructions();
+		if (getAssociatedGUI() instanceof StepSelection)
+			((StepSelection) getAssociatedGUI()).updateInstructions();
 	}
 	
 	protected void setupChoiceBorders(boolean positionComponents)

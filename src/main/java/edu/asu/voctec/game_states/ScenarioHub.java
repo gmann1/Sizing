@@ -15,12 +15,12 @@ import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.GameDefaults.Fonts;
 import edu.asu.voctec.GameDefaults.ImagePaths;
-import edu.asu.voctec.energy_assessment.EAPart2.ReadyButtonListener;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.information.ScenarioData;
-import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
+import edu.asu.voctec.minigames.energy_assessment.EAPart2.ReadyButtonListener;
+import edu.asu.voctec.minigames.step_selection.ScenarioIntroductionScreen;
 import edu.asu.voctec.utilities.Position;
 
 public class ScenarioHub extends GUI

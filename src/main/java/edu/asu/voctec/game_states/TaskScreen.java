@@ -19,7 +19,7 @@ import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.information.ScenarioData;
 import edu.asu.voctec.information.TaskData;
-import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
+import edu.asu.voctec.minigames.step_selection.ScenarioIntroductionScreen;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
