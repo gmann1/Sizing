@@ -13,12 +13,12 @@ import edu.asu.voctec.GameDefaults.Labels;
 import edu.asu.voctec.GameDefaults.TaskScreenDefaults;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.Component;
-import edu.asu.voctec.batter_sizing.BatteryIntro;
-import edu.asu.voctec.cdmg.CDIntroScreen;
-import edu.asu.voctec.controller_sizing.ControllerSizingIntroScreen;
-import edu.asu.voctec.energy_assessment.EAPart1IntroScreen;
 import edu.asu.voctec.game_states.TaskScreen;
-import edu.asu.voctec.pv_game.PVIntro;
+import edu.asu.voctec.minigames.battery_sizing.BatteryIntro;
+import edu.asu.voctec.minigames.cdmg.CDIntroScreen;
+import edu.asu.voctec.minigames.controller_sizing.ControllerSizingIntroScreen;
+import edu.asu.voctec.minigames.energy_assessment.EAPart1IntroScreen;
+import edu.asu.voctec.minigames.pv_game.PVIntro;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class UserProfile implements Serializable
