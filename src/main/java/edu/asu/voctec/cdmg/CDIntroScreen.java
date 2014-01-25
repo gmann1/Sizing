@@ -18,6 +18,7 @@ import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.information.AttemptData;
 import edu.asu.voctec.utilities.Position;
 
 /**
@@ -83,6 +84,8 @@ public class CDIntroScreen extends GUI implements Task
 	public void onEnter()
 	{
 		Game.getExitScreen().updateExitScreen(this.getClass());
+		SupportFunctions.ensureAttemptData();
+		
 	}
 	
 	@Override
@@ -91,5 +94,6 @@ public class CDIntroScreen extends GUI implements Task
 		// TODO Auto-generated method stub
 		
 	}
+	
 	
 }

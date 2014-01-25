@@ -85,6 +85,7 @@ public class ControllerSizingIntroScreen extends GUI implements Task
 	public void onEnter()
 	{
 		Game.getExitScreen().updateExitScreen(this.getClass());
+		SupportFunctions.ensureAttemptData();
 	}
 	
 }
