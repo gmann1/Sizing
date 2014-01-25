@@ -288,11 +288,16 @@ public class Game extends StateBasedGame implements Singleton
 	public void initStatesList(GameContainer container) throws SlickException
 	{
 		// Initialize & Add all GameStates
+		this.addState(new InstructorControlPanel());
+		this.enterState(InstructorControlPanel.class);
+	
+	}
+	public void secondaryStatesList(GameContainer container) throws SlickException
+	{
 		this.addState(new MainMenu());
 		this.addState(new MenuTest());
 		this.addState(new ScenarioHub());
 		this.addState(new ExitScreen());
-		this.addState(new InstructorControlPanel());
 		this.addState(new LanguageMenu());
 		this.addState(new TaskScreen());
 		this.addState(new ScenarioIntroductionScreen());
@@ -320,6 +325,11 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new ControllerSizingPart1());
 		this.addState(new ControllerSizingPart2());
 		this.addState(new ControllerSizingPart3());
+		
+		for (int stateID : Game.getGameStates())
+		{
+			this.getState(stateID).init(container, this);
+		}
 		
 		// Move to the default game state
 		this.enterState(Game.DEFAULT_GAME_STATE);

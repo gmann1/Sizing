@@ -8,7 +8,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
-import edu.asu.voctec.GUI.*;
+import edu.asu.voctec.SupportFunctions;
+import edu.asu.voctec.GUI.Button;
+import edu.asu.voctec.GUI.ButtonListener;
+import edu.asu.voctec.GUI.TextArea;
+import edu.asu.voctec.GUI.TextField;
+import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
@@ -21,28 +26,21 @@ public class BatteryIntro extends GUI implements Task
 	public static final String LEFT_ARROW_TEXT = "Back";
 	public static final String WELCOME_Text = "";
 	public static final String INTRODUCTION = "In this game you need to figure out the best combination of batteries and how to connect them"
-				+ " in order to achieve the required Battery-Bank output and system voltage.";
+			+ " in order to achieve the required Battery-Bank output and system voltage.";
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
 		this.backgroundImage = new Image(ImagePaths.MainMenuBackground);
-		Rectangle textLocation = new Rectangle(0, 50, 300, 50);
 		
 		// Title
-		TextField welcomeLabel = new TextField(textLocation, 0.95f, WELCOME_Text,
-				TextDisplay.FormattingOption.FIT_TEXT);
-		welcomeLabel.setFontColor(Fonts.FONT_COLOR);
-		welcomeLabel.center();
+		TextField welcomeLabel = SupportFunctions
+				.generateWelcomeLabel(WELCOME_Text);
 		
 		// Introduction Body
-		textLocation = new Rectangle(150, 200, 500, 400);
-		TextArea introductionText = new TextAreaX(textLocation, 0.95f,
-				INTRODUCTION);
-		introductionText.setFontSize(12f);
-		introductionText.setFontSize(Fonts.FONT_SIZE_LARGE);
-		introductionText.setFontColor(Fonts.FONT_COLOR);
+		TextArea introductionText = SupportFunctions
+				.generateIntroductionDisplay(INTRODUCTION);
 		
 		// Start Button
 		Button startButton = new Button(new Image(ARROW_RIGHT), 750, 550,
@@ -54,7 +52,8 @@ public class BatteryIntro extends GUI implements Task
 		// Back Button
 		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
 				new Rectangle(0, 0, 50, 25), LEFT_ARROW_TEXT);
-		backButton.addActionListener(new TransitionButtonListener(TaskScreen.class));
+		backButton.addActionListener(new TransitionButtonListener(
+				TaskScreen.class));
 		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 		backButton.positionText(Position.RIGHT);
 		
@@ -63,11 +62,13 @@ public class BatteryIntro extends GUI implements Task
 		this.addComponent(welcomeLabel);
 		this.addComponent(introductionText);
 		this.addComponent(backButton);
-
+		
 	}
 	
 	public class StartListener extends ButtonListener
 	{
+		private static final long serialVersionUID = 8213945841494743455L;
+
 		@Override
 		protected void actionPerformed()
 		{
@@ -80,9 +81,10 @@ public class BatteryIntro extends GUI implements Task
 	{
 		Game.getExitScreen().updateExitScreen(this.getClass());
 	}
-
+	
 	@Override
-	public void load() {
+	public void load()
+	{
 		// TODO Auto-generated method stub
 		
 	}

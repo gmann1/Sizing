@@ -9,6 +9,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 
 import edu.asu.voctec.language.LabelName;
+import edu.asu.voctec.utilities.UtilFunctions;
 
 /**
  * Contains all constants used across multiple GameStates. This includes all
@@ -31,6 +32,7 @@ public interface GameDefaults
 		public static final String GAME_TITLE = "Sizing";
 		public static final boolean SHOW_FPS = false;
 		public static final String DEFAULT_LANGUAGE = "english";
+		public static final float DISABLED_COMPONENT_OPACITY = 0.9f;
 	}
 	
 	public interface ImagePaths
@@ -46,9 +48,11 @@ public interface GameDefaults
 		public static final String BASE_BUTTON = "resources/default/img/buttons/readyButton.png";
 		public static final String NEW_GAME_BUTTON = "resources/default/img/buttons/newProfileButtonR.png";
 		public static final String OPTIONS_BUTTON = "resources/default/img/buttons/optionsButtonR.png";
-		public static final String INSTRUCTOR_CONTROL_PANEL_BUTTON = "resources/default/img/buttons/optionsButtonR.png";
+		// TODO replace with non-grey button
+		public static final String INSTRUCTOR_CONTROL_PANEL_BUTTON = "resources/default/img/buttons/optionsButton_grey.png";
 		public static final String BACK_BUTTON = "resources/default/img/buttons/backButton.png";
-		public static final String LANGUAGE_BUTTON = "resources/default/img/buttons/languagesButtonR.png";
+		// TODO replace with non-grey button
+		public static final String LANGUAGE_BUTTON = "resources/default/img/buttons/languagesButton_grey.png";
 		public static final String READY_BUTTON = "resources/default/img/buttons/readyButton.png";
 		public static final String CONTINUE_BUTTON_ON = "resources/default/img/buttons/continueButton.png";
 		public static final String CONTINUE_BUTTON_OFF = "resources/default/img/buttons/continueHidden.png";
@@ -157,11 +161,26 @@ public interface GameDefaults
 		public static final float FONT_SIZE_SMALL = 8f;
 		public static final float FONT_SIZE_MEDIUM = 12f;
 		public static final float FONT_SIZE_LARGE = 18f;
+		public static final float FONT_SIZE_EXTRA_LARGE = 26f;
 		
 		public static final Font AWT_FONT = new Font(FONT_NAME, Font.BOLD,
 				Fonts.FONT_SIZE_DEFAULT);
 		public static final TrueTypeFont TRUE_TYPE_FONT = new TrueTypeFont(
 				AWT_FONT, ANTI_ALLIAS);
+	}
+	
+	public interface MainMenuDefaults
+	{
+		public static final Color BUTTON_FONT_COLOR = Color.darkGray;
+	}
+	
+	public interface IntroductionScreenDefaults
+	{
+		public static final Rectangle TITLE_BOUNDS = new Rectangle(0, 50, 300,
+				50);
+		public static final Rectangle BODY_TEXT_BOUNDS = UtilFunctions
+				.newCenteredRectangle(new Rectangle(0, 0, 800, 600),
+						new Rectangle(0, 0, 500, 400));
 	}
 	
 	/**
@@ -216,6 +235,7 @@ public interface GameDefaults
 	{
 		public static final Point INFORMATION_OFFSET = new Point(350, 175);
 		public static final float INFORMATION_SCALE = 0.92f;
+		public static final boolean WRITE_TO_BUTTONS = false;
 	}
 	
 	public interface XMLPaths
@@ -276,9 +296,11 @@ public interface GameDefaults
 			}
 			
 			public static final LabelName INSTRUCTIONS_BEGIN = new LabelName(
-					"instructionsBegin", "Use the arrows to cycle through the items of the sizing process. Then, click on the item in the middle box to select and place as step 1.");
+					"instructionsBegin",
+					"Use the arrows to cycle through the items of the sizing process. Then, click on the item in the middle box to select and place as step 1.");
 			public static final LabelName INSTRUCTIONS1 = new LabelName(
-					"instructions1", "Click on the item in the middle box to select and place as step");
+					"instructions1",
+					"Click on the item in the middle box to select and place as step");
 			public static final LabelName INSTRUCTIONS2 = new LabelName(
 					"instructions2", ".");
 			public static final LabelName INSTRUCTIONS_RED = new LabelName(
@@ -300,7 +322,17 @@ public interface GameDefaults
 		{
 			public static final LabelName INACCESSIBLE_TEXT = new LabelName(
 					"inaccessibleText",
-					"This step cannot be completed until after all previous steps are completed.");
+					"This step cannot be completed until all previous steps are completed.");
+			public static final LabelName ENERGY_ASSESSMENT = new LabelName(
+					"energyAssessment", "Assess Energy Requirements");
+			public static final LabelName CRITICAL_DESIGN_MONTH = new LabelName(
+					"criticalDesignMonth", "Find the Critical Design Month");
+			public static final LabelName BATTERY_SIZING = new LabelName(
+					"batterySizing", "Size the Battery");
+			public static final LabelName PV_SIZING = new LabelName(
+					"pvSizing", "Size the PV Array");
+			public static final LabelName CONTROLLER_SIZING = new LabelName(
+					"controllerSizing", "Size the Controller");
 		}
 	}
 }

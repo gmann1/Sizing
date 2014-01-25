@@ -23,6 +23,7 @@ import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
+import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 import edu.asu.voctec.utilities.gameTemplate;
@@ -131,7 +132,7 @@ public class CDPart1 extends gameTemplate {
 			try {
 				box1.setCurrentImage(new Image(INCORRECT_BOX), true);
 			} catch (SlickException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 			hintBox.setText(monthlyHints.get(0));
@@ -142,13 +143,12 @@ public class CDPart1 extends gameTemplate {
 			try {
 				box2.setCurrentImage(new Image(CORRECT_BOX), true);
 			} catch (SlickException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			try {
+				readyButtonOff();
 				continueButtonOn();
 			} catch (SlickException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			hintBox.setText(monthlyHints.get(1));
@@ -157,7 +157,6 @@ public class CDPart1 extends gameTemplate {
 			try {
 				box3.setCurrentImage(new Image(INCORRECT_BOX), true);
 			} catch (SlickException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			hintBox.setText(monthlyHints.get(2));
@@ -166,7 +165,7 @@ public class CDPart1 extends gameTemplate {
 			try {
 				box4.setCurrentImage(new Image(INCORRECT_BOX), true);
 			} catch (SlickException e) {
-				// TODO Auto-generated catch block
+			
 				e.printStackTrace();
 			}
 			hintBox.setText(monthlyHints.get(3));
@@ -180,6 +179,9 @@ public class CDPart1 extends gameTemplate {
 		@Override
 		protected void actionPerformed() {
 			if (correctAnswer) {
+				TaskScreen task = (TaskScreen)Game.getCurrentGame().getState(Game.getStateID(TaskScreen.class));
+				// TODO
+				//task.setBackgroundImage(backgroundImage);
 				Game.getCurrentGame().enterState(CDPart2.class);
 			}
 
@@ -398,6 +400,7 @@ public class CDPart1 extends gameTemplate {
 		if (i == 2) {
 			hintBox.setText(monthlyHints.get(i));
 			continueButtonOn();
+			readyButtonOff();
 			correctAnswer = true;
 			System.out.println("Correct answer gotten after " + hints
 					+ " hints.");

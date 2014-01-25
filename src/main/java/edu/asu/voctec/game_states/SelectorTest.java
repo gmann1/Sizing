@@ -336,7 +336,9 @@ public class SelectorTest extends gameTemplate
 		this.addComponent(backButton);
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see edu.asu.voctec.game_states.GUI#onExit()
 	 */
 	@Override
@@ -345,8 +347,12 @@ public class SelectorTest extends gameTemplate
 		save();
 	}
 	
-	/* (non-Javadoc)
-	 * @see edu.asu.voctec.game_states.GUI#render(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, org.newdawn.slick.Graphics)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.asu.voctec.game_states.GUI#render(org.newdawn.slick.GameContainer,
+	 * org.newdawn.slick.state.StateBasedGame, org.newdawn.slick.Graphics)
 	 */
 	@Override
 	public void render(GameContainer container, StateBasedGame game,
@@ -354,9 +360,10 @@ public class SelectorTest extends gameTemplate
 	{
 		super.render(container, game, graphics);
 		
-		/*if (complete)
-			endingAnimation.draw(endingAnimationBounds.x,
-					endingAnimationBounds.y);*/
+		/*
+		 * if (complete) endingAnimation.draw(endingAnimationBounds.x,
+		 * endingAnimationBounds.y);
+		 */
 	}
 	
 	public void updateInstructions()
@@ -508,16 +515,18 @@ public class SelectorTest extends gameTemplate
 		{
 			selectorContents.add(new SelectorIcon(
 					SelectorIcons.ENERGY_ASSESSMENT,
-					"Assess Energy Requirements", 0));
-			selectorContents.add(new SelectorIcon(
-					SelectorIcons.CRITICAL_DESIGN_MONTH,
-					"Find the Critical Design Month", 1));
+					Labels.TaskScreen.ENERGY_ASSESSMENT.getTranslation(), 0));
+			selectorContents
+					.add(new SelectorIcon(SelectorIcons.CRITICAL_DESIGN_MONTH,
+							Labels.TaskScreen.CRITICAL_DESIGN_MONTH
+									.getTranslation(), 1));
 			selectorContents.add(new SelectorIcon(SelectorIcons.BATTERY_SIZING,
-					"Size the Battery", 2));
+					Labels.TaskScreen.BATTERY_SIZING.getTranslation(), 2));
 			selectorContents.add(new SelectorIcon(SelectorIcons.PV_SIZING,
-					"Size the PV Array", 3));
+					Labels.TaskScreen.PV_SIZING.getTranslation(), 3));
 			selectorContents.add(new SelectorIcon(
-					SelectorIcons.CONTROLLER_SIZING, "Size the Controller", 4));
+					SelectorIcons.CONTROLLER_SIZING,
+					Labels.TaskScreen.CONTROLLER_SIZING.getTranslation(), 4));
 		}
 		catch (SlickException e)
 		{
