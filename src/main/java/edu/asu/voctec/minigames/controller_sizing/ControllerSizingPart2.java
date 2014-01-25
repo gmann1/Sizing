@@ -142,6 +142,7 @@ public class ControllerSizingPart2 extends GameTemplate
 					hintBox.setText(correctSolutionMessage);
 					hintBox.setFontColor(Color.white);
 					stepCompleted = true;
+					trackTime = false;
 					continueButtonOn();
 					readyButtonOff();
 				}
@@ -195,9 +196,18 @@ public class ControllerSizingPart2 extends GameTemplate
 		chosenController.setCurrentImage(OriginalControllerImage, true);
 		chosenController = null;
 		stepCompleted = false;
-		largerControllerHintDisplayed = false;
-		smallerControllerHintDisplayed = false;
 		resetButtons();
 	}
+	
+	public void onEnter()
+	 {
+		// TODO fix crash
+		trackTime = true;
+	 }
+	public void onExit()
+	 {
+		// TODO fix crash
+		trackTime = false;
+	 }
 
 }
