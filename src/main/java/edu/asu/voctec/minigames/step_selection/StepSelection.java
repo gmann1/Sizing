@@ -39,6 +39,8 @@ public class StepSelection extends GameTemplate
 	private Animation endingAnimation;
 	private Rectangle endingAnimationBounds;
 	private boolean complete;
+
+	private int hints;
 	
 	/**
 	 * Listener for the ready button. If the button is pressed before all
@@ -125,8 +127,14 @@ public class StepSelection extends GameTemplate
 			throws SlickException {
 		super.update(container, game, delta);
 		if(complete){
+			int numberOfStars = 6 - hints;
+			
+			if (numberOfStars <0)
+			{
+				numberOfStars = 0;
+			}
 			if (sequenceStep != 4000){
-			sequenceStep = initiateStars(1, sequenceStep);
+			sequenceStep = initiateStars(numberOfStars, sequenceStep);
 			}
 		}
 	}
@@ -145,6 +153,7 @@ public class StepSelection extends GameTemplate
 		protected void actionPerformed()
 		{
 			if (complete)
+				
 			{
 				Game.updateExitText(
 						"Good Job!",
@@ -449,6 +458,7 @@ public class StepSelection extends GameTemplate
 		hintBox.addLine(hint);
 		
 		// Update the number of hints used
+		++hints;
 		Game.getCurrentTask().getCurrentAttempt().addHints(1);
 	}
 	

@@ -1,5 +1,8 @@
 package edu.asu.voctec.game_states;
 
+import java.awt.Rectangle;
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -7,7 +10,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.BasicComponent;
-
+import edu.asu.voctec.GUI.TextField;
+import edu.asu.voctec.GUI.TextDisplay;
 public class InstructorControlPanel extends GUI
 {
 
@@ -28,6 +32,10 @@ public class InstructorControlPanel extends GUI
 			throws SlickException
 	{
 		// TODO Auto-generated method stub
+		TextField loading = new TextField(new Rectangle(360, 300, 100, 75), 0.95f,
+				"Loading...", TextDisplay.FormattingOption.FIT_TEXT);
+	
+		loading.setFontColor(Color.black);
 		logo = new BasicComponent(new Image(LOGO1), 125, 0);
 		
 		this.backgroundImage = new Image(BACKGROUND);
@@ -38,6 +46,7 @@ public class InstructorControlPanel extends GUI
 		credits.setX(0);
 		this.addComponent(credits);
 		this.addComponent(logo);
+		this.addComponent(loading);
 	}
 	
 	@Override

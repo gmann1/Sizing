@@ -154,7 +154,10 @@ public class ControllerSizingPart3 extends GameTemplate{
 	{
 		hintBox.setText(hintsTextArray[currentHintText]);
 		if(firstRoundOfHints && !stepCompleted)
+		{
 			totalNumberOfHintsUsed++;
+			Game.getCurrentTask().getCurrentAttempt().addHints(1);
+		}
 		if(currentHintText == (hintsTextArray.length-1))
 		{
 			currentHintText = 0;
@@ -179,21 +182,30 @@ public class ControllerSizingPart3 extends GameTemplate{
 				if(testedBatteryArray.size() == 1 && testedPart.getLabel().equalsIgnoreCase(DisconnectSwitchLabel))
 				{
 					testedBatteryArray = Part.batteryArray.get(2);
-					testedPart3 = testedBatteryArray.get(0);
-					testedPart = testedBatteryArray.get(1);
-					testedPart2 = testedBatteryArray.get(2);
-					if(testedBatteryArray.size() == 3 && testedPart.getLabel().equalsIgnoreCase(DisconnectSwitchLabel) && testedPart3.getLabel().equalsIgnoreCase(ChargeControllerLabel))
+					if(testedBatteryArray.size()>= 1)
 					{
-						testedBatteryArray = Part.batteryArray.get(3);
-						testedPart = testedBatteryArray.get(0);
-						if(testedBatteryArray.size() == 1 && testedPart.getLabel().equalsIgnoreCase(DisconnectSwitchLabel))
+						if(testedBatteryArray.size()>= 2)
 						{
-							testedBatteryArray = Part.batteryArray.get(4);
-							testedPart3 = testedBatteryArray.get(0);
-							if(testedBatteryArray.size() == 1)
+							if(testedBatteryArray.size()>= 3)
 							{
-								if(correctParts(testedPart1,testedPart2,testedPart3))
-									return true;
+								testedPart3 = testedBatteryArray.get(0);
+								testedPart = testedBatteryArray.get(1);
+								testedPart2 = testedBatteryArray.get(2);
+								if(testedBatteryArray.size() == 3 && testedPart.getLabel().equalsIgnoreCase(DisconnectSwitchLabel) && testedPart3.getLabel().equalsIgnoreCase(ChargeControllerLabel))
+								{
+									testedBatteryArray = Part.batteryArray.get(3);
+									testedPart = testedBatteryArray.get(0);
+									if(testedBatteryArray.size() == 1 && testedPart.getLabel().equalsIgnoreCase(DisconnectSwitchLabel))
+									{
+										testedBatteryArray = Part.batteryArray.get(4);
+										testedPart3 = testedBatteryArray.get(0);
+										if(testedBatteryArray.size() == 1)
+										{
+											if(correctParts(testedPart1,testedPart2,testedPart3))
+												return true;
+										}
+									}
+								}
 							}
 						}
 					}
@@ -236,6 +248,7 @@ public class ControllerSizingPart3 extends GameTemplate{
 			if(gameOver())
 			{
 				stepCompleted = true;
+				trackTime = false;
 				hintBox.setText(CompletingGameMessage);
 				continueButtonOn();
 				readyButtonOff();
@@ -249,6 +262,8 @@ public class ControllerSizingPart3 extends GameTemplate{
 			if(doneButtonCounter >= maxChances)
 			{
 				hintBox.setText(GameAnswer);
+				totalNumberOfHintsUsed++;
+				Game.getCurrentTask().getCurrentAttempt().addHints(1);
 			}
 			
 		}
@@ -283,8 +298,17 @@ public class ControllerSizingPart3 extends GameTemplate{
 		doneButtonCounter = 0;
 		Part.reset();
 		stepCompleted = false;
-		continueButtonOff();
-		readyButtonOn();
-		removeComponent(sDisplay);
+		resetButtons();
 	}
+	
+	public void onEnter()
+	 {
+		// TODO fix crash
+		trackTime = true;
+	 }
+	public void onExit()
+	 {
+		// TODO fix crash
+		trackTime = false;
+	 }
 }

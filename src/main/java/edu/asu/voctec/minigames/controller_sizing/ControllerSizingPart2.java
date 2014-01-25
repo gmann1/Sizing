@@ -12,13 +12,10 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
 import edu.asu.voctec.GUI.BasicComponent;
-import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
-import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
-import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.GameTemplate;
 
 public class ControllerSizingPart2 extends GameTemplate
@@ -41,7 +38,7 @@ public class ControllerSizingPart2 extends GameTemplate
 	private List<BasicComponent> controllers = new ArrayList<BasicComponent>();
 	private static BasicComponent chosenController;
 	private Image OriginalControllerImage, ChosenControllerImage, IncorrectControllerImage, CorrectControllerImage, ContinueButtonImage;
-	private boolean stepCompleted = false;
+	private boolean stepCompleted = false, largerControllerHintDisplayed = false, smallerControllerHintDisplayed = false;
 	private int doneButtonCounter = 0;
 	
 	@Override
@@ -73,6 +70,19 @@ public class ControllerSizingPart2 extends GameTemplate
 		readyButton.addActionListener(new DoneButtonListener());
 		continueButton.addActionListener(new ContinueButtonListener());
 		this.removeComponent(hintButton);
+	}
+	
+	@Override
+	public void update(GameContainer container, StateBasedGame game, int delta)
+			throws SlickException
+	{
+		super.update(container,game,delta);
+		
+		if(stepCompleted){
+			   if (sequenceStep != 4000){
+			   sequenceStep = initiateStars(6-(3*doneButtonCounter), sequenceStep);
+			   }
+			  }
 	}
 	
 	private void initializeText()
@@ -132,7 +142,9 @@ public class ControllerSizingPart2 extends GameTemplate
 					hintBox.setText(correctSolutionMessage);
 					hintBox.setFontColor(Color.white);
 					stepCompleted = true;
+					trackTime = false;
 					continueButtonOn();
+					readyButtonOff();
 				}
 				else
 				{
@@ -141,11 +153,21 @@ public class ControllerSizingPart2 extends GameTemplate
 					{
 						hintBox.setText(largerControllerMessage);
 						hintBox.setFontColor(Color.white);
+						if(!largerControllerHintDisplayed)
+						{
+							Game.getCurrentTask().getCurrentAttempt().addHints(1);
+							largerControllerHintDisplayed = true;
+						}
 					}
 					else
 					{
 						hintBox.setText(smallerControllerMessage);
 						hintBox.setFontColor(Color.white);
+						if(!smallerControllerHintDisplayed)
+						{
+							Game.getCurrentTask().getCurrentAttempt().addHints(1);
+							smallerControllerHintDisplayed = true;
+						}
 					}
 					doneButtonCounter++;
 					System.out.println("Number of tries: "+doneButtonCounter);
@@ -161,12 +183,31 @@ public class ControllerSizingPart2 extends GameTemplate
 		{
 			if(stepCompleted)
 			{
-				chosenController.setCurrentImage(OriginalControllerImage, true);
-				hintBox.setText("");
-				chosenController = null;
+				reset();
 				Game.getCurrentGame().enterState(ControllerSizingPart3.class);
 			}
 		}
 	}
+	
+	public void reset()
+	{
+		hintBox.setText("");
+		doneButtonCounter = 0;
+		chosenController.setCurrentImage(OriginalControllerImage, true);
+		chosenController = null;
+		stepCompleted = false;
+		resetButtons();
+	}
+	
+	public void onEnter()
+	 {
+		// TODO fix crash
+		trackTime = true;
+	 }
+	public void onExit()
+	 {
+		// TODO fix crash
+		trackTime = false;
+	 }
 
 }

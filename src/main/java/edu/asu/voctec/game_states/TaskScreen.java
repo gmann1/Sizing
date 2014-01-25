@@ -26,6 +26,7 @@ import edu.asu.voctec.utilities.UtilFunctions;
 public class TaskScreen extends GUI
 {
 	public static final String SIDE_BAR = "resources/default/img/taskScreen/SideBar.png";
+public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskScreenBackgrounds/background0.png";
 	public static BackButtonListener activeListener;
 	private ArrayList<TaskData> tasks;
 	private ArrayList<Component> confirmationComponents;
@@ -89,6 +90,7 @@ public class TaskScreen extends GUI
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
+		this.setBackgroundImage(new Image(TASK_SCREEN_BACKGROUND));
 		System.out.println("\nTaskScreen: Initializing...");
 		
 		confirmationComponents = new ArrayList<>();
@@ -149,9 +151,7 @@ public class TaskScreen extends GUI
 		// Set the position relative to the screen
 		UtilFunctions.translateAll(informationLocation, confirmationComponents);
 		
-		// Setup Background
-		Image background = new Image(ImagePaths.TaskHubBackground);
-		setBackgroundImage(background.getScaledCopy(800, 600));
+		
 		
 		System.out.println("TaskScreen: Initialization Finished.\n");
 	}
