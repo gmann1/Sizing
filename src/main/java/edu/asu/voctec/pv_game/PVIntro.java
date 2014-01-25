@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
+import edu.asu.voctec.SupportFunctions;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.TextArea;
@@ -18,6 +19,9 @@ import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.information.AttemptData;
+import edu.asu.voctec.information.ScenarioData;
+import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.utilities.Position;
 
 public class PVIntro extends GUI implements Task
@@ -84,6 +88,7 @@ public class PVIntro extends GUI implements Task
 	@Override
 	public void onEnter()
 	{
+		SupportFunctions.ensureAttemptData();
 		Game.getExitScreen().updateExitScreen(this.getClass());
 	}
 
