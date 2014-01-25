@@ -231,7 +231,9 @@ public class ExitScreen extends GUI
 			dataDisplay.getUnitAt(1).setText(
 					Integer.toString(currentAttempt.getNumberOfUniqueHints()));
 			starDisplay.setScore(currentAttempt.calculateStarScore());
-			//starDisplay.setBounds(starDisplayBounds);
+			
+			// Mark the attempt as complete
+			currentAttempt.setPercentCompletion(100);
 		}
 	}
 	
