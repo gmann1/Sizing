@@ -68,6 +68,7 @@ public class EAPart2 extends gameTemplate
 		};
 	
 	private boolean continueGood                = false;
+	private static int attemptsUsed				= 0;
 	protected static int targetPowerRating      = 81;
 	public static int totalPowerRating          = 0;
 	public static int[] applianceArray          = {0,0,0,0,0};
@@ -98,6 +99,8 @@ public class EAPart2 extends gameTemplate
 	{
 		super.init(container,  game);
 		this.backgroundImage = new Image(BACKGROUND);	
+
+		//TODO trackTime = true;
 		
 		//Top Appliance drag to areas
 		BasicComponent square1 = new BasicComponent(SQUARE,locationArray[0][0],locationArray[0][1]);
@@ -173,6 +176,15 @@ public class EAPart2 extends gameTemplate
 			ObjectMove invokedObject = objectsArray.get(index);
 			invokedObject.update();
 		}
+		//TODO
+		//Stars
+		if(continueGood)
+		{
+			   if (sequenceStep != 4000)
+			   {
+				   sequenceStep = initiateStars(getScore(hintsUsed, attemptsUsed), sequenceStep);
+			   }
+		}
 	}
 	
 	public static void updatePowerRating()
@@ -238,10 +250,17 @@ public class EAPart2 extends gameTemplate
 					continueButtonOn();
 					
 					continueGood = true;
+					//TODO trackTime = false;
 					hintBox.setText("Good Job! you have the correct combination of items.");
 				} catch (SlickException e) {
 					e.printStackTrace();
 				}
+			}
+			else if(allFilled() == true)
+			{
+				if(attemptsUsed != 6)
+					attemptsUsed += 1;
+				resetContinue();
 			}
 			else
 				resetContinue();
@@ -255,18 +274,13 @@ public class EAPart2 extends gameTemplate
 		{
 			if(continueGood == true)
 			{
-				
-				
 				try {
 					Game.updateExitText("Good Job!","You have successfully found a combination of items that meet the target power consumtion.",new Image(EA_END_BACKGROUND));
 				} catch (SlickException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				reset();
 				Game.getCurrentGame().enterState(ExitScreen.class);
-				
-				//Game.getCurrentGame().enterState(EAPart2ScoreScreen.class);
 			}
 		}
 	}
@@ -280,7 +294,11 @@ public class EAPart2 extends gameTemplate
 				hintNumber++;
 			else
 				hintNumber = 0;
-			hintsUsed++;
+			if(hintsUsed != 3)
+			{
+				hintsUsed++;
+				//TODO Game.getCurrentTask().getCurrentAttempt().addHints(1);
+			}
 			hintBox.setText(hintArray[hintNumber]);
 		}
 	}
@@ -347,6 +365,12 @@ public class EAPart2 extends gameTemplate
 		name5.setFontSize(16);
 		name5.setFontColor(Color.white);
 		this.addComponent(name5);
+	}
+	
+	private int getScore(int hints, int attempts)
+	{
+		int score = 6-(hints + (attempts/2));
+		return score;
 	}
 	
 	public void resetContinue()
