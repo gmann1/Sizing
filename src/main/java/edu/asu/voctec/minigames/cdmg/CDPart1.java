@@ -708,6 +708,11 @@ public class CDPart1 extends GameTemplate {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public void onEnter()
+	 {
+		
+		trackTime = true;
+	 }
 
 
 

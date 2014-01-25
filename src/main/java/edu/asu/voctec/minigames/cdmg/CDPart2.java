@@ -514,6 +514,11 @@ genericHints
 		}
 		
 	}
+	public void onEnter()
+	 {
+		
+		trackTime = true;
+	 }
 	
 
 }
