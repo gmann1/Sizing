@@ -25,6 +25,7 @@ import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.GameTemplate;
+import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
@@ -59,6 +60,7 @@ public class CDPart2 extends GameTemplate {
 	public static final String DOWN_ARROW_ON = "resources/default/img/minigames/criticalDesign/downArrowOn.png";
 	public static final String COMPASS = "resources/default/img/minigames/criticalDesign/Compass.png";
 	public static final String NEEDLE = "resources/default/img/minigames/criticalDesign/Needle.png";
+	public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskScreenBackgrounds/background2.png";
 	
 
 
@@ -131,6 +133,16 @@ public class CDPart2 extends GameTemplate {
 		protected void actionPerformed() {
 			if (correctAnswer){
 				
+				TaskScreen task = (TaskScreen)Game.getCurrentGame().getState(Game.getStateID(TaskScreen.class));
+				if (task.currentImage < 2){
+					try {
+						task.setBackgroundImage(new Image(TASK_SCREEN_BACKGROUND));
+					} catch (SlickException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					task.currentImage = 2;
+				}
 				try {
 					Game.updateExitText("Good Job!", "You have successfully completed both parts of the Critical Design Month game", new Image(END_BACKGROUND));
 				} catch (SlickException e) {

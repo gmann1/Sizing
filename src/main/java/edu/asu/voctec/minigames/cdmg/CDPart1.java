@@ -192,7 +192,7 @@ public class CDPart1 extends GameTemplate {
 		@Override
 		protected void actionPerformed() {
 			if (correctAnswer) {
-				TaskScreen task = (TaskScreen)Game.getCurrentGame().getState(Game.getStateID(TaskScreen.class));
+				
 				// TODO
 				//task.setBackgroundImage(backgroundImage);
 				Game.getCurrentGame().enterState(CDPart2.class);

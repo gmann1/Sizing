@@ -310,7 +310,7 @@ public class ControllerSizingPart1 extends GameTemplate
 		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
 				new Rectangle(0, 0, 50, 25), "Back");
 		backButton.addActionListener(new TransitionButtonListener(
-				ControllerSizingPart2.class));
+				ControllerSizingPart3.class));
 		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 		backButton.positionText(Position.RIGHT);
 		
