@@ -84,7 +84,7 @@ public abstract class GUI extends ModifiedGameState implements GameDefaults
 	public void onEnter()
 	{
 		if (!loaded)
-			initiateInBackground();
+			initiateDeffered();
 		// TODO Remove?
 	}
 	
@@ -98,7 +98,7 @@ public abstract class GUI extends ModifiedGameState implements GameDefaults
 	}
 	
 	@Override
-	public void initiateInBackground()
+	public void initiateDeffered()
 	{
 		// This method was added in an effort to reduce the amount of code
 		// required in child classes, but still allow for extensive
