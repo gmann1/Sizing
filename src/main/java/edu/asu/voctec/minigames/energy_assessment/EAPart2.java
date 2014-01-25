@@ -245,16 +245,12 @@ public class EAPart2 extends GameTemplate
 		{
 			if(totalPowerRating == targetPowerRating && allFilled() == true)
 			{
-				try {
-					//readyButtonOff();
-					continueButtonOn();
-					
-					continueGood = true;
-					//TODO trackTime = false;
-					hintBox.setText("Good Job! you have the correct combination of items.");
-				} catch (SlickException e) {
-					e.printStackTrace();
-				}
+				//readyButtonOff();
+				continueButtonOn();
+				
+				continueGood = true;
+				//TODO trackTime = false;
+				hintBox.setText("Good Job! you have the correct combination of items.");
 			}
 			else if(allFilled() == true)
 			{

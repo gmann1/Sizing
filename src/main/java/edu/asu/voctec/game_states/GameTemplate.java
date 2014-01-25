@@ -163,14 +163,24 @@ public class GameTemplate extends GUI {
 	
 	
 	
-	public void continueButtonOn() throws SlickException{
+	public void continueButtonOn() {
 		continueButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
-		continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_ON), true);
+		try {
+			continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_ON), true);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
-	public void continueButtonOff() throws SlickException{
+	public void continueButtonOff() {
 		continueButton.setFontColor(Fonts.DISABLED_BUTTON_FONT_COLOR);
-		continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_OFF), true);
+		try {
+			continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_OFF), true);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void readyButtonOff(){
@@ -180,6 +190,15 @@ public class GameTemplate extends GUI {
 	public void readyButtonOn(){
 		readyButton.setX(readyButtonX);
 		readyButtonOff.setX(800);
+	}
+	
+	public void resetButtons() {
+		continueButtonOff();
+		readyButtonOn();
+		if (sDisplay != null){
+		removeComponent(sDisplay);
+		}
+		sequenceStep = 0;
 	}
 	
 	public int initiateStars(int starCount, int sequenceCount) throws SlickException{
