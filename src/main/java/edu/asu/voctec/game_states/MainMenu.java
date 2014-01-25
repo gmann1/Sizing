@@ -18,7 +18,6 @@ import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.information.ScenarioData;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.information.UserProfile;
-import edu.asu.voctec.step_selection.ScenarioIntroductionScreen;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class MainMenu extends GUI implements GameDefaults
@@ -71,17 +70,24 @@ public class MainMenu extends GUI implements GameDefaults
 				buttonBounds, relativeTextBounds, "Language");
 		languageButton.addActionListener(new TransitionButtonListener(
 				TaskScreen.class/* LanguageMenu.class */));
+		// TODO remove; Disable language button
+		languageButton.getBaseImage().setAlpha(MainDefaults.DISABLED_COMPONENT_OPACITY);
 		
 		// Instructor Control Panel Button
 		Button instructorButton = new Button(
 				ImagePaths.INSTRUCTOR_CONTROL_PANEL_BUTTON, buttonBounds,
 				relativeTextBounds, "Instructor");
+		// TODO uncomment / enable instructor button
 		/*instructorButton.addActionListener(new TransitionButtonListener(
 				InstructorControlPanel.class));*/
+		// TODO remove; Disable language button
+		languageButton.getBaseImage().setAlpha(MainDefaults.DISABLED_COMPONENT_OPACITY);
 		
 		// Color text
-		setButtonFontColor(Color.darkGray, startButton, languageButton,
+		// TODO set all to constant colour (MainMenuDefaults.BUTTON_FONT_COLOR)
+		setButtonFontColor(Fonts.DISABLED_BUTTON_FONT_COLOR, startButton, languageButton,
 				instructorButton);
+		startButton.setFontColor(MainMenuDefaults.BUTTON_FONT_COLOR);
 		
 		//Game Title
 		Rectangle textLocation = new Rectangle(0, 0, 2*buttonWidth, buttonHeight);

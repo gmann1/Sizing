@@ -184,7 +184,7 @@ public class ControllerSizingPart1 extends gameTemplate {
 			
 				
 				try {
-					Game.updateExitText("Good Job!", "You have successfully completed both parts of the Critical Design Month game", new Image(END_BACKGROUND));
+					Game.updateExitText("Good Job!", "You have successfully completed the controller simulation game!", new Image(END_BACKGROUND));
 				} catch (SlickException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

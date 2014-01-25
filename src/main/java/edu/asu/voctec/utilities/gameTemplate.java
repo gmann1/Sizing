@@ -39,6 +39,9 @@ public class gameTemplate extends GUI {
 	protected Button contButton;
 	protected Button continueButton;
 	private StarDisplay sDisplay;
+
+
+	private Button readyButtonOff;
 	
 	public static final String STAR1 = "resources/default/img/gameTemplate/Star1.png";
 	public static final String STAR2 = "resources/default/img/gameTemplate/Star2.png";
@@ -120,6 +123,9 @@ public class gameTemplate extends GUI {
 		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.80f);
 		readyButton = new Button(readyButtonImage, sidePanel.getX() + sidePanel.getBounds().width/2 - UtilFunctions.getImageBounds(readyButtonImage).width/2, hintBox.getY() + hintBox.getBounds().height + 50, textBounds,"Ready");
 		readyButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
+		readyButtonOff = new Button(new Image(ImagePaths.CONTINUE_BUTTON_OFF), sidePanel.getX() + sidePanel.getBounds().width/2 - UtilFunctions.getImageBounds(readyButtonImage).width/2, hintBox.getY() + hintBox.getBounds().height + 50, textBounds,"Ready");
+		readyButtonOff.setFontColor(Fonts.DISABLED_BUTTON_FONT_COLOR);
+		readyButtonOff.setX(800);
 		//Continue Button
 		Image continueButtonImage = new Image(ImagePaths.CONTINUE_BUTTON_OFF);
 		textBounds = UtilFunctions.getImageBounds(continueButtonImage);
@@ -140,7 +146,7 @@ public class gameTemplate extends GUI {
 		hintButton.setY(401);
 		hintButton.getTextField().center();
 		hintButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
-
+		 
 		this.addComponent(sidePanel);
 
 		this.addComponent(control);
@@ -150,7 +156,7 @@ public class gameTemplate extends GUI {
 		this.addComponent(readyButton);
 		this.addComponent(backButton);
 		this.addComponent(continueButton);
-	
+		this.addComponent(readyButtonOff);
 
 	}
 	
@@ -159,6 +165,20 @@ public class gameTemplate extends GUI {
 	public void continueButtonOn() throws SlickException{
 		continueButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
 		continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_ON), true);
+		
+	}
+	public void continueButtonOff() throws SlickException{
+		continueButton.setFontColor(Fonts.DISABLED_BUTTON_FONT_COLOR);
+		continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_OFF), true);
+	}
+	
+	public void readyButtonOff(){
+		readyButtonOff.setX(readyButton.getX());
+		readyButton.setX(800);
+	}
+	public void readyButtonOn(){
+		readyButton.setX(readyButtonOff.getX());
+		readyButtonOff.setX(800);
 	}
 	
 	public int initiateStars(int starCount, int sequenceCount) throws SlickException{
