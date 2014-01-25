@@ -99,6 +99,8 @@ public class EAPart2 extends gameTemplate
 	{
 		super.init(container,  game);
 		this.backgroundImage = new Image(BACKGROUND);	
+
+		//TODO trackTime = true;
 		
 		//Top Appliance drag to areas
 		BasicComponent square1 = new BasicComponent(SQUARE,locationArray[0][0],locationArray[0][1]);
@@ -248,6 +250,7 @@ public class EAPart2 extends gameTemplate
 					continueButtonOn();
 					
 					continueGood = true;
+					//TODO trackTime = false;
 					hintBox.setText("Good Job! you have the correct combination of items.");
 				} catch (SlickException e) {
 					e.printStackTrace();
@@ -294,7 +297,7 @@ public class EAPart2 extends gameTemplate
 			if(hintsUsed != 3)
 			{
 				hintsUsed++;
-				//Game.getCurrentTask().getCurrentAttempt().addHints(1);
+				//TODO Game.getCurrentTask().getCurrentAttempt().addHints(1);
 			}
 			hintBox.setText(hintArray[hintNumber]);
 		}
