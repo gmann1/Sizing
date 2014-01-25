@@ -67,6 +67,7 @@ public class EAPart1IntroScreen extends GUI implements Task
 	@Override
 	public void onEnter()
 	{
+		SupportFunctions.ensureAttemptData();
 		Game.getExitScreen().updateExitScreen(this.getClass());
 	}
 }
