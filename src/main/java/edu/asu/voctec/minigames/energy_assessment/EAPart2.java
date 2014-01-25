@@ -30,6 +30,7 @@ import edu.asu.voctec.GameDefaults.ImagePaths;
 import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.GameTemplate;
+import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.information.SizingStepsData;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.minigames.battery_sizing.Battery;
@@ -46,6 +47,7 @@ public class EAPart2 extends GameTemplate
 {
 	private static final String BACKGROUND     = "resources/default/img/minigames/energyAssessment/New/Game1Background.png";
 	private static final String EA_END_BACKGROUND = "resources/default/img/scoreScreenBackgrounds/ScoreBackgroundTask1.png";
+	 public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskScreenBackgrounds/background1.png";
 	private static final String SQUARE         = "resources/default/img/minigames/energyAssessment/New/AppBoxTransparent.png";
 	private static final String STARTSQUARE    = "resources/default/img/minigames/energyAssessment/New/AppBox.png";
 	private static final String GARBAGEBIN     = "resources/default/img/minigames/energyAssessment/New/GarbageBin.png";
@@ -55,6 +57,7 @@ public class EAPart2 extends GameTemplate
 	private static final String RADIO          = "resources/default/img/minigames/energyAssessment/New/Radio.png";
 	private static final String TELIVISION     = "resources/default/img/minigames/energyAssessment/New/TV.png";
 	private static final String PHONE          = "resources/default/img/minigames/energyAssessment/New/Cellphone.png";
+	
 
 	static PowerBar powerBar;
 	
@@ -100,7 +103,8 @@ public class EAPart2 extends GameTemplate
 		super.init(container,  game);
 		this.backgroundImage = new Image(BACKGROUND);	
 
-		//TODO trackTime = true;
+		//TODO 
+		trackTime = true;
 		
 		//Top Appliance drag to areas
 		BasicComponent square1 = new BasicComponent(SQUARE,locationArray[0][0],locationArray[0][1]);
@@ -246,20 +250,19 @@ public class EAPart2 extends GameTemplate
 			if(totalPowerRating == targetPowerRating && allFilled() == true)
 			{
 				//readyButtonOff();
+				readyButtonOff();
 				continueButtonOn();
 				
 				continueGood = true;
-				//TODO trackTime = false;
+				//TODO 
+				trackTime = false;
 				hintBox.setText("Good Job! you have the correct combination of items.");
 			}
 			else if(allFilled() == true)
 			{
 				if(attemptsUsed != 6)
 					attemptsUsed += 1;
-				resetContinue();
 			}
-			else
-				resetContinue();
 		}
 	}
  	
@@ -272,9 +275,25 @@ public class EAPart2 extends GameTemplate
 			{
 				try {
 					Game.updateExitText("Good Job!","You have successfully found a combination of items that meet the target power consumtion.",new Image(EA_END_BACKGROUND));
-				} catch (SlickException e) {
+					
+				} 
+				catch (SlickException e) 
+				{
 					e.printStackTrace();
 				}
+				TaskScreen task = (TaskScreen)Game.getCurrentGame().getState(Game.getStateID(TaskScreen.class));
+			    if (task.currentImage < 1)
+			    {
+			    	try 
+			    	{
+			    		task.setBackgroundImage(new Image(TASK_SCREEN_BACKGROUND));
+				    } 
+			    	catch (SlickException e) 
+			    	{
+				      e.printStackTrace();
+				    }
+				     task.currentImage = 1;
+			    }
 				reset();
 				Game.getCurrentGame().enterState(ExitScreen.class);
 			}
@@ -368,17 +387,7 @@ public class EAPart2 extends GameTemplate
 		int score = 6-(hints + (attempts/2));
 		return score;
 	}
-	
-	public void resetContinue()
-	{
-		continueGood = false;
-		continueButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
-		try {
-			continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_OFF), true);
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-	}
+
 	
 	public void reset()
 	{
@@ -389,11 +398,11 @@ public class EAPart2 extends GameTemplate
 		totalPowerRating = 0;
 		powerBar.updatePowerBar(totalPowerRating);
 		
-		resetContinue();
 		for(int v = 0; v<5;v++)
 		{
 			applianceArray[v] = 0;
 		}
+		resetButtons();
 		System.out.println("eaPart2 Reset");
 		
 	}
