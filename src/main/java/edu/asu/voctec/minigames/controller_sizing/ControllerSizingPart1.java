@@ -1556,5 +1556,10 @@ public class ControllerSizingPart1 extends GameTemplate
 	{
 		cont.setX(800 - cont.getBounds().width);
 	}
+	public void onEnter()
+	 {
+		
+		trackTime = true;
+	 }
 	
 }
