@@ -18,6 +18,7 @@ import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.game_states.GameTemplate;
+import edu.asu.voctec.game_states.TaskScreen;
 
 public class BatteryGameScreen extends GameTemplate
 {
@@ -33,6 +34,7 @@ public class BatteryGameScreen extends GameTemplate
 	public static final String GreenBattery = "resources/default/img/minigames/BatterySizing/GreenBattery.png";
 	public static final String Trash = "resources/default/img/minigames/BatterySizing/GarbageBin.png";
 	public static final String END_BACKGROUND = "resources/default/img/scoreScreenBackgrounds/ScoreBackgroundTask3.png";
+	public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskScreenBackgrounds/background3.png";
 	
 	public static final String HorizontalLine = "resources/default/img/minigames/BatterySizing/BatteryMainLine.png";
 	private static Image horizontalLineImage;
@@ -79,7 +81,7 @@ public class BatteryGameScreen extends GameTemplate
 	public static List<BatteryControl> objectsArray = new ArrayList<BatteryControl>();
 	private List<InitialBattery> initialBatteries = new ArrayList<InitialBattery>();
 	private static final int RequiredCapacity = 174, RequiredVoltage = 12, maxChances = 5;
-	private boolean firstRoundOfHints = true, parallelHintNOtDisplayed = true, seriesHintNOtDisplayed = true, doneButtonPressed = false;
+	private boolean firstRoundOfHints = true, parallelHintNOtDisplayed = true, seriesHintNOtDisplayed = true;
 	public static int totalNumberOfHintsUsed = 0, doneButtonCounter = 0, deductedScore = 0;
 	private static BasicComponent batteryBankArea;
 	private static boolean CompletedGame = false;
@@ -242,7 +244,7 @@ public class BatteryGameScreen extends GameTemplate
 				{
 					totalNumberOfHintsUsed++;
 					// TODO fix crash (initialize taskData)
-					//Game.getCurrentTask().getCurrentAttempt().addHints(1);
+					Game.getCurrentTask().getCurrentAttempt().addHints(1);
 					if(deductedScore < 5)
 						deductedScore++;
 				}
@@ -259,7 +261,7 @@ public class BatteryGameScreen extends GameTemplate
 				{
 					totalNumberOfHintsUsed++;
 					// TODO fix crash (initialize taskData)
-					//Game.getCurrentTask().getCurrentAttempt().addHints(1);
+					Game.getCurrentTask().getCurrentAttempt().addHints(1);
 					if(deductedScore < 5)
 						deductedScore++;
 				}
@@ -274,7 +276,7 @@ public class BatteryGameScreen extends GameTemplate
 			{
 				totalNumberOfHintsUsed++;
 				// TODO fix crash (initialize taskData)
-				//Game.getCurrentTask().getCurrentAttempt().addHints(1);
+				Game.getCurrentTask().getCurrentAttempt().addHints(1);
 				if(deductedScore < 5)
 					deductedScore++;
 			}
@@ -300,8 +302,8 @@ public class BatteryGameScreen extends GameTemplate
 				{
 					totalNumberOfHintsUsed++;
 					// TODO fix crash (initialize taskData)
-					//Game.getCurrentTask().getCurrentAttempt().addHints(1);
-					if(deductedScore < 5 && !doneButtonPressed)
+					Game.getCurrentTask().getCurrentAttempt().addHints(1);
+					if(deductedScore < 5)
 						deductedScore++;
 				}
 				parallelHintNOtDisplayed = false;
@@ -317,8 +319,8 @@ public class BatteryGameScreen extends GameTemplate
 				{
 					totalNumberOfHintsUsed++;
 					// TODO fix crash (initialize taskData)
-					//Game.getCurrentTask().getCurrentAttempt().addHints(1);
-					if(deductedScore < 5 && !doneButtonPressed)
+					Game.getCurrentTask().getCurrentAttempt().addHints(1);
+					if(deductedScore < 5)
 						deductedScore++;
 				}
 				seriesHintNOtDisplayed = false;
@@ -332,8 +334,8 @@ public class BatteryGameScreen extends GameTemplate
 			{
 				totalNumberOfHintsUsed++;
 				// TODO fix crash (initialize taskData)
-				//Game.getCurrentTask().getCurrentAttempt().addHints(1);
-				if(deductedScore < 5 && !doneButtonPressed)
+				Game.getCurrentTask().getCurrentAttempt().addHints(1);
+				if(deductedScore < 5)
 					deductedScore++;
 			}
 			if(currentHintText == (hintsTextArray.length-1))
@@ -438,8 +440,6 @@ public class BatteryGameScreen extends GameTemplate
 					if(!CompletedGame)
 					{
 						doneButtonCounter++;
-						if(deductedScore < 5)
-							deductedScore++;
 					}
 				}
 				else if(Battery.getNumberOfBatteries() <= 2)
@@ -460,8 +460,6 @@ public class BatteryGameScreen extends GameTemplate
 						if(!CompletedGame)
 						{
 							doneButtonCounter++;
-							if(deductedScore < 5)
-								deductedScore++;
 						}
 					}
 					else
@@ -482,19 +480,20 @@ public class BatteryGameScreen extends GameTemplate
 				if(!CompletedGame)
 				{
 					doneButtonCounter++;
-					doneButtonPressed = true;
-					if(deductedScore < 5)
-						deductedScore++;
 				}
 				showNextHintText(IncorrectAnswerMessage);
-				doneButtonPressed = false;
 			}
 			
 			if(doneButtonCounter >= maxChances)
 			{
 				hintBox.setText(GameAnswer);
 				hintBox.setFontColor(Color.white);
-				deductedScore = 6;
+				while(deductedScore < 6)
+				{
+					// TODO fix crash (initialize taskData)
+					Game.getCurrentTask().getCurrentAttempt().addHints(1);
+					deductedScore++;
+				}
 			}
 		}
 	}
@@ -514,6 +513,16 @@ public class BatteryGameScreen extends GameTemplate
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				TaskScreen task = (TaskScreen)Game.getCurrentGame().getState(Game.getStateID(TaskScreen.class));
+			    if (task.currentImage < 3){
+			     try {
+			      task.setBackgroundImage(new Image(TASK_SCREEN_BACKGROUND));
+			     } catch (SlickException e) {
+			      // TODO Auto-generated catch block
+			      e.printStackTrace();
+			     }
+			     task.currentImage = 3;
+			    }
 				reset();
 				Game.getCurrentGame().enterState(ExitScreen.class);
 			}
@@ -529,7 +538,7 @@ public class BatteryGameScreen extends GameTemplate
 		deductedScore = 0;
 		Battery.reset();
 		CompletedGame = false;
-		removeComponent(sDisplay);
+		resetButtons();
 	}
 	
 	public void onEnter()
