@@ -9,6 +9,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 
 import edu.asu.voctec.GameDefaults.ImagePaths;
+import edu.asu.voctec.GameDefaults.Labels;
 import edu.asu.voctec.GameDefaults.TaskScreenDefaults;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.Component;
@@ -61,37 +62,42 @@ public class UserProfile implements Serializable
 		TaskScreen taskScreen = new TaskScreen();
 		
 		// Task 1
+		String name = Labels.TaskScreen.ENERGY_ASSESSMENT.getTranslation();
 		TaskData energyAssessment = new TaskData(EAPart1IntroScreen.class,
-				taskScreen, textBoundScale, null);
+				taskScreen, textBoundScale, name);
 		energyAssessment.setImages(ImagePaths.TaskScreen.STEP_ONE,
 				ImagePaths.TaskScreen.STEP_ONE_COMPLETE,
 				ImagePaths.TaskScreen.STEP_ONE_SELECTED);
 		
 		// Task 2
+		name = Labels.TaskScreen.CRITICAL_DESIGN_MONTH.getTranslation();
 		TaskData criticalDesignMonth = new TaskData(CDIntroScreen.class,
-				taskScreen, textBoundScale, null);
+				taskScreen, textBoundScale, name);
 		criticalDesignMonth.setImages(ImagePaths.TaskScreen.STEP_TWO,
 				ImagePaths.TaskScreen.STEP_TWO_COMPLETE,
 				ImagePaths.TaskScreen.STEP_TWO_SELECTED);
 		
 		// Task 3
+		name = Labels.TaskScreen.BATTERY_SIZING.getTranslation();
 		TaskData batterySizing = new TaskData(BatteryIntro.class, taskScreen,
-				textBoundScale, null);
+				textBoundScale, name);
 		batterySizing.setImages(ImagePaths.TaskScreen.STEP_THREE,
 				ImagePaths.TaskScreen.STEP_THREE_COMPLETE,
 				ImagePaths.TaskScreen.STEP_THREE_SELECTED);
 		
 		// Task 4
+		name = Labels.TaskScreen.PV_SIZING.getTranslation();
 		TaskData pvSizing = new TaskData(PVIntro.class, taskScreen,
-				textBoundScale, null);
+				textBoundScale, name);
 		pvSizing.setImages(ImagePaths.TaskScreen.STEP_FOUR,
 				ImagePaths.TaskScreen.STEP_FOUR_COMPLETE,
 				ImagePaths.TaskScreen.STEP_FOUR_SELECTED);
 		
 		// Task 5
+		name = Labels.TaskScreen.CONTROLLER_SIZING.getTranslation();
 		TaskData controllerSizing = new TaskData(
 				ControllerSizingIntroScreen.class, taskScreen, textBoundScale,
-				null);
+				name);
 		controllerSizing.setImages(ImagePaths.TaskScreen.STEP_FIVE,
 				ImagePaths.TaskScreen.STEP_FIVE_COMPLETE,
 				ImagePaths.TaskScreen.STEP_FIVE_SELECTED);

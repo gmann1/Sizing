@@ -11,6 +11,7 @@ import edu.asu.voctec.Game;
 import edu.asu.voctec.GameDefaults.Fonts;
 import edu.asu.voctec.GameDefaults.ImagePaths;
 import edu.asu.voctec.GameDefaults.Labels;
+import edu.asu.voctec.GameDefaults.TaskScreenDefaults;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.Component;
@@ -147,8 +148,9 @@ public class TaskData
 		this();
 		this.associatedHub = associatedHub;
 		this.associatedTask = associatedTask;
+		boolean writeOnButton = TaskScreenDefaults.WRITE_TO_BUTTONS;
 		this.taskIcon = new Button(DEFAULT_IMAGE, 0, 0, relativeTextBounds,
-				name);
+				writeOnButton ? name : null);
 		
 		populateInformationComponents(name, informationComponents);
 		taskIcon.addActionListener(new MultiTaskListener());
