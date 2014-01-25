@@ -5,6 +5,8 @@ import edu.asu.voctec.GameDefaults.IntroductionScreenDefaults;
 import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
+import edu.asu.voctec.information.AttemptData;
+import edu.asu.voctec.information.TaskData;
 
 public class SupportFunctions
 {
@@ -29,5 +31,13 @@ public class SupportFunctions
 		introductionText.setFontColor(Fonts.FONT_COLOR);
 		
 		return introductionText;
+	}
+	
+	public static void ensureAttemptData()
+	{
+		TaskData currentTask = Game.getCurrentTask();
+		AttemptData currentAttempt = currentTask.getCurrentAttempt();
+		if (currentAttempt == null)
+			currentTask.setCurrentAttempt(new AttemptData());
 	}
 }
