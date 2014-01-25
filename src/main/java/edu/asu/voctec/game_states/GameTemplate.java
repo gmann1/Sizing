@@ -184,7 +184,7 @@ public class GameTemplate extends GUI {
 	}
 	
 	public void readyButtonOff(){
-		readyButtonOff.setX(readyButton.getX());
+		readyButtonOff.setX(readyButtonX);
 		readyButton.setX(800);
 	}
 	public void readyButtonOn(){
