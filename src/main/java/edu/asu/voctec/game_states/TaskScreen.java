@@ -31,6 +31,8 @@ public class TaskScreen extends GUI
 	private ArrayList<Component> confirmationComponents;
 	private boolean scenarioLoaded;
 	
+	public static int currentImage = 0;
+	
 	public class BackButtonListener extends ButtonListener
 	{
 		private static final long serialVersionUID = -1242073189843483437L;

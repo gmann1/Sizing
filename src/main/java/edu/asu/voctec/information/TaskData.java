@@ -362,7 +362,7 @@ public class TaskData
 		{
 			int percent = getCurrentAttempt().getPercentCompletion();
 			progressBar.setPercentComplete(percent);
-			percentageLabel.setText(percent + "%%");
+			percentageLabel.setText(percent + "%");
 			
 			String buttonText;
 			if (getCurrentAttempt().isComplete())
