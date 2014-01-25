@@ -118,6 +118,22 @@ public class TaskData
 		@Override
 		protected void actionPerformed()
 		{
+			ScenarioData scenario = Game.getCurrentScenario();
+			TaskData[] tasks = scenario.getTasks();
+			TaskData associatedTaskData = null;
+			
+			// TODO verify
+			// TODO: If null pointer exception occurs on transfer, check here
+			for (TaskData task : tasks)
+			{
+				if(associatedTask == task.getAssociatedTask())
+				{
+					associatedTaskData = task;
+					break;
+				}
+			}
+			
+			Game.setCurrentTask(associatedTaskData);
 			AttemptData currentAttempt = getCurrentAttempt();
 			
 			if (currentAttempt == null || currentAttempt.isComplete())
@@ -361,5 +377,12 @@ public class TaskData
 			comboButton.getTextField().setText("Begin");
 		}
 	}
+
+	public Class<?> getAssociatedTask()
+	{
+		return associatedTask;
+	}
+	
+	
 	
 }
