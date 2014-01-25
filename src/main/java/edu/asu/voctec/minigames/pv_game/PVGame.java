@@ -156,9 +156,15 @@ public class PVGame extends GameTemplate
 			throws SlickException
 	{
 		if(CompletedGame)
+		{
 			continueButtonOn();
+			readyButtonOff();
+		}
 		else
+		{
 			continueButtonOff();
+			readyButtonOn();
+		}
 		
 		super.update(container,game,delta);
 		
@@ -505,11 +511,6 @@ public class PVGame extends GameTemplate
 		
 	}
 	
-	public void continueButtonOff() throws SlickException{
-		continueButton.setFontColor(Fonts.DISABLED_BUTTON_FONT_COLOR);
-		continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_OFF), true);
-	}
-	
 	public void reset()
 	{
 		hintBox.setText("");
@@ -519,6 +520,7 @@ public class PVGame extends GameTemplate
 		deductedScore = 0;
 		Battery.reset();
 		CompletedGame = false;
+		removeComponent(sDisplay);
 	}
 	
 	public void onEnter()
