@@ -49,11 +49,11 @@ public class ScenarioHub extends GUI
 		
 		// Scenario Buttons
 		scenario1Button = new Button(new Image(SCENARIO1_BUTTON), 225, 162,
-				new Rectangle(75, 0, 300, 75), "Senario 1");
+				new Rectangle(75, 0, 300, 75), "Scenario 1");
 		scenario2Button = new Button(new Image(SCENARIO_BUTTON_GRAY), 225, 262,
-				new Rectangle(75, 0, 300, 75), "Senario 2");
+				new Rectangle(75, 0, 300, 75), "Scenario 2");
 		scenario3Button = new Button(new Image(SCENARIO_BUTTON_GRAY), 225, 362,
-				new Rectangle(75, 0, 300, 75), "Senario 3");
+				new Rectangle(75, 0, 300, 75), "Scenario 3");
 		scenario1Button.setFontColor(Color.black);
 		scenario2Button.setFontColor(Color.gray);
 		scenario3Button.setFontColor(Color.gray);
