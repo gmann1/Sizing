@@ -32,11 +32,7 @@ public class BatteryGameScreen extends gameTemplate
 	public static final String RedBattery = "resources/default/img/minigames/BatterySizing/RedBattery.png";
 	public static final String GreenBattery = "resources/default/img/minigames/BatterySizing/GreenBattery.png";
 	public static final String Trash = "resources/default/img/minigames/BatterySizing/GarbageBin.png";
-	public static final String END_BACKGROUND = "resources/default/img/minigames/BatterySizing/Game2End-02.png";
-	
-	public static final String FirstImage = "resources/default/img/minigames/BatterySizing/FirstImage.png";
-	public static final String SecondImage = "resources/default/img/minigames/BatterySizing/SecondImageBattery.png";
-	private static Image batteryImage;
+	public static final String END_BACKGROUND = "resources/default/img/scoreScreenBackgrounds/ScoreBackgroundTask3.png";
 	
 	public static final String HorizontalLine = "resources/default/img/minigames/BatterySizing/BatteryMainLine.png";
 	private static Image horizontalLineImage;
@@ -84,7 +80,7 @@ public class BatteryGameScreen extends gameTemplate
 	private List<InitialBattery> initialBatteries = new ArrayList<InitialBattery>();
 	private static final int RequiredCapacity = 174, RequiredVoltage = 12, maxChances = 5;
 	private boolean firstRoundOfHints = true, parallelHintNOtDisplayed = true, seriesHintNOtDisplayed = true;
-	public static int totalNumberOfHintsUsed = 0, doneButtonCounter = 0;
+	public static int totalNumberOfHintsUsed = 0, doneButtonCounter = 0, deductedScore = 0;
 	private static BasicComponent batteryBankArea;
 	private static boolean CompletedGame = false;
 	
@@ -119,7 +115,6 @@ public class BatteryGameScreen extends gameTemplate
 		verticalLinesImage = new Image(VerticalLines);
 		horizontalLineImage = new Image(HorizontalLine);
 		TransparentBatteryImage = new Image(TransparentBattery);
-		batteryImage = new Image(SecondImage);
 		
 		initialBatteries.add(new InitialBattery(Voltages[0], Capacities[0], 50, 520, new Image(BlueBattery), 50, 520, this));
 		initialBatteries.add(new InitialBattery(Voltages[1], Capacities[1], 200, 520, new Image(YellowBattery), 200, 520, this));
@@ -177,7 +172,7 @@ public class BatteryGameScreen extends gameTemplate
 		
 		if(CompletedGame){
 			   if (sequenceStep != 4000){
-			   sequenceStep = initiateStars(6-totalNumberOfHintsUsed, sequenceStep);
+			   sequenceStep = initiateStars(6-deductedScore, sequenceStep);
 			   }
 			  }
 	}
@@ -238,7 +233,13 @@ public class BatteryGameScreen extends gameTemplate
 			if(parallelHintNOtDisplayed)
 			{
 				if(!CompletedGame)
+				{
 					totalNumberOfHintsUsed++;
+					// TODO fix crash (initialize taskData)
+					//Game.getCurrentTask().getCurrentAttempt().addHints(1);
+					if(deductedScore < 5)
+						deductedScore++;
+				}
 				parallelHintNOtDisplayed = false;
 			}
 		}
@@ -249,7 +250,13 @@ public class BatteryGameScreen extends gameTemplate
 			if(seriesHintNOtDisplayed)
 			{
 				if(!CompletedGame)
+				{
 					totalNumberOfHintsUsed++;
+					// TODO fix crash (initialize taskData)
+					//Game.getCurrentTask().getCurrentAttempt().addHints(1);
+					if(deductedScore < 5)
+						deductedScore++;
+				}
 				seriesHintNOtDisplayed = false;
 			}
 		}
@@ -258,7 +265,13 @@ public class BatteryGameScreen extends gameTemplate
 			hintBox.setText(hintsTextArray[currentHintText]);
 			hintBox.setFontColor(Color.white);
 			if(firstRoundOfHints && !CompletedGame)
+			{
 				totalNumberOfHintsUsed++;
+				// TODO fix crash (initialize taskData)
+				//Game.getCurrentTask().getCurrentAttempt().addHints(1);
+				if(deductedScore < 5)
+					deductedScore++;
+			}
 			if(currentHintText == (hintsTextArray.length-1))
 			{
 				currentHintText = 0;
@@ -278,7 +291,13 @@ public class BatteryGameScreen extends gameTemplate
 			if(parallelHintNOtDisplayed)
 			{
 				if(!CompletedGame)
+				{
 					totalNumberOfHintsUsed++;
+					// TODO fix crash (initialize taskData)
+					//Game.getCurrentTask().getCurrentAttempt().addHints(1);
+					if(deductedScore < 5)
+						deductedScore++;
+				}
 				parallelHintNOtDisplayed = false;
 			}
 		}
@@ -289,7 +308,13 @@ public class BatteryGameScreen extends gameTemplate
 			if(seriesHintNOtDisplayed)
 			{
 				if(!CompletedGame)
+				{
 					totalNumberOfHintsUsed++;
+					// TODO fix crash (initialize taskData)
+					//Game.getCurrentTask().getCurrentAttempt().addHints(1);
+					if(deductedScore < 5)
+						deductedScore++;
+				}
 				seriesHintNOtDisplayed = false;
 			}
 		}
@@ -298,7 +323,13 @@ public class BatteryGameScreen extends gameTemplate
 			hintBox.setText(doneButtonMessage+hintsTextArray[currentHintText]);
 			hintBox.setFontColor(Color.white);
 			if(firstRoundOfHints && !CompletedGame)
+			{
 				totalNumberOfHintsUsed++;
+				// TODO fix crash (initialize taskData)
+				//Game.getCurrentTask().getCurrentAttempt().addHints(1);
+				if(deductedScore < 5)
+					deductedScore++;
+			}
 			if(currentHintText == (hintsTextArray.length-1))
 			{
 				currentHintText = 0;
@@ -398,7 +429,12 @@ public class BatteryGameScreen extends gameTemplate
 				{
 					hintBox.setText(ExtraObjectsUsedMessage);
 					hintBox.setFontColor(Color.white);
-					doneButtonCounter++;
+					if(!CompletedGame)
+					{
+						doneButtonCounter++;
+						if(deductedScore < 5)
+							deductedScore++;
+					}
 				}
 				else if(Battery.getNumberOfBatteries() <= 2)
 				{
@@ -415,7 +451,12 @@ public class BatteryGameScreen extends gameTemplate
 					{
 						hintBox.setText(ExtraObjectsUsedMessage);
 						hintBox.setFontColor(Color.white);
-						doneButtonCounter++;
+						if(!CompletedGame)
+						{
+							doneButtonCounter++;
+							if(deductedScore < 5)
+								deductedScore++;
+						}
 					}
 					else
 					{
@@ -425,6 +466,8 @@ public class BatteryGameScreen extends gameTemplate
 								CompletingGameMessage,
 								CorrectAnswerMessage, Color.black);
 						CompletedGame = true;
+						// TODO fix crash
+						trackTime = false;
 					}
 				}
 			}
@@ -432,13 +475,18 @@ public class BatteryGameScreen extends gameTemplate
 			{
 				showNextHintText(IncorrectAnswerMessage);
 				if(!CompletedGame)
+				{
 					doneButtonCounter++;
+					if(deductedScore < 5)
+						deductedScore++;
+				}
 			}
 			
 			if(doneButtonCounter >= maxChances)
 			{
 				hintBox.setText(GameAnswer);
 				hintBox.setFontColor(Color.white);
+				deductedScore = 6;
 			}
 		}
 	}
@@ -451,6 +499,8 @@ public class BatteryGameScreen extends gameTemplate
 			if(CompletedGame)
 			{
 				try {
+					// TODO generates error, needs to be fixed
+					//starDisplay.setScore(6-deductedScore);
 					Game.updateExitText("Good Job!", "You have successfully completed the Battery Sizing Game", new Image(END_BACKGROUND));
 				} catch (SlickException e) {
 					// TODO Auto-generated catch block
@@ -474,7 +524,19 @@ public class BatteryGameScreen extends gameTemplate
 		batteryBankText.setText(BatteryBankLabel);
 		currentHintText = 0;
 		doneButtonCounter = 0;
+		deductedScore = 0;
 		Battery.reset();
 		CompletedGame = false;
 	}
+	
+	public void onEnter()
+	 {
+		// TODO fix crash
+		trackTime = true;
+	 }
+	public void onExit()
+	 {
+		// TODO fix crash
+		trackTime = false;
+	 }
 }
