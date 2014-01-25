@@ -296,7 +296,7 @@ public class Game extends StateBasedGame implements Singleton
 	{
 		this.addState(new MainMenu());
 		this.addState(new MenuTest());
-		this.addState(new MenuTest());
+		this.addState(new ScenarioHub());
 		this.addState(new ExitScreen());
 		this.addState(new LanguageMenu());
 		this.addState(new TaskScreen());
