@@ -96,7 +96,7 @@ public class ExitScreen extends GUI
 			throws SlickException
 	{
 		// Setup Background
-		this.backgroundImage = new Image(ImagePaths.MainMenuBackground);
+		this.backgroundImage = new Image("resources/default/img/scoreScreenBackgrounds/ScoreBackgroundTask0.png");
 		
 		// Divide the screen into 4 quadrants (2 rows, 2 columns)
 		Rectangle[][] screenDivisions = UtilFunctions.divideScreen(

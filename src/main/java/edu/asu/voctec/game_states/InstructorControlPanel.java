@@ -20,6 +20,7 @@ public class InstructorControlPanel extends GUI
 	private static final String LOGO3 = "resources/default/img/voctecLogo/Intro0003.png";
 	private static final String LOGO4 = "resources/default/img/voctecLogo/Intro0004.png";
 	private static final String LOGO5 = "resources/default/img/voctecLogo/Intro0005.png";
+	private static final String CREDITS = "resources/default/img/voctecLogo/Credits.png";
 	private static final String BACKGROUND = "resources/default/img/voctecLogo/WhiteBackground.png";
 	
 	@Override
@@ -27,9 +28,16 @@ public class InstructorControlPanel extends GUI
 			throws SlickException
 	{
 		// TODO Auto-generated method stub
-		logo = new BasicComponent(new Image(LOGO1), 125, 100);
-		this.addComponent(logo);
+		logo = new BasicComponent(new Image(LOGO1), 125, 0);
+		
 		this.backgroundImage = new Image(BACKGROUND);
+		
+		BasicComponent credits = new BasicComponent(new Image(CREDITS), 0, 0);
+		credits.rescale(800, credits.getBounds().height);
+		credits.setY(600 - credits.getBounds().height);
+		credits.setX(0);
+		this.addComponent(credits);
+		this.addComponent(logo);
 	}
 	
 	@Override

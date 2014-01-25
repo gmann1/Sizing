@@ -68,9 +68,9 @@ public class MainMenu extends GUI implements GameDefaults
 		// Language Button
 		Button languageButton = new Button(ImagePaths.LANGUAGE_BUTTON,
 				buttonBounds, relativeTextBounds, "Language");
-		languageButton.addActionListener(new TransitionButtonListener(
-				TaskScreen.class/* LanguageMenu.class */));
-		// TODO remove; Disable language button
+		/*languageButton.addActionListener(new TransitionButtonListener(
+				TaskScreen.class/* LanguageMenu.class ));*/
+		// TODO remove; Enable language button
 		languageButton.getBaseImage().setAlpha(MainDefaults.DISABLED_COMPONENT_OPACITY);
 		
 		// Instructor Control Panel Button

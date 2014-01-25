@@ -27,6 +27,7 @@ public class gameTemplate extends GUI {
 	protected TextAreaX instructionBox;
 	protected TextAreaX topText;
 	
+	protected int readyButtonX = 0;
 	
 	
 	protected BasicComponent sidePanel;
@@ -38,7 +39,7 @@ public class gameTemplate extends GUI {
 	protected Button hintButton;
 	protected Button contButton;
 	protected Button continueButton;
-	private StarDisplay sDisplay;
+	protected StarDisplay sDisplay;
 
 
 	private Button readyButtonOff;
@@ -123,6 +124,7 @@ public class gameTemplate extends GUI {
 		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.80f);
 		readyButton = new Button(readyButtonImage, sidePanel.getX() + sidePanel.getBounds().width/2 - UtilFunctions.getImageBounds(readyButtonImage).width/2, hintBox.getY() + hintBox.getBounds().height + 50, textBounds,"Ready");
 		readyButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
+		readyButtonX = readyButton.getX();
 		readyButtonOff = new Button(new Image(ImagePaths.CONTINUE_BUTTON_OFF), sidePanel.getX() + sidePanel.getBounds().width/2 - UtilFunctions.getImageBounds(readyButtonImage).width/2, hintBox.getY() + hintBox.getBounds().height + 50, textBounds,"Ready");
 		readyButtonOff.setFontColor(Fonts.DISABLED_BUTTON_FONT_COLOR);
 		readyButtonOff.setX(800);
@@ -177,7 +179,7 @@ public class gameTemplate extends GUI {
 		readyButton.setX(800);
 	}
 	public void readyButtonOn(){
-		readyButton.setX(readyButtonOff.getX());
+		readyButton.setX(readyButtonX);
 		readyButtonOff.setX(800);
 	}
 	

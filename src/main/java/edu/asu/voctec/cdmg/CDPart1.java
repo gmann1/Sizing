@@ -39,6 +39,7 @@ public class CDPart1 extends gameTemplate {
 	private static int index = 0;
 	public static int hints = 0;
 	private int hintCount = 0;
+	private int score = 0;
 
 	private boolean correctAnswer = false;
 
@@ -73,6 +74,10 @@ public class CDPart1 extends gameTemplate {
 	private static boolean oc = false;
 	private static boolean se = false;
 	private static boolean ju = false;
+	
+	private boolean box1Used = false;
+	private boolean box3Used = false;
+	private boolean box4Used = false;
 
 	static ArrayList<String> Earths = new ArrayList<>();
 	
@@ -129,6 +134,10 @@ public class CDPart1 extends gameTemplate {
 		protected void actionPerformed() {
 
 		if (box1Selected){
+			if (!box1Used){
+			box1Used = true;
+			++hints;
+			}
 			try {
 				box1.setCurrentImage(new Image(INCORRECT_BOX), true);
 			} catch (SlickException e) {
@@ -154,6 +163,10 @@ public class CDPart1 extends gameTemplate {
 			hintBox.setText(monthlyHints.get(1));
 		}
 		else if(box3Selected){
+			if (!box3Used){
+				box3Used = true;
+				++hints;
+				}
 			try {
 				box3.setCurrentImage(new Image(INCORRECT_BOX), true);
 			} catch (SlickException e) {
@@ -162,6 +175,10 @@ public class CDPart1 extends gameTemplate {
 			hintBox.setText(monthlyHints.get(2));
 		}
 		else if(box4Selected){
+			if (!box4Used){
+				box4Used = true;
+				++hints;
+				}
 			try {
 				box4.setCurrentImage(new Image(INCORRECT_BOX), true);
 			} catch (SlickException e) {
@@ -385,6 +402,8 @@ public class CDPart1 extends gameTemplate {
 			hintBox.setText(monthlyHints.get(i));
 			if (!ap && !correctAnswer) {
 				++hints;
+				//TODO
+				//Game.getCurrentTask().getCurrentAttempt().addHints(hints.size());
 				ap = true;
 			}
 			System.out.println("April Hint shown, total hints: " + hints);
@@ -429,15 +448,19 @@ public class CDPart1 extends gameTemplate {
 			}
 			System.out.println("June Hint shown, total hints: " + hints);
 		}
-
+		
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		super.update(container, game, delta);
 		if(correctAnswer){
+			score = 6 - hints;
+			if (score <0){
+				score = 0;
+			}
 			if (sequenceStep != 4000){
-			sequenceStep = initiateStars(1, sequenceStep);
+			sequenceStep = initiateStars(score, sequenceStep);
 			}
 		}
 		int MouseX = container.getInput().getMouseX();
