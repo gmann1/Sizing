@@ -237,12 +237,8 @@ public class ControllerSizingPart3 extends GameTemplate{
 			{
 				stepCompleted = true;
 				hintBox.setText(CompletingGameMessage);
-				try {
-					continueButtonOn();
-				} catch (SlickException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				continueButtonOn();
+				readyButtonOff();
 			}
 			else
 			{
@@ -280,11 +276,6 @@ public class ControllerSizingPart3 extends GameTemplate{
 		}
 	}
 	
-	public void continueButtonOff() throws SlickException{
-		continueButton.setFontColor(Fonts.DISABLED_BUTTON_FONT_COLOR);
-		continueButton.setCurrentImage(new Image(ImagePaths.CONTINUE_BUTTON_OFF), true);
-	}
-	
 	public void reset()
 	{
 		hintBox.setText("");
@@ -292,11 +283,8 @@ public class ControllerSizingPart3 extends GameTemplate{
 		doneButtonCounter = 0;
 		Part.reset();
 		stepCompleted = false;
-		try {
-			continueButtonOff();
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		continueButtonOff();
+		readyButtonOn();
+		removeComponent(sDisplay);
 	}
 }
