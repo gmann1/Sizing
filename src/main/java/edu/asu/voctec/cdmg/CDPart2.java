@@ -44,11 +44,11 @@ public class CDPart2 extends gameTemplate {
 
 	public static final Color FONT_COLOR = Color.black;
 	private static final Color FONT_COLOR1 = Color.white;
-
+	private int score = 6;
 	private int hintCount = 0;
 
 	public static final String BACKGROUND = "resources/default/img/minigames/criticalDesign/Part2back.png";
-	public static final String END_BACKGROUND = "resources/default/img/minigames/criticalDesign/Game2End.png";
+	public static final String END_BACKGROUND = "resources/default/img/scoreScreenBackgrounds/ScoreBackgroundTask2.png";
 	public static final String CRITICAL_MONTH_IMAGE = "resources/default/img/minigames/criticalDesign/criticalMonth1.png";
 	public static final String PANEL = "resources/default/img/minigames/criticalDesign/Panel.png";
 	public static final String POLE = "resources/default/img/minigames/criticalDesign/Pole.png";
@@ -301,6 +301,7 @@ public class CDPart2 extends gameTemplate {
 			}
 			++hintCount;
 			if (!correctAnswer) {
+				score -= 1;
 				++CDPart1.hints;
 			}
 			System.out.println("Generic Hint1 shown, total hints: "
@@ -316,13 +317,14 @@ public class CDPart2 extends gameTemplate {
 				}
 			hintCount = 4;
 			if (!correctAnswer) {
+				score -=1;
 				++CDPart1.hints;
 			}
 			System.out.println("Generic Hint2 shown, total hints: "
 					+ CDPart1.hints);
 		}
 		if (hCount > 1) {
-			
+			score -= 1;
 			if (hCount == 2) {
 				if (readyClick){
 					hintBox.setText("Sorry that is incorrect.\n" + genericHints.get(0));
@@ -382,8 +384,11 @@ public class CDPart2 extends gameTemplate {
 			throws SlickException {
 		super.update(container, game, delta);
 		if (correctAnswer){
+			if (score < 0){
+				score = 0;
+			}
 			if (sequenceStep != 4000){
-				sequenceStep = initiateStars(6, sequenceStep);
+				sequenceStep = initiateStars(score, sequenceStep);
 				}
 		}
 		

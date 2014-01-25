@@ -80,6 +80,7 @@ public class SelectorTest extends gameTemplate
 							updateInstructions();
 							hintBox.clear();
 							continueButtonOn();
+							readyButtonOff();
 						}
 						catch (Exception e)
 						{
@@ -119,6 +120,15 @@ public class SelectorTest extends gameTemplate
 			}
 		}
 		
+	}
+	public void update(GameContainer container, StateBasedGame game, int delta)
+			throws SlickException {
+		super.update(container, game, delta);
+		if(complete){
+			if (sequenceStep != 4000){
+			sequenceStep = initiateStars(1, sequenceStep);
+			}
+		}
 	}
 	
 	/**
@@ -451,6 +461,17 @@ public class SelectorTest extends gameTemplate
 		// Create a new attempt instance, if necessary
 		if (currentAttempt == null)
 		{
+			try {
+				continueButtonOff();
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			readyButtonOn();
+			if (sDisplay != null){
+			removeComponent(sDisplay);
+			}
+			sequenceStep = 0;
 			currentTask.setCurrentAttempt(generateDefaultData());
 			currentAttempt = (SizingStepsData) currentTask.getCurrentAttempt();
 			System.out.println("Current Attempt is null... Resetting...");

@@ -32,11 +32,7 @@ public class PVGame extends gameTemplate
 	public static final String RedBattery = "resources/default/img/minigames/BatterySizing/RedPV.png";
 	public static final String GreenBattery = "resources/default/img/minigames/BatterySizing/GreenPV.png";
 	public static final String Trash = "resources/default/img/minigames/BatterySizing/GarbageBin.png";
-	public static final String END_BACKGROUND = "resources/default/img/minigames/BatterySizing/Game3End-02.png";
-	
-	public static final String FirstImage = "resources/default/img/minigames/BatterySizing/FirstImage.png";
-	public static final String SecondImage = "resources/default/img/minigames/BatterySizing/SecondImagePV.png";
-	private static Image PVImage;
+	public static final String END_BACKGROUND = "resources/default/img/scoreScreenBackgrounds/ScoreBackgroundTask4.png";
 	
 	public static final String HorizontalLine = "resources/default/img/minigames/BatterySizing/pvMainLine.png";
 	private static Image horizontalLineImage;
@@ -82,7 +78,7 @@ public class PVGame extends gameTemplate
 	private List<InitialBattery> initialBatteries = new ArrayList<InitialBattery>();
 	private static final int RequiredCapacity = 127, RequiredVoltage = 12, maxChances = 5;
 	private boolean firstRoundOfHints = true, parallelHintNOtDisplayed = true, seriesHintNOtDisplayed = true;
-	public static int totalNumberOfHintsUsed = 0, doneButtonCounter = 0;
+	public static int totalNumberOfHintsUsed = 0, doneButtonCounter = 0, deductedScore = 0;
 	private static BasicComponent batteryBankArea;
 	private static boolean CompletedGame = false;
 	
@@ -117,7 +113,6 @@ public class PVGame extends gameTemplate
 		verticalLinesImage = new Image(VerticalLines);
 		horizontalLineImage = new Image(HorizontalLine);
 		TransparentPVPanelImage = new Image(TransparentPVPanel);
-		PVImage = new Image(SecondImage);
 		
 		initialBatteries.add(new InitialBattery(Voltages[0], Capacities[0], 50, 520, new Image(BlueBattery), 50, 520, this));
 		initialBatteries.add(new InitialBattery(Voltages[1], Capacities[1], 200, 520, new Image(YellowBattery), 200, 520, this));
@@ -175,7 +170,7 @@ public class PVGame extends gameTemplate
 		
 		if(CompletedGame){
 			   if (sequenceStep != 4000){
-			   sequenceStep = initiateStars(6-totalNumberOfHintsUsed, sequenceStep);
+			   sequenceStep = initiateStars(6-deductedScore, sequenceStep);
 			   }
 			  }
 	}
@@ -236,7 +231,13 @@ public class PVGame extends gameTemplate
 			if(parallelHintNOtDisplayed)
 			{
 				if(!CompletedGame)
+				{
 					totalNumberOfHintsUsed++;
+					// TODO fix crash (initialize taskData)
+					//Game.getCurrentTask().getCurrentAttempt().addHints(1);
+					if(deductedScore < 5)
+						deductedScore++;
+				}
 				parallelHintNOtDisplayed = false;
 			}
 		}
@@ -247,7 +248,13 @@ public class PVGame extends gameTemplate
 			if(seriesHintNOtDisplayed)
 			{
 				if(!CompletedGame)
-						totalNumberOfHintsUsed++;
+				{
+					totalNumberOfHintsUsed++;
+					// TODO fix crash (initialize taskData)
+					//Game.getCurrentTask().getCurrentAttempt().addHints(1);
+					if(deductedScore < 5)
+						deductedScore++;
+				}
 				seriesHintNOtDisplayed = false;
 			}
 		}
@@ -256,7 +263,13 @@ public class PVGame extends gameTemplate
 			hintBox.setText(hintsTextArray[currentHintText]);
 			hintBox.setFontColor(Color.white);
 			if(firstRoundOfHints && !CompletedGame)
+			{
 				totalNumberOfHintsUsed++;
+				// TODO fix crash (initialize taskData)
+				//Game.getCurrentTask().getCurrentAttempt().addHints(1);
+				if(deductedScore < 5)
+					deductedScore++;
+			}
 			if(currentHintText == (hintsTextArray.length-1))
 			{
 				currentHintText = 0;
@@ -276,7 +289,13 @@ public class PVGame extends gameTemplate
 			if(parallelHintNOtDisplayed)
 			{
 				if(!CompletedGame)
+				{
 					totalNumberOfHintsUsed++;
+					// TODO fix crash (initialize taskData)
+					//Game.getCurrentTask().getCurrentAttempt().addHints(1);
+					if(deductedScore < 5)
+						deductedScore++;
+				}
 				parallelHintNOtDisplayed = false;
 			}
 		}
@@ -287,7 +306,13 @@ public class PVGame extends gameTemplate
 			if(seriesHintNOtDisplayed)
 			{
 				if(!CompletedGame)
+				{
 					totalNumberOfHintsUsed++;
+					// TODO fix crash (initialize taskData)
+					//Game.getCurrentTask().getCurrentAttempt().addHints(1);
+					if(deductedScore < 5)
+						deductedScore++;
+				}
 				seriesHintNOtDisplayed = false;
 			}
 		}
@@ -296,7 +321,13 @@ public class PVGame extends gameTemplate
 			hintBox.setText(doneButtonMessage+hintsTextArray[currentHintText]);
 			hintBox.setFontColor(Color.white);
 			if(firstRoundOfHints && !CompletedGame)
+			{
 				totalNumberOfHintsUsed++;
+				// TODO fix crash (initialize taskData)
+				//Game.getCurrentTask().getCurrentAttempt().addHints(1);
+				if(deductedScore < 5)
+					deductedScore++;
+			}
 			if(currentHintText == (hintsTextArray.length-1))
 			{
 				currentHintText = 0;
@@ -397,7 +428,12 @@ public class PVGame extends gameTemplate
 				{
 					hintBox.setText(ExtraObjectsUsedMessage);
 					hintBox.setFontColor(Color.white);
-					doneButtonCounter++;
+					if(!CompletedGame)
+					{
+						doneButtonCounter++;
+						if(deductedScore < 5)
+							deductedScore++;
+					}
 				}
 				else if(Battery.getNumberOfBatteries() <= 2)
 				{
@@ -405,7 +441,12 @@ public class PVGame extends gameTemplate
 					{
 						hintBox.setText(ExtraObjectsUsedMessage);
 						hintBox.setFontColor(Color.white);
-						doneButtonCounter++;
+						if(!CompletedGame)
+						{
+							doneButtonCounter++;
+							if(deductedScore < 5)
+								deductedScore++;
+						}
 					}
 					else
 					{
@@ -415,6 +456,8 @@ public class PVGame extends gameTemplate
 								CompletingGameMessage,
 								CorrectAnswerMessage, Color.black);	
 						CompletedGame = true;
+						// TODO fix crash
+						trackTime = false;
 					}
 				}
 			}
@@ -422,13 +465,18 @@ public class PVGame extends gameTemplate
 			{
 				showNextHintText(IncorrectAnswerMessage);
 				if(!CompletedGame)
+				{
 					doneButtonCounter++;
+					if(deductedScore < 5)
+						deductedScore++;
+				}
 			}
 			
 			if(doneButtonCounter >= maxChances)
 			{
 				hintBox.setText(GameAnswer);
 				hintBox.setFontColor(Color.white);
+				deductedScore = 6;
 			}
 		}
 	}
@@ -441,6 +489,8 @@ public class PVGame extends gameTemplate
 			if(CompletedGame)
 			{
 				try {
+					// TODO generates error, needs to be fixed
+					//starDisplay.setScore(6-deductedScore);
 					Game.updateExitText("Good Job!", "You have successfully completed the PV Array Sizing Game", new Image(END_BACKGROUND));
 				} catch (SlickException e) {
 					// TODO Auto-generated catch block
@@ -464,7 +514,19 @@ public class PVGame extends gameTemplate
 		batteryBankText.setText(BatteryBankLabel);
 		currentHintText = 0;
 		doneButtonCounter = 0;
+		deductedScore = 0;
 		Battery.reset();
 		CompletedGame = false;
 	}
+	
+	public void onEnter()
+	 {
+		// TODO fix crash
+		trackTime = true;
+	 }
+	public void onExit()
+	 {
+		// TODO fix crash
+		trackTime = false;
+	 }
 }
