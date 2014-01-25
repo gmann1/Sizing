@@ -235,6 +235,7 @@ public interface GameDefaults
 	{
 		public static final Point INFORMATION_OFFSET = new Point(350, 175);
 		public static final float INFORMATION_SCALE = 0.92f;
+		public static final boolean WRITE_TO_BUTTONS = false;
 	}
 	
 	public interface XMLPaths
@@ -321,7 +322,17 @@ public interface GameDefaults
 		{
 			public static final LabelName INACCESSIBLE_TEXT = new LabelName(
 					"inaccessibleText",
-					"This step cannot be completed until after all previous steps are completed.");
+					"This step cannot be completed until all previous steps are completed.");
+			public static final LabelName ENERGY_ASSESSMENT = new LabelName(
+					"energyAssessment", "Assess Energy Requirements");
+			public static final LabelName CRITICAL_DESIGN_MONTH = new LabelName(
+					"criticalDesignMonth", "Find the Critical Design Month");
+			public static final LabelName BATTERY_SIZING = new LabelName(
+					"batterySizing", "Size the Battery");
+			public static final LabelName PV_SIZING = new LabelName(
+					"pvSizing", "Size the PV Array");
+			public static final LabelName CONTROLLER_SIZING = new LabelName(
+					"controllerSizing", "Size the Controller");
 		}
 	}
 }
