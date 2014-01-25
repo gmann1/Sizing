@@ -33,11 +33,11 @@ public abstract class ModifiedGameState extends BasicGameState implements
 	 * This method serves as a secondary initiation. Where the
 	 * {@link #init(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame)}
 	 * function is called before the game starts, the
-	 * {@link #initiateInBackground()} method is called while the introduction
+	 * {@link #initiateDeffered()} method is called while the introduction
 	 * animation plays, or on the instruction screen for the game (depending on
 	 * the circumstances of the child class).
 	 */
-	public abstract void initiateInBackground();
+	public abstract void initiateDeffered();
 	
 	@Override
 	public final int getID()
