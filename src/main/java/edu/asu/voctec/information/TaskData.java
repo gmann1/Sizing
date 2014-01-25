@@ -90,9 +90,6 @@ public class TaskData
 				
 				displayingComponents = true;
 			}
-			
-			// TODO REMOVE
-			Game.getCurrentGame().enterState(associatedTask);
 		}
 		
 		public void stopDisplaying()
