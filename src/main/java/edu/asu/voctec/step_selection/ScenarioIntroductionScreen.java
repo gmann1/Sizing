@@ -9,19 +9,16 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
 import edu.asu.voctec.GameDefaults.Labels.Step0;
+import edu.asu.voctec.SupportFunctions;
 import edu.asu.voctec.GUI.Button;
-import edu.asu.voctec.GUI.TextArea;
 import edu.asu.voctec.GUI.TextAreaX;
-import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
-import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.ScenarioHub;
 import edu.asu.voctec.game_states.SelectorTest;
 import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.utilities.Position;
-import edu.asu.voctec.utilities.UtilFunctions;
 
 public class ScenarioIntroductionScreen extends GUI implements Task
 {
@@ -32,34 +29,29 @@ public class ScenarioIntroductionScreen extends GUI implements Task
 			throws SlickException
 	{
 		this.backgroundImage = new Image(ImagePaths.MainMenuBackground);
-		Rectangle textLocation = new Rectangle(0, 50, 300, 50);
 		
 		// Title
-		TextField welcomeLabel = new TextField(textLocation, 0.95f, "Welcome!",
-				TextDisplay.FormattingOption.FIT_TEXT);
-		welcomeLabel.setFontColor(Fonts.FONT_COLOR);
-		welcomeLabel.center();
+		TextField welcomeLabel = SupportFunctions
+				.generateWelcomeLabel("Welcome!");
 		
 		// Introduction Body
-		textLocation = new Rectangle(0, 0, 500, 400);
-		UtilFunctions.centerRectangle(new Rectangle(0, 0, 800, 600), textLocation);
-		TextArea introductionText = new TextAreaX(textLocation, 0.95f,
-				Step0.INTRODUCTION.getTranslation());
-		introductionText.setFontSize(12f);
-		introductionText.setFontSize(Fonts.FONT_SIZE_LARGE);
-		introductionText.setFontColor(Fonts.FONT_COLOR);
+		TextAreaX introductionText = SupportFunctions
+				.generateIntroductionDisplay(Step0.INTRODUCTION
+						.getTranslation());
 		
 		// Start Button
 		Button startButton = new Button(new Image(ARROW_RIGHT), 750, 550,
 				new Rectangle(0, 0, 50, 25), "Begin!");
 		startButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
-		startButton.addActionListener(new TransitionButtonListener(SelectorTest.class));
+		startButton.addActionListener(new TransitionButtonListener(
+				SelectorTest.class));
 		startButton.positionText(Position.LEFT);
 		
 		// Back Button
 		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
 				new Rectangle(0, 0, 50, 25), "Back");
-		backButton.addActionListener(new TransitionButtonListener(ScenarioHub.class));
+		backButton.addActionListener(new TransitionButtonListener(
+				ScenarioHub.class));
 		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 		backButton.positionText(Position.RIGHT);
 		

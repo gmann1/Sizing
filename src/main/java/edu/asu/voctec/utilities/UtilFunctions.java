@@ -85,6 +85,13 @@ public abstract class UtilFunctions
 		centerRectangleVertically(container, moveableRectangle);
 	}
 	
+	public static Rectangle newCenteredRectangle(Rectangle container, Rectangle relativeBounds)
+	{
+		Rectangle newRectangle = new Rectangle(relativeBounds);
+		UtilFunctions.centerRectangle(container, newRectangle);
+		return newRectangle;
+	}
+	
 	public static Rectangle dialateRectangle(Rectangle bounds, float scale)
 	{
 		Rectangle scaledBounds = UtilFunctions
