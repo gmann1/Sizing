@@ -239,6 +239,7 @@ public class ControllerSizingPart3 extends GameTemplate{
 			if(gameOver())
 			{
 				stepCompleted = true;
+				trackTime = false;
 				hintBox.setText(CompletingGameMessage);
 				continueButtonOn();
 				readyButtonOff();
@@ -288,4 +289,15 @@ public class ControllerSizingPart3 extends GameTemplate{
 		stepCompleted = false;
 		resetButtons();
 	}
+	
+	public void onEnter()
+	 {
+		// TODO fix crash
+		trackTime = true;
+	 }
+	public void onExit()
+	 {
+		// TODO fix crash
+		trackTime = false;
+	 }
 }
