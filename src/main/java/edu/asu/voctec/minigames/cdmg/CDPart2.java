@@ -173,7 +173,8 @@ public class CDPart2 extends GameTemplate {
 		super.init(container, game);
 		instructionBox.setText("Determine the tilt and orientation. Click the arrows to adjust tilt and orientation of the solar panel for the critical design month.");
 		this.backgroundImage = new Image(BACKGROUND);
-		topText.setText("Location: Niger, Niamey" + "\n" + "Latitude: 13° 31 N, Longitude: 2° 6 E");
+		topText.setText("Rarotonga, Cook Islands. "
+				+ "Latitude: 12.2 degrees S, Longitude: 159.8 degrees W");
 		BasicComponent compass = new BasicComponent(new Image(COMPASS), 205 + 248 -35, 516 - 59); 
 		needle1 = new Image(NEEDLE);
 		needle1.setCenterOfRotation(4, 22);
@@ -308,7 +309,7 @@ genericHints
 		}
 		if (hCount == 0) {
 			if (readyClick){
-			hintBox.setText("Sorry that is incorrect." + genericHints.get(0));
+			hintBox.setText("Sorry that is incorrect. " + genericHints.get(0));
 			}
 			else
 			{
@@ -325,7 +326,7 @@ genericHints
 		}
 		if (hCount == 1) {
 			if (readyClick){
-				hintBox.setText("Sorry that is incorrect.\n" + genericHints.get(1));
+				hintBox.setText("Sorry that is incorrect. " + genericHints.get(1));
 				}
 				else
 				{
@@ -345,7 +346,7 @@ genericHints
 			score -= 1;
 			if (hCount == 2) {
 				if (readyClick){
-					hintBox.setText("Sorry that is incorrect.\n" + genericHints.get(2));
+					hintBox.setText("Sorry that is incorrect. " + genericHints.get(2));
 					}
 					else
 					{
@@ -353,7 +354,7 @@ genericHints
 					}
 			} else if (hCount == 3) {
 				if (readyClick){
-					hintBox.setText("Sorry that is incorrect.\n" + genericHints.get(3));
+					hintBox.setText("Sorry that is incorrect. " + genericHints.get(3));
 					}
 					else
 					{
@@ -380,14 +381,14 @@ genericHints
 	}
 
 	private void winConditional() throws SlickException {
-		if ((panel1.getRotation() > (28.3 - 5) && south)
-				&& (panel1.getRotation() < (28.3 + 5))) {
-			if ((int) ((panel1.getRotation()) * 10) == 283) {
+		if ((panel1.getRotation() > (12. - 5) && !south)
+				&& (panel1.getRotation() < (12.2 + 5))) {
+			if ((int) ((panel1.getRotation()) * 10) == 122) {
 				criticalMonth.setX(800);
 				hintBox.setText("Great Job! You got the correct answer exactly. Press continue when you are ready to move on.");
 			} else {
 				criticalMonth.setX(800);
-				hintBox.setText("Good job! However, the precise answer is 28.3 degrees (latitude + 15 degrees). Press continue when you are ready to move on.");
+				hintBox.setText("Good job! However, the precise answer is 12.2 degrees (latitude). Press continue when you are ready to move on.");
 			}
 			continueButtonOn();
 			readyButtonOff();
@@ -424,7 +425,7 @@ genericHints
 				upArrow.setCurrentImage(new Image(UP_ARROW_ON), true);
 				if (panel1.getRotation()  > 0) {
 					if (panel1.getRotation()  == 90f) {
-						panel1.rotate(-.1f);
+						panel1.rotate(-.2f);
 						
 					}  else {
 						panel1.rotate(-.2f);
@@ -446,7 +447,7 @@ genericHints
 				downArrow.setCurrentImage(new Image(DOWN_ARROW_ON), true);
 				if (panel1.getRotation()< 90) {
 					if (panel1.getRotation() == 0f) {
-						panel1.rotate(.1f);
+						panel1.rotate(.2f);
 
 					}  else {
 						panel1.rotate(.2f);

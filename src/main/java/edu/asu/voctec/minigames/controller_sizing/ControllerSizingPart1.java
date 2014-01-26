@@ -23,6 +23,7 @@ import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.game_states.GameTemplate;
+import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
@@ -67,7 +68,7 @@ public class ControllerSizingPart1 extends GameTemplate
 	public static final String BACKGROUND_NIGHT = "resources/default/img/minigames/ControllerSizing/backgroundnight.png";
 	public static final String GROUND = "resources/default/img/minigames/ControllerSizing/hills.png";
 	public static final String HOUSE_OFF = "resources/default/img/minigames/ControllerSizing/HouseOff.png";
-	public static final String END_BACKGROUND = "resources/default/img/minigames/ControllerSizing/GameEnd.png";
+	public static final String END_BACKGROUND = "resources/default/img/minigames/scoreScreenBackgrounds/ScoreBackgroundTask5.png";
 	public static final String HOUSE_FULL = "resources/default/img/minigames/ControllerSizing/HouseOn.png";
 	public static final String SUN = "resources/default/img/minigames/ControllerSizing/sun.png";
 	public static final String MOON = "resources/default/img/minigames/ControllerSizing/moon.png";
@@ -78,7 +79,7 @@ public class ControllerSizingPart1 extends GameTemplate
 	public static final String TRANS_4 = "resources/default/img/minigames/ControllerSizing/backgroundnight3.png";
 	public static final String TRANS_5 = "resources/default/img/minigames/ControllerSizing/backgroundnight4.png";
 	public static final String TRANS_3 = "resources/default/img/minigames/ControllerSizing/backgroundnight5.png";
-	
+	public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskScreenBackgrounds/background5.png";
 	public static final String LAYOUT_PANEL_OFF = "resources/default/img/minigames/ControllerSizing/layoutoff.png";
 	public static final String LAYOUT_PANEL_OFF1 = "resources/default/img/minigames/ControllerSizing/layoutoff1.png";
 	public static final String LAYOUT_PANEL_OFF2 = "resources/default/img/minigames/ControllerSizing/layoutoff2.png";
@@ -186,6 +187,16 @@ public class ControllerSizingPart1 extends GameTemplate
 		@Override
 		protected void actionPerformed()
 		{
+			TaskScreen task = (TaskScreen)Game.getCurrentGame().getState(Game.getStateID(TaskScreen.class));
+			if (task.currentImage < 5){
+				try {
+					task.setBackgroundImage(new Image(TASK_SCREEN_BACKGROUND));
+				} catch (SlickException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				task.currentImage = 5;
+			}
 			
 			try
 			{

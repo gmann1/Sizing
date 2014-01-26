@@ -33,7 +33,7 @@ public class ControllerSizingIntroScreen extends GUI implements Task
 		this.backgroundImage = new Image(
 				"resources/default/img/minigames/ControllerSizing/Step1Background.png");
 		
-		TextField welcome = SupportFunctions.generateWelcomeLabel("Welcome!");
+
 		
 		// introduction
 		TextArea introduction = SupportFunctions
@@ -55,10 +55,10 @@ public class ControllerSizingIntroScreen extends GUI implements Task
 		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 		backButton.positionText(Position.RIGHT);
 		
-		welcome.center();
+	
 		
 		this.addComponent(startButton);
-		this.addComponent(welcome);
+		//this.addComponent(welcome);
 		this.addComponent(introduction);
 		this.addComponent(backButton);
 		// this.addComponent(new Selector<SelectorIcon>(100, 100));

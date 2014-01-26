@@ -26,9 +26,7 @@ public class EAPart1IntroScreen extends GUI implements Task
 	{
 		this.backgroundImage = new Image(ImagePaths.MainMenuBackground);
 		
-		// Title
-		TextField welcomeLabel = SupportFunctions
-				.generateWelcomeLabel("Energy Consumption");
+		
 		
 		// Introduction Body
 		TextArea introductionText = SupportFunctions
@@ -52,7 +50,7 @@ public class EAPart1IntroScreen extends GUI implements Task
 		
 		// Add all components to this menu
 		this.addComponent(startButton);
-		this.addComponent(welcomeLabel);
+		//this.addComponent(welcomeLabel);
 		this.addComponent(introductionText);
 		this.addComponent(backButton);
 		
