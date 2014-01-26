@@ -70,8 +70,8 @@ public class PVGame extends GameTemplate
 	public static final String IncorrectAnswerMessage = "Remember: ";
 	public static final String GameAnswer = "Using a 130Watts and 12V PV panel will solve the game.";
 	
-	public static final int [] Capacities = {65,130,130};
-	public static final int [] Voltages = {12,12,12};
+	public static final int [] Capacities = {65,130,260};
+	public static final int [] Voltages = {12,12,24};
 	
 	private  TextField currentVoltage, currentCapacity;
 	private static TextField batteryBankText;
