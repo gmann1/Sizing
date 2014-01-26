@@ -255,7 +255,7 @@ public class EAPart2 extends GameTemplate
 				
 				continueGood = true;
 				//TODO 
-				Game.getCurrentTask().getCurrentAttempt().addHints(6-(hintsUsed*2));
+				Game.getCurrentTask().getCurrentAttempt().addHints((hintsUsed*2));
 				trackTime = false;
 				hintBox.setText("Good Job! you have the correct combination of items.");
 			}
@@ -314,7 +314,7 @@ public class EAPart2 extends GameTemplate
 			{
 				hintsUsed++;
 				//TODO 
-				Game.getCurrentTask().getCurrentAttempt().addHints(1);
+				//Game.getCurrentTask().getCurrentAttempt().addHints(1);
 			}
 			hintBox.setText(hintArray[hintNumber]);
 		}

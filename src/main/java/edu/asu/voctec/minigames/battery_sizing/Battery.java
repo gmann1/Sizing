@@ -341,7 +341,7 @@ public class Battery extends BatteryControl{
     	{
     		if(allParallelsHaveSameVoltage() && allSeriesHaveSameCapacity())
     		{
-    			if(getTotalCapacity(batteryArray.get(0))>= BatteryGameScreen.getRequiredCapacity() && getTotalVoltage()>= BatteryGameScreen.getRequiredVoltage())
+    			if(getTotalCapacity(batteryArray.get(0))>= BatteryGameScreen.getRequiredCapacity() && getTotalCapacity(batteryArray.get(0))<= 2*BatteryGameScreen.getRequiredCapacity() && getTotalVoltage()== BatteryGameScreen.getRequiredVoltage())
     				return true;
     		}
     	} 
