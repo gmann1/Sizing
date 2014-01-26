@@ -343,7 +343,7 @@ public class Battery extends BatteryControl{
     	{
     		if(allParallelsHaveSameVoltage() && allSeriesHaveSameCapacity())
     		{
-    			if(getTotalCapacity(batteryArray.get(0))>= PVGame.getRequiredCapacity() && getTotalVoltage()>= PVGame.getRequiredVoltage())
+    			if(getTotalCapacity(batteryArray.get(0))>= PVGame.getRequiredCapacity() && getTotalCapacity(batteryArray.get(0))<= 2*PVGame.getRequiredCapacity() && getTotalVoltage()== PVGame.getRequiredVoltage())
     				return true;
     		}
     	} 
