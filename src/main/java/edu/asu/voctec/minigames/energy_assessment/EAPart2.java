@@ -146,7 +146,7 @@ public class EAPart2 extends GameTemplate
 		powerBar.updatePowerBar(totalPowerRating);
 		
 		//Instructions Text
-		instructionBox.setText("Drag the diffrent appliances to the boxs to meet the target power rating.");
+		instructionBox.setText("Drag the different appliances to the boxes to meet the target power rating.");
 		
 		//add objects that can be dragged
 		initialObjects.add(new InitialObjects(new Image(CFL), 25, 475, this,1,14));

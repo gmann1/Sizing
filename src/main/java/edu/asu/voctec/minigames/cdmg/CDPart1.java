@@ -40,12 +40,12 @@ public class CDPart1 extends GameTemplate {
 	private static final Color FONT_COLOR = Color.darkGray;
 	private static final Color FONT_COLOR1 = Color.white;
 
-	public static final String APRIL = "resources/default/img/minigames/criticalDesign/April.png";
-	public static final String FEBRUARY = "resources/default/img/minigames/criticalDesign/February.png";
-	public static final String DECEMBER = "resources/default/img/minigames/criticalDesign/December.png";
+	public static final String APRIL = "resources/default/img/minigames/criticalDesign/February.png";
+	public static final String FEBRUARY = "resources/default/img/minigames/criticalDesign/April.png";
+	public static final String DECEMBER = "resources/default/img/minigames/criticalDesign/June.png";
 	public static final String OCTOBER = "resources/default/img/minigames/criticalDesign/October.png";
-	public static final String SEPTEMBER = "resources/default/img/minigames/criticalDesign/September.png";
-	public static final String JUNE = "resources/default/img/minigames/criticalDesign/June.png";
+	public static final String SEPTEMBER = "resources/default/img/minigames/criticalDesign/April.png";
+	public static final String JUNE = "resources/default/img/minigames/criticalDesign/December.png";
 	public static final String SPRING = "resources/default/img/minigames/criticalDesign/Spring.png";
 	public static final String SUMMER = "resources/default/img/minigames/criticalDesign/Summer.png";
 	public static final String WINTER = "resources/default/img/minigames/criticalDesign/Winter.png";
@@ -261,8 +261,8 @@ public class CDPart1 extends GameTemplate {
 		box4Image.setY(box4.getY());
 
 		instructionBox.setText("Select the season that includes the critical design month by clicking on one of the four seasons.");
-		topText.setText("Location: Niger, Niamey" + "\n"
-				+ "Latitude: 13° 31 N, Longitude: 2° 6 E");
+		topText.setText("Rarotonga, Cook Islands. "
+				+ "Latitude: 12.2 degrees S, Longitude: 159.8 degrees W");
 		// add initial things to the arraylists
 		Earths.add(APRIL);
 		Earths.add(FEBRUARY);

@@ -30,7 +30,7 @@ import edu.asu.voctec.utilities.Position;
 
 public class CDIntroScreen extends GUI implements Task
 {
-	private static final String INTRODUCTION = "In the following game, you will be determining the peak sun hours (PSH) for the most appropriate month (critical design month) for a small DC lighting system with constant loads as well as the most appropriate array orientation and tilt angle for the conditions of that month for a location in Africa.";
+	private static final String INTRODUCTION = "In the following game, you will be determining the peak sun hours (PSH) for the most appropriate month (critical design month) for a small DC lighting system with constant loads as well as the most appropriate array orientation and tilt angle for the conditions of that month for a location in the Cook Islands.";
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
 	
 	@Override
@@ -64,7 +64,7 @@ public class CDIntroScreen extends GUI implements Task
 		welcome.center();
 		
 		this.addComponent(startButton);
-		this.addComponent(welcome);
+		//this.addComponent(welcome);
 		this.addComponent(introduction);
 		this.addComponent(backButton);
 		// this.addComponent(new Selector<SelectorIcon>(100, 100));
