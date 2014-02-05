@@ -167,6 +167,7 @@ public class CDPart2 extends GameTemplate {
 
 	}
 //comment
+//add a comment
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
