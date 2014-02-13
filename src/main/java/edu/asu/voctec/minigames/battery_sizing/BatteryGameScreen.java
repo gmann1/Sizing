@@ -433,47 +433,14 @@ public class BatteryGameScreen extends GameTemplate
 		{
 			if(Battery.isGameOver())
 			{
-				if(Battery.getNumberOfBatteries() > 2)
-				{
-					hintBox.setText(ExtraObjectsUsedMessage);
-					hintBox.setFontColor(Color.white);
-					if(!CompletedGame)
-					{
-						doneButtonCounter++;
-					}
-				}
-				else if(Battery.getNumberOfBatteries() <= 2)
-				{
-					if(Battery.batteryArray.get(0).size() == 2)
-					{
-						hintBox.setText(UnfavourableAnswerCongratulation+" "+CompletingGameMessage+" "+UnfavourableAnswerMessage);
-						
-						BatteryExitScreen.passEndGameMessage(UnfavourableAnswerCongratulation,
-								CompletingGameMessage,
-								UnfavourableAnswerMessage, Color.red);
-						CompletedGame = true;
-					}
-					else if(Battery.getTotalVoltage()>12)
-					{
-						hintBox.setText(ExtraObjectsUsedMessage);
-						hintBox.setFontColor(Color.white);
-						if(!CompletedGame)
-						{
-							doneButtonCounter++;
-						}
-					}
-					else
-					{
-						hintBox.setText(CorrectAnswerCongratulation+" "+CompletingGameMessage+" "+CorrectAnswerMessage);
-						
-						BatteryExitScreen.passEndGameMessage(CorrectAnswerCongratulation,
-								CompletingGameMessage,
-								CorrectAnswerMessage, Color.black);
-						CompletedGame = true;
-						// TODO fix crash
-						trackTime = false;
-					}
-				}
+				hintBox.setText(CorrectAnswerCongratulation+" "+CompletingGameMessage+" "+CorrectAnswerMessage);
+				
+				BatteryExitScreen.passEndGameMessage(CorrectAnswerCongratulation,
+						CompletingGameMessage,
+						CorrectAnswerMessage, Color.black);
+				CompletedGame = true;
+				// TODO fix crash
+				trackTime = false;
 			}
 			else
 			{

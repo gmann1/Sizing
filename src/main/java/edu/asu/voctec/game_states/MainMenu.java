@@ -97,11 +97,16 @@ public class MainMenu extends GUI implements GameDefaults
 		gameTitle.setFontColor(Color.white);
 		gameTitle.center();
 		
+		TextField extraObject = new TextField(textLocation, 0.95f,
+				"",
+				TextDisplay.FormattingOption.FIT_TEXT);
+		
 		// Add buttons to this menu
 		this.addComponent(gameTitle);
+		this.addComponent(extraObject);
 		this.addComponent(startButton);
-		this.addComponent(languageButton);
-		this.addComponent(instructorButton);
+		//this.addComponent(languageButton);
+		//this.addComponent(instructorButton);
 		
 		this.centerComponentsStacked(buttonSpacing);
 		
