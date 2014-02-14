@@ -432,38 +432,14 @@ public class PVGame extends GameTemplate
 		{
 			if(Battery.isGameOver())
 			{
-				if(Battery.getNumberOfBatteries() > 2)
-				{
-					hintBox.setText(ExtraObjectsUsedMessage);
-					hintBox.setFontColor(Color.white);
-					if(!CompletedGame)
-					{
-						doneButtonCounter++;
-					}
-				}
-				else if(Battery.getNumberOfBatteries() <= 2)
-				{
-					if(Battery.batteryArray.size() == 2)
-					{
-						hintBox.setText(ExtraObjectsUsedMessage);
-						hintBox.setFontColor(Color.white);
-						if(!CompletedGame)
-						{
-							doneButtonCounter++;
-						}
-					}
-					else
-					{
-						hintBox.setText(CorrectAnswerCongratulation+" "+CompletingGameMessage+" "+CorrectAnswerMessage);
+				hintBox.setText(CorrectAnswerCongratulation+" "+CompletingGameMessage+" "+CorrectAnswerMessage);
 						
-						PVExit.passEndGameMessage(CorrectAnswerCongratulation,
-								CompletingGameMessage,
-								CorrectAnswerMessage, Color.black);	
-						CompletedGame = true;
-						// TODO fix crash
-						trackTime = false;
-					}
-				}
+				PVExit.passEndGameMessage(CorrectAnswerCongratulation,
+						CompletingGameMessage,
+						CorrectAnswerMessage, Color.black);	
+				CompletedGame = true;
+				// TODO fix crash
+				trackTime = false;
 			}
 			else
 			{
