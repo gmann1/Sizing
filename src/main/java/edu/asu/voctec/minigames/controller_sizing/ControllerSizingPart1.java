@@ -74,7 +74,7 @@ public class ControllerSizingPart1 extends GameTemplate
 	public static final String BACKGROUND_NIGHT = "resources/default/img/minigames/ControllerSizing/backgroundnight.png";
 	public static final String GROUND = "resources/default/img/minigames/ControllerSizing/hills.png";
 	public static final String HOUSE_OFF = "resources/default/img/minigames/ControllerSizing/HouseOff.png";
-	public static final String END_BACKGROUND = "resources/default/img/minigames/scoreScreenBackgrounds/ScoreBackgroundTask5.png";
+	public static final String END_BACKGROUND = "resources/default/img/scoreScreenBackgrounds/ScoreBackgroundTask5.png";
 	public static final String HOUSE_FULL = "resources/default/img/minigames/ControllerSizing/HouseOn.png";
 	public static final String SUN = "resources/default/img/minigames/ControllerSizing/sun.png";
 	public static final String MOON = "resources/default/img/minigames/ControllerSizing/moon.png";
@@ -550,7 +550,7 @@ public class ControllerSizingPart1 extends GameTemplate
 		addComponent(instructions);
 		addComponent(cont);
 		addComponent(danger);
-		addComponent(skip);
+		//addComponent(skip);
 		addComponent(replay);
 		addComponent(hintBox);
 		addComponent(continueButton);
@@ -663,7 +663,7 @@ public class ControllerSizingPart1 extends GameTemplate
 			if (initialStep)
 			{
 				instructions
-						.setText("Welcome to the tutorial. This will show you step-by-step how the controls of the game work.");
+						.setText("Welcome to the tutorial. This will show you step-by-step how the controller works.");
 				contAppear();
 				skip.setX(instructions.getX());
 				skip.setY(instructions.getY() + instructions.getBounds().height
@@ -920,6 +920,7 @@ public class ControllerSizingPart1 extends GameTemplate
 				instructions
 						.setText("This is the end of the tutorial. Press the arrow button to move on or replay button to replay the tutorial. ");
 				walkthrough = false;
+				gameTimer = 100000;
 				replay.setX(instructions.getX());
 				replay.setY(instructions.getY()
 						+ instructions.getBounds().height
