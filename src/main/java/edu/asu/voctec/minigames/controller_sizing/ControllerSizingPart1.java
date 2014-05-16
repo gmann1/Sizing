@@ -663,7 +663,7 @@ public class ControllerSizingPart1 extends GameTemplate
 			if (initialStep)
 			{
 				instructions
-						.setText("Welcome to the tutorial. This will show you step-by-step how the controller works.");
+						.setText("Welcome. In this game you will simulate the functionality of a controller.");
 				contAppear();
 				skip.setX(instructions.getX());
 				skip.setY(instructions.getY() + instructions.getBounds().height
