@@ -1,6 +1,10 @@
 package edu.asu.voctec.minigames.controller_sizing;
 
 import java.awt.Rectangle;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -23,7 +27,9 @@ import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.game_states.GameTemplate;
+import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.minigames.cdmg.CDPart1;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
@@ -161,6 +167,8 @@ public class ControllerSizingPart1 extends GameTemplate
 	private boolean step9 = false;
 	private boolean initialStep = true;
 	private boolean gameOver = false;
+	private boolean nextState;
+	private int lc;
 	
 	public class contListener extends ButtonListener
 	{
@@ -210,6 +218,38 @@ public class ControllerSizingPart1 extends GameTemplate
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			if (MainMenu.UserData.size() <19){
+				MainMenu.UserData.add("Size the Controller");
+				MainMenu.UserData.add(Integer.toString(Game.getCurrentTask().getCurrentAttempt().getNumberOfUniqueHints()));
+				MainMenu.UserData.add(String.valueOf(UtilFunctions.formatTime(Game.getCurrentTask().getCurrentAttempt().getTimeSpent(),false, true)));
+				File file = new File(System.getProperty("user.dir")+"/userData.txt");
+				 
+				// if file doesnt exists, then create it
+				try {
+				if (!file.exists()) {
+					
+						file.createNewFile();
+					}
+				
+				FileWriter fw = new FileWriter(file, true);
+				BufferedWriter bw = new BufferedWriter(fw);
+				
+				String s = new String();
+				//s = MainMenu.UserData.get(0) + "'s data(minigame, hints used, time spent): ";
+				s += MainMenu.UserData.get(16);
+				s += ", ";
+				s += MainMenu.UserData.get(17);
+				s += ", ";
+				s += MainMenu.UserData.get(18);
+				s += "; ";
+			
+				bw.write(s);
+				bw.close();
+				} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			Game.getCurrentGame().enterState(ExitScreen.class);
 			
 		}
@@ -525,6 +565,26 @@ public class ControllerSizingPart1 extends GameTemplate
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException
 	{
+		
+			//Game.getCurrentGame();
+				super.update(container, game, delta);
+				if (!nextState){
+					++lc;
+					if (lc == 5){
+					try {
+				
+						Game.getCurrentGame().addState(new ControllerSizingExit(), Game.getCurrentGame().getContainer());
+				
+					
+					} catch (SlickException e) {
+			
+						e.printStackTrace();
+					}
+				nextState = true;
+					}
+			}
+				
+		
 		super.update(container, game, delta);
 		if (gameOver)
 		{

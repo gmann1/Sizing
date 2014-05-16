@@ -20,8 +20,8 @@ public class TextAreaX extends TextArea
 	{
 		super(bounds, textBounds, awtFont, antiAlias, null);
 		setText(text);
-		System.out.println("Lines: "
-				+ Arrays.toString(lines.toArray(new Line[lines.size()])));
+		//System.out.println("Lines: "
+				//+ Arrays.toString(lines.toArray(new Line[lines.size()])));
 	}
 	
 	public TextAreaX(Rectangle bounds, Rectangle textBounds, String text)
@@ -112,8 +112,8 @@ public class TextAreaX extends TextArea
 		this.lines.clear();
 		this.clipedText = "";
 		StringBuilder textAsString = new StringBuilder();
-		System.out.println("\tMid4: Current Hints: "
-				+ Arrays.toString(text.toArray()));
+		//System.out.println("\tMid4: Current Hints: "
+				//+ Arrays.toString(text.toArray()));
 		
 		if (text != null)
 		{
@@ -125,17 +125,17 @@ public class TextAreaX extends TextArea
 					textAsString.append(line + " ");
 			}
 		}
-		System.out.println("\tMid5: Current Hints: "
-				+ Arrays.toString(text.toArray()));
+		//System.out.println("\tMid5: Current Hints: "
+				//+ Arrays.toString(text.toArray()));
 		
 		lines.addAll(Line.fromStringList(
 				getTextBlocks(textAsString.toString()), font));
-		System.out.println("\tMid6: Current Hints: "
-				+ Arrays.toString(text.toArray()));
+		//System.out.println("\tMid6: Current Hints: "
+				//+ Arrays.toString(text.toArray()));
 		
 		formatText();
-		System.out.println("\tMid7: Current Hints: "
-				+ Arrays.toString(text.toArray()));
+		//System.out.println("\tMid7: Current Hints: "
+				//+ Arrays.toString(text.toArray()));
 	}
 	
 	protected ArrayList<String> getTextBlocks(String text)
@@ -299,7 +299,7 @@ public class TextAreaX extends TextArea
 	
 	public void printLines()
 	{
-		System.out.println("Lines: " + Arrays.toString(lines.toArray()));
+		//System.out.println("Lines: " + Arrays.toString(lines.toArray()));
 	}
 	
 	public ArrayList<String> getText()

@@ -18,6 +18,7 @@ import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.information.AttemptData;
+import edu.asu.voctec.information.SizingStepsData;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
@@ -225,6 +226,8 @@ public class ExitScreen extends GUI
 		
 		if (currentAttempt != null)
 		{
+	
+			
 			dataDisplay.getUnitAt(0).setText(
 					UtilFunctions.formatTime(currentAttempt.getTimeSpent(),
 							false, true));

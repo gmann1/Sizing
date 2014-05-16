@@ -16,9 +16,11 @@ import edu.asu.voctec.GUI.TextArea;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
+import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.information.AttemptData;
+import edu.asu.voctec.minigames.energy_assessment.EAPart1IntroScreen;
 import edu.asu.voctec.utilities.Position;
 
 /**
@@ -32,6 +34,8 @@ public class CDIntroScreen extends GUI implements Task
 {
 	private static final String INTRODUCTION = "In the following game, you will be determining the peak sun hours (PSH) for the most appropriate month (critical design month) for a small DC lighting system with constant loads as well as the most appropriate array orientation and tilt angle for the conditions of that month for a location in the Cook Islands.";
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
+	private boolean nextState;
+	private int lc;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -86,6 +90,30 @@ public class CDIntroScreen extends GUI implements Task
 		Game.getExitScreen().updateExitScreen(this.getClass());
 		SupportFunctions.ensureAttemptData();
 		
+	}
+	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException 
+	{
+		//Game.getCurrentGame();
+		for (int i = 0; i < MainMenu.UserData.size(); i++){
+			System.out.println(MainMenu.UserData.get(i));
+		}
+			super.update(container, game, delta);
+			if (!nextState){
+				++lc;
+				if (lc == 5){
+				try {
+			
+					Game.getCurrentGame().addState(new CDPart1(), Game.getCurrentGame().getContainer());
+			
+				
+				} catch (SlickException e) {
+		
+					e.printStackTrace();
+				}
+			nextState = true;
+				}
+		}
+			
 	}
 	
 	@Override

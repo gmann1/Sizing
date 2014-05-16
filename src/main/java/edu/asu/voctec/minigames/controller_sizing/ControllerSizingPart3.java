@@ -19,6 +19,7 @@ import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.GameDefaults.Fonts;
 import edu.asu.voctec.GameDefaults.ImagePaths;
 import edu.asu.voctec.game_states.GameTemplate;
+import edu.asu.voctec.minigames.cdmg.CDPart1;
 
 public class ControllerSizingPart3 extends GameTemplate{
 
@@ -50,6 +51,8 @@ public class ControllerSizingPart3 extends GameTemplate{
 	public static List<PartControl> objectsArray = new ArrayList<PartControl>();
 	private List<InitialPart> initialBatteries = new ArrayList<InitialPart>();
 	private boolean stepCompleted = false, firstRoundOfHints = true;
+	private boolean nextState;
+	private int lc;
 	private static BasicComponent installationArea;
 	private static int currentHintText = 0;
 	public static int totalNumberOfHintsUsed = 0, doneButtonCounter = 0;
@@ -111,6 +114,25 @@ public class ControllerSizingPart3 extends GameTemplate{
 			throws SlickException
 	{
 		super.update(container,game,delta);
+		
+			//Game.getCurrentGame();
+				super.update(container, game, delta);
+				if (!nextState){
+					++lc;
+					if (lc == 5){
+					try {
+				
+						Game.getCurrentGame().addState(new ControllerSizingPart1(), Game.getCurrentGame().getContainer());
+				
+					
+					} catch (SlickException e) {
+			
+						e.printStackTrace();
+					}
+				nextState = true;
+					}
+			}
+				
 		
 		for(int index =0; index<objectsArray.size(); index++)
 		{

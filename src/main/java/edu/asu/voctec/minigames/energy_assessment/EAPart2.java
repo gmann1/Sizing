@@ -3,6 +3,11 @@ package edu.asu.voctec.minigames.energy_assessment;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +35,7 @@ import edu.asu.voctec.GameDefaults.ImagePaths;
 import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.GameTemplate;
+import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.TaskScreen;
 import edu.asu.voctec.information.SizingStepsData;
 import edu.asu.voctec.information.TaskData;
@@ -79,6 +85,8 @@ public class EAPart2 extends GameTemplate
 	public static String[] applianceNames       = {"CFL","LED","Radio","TV","Cellphone"};
 	public static List<ObjectMove> objectsArray = new ArrayList<ObjectMove>();
 	private List<InitialObjects> initialObjects = new ArrayList<InitialObjects>();
+	private boolean nextState;
+	private int lc;
 	public static int locationArray[][] = 
 	{
 		{145,175},
@@ -174,7 +182,21 @@ public class EAPart2 extends GameTemplate
 			throws SlickException
 	{
 		super.update(container,game,delta);
+		if (!nextState){
+			++lc;
+			if (lc == 5){
+			try {
 		
+				Game.getCurrentGame().addState(new CDIntroScreen(), Game.getCurrentGame().getContainer());
+				
+			
+			} catch (SlickException e) {
+	
+				e.printStackTrace();
+			}
+		nextState = true;
+			}
+	}
 		for(int index =0; index<objectsArray.size(); index++)
 		{
 			ObjectMove invokedObject = objectsArray.get(index);
@@ -257,6 +279,39 @@ public class EAPart2 extends GameTemplate
 				//TODO 
 				Game.getCurrentTask().getCurrentAttempt().addHints((hintsUsed*2));
 				trackTime = false;
+				if (MainMenu.UserData.size() <7){
+					MainMenu.UserData.add("Assess Energy Requirements");
+					MainMenu.UserData.add(Integer.toString(Game.getCurrentTask().getCurrentAttempt().getNumberOfUniqueHints()));
+					MainMenu.UserData.add(String.valueOf(UtilFunctions.formatTime(Game.getCurrentTask().getCurrentAttempt().getTimeSpent(),false, true)));
+					File file = new File(System.getProperty("user.dir")+"/userData.txt");
+					 
+					// if file doesnt exists, then create it
+					try {
+					if (!file.exists()) {
+						
+							file.createNewFile();
+						}
+					
+					FileWriter fw = new FileWriter(file, true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					
+					String s = new String();
+					//s = MainMenu.UserData.get(0) + "'s data(minigame, hints used, time spent): ";
+					s += MainMenu.UserData.get(4);
+					s += ", ";
+					s += MainMenu.UserData.get(5);
+					s += ", ";
+					s += MainMenu.UserData.get(6);
+					s += "; ";
+				
+					bw.write(s);
+					bw.close();
+					} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				
 				hintBox.setText("Good Job! you have the correct combination of items.");
 			}
 			else if(allFilled() == true)

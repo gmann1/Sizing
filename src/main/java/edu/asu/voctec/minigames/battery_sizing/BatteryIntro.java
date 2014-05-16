@@ -17,6 +17,7 @@ import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.minigames.cdmg.CDPart1;
 import edu.asu.voctec.utilities.Position;
 
 public class BatteryIntro extends GUI implements Task
@@ -27,6 +28,8 @@ public class BatteryIntro extends GUI implements Task
 	public static final String WELCOME_Text = "";
 	public static final String INTRODUCTION = "In this game you need to figure out the best combination of batteries and how to connect them"
 			+ " in order to achieve the required Battery-Bank output and system voltage.";
+	private boolean nextState;
+	private int lc;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -75,7 +78,27 @@ public class BatteryIntro extends GUI implements Task
 			Game.getCurrentGame().enterState(BatteryGameScreen.class);
 		}
 	}
-	
+	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException 
+	{
+		//Game.getCurrentGame();
+			super.update(container, game, delta);
+			if (!nextState){
+				++lc;
+				if (lc == 5){
+				try {
+			
+					Game.getCurrentGame().addState(new BatteryGameScreen(), Game.getCurrentGame().getContainer());
+			
+				
+				} catch (SlickException e) {
+		
+					e.printStackTrace();
+				}
+			nextState = true;
+				}
+		}
+			
+	}
 	@Override
 	public void onEnter()
 	{

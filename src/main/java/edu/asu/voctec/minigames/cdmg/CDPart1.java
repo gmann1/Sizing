@@ -121,6 +121,8 @@ public class CDPart1 extends GameTemplate {
 	private TextField box3Text2;
 	private TextField box4Text1;
 	private TextField box4Text2;
+	private boolean nextState;
+	private int lc;
 
 	public class CDReadyListener extends ButtonListener {
 
@@ -448,6 +450,21 @@ public class CDPart1 extends GameTemplate {
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		super.update(container, game, delta);
+		if (!nextState){
+			++lc;
+			if (lc == 5){
+			try {
+		
+				Game.getCurrentGame().addState(new CDPart2(), Game.getCurrentGame().getContainer());
+		
+			
+			} catch (SlickException e) {
+	
+				e.printStackTrace();
+			}
+		nextState = true;
+			}
+	}
 		if(correctAnswer){
 			score = 6 - hints;
 			if (score <0){

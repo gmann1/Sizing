@@ -1,6 +1,10 @@
 package edu.asu.voctec.minigames.cdmg;
 
 import java.awt.Rectangle;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import net.java.games.input.Mouse;
@@ -25,7 +29,9 @@ import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.GameTemplate;
+import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.minigames.battery_sizing.BatteryIntro;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
@@ -98,6 +104,10 @@ public class CDPart2 extends GameTemplate {
 
 	private BasicComponent criticalMonth;
 
+	private boolean nextState;
+
+	private int lc;
+
 	
 
 
@@ -149,7 +159,38 @@ public class CDPart2 extends GameTemplate {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				if (MainMenu.UserData.size() <10){
+					MainMenu.UserData.add("Find the Critical Design Month");
+					MainMenu.UserData.add(Integer.toString(Game.getCurrentTask().getCurrentAttempt().getNumberOfUniqueHints()));
+					MainMenu.UserData.add(String.valueOf(UtilFunctions.formatTime(Game.getCurrentTask().getCurrentAttempt().getTimeSpent(),false, true)));
+					File file = new File(System.getProperty("user.dir")+"/userData.txt");
+					 
+					// if file doesnt exists, then create it
+					try {
+					if (!file.exists()) {
+						
+							file.createNewFile();
+						}
+					
+					FileWriter fw = new FileWriter(file, true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					
+					String s = new String();
+					//s = MainMenu.UserData.get(0) + "'s data(minigame, hints used, time spent): ";
+					s += MainMenu.UserData.get(7);
+					s += ", ";
+					s += MainMenu.UserData.get(8);
+					s += ", ";
+					s += MainMenu.UserData.get(9);
+					s += "; ";
 				
+					bw.write(s);
+					bw.close();
+					} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 				Game.getCurrentGame().enterState(ExitScreen.class);
 			}
 			
@@ -403,6 +444,21 @@ genericHints
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		super.update(container, game, delta);
+		if (!nextState){
+			++lc;
+			if (lc == 5){
+			try {
+		
+				Game.getCurrentGame().addState(new BatteryIntro(), Game.getCurrentGame().getContainer());
+		
+			
+			} catch (SlickException e) {
+	
+				e.printStackTrace();
+			}
+		nextState = true;
+			}
+	}
 		if (correctAnswer){
 			if (score < 0){
 				score = 0;

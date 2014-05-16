@@ -17,6 +17,7 @@ import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GameTemplate;
+import edu.asu.voctec.minigames.cdmg.CDPart1;
 
 public class ControllerSizingPart2 extends GameTemplate
 {
@@ -40,6 +41,8 @@ public class ControllerSizingPart2 extends GameTemplate
 	private Image OriginalControllerImage, ChosenControllerImage, IncorrectControllerImage, CorrectControllerImage, ContinueButtonImage;
 	private boolean stepCompleted = false, largerControllerHintDisplayed = false, smallerControllerHintDisplayed = false;
 	private int doneButtonCounter = 0;
+	private boolean nextState;
+	private int lc;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -77,6 +80,25 @@ public class ControllerSizingPart2 extends GameTemplate
 			throws SlickException
 	{
 		super.update(container,game,delta);
+	
+			//Game.getCurrentGame();
+				super.update(container, game, delta);
+				if (!nextState){
+					++lc;
+					if (lc == 5){
+					try {
+				
+						Game.getCurrentGame().addState(new ControllerSizingPart3(), Game.getCurrentGame().getContainer());
+				
+					
+					} catch (SlickException e) {
+			
+						e.printStackTrace();
+					}
+				nextState = true;
+					}
+			}
+				
 		
 		if(stepCompleted){
 			   if (sequenceStep != 4000){
@@ -198,6 +220,7 @@ public class ControllerSizingPart2 extends GameTemplate
 		stepCompleted = false;
 		resetButtons();
 	}
+	
 	
 	public void onEnter()
 	 {

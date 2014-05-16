@@ -15,6 +15,7 @@ import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.minigames.energy_assessment.EAPart1IntroScreen;
 import edu.asu.voctec.utilities.Position;
 
 public class StepSelectionExitScreen extends GUI
@@ -22,6 +23,8 @@ public class StepSelectionExitScreen extends GUI
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
 	public TextArea bodyText;
 	public boolean updateHints = false;
+	private boolean nextState;
+	private int lc;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -56,6 +59,28 @@ public class StepSelectionExitScreen extends GUI
 		this.addComponent(feedback);
 		this.addComponent(bodyText);
 		
+	}
+	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException 
+	{
+		//Game.getCurrentGame();
+			super.update(container, game, delta);
+		
+			if (!nextState){
+				++lc;
+				if (lc == 5){
+				//try {
+			
+					//Game.getCurrentGame().addState(new EAPart1IntroScreen(), Game.getCurrentGame().getContainer());
+			
+				
+				//} catch (SlickException e) {
+		
+					//e.printStackTrace();
+				//}
+			nextState = true;
+				}
+		}
+			
 	}
 	
 	@Override

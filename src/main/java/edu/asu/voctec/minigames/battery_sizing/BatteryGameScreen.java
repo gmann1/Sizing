@@ -1,6 +1,10 @@
 package edu.asu.voctec.minigames.battery_sizing;
 
 import java.awt.Rectangle;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -18,7 +22,11 @@ import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.game_states.GameTemplate;
+import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.minigames.cdmg.CDPart1;
+import edu.asu.voctec.minigames.pv_game.PVIntro;
+import edu.asu.voctec.utilities.UtilFunctions;
 
 public class BatteryGameScreen extends GameTemplate
 {
@@ -82,6 +90,8 @@ public class BatteryGameScreen extends GameTemplate
 	private List<InitialBattery> initialBatteries = new ArrayList<InitialBattery>();
 	private static final int RequiredCapacity = 174, RequiredVoltage = 12, maxChances = 5;
 	private boolean firstRoundOfHints = true, parallelHintNOtDisplayed = true, seriesHintNOtDisplayed = true;
+	private boolean nextState;
+	private int lc;
 	public static int totalNumberOfHintsUsed = 0, doneButtonCounter = 0, deductedScore = 0;
 	private static BasicComponent batteryBankArea;
 	private static boolean CompletedGame = false;
@@ -159,6 +169,27 @@ public class BatteryGameScreen extends GameTemplate
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException
 	{
+		
+			//Game.getCurrentGame();
+				super.update(container, game, delta);
+				if (!nextState){
+					++lc;
+					if (lc == 5){
+					try {
+				
+						Game.getCurrentGame().addState(new BatteryExitScreen(), Game.getCurrentGame().getContainer());
+						Game.getCurrentGame().addState(new PVIntro(), Game.getCurrentGame().getContainer());
+				
+					
+					} catch (SlickException e) {
+			
+						e.printStackTrace();
+					}
+				nextState = true;
+					}
+			}
+				
+		
 		if(CompletedGame)
 		{
 			continueButtonOn();
@@ -491,6 +522,38 @@ public class BatteryGameScreen extends GameTemplate
 			     task.currentImage = 3;
 			    }
 				reset();
+				if (MainMenu.UserData.size() <13){
+					MainMenu.UserData.add("Size the Battery");
+					MainMenu.UserData.add(Integer.toString(Game.getCurrentTask().getCurrentAttempt().getNumberOfUniqueHints()));
+					MainMenu.UserData.add(String.valueOf(UtilFunctions.formatTime(Game.getCurrentTask().getCurrentAttempt().getTimeSpent(),false, true)));
+					File file = new File(System.getProperty("user.dir")+"/userData.txt");
+					 
+					// if file doesnt exists, then create it
+					try {
+					if (!file.exists()) {
+						
+							file.createNewFile();
+						}
+					
+					FileWriter fw = new FileWriter(file, true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					
+					String s = new String();
+					//s = MainMenu.UserData.get(0) + "'s data(minigame, hints used, time spent): ";
+					s += MainMenu.UserData.get(10);
+					s += ", ";
+					s += MainMenu.UserData.get(11);
+					s += ", ";
+					s += MainMenu.UserData.get(12);
+					s += "; ";
+				
+					bw.write(s);
+					bw.close();
+					} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 				Game.getCurrentGame().enterState(ExitScreen.class);
 			}
 		}
@@ -513,6 +576,7 @@ public class BatteryGameScreen extends GameTemplate
 		// TODO fix crash
 		trackTime = true;
 	 }
+	
 	public void onExit()
 	 {
 		// TODO fix crash

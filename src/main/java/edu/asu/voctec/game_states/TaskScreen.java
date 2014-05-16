@@ -91,11 +91,11 @@ public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskS
 			throws SlickException
 	{
 		this.setBackgroundImage(new Image(TASK_SCREEN_BACKGROUND));
-		System.out.println("\nTaskScreen: Initializing...");
+		//System.out.println("\nTaskScreen: Initializing...");
 		
 		confirmationComponents = new ArrayList<>();
 		tasks = new ArrayList<>();
-		System.out.println("TaskScreen: Defaults Set.");
+		//System.out.println("TaskScreen: Defaults Set.");
 		
 		// Side Bar
 		BasicComponent sideBar = new BasicComponent(SIDE_BAR, 0, 0);
@@ -153,7 +153,7 @@ public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskS
 		
 		
 		
-		System.out.println("TaskScreen: Initialization Finished.\n");
+		//System.out.println("TaskScreen: Initialization Finished.\n");
 	}
 	
 	@Override
@@ -162,7 +162,7 @@ public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskS
 		if (!scenarioLoaded)
 		{
 			load();
-			System.out.println("Scenario Load End");
+			//System.out.println("Scenario Load End");
 		}
 		
 		// Disable task display
@@ -179,7 +179,7 @@ public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskS
 	public void load()
 	{
 		ScenarioData scenario = Game.getCurrentScenario();
-		System.out.println("Loading Scenario: " + scenario);
+		//System.out.println("Loading Scenario: " + scenario);
 		tasks = new ArrayList<>();
 		
 		for (TaskData task : scenario.getTasks())

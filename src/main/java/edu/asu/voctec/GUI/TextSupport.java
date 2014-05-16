@@ -191,11 +191,11 @@ public abstract class TextSupport
 	public static int getMaxScaledFontSize(Font font, String text,
 			Rectangle bounds, int searchIncrement, boolean considerWidth)
 	{
-		System.out.println("Scaling font...");
+		//System.out.println("Scaling font...");
 		
 		// Scale the font to fit the current bounds
 		TrueTypeFont fontContainer = new TrueTypeFont(font, false);
-		System.out.println("Size: " + font.getSize());
+		//System.out.println("Size: " + font.getSize());
 		
 		double textHeight = fontContainer.getHeight();
 		double verticalScale = bounds.height / textHeight;
@@ -213,13 +213,13 @@ public abstract class TextSupport
 		trueScale = trueScale * 0.98;
 		int scaledSize = (int) (font.getSize() * trueScale);
 		
-		System.out.println("Size: " + scaledSize);
+		//System.out.println("Size: " + scaledSize);
 		if (scaledSize > MAX_FONT_SIZE)
 		{
 			scaledSize = MAX_FONT_SIZE;
-			System.out.println("Scale Capped: " + scaledSize);
+			//System.out.println("Scale Capped: " + scaledSize);
 		}
-		System.out.println("Scaling Complete.");
+		//System.out.println("Scaling Complete.");
 		return scaledSize;
 	}
 	

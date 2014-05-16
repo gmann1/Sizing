@@ -1,6 +1,15 @@
 package edu.asu.voctec.minigames.step_selection;
 
 import java.awt.Rectangle;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -24,6 +33,7 @@ import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.game_states.GameTemplate;
+import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.information.SizingStepsData;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.utilities.CircularList;
@@ -41,6 +51,10 @@ public class StepSelection extends GameTemplate
 	private boolean complete;
 
 	private int hints;
+
+	private boolean nextState;
+
+	private int lc;
 	
 	/**
 	 * Listener for the ready button. If the button is pressed before all
@@ -126,6 +140,21 @@ public class StepSelection extends GameTemplate
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		super.update(container, game, delta);
+		if (!nextState){
+			++lc;
+			if (lc == 5){
+			try {
+		
+			
+				Game.getCurrentGame().addState(new StepSelectionExitScreen(), Game.getCurrentGame().getContainer());
+			
+			} catch (SlickException e) {
+	
+				e.printStackTrace();
+			}
+		nextState = true;
+			}
+	}
 		if(complete){
 			int numberOfStars = 6 - hints;
 			
@@ -158,6 +187,45 @@ public class StepSelection extends GameTemplate
 				Game.updateExitText(
 						"Good Job!",
 						"You have successfully completed the sizing process. Now get ready to play with each of the sizing steps.");
+				if (MainMenu.UserData.size() <3){
+					MainMenu.UserData.add("Step Selection");
+					MainMenu.UserData.add(Integer.toString(Game.getCurrentTask().getCurrentAttempt().getNumberOfUniqueHints()));
+					MainMenu.UserData.add(String.valueOf(UtilFunctions.formatTime(Game.getCurrentTask().getCurrentAttempt().getTimeSpent(),false, true)));
+				
+					
+					File file = new File(System.getProperty("user.dir")+"/userData.txt");
+				
+					// if file doesnt exists, then create it
+					try {
+					if (!file.exists()) {
+						
+							file.createNewFile();
+						}
+					
+					FileWriter fw = new FileWriter(file, true);
+					BufferedWriter bw = new BufferedWriter(fw);
+				
+					String s = new String();
+					s = MainMenu.UserData.get(0) + "'s data(minigame, hints used, time spent): ";
+					s += MainMenu.UserData.get(1);
+					s += ", ";
+					s += MainMenu.UserData.get(2);
+					s += ", ";
+					s += MainMenu.UserData.get(3);
+					s += "; ";
+					BufferedReader br = new BufferedReader(new FileReader(file));     
+					if (br.readLine() != null) {
+					    
+					    bw.newLine();
+					}
+					
+					bw.write(s);
+					bw.close();
+					} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 				Game.getCurrentGame().enterState(ExitScreen.class);
 			}
 		}

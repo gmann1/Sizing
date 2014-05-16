@@ -118,7 +118,7 @@ public class Game extends StateBasedGame implements Singleton
 		else
 			throw new DuplicateInstantiationException();
 		
-		System.out.println("Game constructed successfully.");
+		//System.out.println("Game constructed successfully.");
 	}
 	
 	/**
@@ -239,7 +239,7 @@ public class Game extends StateBasedGame implements Singleton
 	public static void setCurrentLanguage(Dictionary currentLanguage)
 	{
 		Game.currentLanguage = currentLanguage;
-		System.out.println("Updating Language...");
+		//System.out.println("Updating Language...");
 		// translate gameStates
 		for (int id : Game.getGameStates())
 		{
@@ -252,7 +252,7 @@ public class Game extends StateBasedGame implements Singleton
 				((Translatable) gameState).updateTranslation();
 		}
 		
-		System.out.println("Language Updates Complete.");
+		//System.out.println("Language Updates Complete.");
 	}
 	
 	/**
@@ -288,40 +288,39 @@ public class Game extends StateBasedGame implements Singleton
 		this.enterState(InstructorControlPanel.class);
 	
 	}
+	
 	public void secondaryStatesList(GameContainer container) throws SlickException
 	{
-		this.addState(new MainMenu());
-		this.addState(new MenuTest());
-		this.addState(new ScenarioHub());
-		this.addState(new ExitScreen());
-		this.addState(new LanguageMenu());
-		this.addState(new TaskScreen());
-		this.addState(new ScenarioIntroductionScreen());
-		this.addState(new StepSelection());
-		this.addState(new StepSelectionExitScreen());
-		this.addState(new CDPart1());
-		this.addState(new CDPart2());
-		this.addState(new CDPart3());
-		this.addState(new CDExtra());
-		this.addState(new CDIntroScreen());
-		this.addState(new BatteryExitScreen());
-		this.addState(new BatteryIntro());
-		this.addState(new BatteryGameScreen());
-		this.addState(new PVIntro());
-		this.addState(new PVGame());
-		this.addState(new PVExit());
-		this.addState(new EAPart1IntroScreen());
-		this.addState(new EAPart2());
-		this.addState(new ControllerSizingIntroScreen());
-		this.addState(new ControllerSizingExit());
-		this.addState(new ControllerSizingPart1());
-		this.addState(new ControllerSizingPart2());
-		this.addState(new ControllerSizingPart3());
+		this.addState(new MainMenu(), container);
 		
-		for (int stateID : Game.getGameStates())
-		{
-			this.getState(stateID).init(container, this);
-		}
+		//this.addState(new MenuTest(), container);
+		//this.addState(new ScenarioHub(), container);
+		this.addState(new ExitScreen(), container);
+		//this.addState(new LanguageMenu(), container);
+		this.addState(new TaskScreen(), container);
+		//this.addState(new ScenarioIntroductionScreen(), container);
+		//this.addState(new StepSelection(), container);
+		//this.addState(new StepSelectionExitScreen(), container);
+		//this.addState(new CDPart1(), container);
+		//this.addState(new CDPart2(), container);
+		//this.addState(new CDPart3(), container);
+		//this.addState(new CDExtra(), container);
+		//this.addState(new CDIntroScreen(), container);
+		//this.addState(new BatteryExitScreen(), container);
+		//this.addState(new BatteryIntro(), container);
+		//this.addState(new BatteryGameScreen(), container);
+		//this.addState(new PVIntro(), container);
+		//this.addState(new PVGame(), container);
+		//this.addState(new PVExit(), container);
+		this.addState(new EAPart1IntroScreen(), container);
+		//this.addState(new EAPart2(), container);
+		//this.addState(new ControllerSizingIntroScreen(), container);
+		//this.addState(new ControllerSizingExit(), container);
+		//this.addState(new ControllerSizingPart1(), container);
+		//this.addState(new ControllerSizingPart2(), container);
+		//this.addState(new ControllerSizingPart3(), container);
+		
+	
 		
 		// Move to the default game state
 		this.enterState(Game.DEFAULT_GAME_STATE);
@@ -352,6 +351,21 @@ public class Game extends StateBasedGame implements Singleton
 		}
 	}
 	
+	public void addState(GameState state, GameContainer container) throws SlickException
+	{
+		if (state instanceof ModifiedGameState)
+		{
+			super.addState(state);
+			gameStates.put(state.getClass(), state.getID());
+			this.getState(state.getID()).init(container, this);
+		}
+		else
+		{
+			throw new IllegalArgumentException(
+					"Game only accepts ModifiedGameStates.");
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -360,7 +374,7 @@ public class Game extends StateBasedGame implements Singleton
 	@Override
 	public void enterState(int id)
 	{
-		System.out.println("Switching States...");
+		//System.out.println("Switching States...");
 		
 		ModifiedGameState currentState = (ModifiedGameState) getCurrentState();
 		GameState newState = getState(id);
@@ -373,8 +387,8 @@ public class Game extends StateBasedGame implements Singleton
 			((ModifiedGameState) newState).onEnter();
 		
 		super.enterState(id);
-		System.out.println("Switch Successful. Current State: "
-				+ this.getCurrentStateID());
+		//System.out.println("Switch Successful. Current State: "
+				//+ this.getCurrentStateID());
 	}
 	
 	/**
@@ -403,9 +417,15 @@ public class Game extends StateBasedGame implements Singleton
 	 */
 	public static int getStateID(Class<?> state)
 	{
-		System.out.println("State Receieved: " + state);
-		System.out.println("State ID: " + gameStates.get(state));
+		//System.out.println("State Receieved: " + state);
+		//System.out.println("State ID: " + gameStates.get(state));
+		if (gameStates.get(state) != null){
 		return gameStates.get(state);
+		}
+		else
+		{
+			return -1;
+		}
 	}
 	
 	/**

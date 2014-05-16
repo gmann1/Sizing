@@ -34,12 +34,14 @@ public class ScenarioHub extends GUI
 	public static boolean scenerio1On = true;
 	public static boolean scenerio2On = false;
 	public static boolean scenerio3On = false;
+	boolean nextState = false;
 	
 	TextAreaX descriptionText;
 	Button scenario1Button, scenario2Button, scenario3Button;
 	
 	private int[][] scenarioPosition = { { 500, 355 }, { 500, 155 },
 			{ 500, 305 } };
+	private int lc;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -89,11 +91,18 @@ public class ScenarioHub extends GUI
 		{
 			ScenarioData scenario = Game.getCurrentScenario();
 			
-			if (scenario.getEntryStep().isComplete())
+			if (scenario.getEntryStep().isComplete()){
+				
+				
+			
 				Game.getCurrentGame().enterState(TaskScreen.class);
-			else
+			}
+			else{
+				
+				
 				Game.getCurrentGame().enterState(
 						ScenarioIntroductionScreen.class);
+			}
 		}
 	}
 	
@@ -164,5 +173,27 @@ public class ScenarioHub extends GUI
 		descriptionText.setFontSize(16);
 		descriptionText.setFontColor(Color.white);
 		this.addComponent(descriptionText);
+	}
+	@Override
+	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException 
+	{
+		//Game.getCurrentGame();
+			super.update(container, game, delta);
+			if (!nextState){
+				++lc;
+				if (lc == 5){
+				try {
+			
+					
+					Game.getCurrentGame().addState(new ScenarioIntroductionScreen(), Game.getCurrentGame().getContainer());
+				
+				} catch (SlickException e) {
+		
+					e.printStackTrace();
+				}
+			nextState = true;
+				}
+		}
+			
 	}
 }

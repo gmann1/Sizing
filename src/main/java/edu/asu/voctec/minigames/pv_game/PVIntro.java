@@ -17,6 +17,7 @@ import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.minigames.cdmg.CDPart1;
 import edu.asu.voctec.utilities.Position;
 
 public class PVIntro extends GUI implements Task
@@ -28,6 +29,8 @@ public class PVIntro extends GUI implements Task
 	public static final String WELCOME_Text = "";
 	public static final String INTRODUCTION = "In this game you need to figure out the best combination of PV panels and how to connect them"
 			+ " in order to achieve the required charging power and system voltage.";
+	private boolean nextState;
+	private int lc;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -82,7 +85,26 @@ public class PVIntro extends GUI implements Task
 		SupportFunctions.ensureAttemptData();
 		Game.getExitScreen().updateExitScreen(this.getClass());
 	}
-	
+	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException 
+	{
+		//Game.getCurrentGame();
+			super.update(container, game, delta);
+			if (!nextState){
+				++lc;
+				if (lc == 5){
+				try {
+			
+					Game.getCurrentGame().addState(new PVGame(), Game.getCurrentGame().getContainer());
+			
+				
+				} catch (SlickException e) {
+		
+					e.printStackTrace();
+				}
+			nextState = true;
+				}
+		}
+	}
 	@Override
 	public void load()
 	{

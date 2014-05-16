@@ -1,6 +1,10 @@
 package edu.asu.voctec.minigames.pv_game;
 
 import java.awt.Rectangle;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +22,11 @@ import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.game_states.GameTemplate;
+import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.minigames.cdmg.CDPart1;
+import edu.asu.voctec.minigames.controller_sizing.ControllerSizingIntroScreen;
+import edu.asu.voctec.utilities.UtilFunctions;
 
 public class PVGame extends GameTemplate
 {
@@ -80,6 +88,8 @@ public class PVGame extends GameTemplate
 	private List<InitialBattery> initialBatteries = new ArrayList<InitialBattery>();
 	private static final int RequiredCapacity = 127, RequiredVoltage = 12, maxChances = 5;
 	private boolean firstRoundOfHints = true, parallelHintNOtDisplayed = true, seriesHintNOtDisplayed = true;
+	private boolean nextState;
+	private int lc;
 	public static int totalNumberOfHintsUsed = 0, doneButtonCounter = 0, deductedScore = 0;
 	private static BasicComponent batteryBankArea;
 	private static boolean CompletedGame = false;
@@ -157,6 +167,25 @@ public class PVGame extends GameTemplate
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException
 	{
+		
+			//Game.getCurrentGame();
+				super.update(container, game, delta);
+				if (!nextState){
+					++lc;
+					if (lc == 5){
+					try {
+				
+						Game.getCurrentGame().addState(new PVExit(), Game.getCurrentGame().getContainer());
+						Game.getCurrentGame().addState(new ControllerSizingIntroScreen(), Game.getCurrentGame().getContainer());
+					
+					} catch (SlickException e) {
+			
+						e.printStackTrace();
+					}
+				nextState = true;
+					}
+			}
+			
 		if(CompletedGame)
 		{
 			continueButtonOn();
@@ -490,6 +519,38 @@ public class PVGame extends GameTemplate
 			     task.currentImage = 4;
 			    }
 				reset();
+				if (MainMenu.UserData.size() <16){
+					MainMenu.UserData.add("Size the PV Array");
+					MainMenu.UserData.add(Integer.toString(Game.getCurrentTask().getCurrentAttempt().getNumberOfUniqueHints()));
+					MainMenu.UserData.add(String.valueOf(UtilFunctions.formatTime(Game.getCurrentTask().getCurrentAttempt().getTimeSpent(),false, true)));
+					File file = new File(System.getProperty("user.dir")+"/userData.txt");
+					 
+					// if file doesnt exists, then create it
+					try {
+					if (!file.exists()) {
+						
+							file.createNewFile();
+						}
+					
+					FileWriter fw = new FileWriter(file, true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					
+					String s = new String();
+					//s = MainMenu.UserData.get(0) + "'s data(minigame, hints used, time spent): ";
+					s += MainMenu.UserData.get(13);
+					s += ", ";
+					s += MainMenu.UserData.get(14);
+					s += ", ";
+					s += MainMenu.UserData.get(15);
+					s += "; ";
+				
+					bw.write(s);
+					bw.close();
+					} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 				Game.getCurrentGame().enterState(ExitScreen.class);
 			}
 		}

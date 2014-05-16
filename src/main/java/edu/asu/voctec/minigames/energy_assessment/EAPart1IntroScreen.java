@@ -19,6 +19,8 @@ public class EAPart1IntroScreen extends GUI implements Task
 {
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
 	public static final String INTRODUCTION = "In this game you will need to find a correct combinations of appliances that add up to to the target power rating.";
+	private int lc;
+	private boolean nextState;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -60,6 +62,27 @@ public class EAPart1IntroScreen extends GUI implements Task
 	public void load()
 	{
 		
+	}
+	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException 
+	{
+		//Game.getCurrentGame();
+			super.update(container, game, delta);
+			if (!nextState){
+				++lc;
+				if (lc == 5){
+				try {
+			
+					Game.getCurrentGame().addState(new EAPart2(), Game.getCurrentGame().getContainer());
+			
+				
+				} catch (SlickException e) {
+		
+					e.printStackTrace();
+				}
+			nextState = true;
+				}
+		}
+			
 	}
 	
 	@Override

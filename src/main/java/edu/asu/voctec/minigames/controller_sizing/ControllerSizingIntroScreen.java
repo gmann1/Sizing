@@ -18,6 +18,7 @@ import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.GUI;
 import edu.asu.voctec.game_states.Task;
 import edu.asu.voctec.game_states.TaskScreen;
+import edu.asu.voctec.minigames.cdmg.CDPart1;
 import edu.asu.voctec.utilities.Position;
 
 public class ControllerSizingIntroScreen extends GUI implements Task
@@ -25,6 +26,10 @@ public class ControllerSizingIntroScreen extends GUI implements Task
 	private static String INTRODUCTION = "This is the final step you need to do in order to complete the sizing of this PV system. In this step you will be sizing the charge controller for the system. The charge controller will help in regulating and controlling, the flow of current to and from the battery in order to protect it from overcharging and to increase its life. ";
 	
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
+
+	private boolean nextState;
+
+	private int lc;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -79,6 +84,27 @@ public class ControllerSizingIntroScreen extends GUI implements Task
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException 
+	{
+		//Game.getCurrentGame();
+			super.update(container, game, delta);
+			if (!nextState){
+				++lc;
+				if (lc == 5){
+				try {
+			
+					Game.getCurrentGame().addState(new ControllerSizingPart2(), Game.getCurrentGame().getContainer());
+			
+				
+				} catch (SlickException e) {
+		
+					e.printStackTrace();
+				}
+			nextState = true;
+				}
+		}
+			
 	}
 	
 	@Override
