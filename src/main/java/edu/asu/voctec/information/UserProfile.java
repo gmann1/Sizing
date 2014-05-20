@@ -9,6 +9,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 
 import edu.asu.voctec.GameDefaults.ImagePaths;
+import edu.asu.voctec.GameDefaults.DeveloperOptions;
 import edu.asu.voctec.GameDefaults.Labels;
 import edu.asu.voctec.GameDefaults.TaskScreenDefaults;
 import edu.asu.voctec.GUI.Button;
@@ -104,7 +105,8 @@ public class UserProfile implements Serializable
 		System.out.println("TaskData Initialized");
 		
 		// Add all tasks
-		tasks.add(energyAssessment);
+		if (DeveloperOptions.INCLUDE_TASK_1)
+			tasks.add(energyAssessment);
 		tasks.add(criticalDesignMonth);
 		tasks.add(batterySizing);
 		tasks.add(pvSizing);
@@ -126,7 +128,10 @@ public class UserProfile implements Serializable
 		}
 		
 		// Set current task
-		energyAssessment.setAccessible(true);
+		if (DeveloperOptions.INCLUDE_TASK_1)
+			energyAssessment.setAccessible(true);
+		else
+			criticalDesignMonth.setAccessible(true);
 		
 		// Define the rectangle that holds the taskButtons
 		Rectangle taskButtonContainer = new Rectangle(0, 0, 226, 600);

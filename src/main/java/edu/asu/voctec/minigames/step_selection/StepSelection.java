@@ -7,9 +7,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -22,6 +19,7 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.asu.voctec.Game;
+import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.GameDefaults.ImagePaths.SelectorIcons;
 import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
@@ -184,9 +182,13 @@ public class StepSelection extends GameTemplate
 			if (complete)
 				
 			{
+				String exitText = 
+						"You have successfully completed the sizing process. Now get ready to play with each of the sizing steps.";
+				if (GameDefaults.DeveloperOptions.INCLUDE_TASK_DISCLAIMER && !GameDefaults.DeveloperOptions.INCLUDE_TASK_1)
+					exitText = exitText + GameDefaults.DeveloperOptions.TASK_DISCLAIMER;
+				
 				Game.updateExitText(
-						"Good Job!",
-						"You have successfully completed the sizing process. Now get ready to play with each of the sizing steps.");
+						"Good Job!", exitText);
 				if (MainMenu.UserData.size() <3){
 					MainMenu.UserData.add("Step Selection");
 					MainMenu.UserData.add(Integer.toString(Game.getCurrentTask().getCurrentAttempt().getNumberOfUniqueHints()));

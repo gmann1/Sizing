@@ -26,7 +26,7 @@ import edu.asu.voctec.utilities.UtilFunctions;
 public class TaskScreen extends GUI
 {
 	public static final String SIDE_BAR = "resources/default/img/taskScreen/SideBar.png";
-public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskScreenBackgrounds/background0.png";
+	public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskScreenBackgrounds/background0.png";
 	public static BackButtonListener activeListener;
 	private ArrayList<TaskData> tasks;
 	private ArrayList<Component> confirmationComponents;
@@ -74,7 +74,7 @@ public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskS
 	public class ReplayButtonListener extends ButtonListener
 	{
 		private static final long serialVersionUID = -5618531297688635125L;
-
+		
 		@Override
 		protected void actionPerformed()
 		{
@@ -87,15 +87,14 @@ public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskS
 	}
 	
 	@Override
-	public void init(GameContainer container, StateBasedGame game)
-			throws SlickException
+	public void init(GameContainer container, StateBasedGame game) throws SlickException
 	{
 		this.setBackgroundImage(new Image(TASK_SCREEN_BACKGROUND));
-		//System.out.println("\nTaskScreen: Initializing...");
+		// System.out.println("\nTaskScreen: Initializing...");
 		
 		confirmationComponents = new ArrayList<>();
 		tasks = new ArrayList<>();
-		//System.out.println("TaskScreen: Defaults Set.");
+		// System.out.println("TaskScreen: Defaults Set.");
 		
 		// Side Bar
 		BasicComponent sideBar = new BasicComponent(SIDE_BAR, 0, 0);
@@ -115,8 +114,8 @@ public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskS
 		Point informationLocation = TaskScreenDefaults.INFORMATION_OFFSET;
 		float scale = TaskScreenDefaults.INFORMATION_SCALE;
 		Rectangle relativeBounds = new Rectangle(0, 0, 400, 100);
-		TextField nameLabel = new TextField(relativeBounds, 0.92f,
-				"Replay Step 0?", TextDisplay.FormattingOption.FIT_TEXT);
+		TextField nameLabel = new TextField(relativeBounds, 0.92f, "Replay Step 0?",
+				TextDisplay.FormattingOption.FIT_TEXT);
 		nameLabel.center();
 		nameLabel.setFontColor(Fonts.FONT_COLOR);
 		
@@ -124,10 +123,8 @@ public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskS
 		Image exitButtonImage = new Image(ImagePaths.Buttons.BASE);
 		Rectangle textBounds = UtilFunctions.getImageBounds(exitButtonImage);
 		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.80f);
-		Button exitButton = new Button(exitButtonImage, 0, 100, textBounds,
-				"Exit");
-		exitButton.addActionListener(new TransitionButtonListener(
-				MainMenu.class));
+		Button exitButton = new Button(exitButtonImage, 0, 100, textBounds, "Exit");
+		exitButton.addActionListener(new TransitionButtonListener(MainMenu.class));
 		exitButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
 		
 		// Replay Button
@@ -135,15 +132,14 @@ public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskS
 		textBounds = UtilFunctions.getImageBounds(replayButtonImage);
 		int x = 400 - textBounds.width;
 		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.80f);
-		Button replayButton = new Button(replayButtonImage, x, 100, textBounds,
-				"Replay");
+		Button replayButton = new Button(replayButtonImage, x, 100, textBounds, "Replay");
 		replayButton.addActionListener(new ReplayButtonListener());
 		replayButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
 		
 		confirmationComponents.add(nameLabel);
 		confirmationComponents.add(exitButton);
 		confirmationComponents.add(replayButton);
-
+		
 		// Scale Components
 		for (Component component : confirmationComponents)
 			component.rescale(scale);
@@ -151,9 +147,7 @@ public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskS
 		// Set the position relative to the screen
 		UtilFunctions.translateAll(informationLocation, confirmationComponents);
 		
-		
-		
-		//System.out.println("TaskScreen: Initialization Finished.\n");
+		// System.out.println("TaskScreen: Initialization Finished.\n");
 	}
 	
 	@Override
@@ -162,7 +156,7 @@ public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskS
 		if (!scenarioLoaded)
 		{
 			load();
-			//System.out.println("Scenario Load End");
+			// System.out.println("Scenario Load End");
 		}
 		
 		// Disable task display
@@ -179,7 +173,7 @@ public static final String TASK_SCREEN_BACKGROUND = "resources/default/img/taskS
 	public void load()
 	{
 		ScenarioData scenario = Game.getCurrentScenario();
-		//System.out.println("Loading Scenario: " + scenario);
+		// System.out.println("Loading Scenario: " + scenario);
 		tasks = new ArrayList<>();
 		
 		for (TaskData task : scenario.getTasks())

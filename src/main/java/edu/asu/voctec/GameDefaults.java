@@ -24,6 +24,13 @@ import edu.asu.voctec.utilities.UtilFunctions;
 // removed.
 public interface GameDefaults
 {
+	public interface DeveloperOptions
+	{
+		public static final boolean INCLUDE_TASK_1 = false;
+		public static final boolean INCLUDE_TASK_DISCLAIMER = true;
+		public static final String TASK_DISCLAIMER = " Note: you will not need to make an energy assessment.";
+	}
+	
 	public interface MainDefaults
 	{
 		public static final int DEFAULT_WINDOW_WIDTH = 800;
