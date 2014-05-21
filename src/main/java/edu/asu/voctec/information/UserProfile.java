@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 
+import edu.asu.voctec.Game;
 import edu.asu.voctec.GameDefaults.ImagePaths;
 import edu.asu.voctec.GameDefaults.DeveloperOptions;
 import edu.asu.voctec.GameDefaults.Labels;
@@ -33,6 +34,16 @@ public class UserProfile implements Serializable
 	{
 		this.name = name;
 		this.scenarioData = generateDefaultScenarios();
+	}
+	
+	public void activate()
+	{
+		// TODO Simplify & Scalable
+		ScenarioData scenario = this.getScenario(0);
+		TaskData task = scenario.getEntryStep();
+		Game.setCurrentUser(this);
+		Game.setCurrentScenario(scenario);
+		Game.setCurrentTask(task);
 	}
 	
 	public ScenarioData[] generateDefaultScenarios() throws SlickException
