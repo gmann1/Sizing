@@ -47,7 +47,7 @@ import edu.asu.voctec.utilities.Translatable;
  * each task (i.e. each minigame) to update the current AttemptData object, as
  * progress is made by the user.
  * 
- * @author Zach Moore
+ * @author Moore, Zachary
  * @see ModifiedGameState
  * @see Singleton
  * @see #getCurrentGame()
@@ -360,12 +360,11 @@ public class Game extends StateBasedGame implements Singleton
 		
 		if (newState instanceof Task)
 			((Task) newState).load();
+
+		super.enterState(id);
+		
 		if (newState instanceof ModifiedGameState)
 			((ModifiedGameState) newState).onEnter();
-		
-		super.enterState(id);
-		//System.out.println("Switch Successful. Current State: "
-				//+ this.getCurrentStateID());
 	}
 	
 	/**
