@@ -12,7 +12,7 @@ public abstract class ModifiedGameState extends BasicGameState implements
 		Resizable, Translatable, GameDefaults
 {
 	private static int currentID = 0;
-	private int ID;
+	private int id;
 	
 	public abstract Dimension getDesignResolution();
 	
@@ -25,7 +25,7 @@ public abstract class ModifiedGameState extends BasicGameState implements
 		super();
 		
 		// Initialize ID. This ensures that all IDs for GUI objects are unique.
-		this.ID = currentID;
+		this.id = currentID;
 		currentID++;
 	}
 	
@@ -42,53 +42,47 @@ public abstract class ModifiedGameState extends BasicGameState implements
 	@Override
 	public final int getID()
 	{
-		return ID;
+		return id;
 	}
 	
 	@Override
 	public void updateTranslation()
 	{
-		// TODO Auto-generated method stub
-		// TODO REMOVE
+		// TODO Temporary suppressor: Implement in children classes
 	}
 	
 	@Override
 	public boolean rescale(float scale)
 	{
-		// TODO Auto-generated method stub
-		// TODO REMOVE
+		// TODO Temporary suppressor: Implement in children classes
 		return false;
 	}
 	
 	@Override
 	public boolean rescale(float horizontalScale, float verticalScale)
 	{
-		// TODO Auto-generated method stub
-		// TODO REMOVE
+		// TODO Temporary suppressor: Implement in children classes
 		return false;
 	}
 	
 	@Override
 	public boolean rescale(int width, int height)
 	{
-		// TODO Auto-generated method stub
-		// TODO REMOVE
+		// TODO Temporary suppressor: Implement in children classes
 		return false;
 	}
 	
 	@Override
 	public boolean resize(int width, int height)
 	{
-		// TODO Auto-generated method stub
-		// TODO REMOVE
+		// TODO Temporary suppressor: Implement in children classes
 		return false;
 	}
 	
 	@Override
 	public boolean resize(Dimension dimension)
 	{
-		// TODO Auto-generated method stub
-		// TODO REMOVE
+		// TODO Temporary suppressor: Implement in children classes
 		return false;
 	}
 	

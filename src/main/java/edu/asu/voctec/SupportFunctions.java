@@ -1,7 +1,10 @@
 package edu.asu.voctec;
 
+import org.newdawn.slick.Color;
+
 import edu.asu.voctec.GameDefaults.Fonts;
 import edu.asu.voctec.GameDefaults.IntroductionScreenDefaults;
+import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
@@ -12,9 +15,8 @@ public class SupportFunctions
 {
 	public static TextField generateWelcomeLabel(String text)
 	{
-		TextField welcomeLabel = new TextField(
-				IntroductionScreenDefaults.TITLE_BOUNDS, 0.95f, text,
-				TextDisplay.FormattingOption.CLIP_TEXT);
+		TextField welcomeLabel = new TextField(IntroductionScreenDefaults.TITLE_BOUNDS,
+				0.95f, text, TextDisplay.FormattingOption.CLIP_TEXT);
 		welcomeLabel.setFontSize(Fonts.FONT_SIZE_EXTRA_LARGE);
 		welcomeLabel.setFontColor(Fonts.FONT_COLOR);
 		welcomeLabel.center();
@@ -39,5 +41,11 @@ public class SupportFunctions
 		AttemptData currentAttempt = currentTask.getCurrentAttempt();
 		if (currentAttempt == null)
 			currentTask.setCurrentAttempt(new AttemptData());
+	}
+	
+	public void setButtonFontColor(Color color, Button... buttons)
+	{
+		for (Button button : buttons)
+			button.setFontColor(color);
 	}
 }
