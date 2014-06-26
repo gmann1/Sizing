@@ -423,14 +423,14 @@ genericHints
 	}
 
 	private void winConditional() throws SlickException {
-		if ((panel1.getRotation() > (12. - 5) && !south)
-				&& (panel1.getRotation() < (12.2 + 5))) {
-			if ((int) ((panel1.getRotation()) * 10) == 122) {
+		if ((panel1.getRotation() > (27. - 5) && !south)
+				&& (panel1.getRotation() < (27.2 + 5))) {
+			if ((int) Math.floor(panel1.getRotation()) == 27) {
 				criticalMonth.setX(800);
 				hintBox.setText("Great Job! You got the correct answer exactly. Press continue when you are ready to move on.");
 			} else {
 				criticalMonth.setX(800);
-				hintBox.setText("Good job! However, the precise answer is 12.2 degrees (latitude). Press continue when you are ready to move on.");
+				hintBox.setText("Good job! However, the precise answer is 27  degrees (latitude + 15 degrees). Press continue when you are ready to move on.");
 			}
 			continueButtonOn();
 			readyButtonOff();
@@ -494,7 +494,7 @@ genericHints
 					panel1.setRotation(0f);
 					
 				}
-				s = String.format("Angle:           %.1f°", (panel1.getRotation() ));
+				s = String.format("Angle:           %f°", (Math.floor(panel1.getRotation()) ));
 				angle.setText(s);
 				panel2.setRotation(-panel1.getRotation());
 			}
@@ -513,7 +513,7 @@ genericHints
 				if (panel1.getRotation() >=90){
 					panel1.setRotation(90f);
 				}
-				s = String.format("Angle:           %.1f°", (panel1.getRotation() ));
+				s = String.format("Angle:           %f°", (Math.floor(panel1.getRotation()) ));
 				angle.setText(s);
 				panel2.setRotation(-panel1.getRotation());
 			}
