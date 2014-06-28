@@ -14,7 +14,6 @@ import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TextDisplay;
 public class InstructorControlPanel extends GUI
 {
-
 	private int counter = 0;
 	private int frame = 2;
 	

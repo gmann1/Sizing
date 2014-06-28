@@ -23,7 +23,7 @@ import edu.asu.voctec.information.ScenarioData;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.information.UserProfile;
 import edu.asu.voctec.language.Dictionary;
-import edu.asu.voctec.minigames.energy_assessment.EAPart1IntroScreen;
+import edu.asu.voctec.minigames.cdmg.CDIntroScreen;
 import edu.asu.voctec.utilities.AspectRatio.ResolutionNotSupportedException;
 import edu.asu.voctec.utilities.Resizable;
 import edu.asu.voctec.utilities.ScreenResolution;
@@ -31,21 +31,20 @@ import edu.asu.voctec.utilities.Singleton;
 import edu.asu.voctec.utilities.Translatable;
 
 /**
- * Singleton class representing the currently running game. The singleton Game
- * object can be accessed statically via {@link #getCurrentGame()}. Using this
- * object, the game state can be changed using a Class object to reference a
- * Singleton gameState (i.e. any extension of ModifiedGameState).
+ * Singleton class representing the currently running game. The singleton Game object can
+ * be accessed statically via {@link #getCurrentGame()}. Using this object, the game state
+ * can be changed using a Class object to reference a Singleton gameState (i.e. any
+ * extension of ModifiedGameState).
  * 
- * All states added to this game should implement Singleton, and extend
- * ModifiedGameState. States that do not meet these requirements will not be
- * added to the state list of this game.
+ * All states added to this game should implement Singleton, and extend ModifiedGameState.
+ * States that do not meet these requirements will not be added to the state list of this
+ * game.
  * 
- * This class handles information tracking, saving, and loading as follows: When
- * a user beings a "task," a new AttemptData object will be created. That object
- * will be set as the"currentAttempt" of the "currentTask" in this Class, which
- * can be accessed by other classes using {@link #getCurrentTask()}. It is up to
- * each task (i.e. each minigame) to update the current AttemptData object, as
- * progress is made by the user.
+ * This class handles information tracking, saving, and loading as follows: When a user
+ * beings a "task," a new AttemptData object will be created. That object will be set as
+ * the"currentAttempt" of the "currentTask" in this Class, which can be accessed by other
+ * classes using {@link #getCurrentTask()}. It is up to each task (i.e. each minigame) to
+ * update the current AttemptData object, as progress is made by the user.
  * 
  * @author Moore, Zachary
  * @see ModifiedGameState
@@ -75,19 +74,16 @@ public class Game extends StateBasedGame implements Singleton
 	 * @param gameTitle
 	 *            the name of the window this game will run in.
 	 * @throws DuplicateInstantiationException
-	 *             if an attempt is made to create more than one instance of
-	 *             this class.
+	 *             if an attempt is made to create more than one instance of this class.
 	 * @throws ResolutionNotSupportedException
-	 *             Thrown if the defaults are set to an unsupported resolution
-	 *             (e.g. 0x0)
+	 *             Thrown if the defaults are set to an unsupported resolution (e.g. 0x0)
 	 */
 	private Game(String gameTitle) throws DuplicateInstantiationException,
 			ResolutionNotSupportedException
 	{
 		super(gameTitle);
 		currentLanguage = Dictionary.constructDictionary("default");
-		currentScreenDimension = new ScreenResolution(
-				MainDefaults.DEFAULT_WINDOW_WIDTH,
+		currentScreenDimension = new ScreenResolution(MainDefaults.DEFAULT_WINDOW_WIDTH,
 				MainDefaults.DEFAULT_WINDOW_HEIGHT);
 		
 		if (Game.currentGame == null)
@@ -95,7 +91,7 @@ public class Game extends StateBasedGame implements Singleton
 		else
 			throw new DuplicateInstantiationException();
 		
-		//System.out.println("Game constructed successfully.");
+		// System.out.println("Game constructed successfully.");
 	}
 	
 	/**
@@ -111,9 +107,9 @@ public class Game extends StateBasedGame implements Singleton
 	}
 	
 	/**
-	 * Pseudo-Constructor. If a game has already been instantiated, this method
-	 * will return that Game object. Otherwise, a new Game object will be
-	 * constructed and returned.
+	 * Pseudo-Constructor. If a game has already been instantiated, this method will
+	 * return that Game object. Otherwise, a new Game object will be constructed and
+	 * returned.
 	 * 
 	 * @param the
 	 *            name of the window this game will run in.
@@ -147,7 +143,8 @@ public class Game extends StateBasedGame implements Singleton
 	/**
 	 * Resize all game states, so that they display at the desired resolution.
 	 * 
-	 * @param screenDimension The desired resolution.
+	 * @param screenDimension
+	 *            The desired resolution.
 	 * @return Whether or not the resize was successful.
 	 * @see ScreenResolution
 	 */
@@ -190,8 +187,8 @@ public class Game extends StateBasedGame implements Singleton
 	}
 	
 	/**
-	 * @return a copy of the current resolution Dimension object (i.e. current
-	 *         game window resolution)
+	 * @return a copy of the current resolution Dimension object (i.e. current game window
+	 *         resolution)
 	 */
 	public static ScreenResolution getCurrentScreenDimension()
 	{
@@ -208,15 +205,15 @@ public class Game extends StateBasedGame implements Singleton
 	}
 	
 	/**
-	 * Updates the current language of all game states, so that all text will
-	 * display in the desired language.
+	 * Updates the current language of all game states, so that all text will display in
+	 * the desired language.
 	 * 
 	 * @see Dictionary
 	 */
 	public static void setCurrentLanguage(Dictionary currentLanguage)
 	{
 		Game.currentLanguage = currentLanguage;
-		//System.out.println("Updating Language...");
+		// System.out.println("Updating Language...");
 		// translate gameStates
 		for (int id : Game.getGameStates())
 		{
@@ -229,7 +226,7 @@ public class Game extends StateBasedGame implements Singleton
 				((Translatable) gameState).updateTranslation();
 		}
 		
-		//System.out.println("Language Updates Complete.");
+		// System.out.println("Language Updates Complete.");
 	}
 	
 	/**
@@ -250,11 +247,9 @@ public class Game extends StateBasedGame implements Singleton
 	}
 	
 	/*
-	 * (non-Javadoc) Create, add, and initialize all states associated with this
-	 * game
+	 * (non-Javadoc) Create, add, and initialize all states associated with this game
 	 * 
-	 * @see
-	 * org.newdawn.slick.state.StateBasedGame#initStatesList(org.newdawn.slick
+	 * @see org.newdawn.slick.state.StateBasedGame#initStatesList(org.newdawn.slick
 	 * .GameContainer)
 	 */
 	@Override
@@ -263,7 +258,7 @@ public class Game extends StateBasedGame implements Singleton
 		// Initialize & Add all GameStates
 		this.addState(new InstructorControlPanel());
 		this.enterState(InstructorControlPanel.class);
-	
+		
 	}
 	
 	public void secondaryStatesList(GameContainer container) throws SlickException
@@ -271,46 +266,43 @@ public class Game extends StateBasedGame implements Singleton
 		this.addState(new MainMenu(), container);
 		this.addState(new ExitScreen(), container);
 		this.addState(new TaskScreen(), container);
-		this.addState(new EAPart1IntroScreen(), container);
+		this.addState(new CDIntroScreen(), container);
 		
-		//this.addState(new MenuTest(), container);
-		//this.addState(new ScenarioHub(), container);
-		//this.addState(new LanguageMenu(), container);
-		//this.addState(new ScenarioIntroductionScreen(), container);
-		//this.addState(new StepSelection(), container);
-		//this.addState(new StepSelectionExitScreen(), container);
-		//this.addState(new CDPart1(), container);
-		//this.addState(new CDPart2(), container);
-		//this.addState(new CDPart3(), container);
-		//this.addState(new CDExtra(), container);
-		//this.addState(new CDIntroScreen(), container);
-		//this.addState(new BatteryExitScreen(), container);
-		//this.addState(new BatteryIntro(), container);
-		//this.addState(new BatteryGameScreen(), container);
-		//this.addState(new PVIntro(), container);
-		//this.addState(new PVGame(), container);
-		//this.addState(new PVExit(), container);
-		//this.addState(new EAPart2(), container);
-		//this.addState(new ControllerSizingIntroScreen(), container);
-		//this.addState(new ControllerSizingExit(), container);
-		//this.addState(new ControllerSizingPart1(), container);
-		//this.addState(new ControllerSizingPart2(), container);
-		//this.addState(new ControllerSizingPart3(), container);
-		
-	
+		// this.addState(new MenuTest(), container);
+		// this.addState(new ScenarioHub(), container);
+		// this.addState(new LanguageMenu(), container);
+		// this.addState(new ScenarioIntroductionScreen(), container);
+		// this.addState(new StepSelection(), container);
+		// this.addState(new StepSelectionExitScreen(), container);
+		// this.addState(new CDPart1(), container);
+		// this.addState(new CDPart2(), container);
+		// this.addState(new CDPart3(), container);
+		// this.addState(new CDExtra(), container);
+		// this.addState(new CDIntroScreen(), container);
+		// this.addState(new BatteryExitScreen(), container);
+		// this.addState(new BatteryIntro(), container);
+		// this.addState(new BatteryGameScreen(), container);
+		// this.addState(new PVIntro(), container);
+		// this.addState(new PVGame(), container);
+		// this.addState(new PVExit(), container);
+		// this.addState(new EAPart2(), container);
+		// this.addState(new ControllerSizingIntroScreen(), container);
+		// this.addState(new ControllerSizingExit(), container);
+		// this.addState(new ControllerSizingPart1(), container);
+		// this.addState(new ControllerSizingPart2(), container);
+		// this.addState(new ControllerSizingPart3(), container);
 		
 		// Move to the default game state
 		this.enterState(Game.DEFAULT_GAME_STATE);
 	}
 	
 	/*
-	 * (non-Javadoc) adds the provided GameState to the list of gameStates, and
-	 * maps the state, so it can be accessed statically.
+	 * (non-Javadoc) adds the provided GameState to the list of gameStates, and maps the
+	 * state, so it can be accessed statically.
 	 * 
 	 * @see #enterstate(Class<?>)
 	 * 
-	 * @see
-	 * org.newdawn.slick.state.StateBasedGame#addState(org.newdawn.slick.state
+	 * @see org.newdawn.slick.state.StateBasedGame#addState(org.newdawn.slick.state
 	 * .GameState)
 	 */
 	@Override
@@ -323,8 +315,7 @@ public class Game extends StateBasedGame implements Singleton
 		}
 		else
 		{
-			throw new IllegalArgumentException(
-					"Game only accepts ModifiedGameStates.");
+			throw new IllegalArgumentException("Game only accepts ModifiedGameStates.");
 		}
 	}
 	
@@ -338,8 +329,7 @@ public class Game extends StateBasedGame implements Singleton
 		}
 		else
 		{
-			throw new IllegalArgumentException(
-					"Game only accepts ModifiedGameStates.");
+			throw new IllegalArgumentException("Game only accepts ModifiedGameStates.");
 		}
 	}
 	
@@ -351,7 +341,7 @@ public class Game extends StateBasedGame implements Singleton
 	@Override
 	public void enterState(int id)
 	{
-		//System.out.println("Switching States...");
+		// System.out.println("Switching States...");
 		
 		ModifiedGameState currentState = (ModifiedGameState) getCurrentState();
 		GameState newState = getState(id);
@@ -360,7 +350,7 @@ public class Game extends StateBasedGame implements Singleton
 		
 		if (newState instanceof Task)
 			((Task) newState).load();
-
+		
 		super.enterState(id);
 		
 		if (newState instanceof ModifiedGameState)
@@ -384,29 +374,30 @@ public class Game extends StateBasedGame implements Singleton
 	}
 	
 	/**
-	 * Returns the id of the GameState referenced by the provided class. If this
-	 * Game does not have a matching state, null will be returned.
+	 * Returns the id of the GameState referenced by the provided class. If this Game does
+	 * not have a matching state, an IllegalStateException will be thrown.
 	 * 
 	 * @param state
 	 *            The class of the desired state.
-	 * @return The GameState object matching the procided class.
+	 * @return The GameState object matching the provided class.
 	 */
 	public static int getStateID(Class<?> state)
 	{
-		//System.out.println("State Receieved: " + state);
-		//System.out.println("State ID: " + gameStates.get(state));
-		if (gameStates.get(state) != null){
-		return gameStates.get(state);
+		// System.out.println("State Receieved: " + state);
+		// System.out.println("State ID: " + gameStates.get(state));
+		if (gameStates.get(state) != null)
+		{
+			return gameStates.get(state);
 		}
 		else
 		{
-			return -1;
+			throw new IllegalStateException(
+					"Given state is not associate with current game");
 		}
 	}
 	
 	/**
-	 * Should be called when the current Task changes (i.e. the user starts a
-	 * new task).
+	 * Should be called when the current Task changes (i.e. the user starts a new task).
 	 * 
 	 * @see TaskScreen
 	 * @see TaskData
@@ -419,13 +410,13 @@ public class Game extends StateBasedGame implements Singleton
 	}
 	
 	/**
-	 * Returns the GameState used by this Game, that is of the type matching the
-	 * "state" parameter.
+	 * Returns the GameState used by this Game, that is of the type matching the "state"
+	 * parameter.
 	 * 
 	 * @param state
 	 *            The class of the requested gameState.
-	 * @return The GameState object that corresponds to the provided class
-	 *         object. If the "state" parameter is null, null will be returned.
+	 * @return The GameState object that corresponds to the provided class object. If the
+	 *         "state" parameter is null, null will be returned.
 	 */
 	public static GameState getGameState(Class<?> state)
 	{
@@ -436,8 +427,8 @@ public class Game extends StateBasedGame implements Singleton
 	}
 	
 	/**
-	 * Equivalent to a call to {@link #getCurrentGame()}{@link #getState(int)}
-	 * using the return of {@link #getStateID(ExitScreen.class)} as a parameter.
+	 * Equivalent to a call to {@link #getCurrentGame()}{@link #getState(int)} using the
+	 * return of {@link #getStateID(ExitScreen.class)} as a parameter.
 	 * 
 	 * @return The ExitScreen object used by this Game.
 	 */
@@ -451,8 +442,8 @@ public class Game extends StateBasedGame implements Singleton
 	 * 
 	 * @see ExitScreen#updateExitText(String, String)
 	 * @param titleField
-	 *            Text to display at the top left of the screen (e.g. "Good Job"
-	 *            or "Well Done!")
+	 *            Text to display at the top left of the screen (e.g. "Good Job" or
+	 *            "Well Done!")
 	 * @param feedback
 	 *            Feedback paragraph to display underneath the titleField.
 	 */
@@ -466,30 +457,29 @@ public class Game extends StateBasedGame implements Singleton
 	 * 
 	 * @see ExitScreen#updateExitText(String, ArrayList)
 	 * @param titleField
-	 *            Text to display at the top left of the screen (e.g. "Good Job"
-	 *            or "Well Done!")
+	 *            Text to display at the top left of the screen (e.g. "Good Job" or
+	 *            "Well Done!")
 	 * @param feedback
 	 *            Feedback paragraph to display underneath the titleField.
 	 */
-	public static void updateExitText(String titleField,
-			ArrayList<String> feedback)
+	public static void updateExitText(String titleField, ArrayList<String> feedback)
 	{
 		getExitScreen().updateExitText(titleField, feedback);
 	}
 	
 	/**
-	 * Used to update the generic ExitScreen from a static call. This should be
-	 * called whenever a mini-game finishes, and transitions to ExitScreen.
-	 * Note: all data related to the current attempt will be loaded
-	 * automatically (hints used, time spent, etc).
+	 * Used to update the generic ExitScreen from a static call. This should be called
+	 * whenever a mini-game finishes, and transitions to ExitScreen. Note: all data
+	 * related to the current attempt will be loaded automatically (hints used, time
+	 * spent, etc).
 	 * 
 	 * @param titleField
 	 *            Text to display at the top of the screen
 	 * @param feedback
 	 *            Paragraph to display below the titleField
 	 * @param backgroundImage
-	 *            Desired background for the exit screen. If this value is null,
-	 *            the background will not be updated.
+	 *            Desired background for the exit screen. If this value is null, the
+	 *            background will not be updated.
 	 */
 	public static void updateExitText(String titleField, String feedback,
 			Image backgroundImage)
@@ -511,9 +501,8 @@ public class Game extends StateBasedGame implements Singleton
 	}
 	
 	/**
-	 * Sets the currentUser, but does not overwrite the profile in the (hard)
-	 * save-file. In order to save the profile to a file,
-	 * {@link #saveToFile(String)} must be called.
+	 * Sets the currentUser, but does not overwrite the profile in the (hard) save-file.
+	 * In order to save the profile to a file, {@link #saveToFile(String)} must be called.
 	 * 
 	 * @see #saveToFile(String)
 	 */
@@ -539,8 +528,8 @@ public class Game extends StateBasedGame implements Singleton
 	}
 	
 	/**
-	 * Saves the current UserProfile to a save file. The old file (referenced by
-	 * the same UserProfile object) will be overwritten.
+	 * Saves the current UserProfile to a save file. The old file (referenced by the same
+	 * UserProfile object) will be overwritten.
 	 * 
 	 * @param relativePath
 	 *            Location to save the current data.
@@ -550,10 +539,8 @@ public class Game extends StateBasedGame implements Singleton
 		try
 		{
 			// Open save file
-			FileOutputStream fileOutputStream = new FileOutputStream(
-					relativePath);
-			ObjectOutputStream outputStream = new ObjectOutputStream(
-					fileOutputStream);
+			FileOutputStream fileOutputStream = new FileOutputStream(relativePath);
+			ObjectOutputStream outputStream = new ObjectOutputStream(fileOutputStream);
 			
 			// Save the current UserProfile
 			outputStream.writeObject(currentUser);

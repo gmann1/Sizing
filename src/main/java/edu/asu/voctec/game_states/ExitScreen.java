@@ -18,22 +18,20 @@ import edu.asu.voctec.GUI.TextDisplay;
 import edu.asu.voctec.GUI.TextField;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.information.AttemptData;
-import edu.asu.voctec.information.SizingStepsData;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 /**
- * GameState that serves as an exit "splash" screen for all minigames, that
- * displays text (i.e. feedback or "next steps") to the user, in addition to
- * other data such as numberOfHintsUsed and timeSpent.
+ * GameState that serves as an exit "splash" screen for all minigames, that displays text
+ * (i.e. feedback or "next steps") to the user, in addition to other data such as
+ * numberOfHintsUsed and timeSpent.
  * 
- * The text to be displayed on this screen should be set by the function that
- * transitions the game to this specific state (presumably each minigame). All
- * other (applicable) data will be loaded from the current AttemptData, as
- * defined by the currentGame; this will be done automatically. As such, all
- * minigames are expected to update the current Task- and Attempt- Data at least
- * before transitioning to this screen.
+ * The text to be displayed on this screen should be set by the function that transitions
+ * the game to this specific state (presumably each minigame). All other (applicable) data
+ * will be loaded from the current AttemptData, as defined by the currentGame; this will
+ * be done automatically. As such, all minigames are expected to update the current Task-
+ * and Attempt- Data at least before transitioning to this screen.
  * 
  * @author Moore, Zachary
  * @see #updateExitText(String, String)
@@ -42,10 +40,10 @@ import edu.asu.voctec.utilities.UtilFunctions;
 public class ExitScreen extends GUI
 {
 	/**
-	 * Listens for a mouse click to the replay button. When this listener is
-	 * activated (i.e. when the replay button is clicked), a new attempt will be
-	 * created for the current Task, and the game will transition to the screen
-	 * described by the associatedClass.
+	 * Listens for a mouse click to the replay button. When this listener is activated
+	 * (i.e. when the replay button is clicked), a new attempt will be created for the
+	 * current Task, and the game will transition to the screen described by the
+	 * associatedClass.
 	 * 
 	 * @author Moore, Zachary
 	 * @see edu.asu.voctec.game_states.ExitScreen#associatedTask
@@ -87,17 +85,17 @@ public class ExitScreen extends GUI
 	protected Column<TextField> dataDisplay;
 	
 	// TODO move to StarDisplay
-	//protected Rectangle starDisplayBounds;
+	// protected Rectangle starDisplayBounds;
 	
 	/** Indicates which minigame (i.e. task) this ExitScreen is displaying */
 	protected Class<?> associatedTask;
 	
 	@Override
-	public void init(GameContainer container, StateBasedGame game)
-			throws SlickException
+	public void init(GameContainer container, StateBasedGame game) throws SlickException
 	{
 		// Setup Background
-		this.backgroundImage = new Image("resources/default/img/scoreScreenBackgrounds/ScoreBackgroundTask0.png");
+		this.backgroundImage = new Image(
+				"resources/default/img/scoreScreenBackgrounds/ScoreBackgroundTask0.png");
 		
 		// Divide the screen into 4 quadrants (2 rows, 2 columns)
 		Rectangle[][] screenDivisions = UtilFunctions.divideScreen(
@@ -128,8 +126,7 @@ public class ExitScreen extends GUI
 		
 		// Feedback Body
 		componentBounds = new Rectangle(0, 0, 500, 225);
-		UtilFunctions.centerRectangle(new Rectangle(0, 100, 800, 200),
-				componentBounds);
+		UtilFunctions.centerRectangle(new Rectangle(0, 100, 800, 200), componentBounds);
 		feedback = new TextAreaX(componentBounds, 0.95f,
 				"Test Test Test \nTest 2 TEST 2\nTEST 3");
 		feedback.setFontSize(Fonts.FONT_SIZE_LARGE);
@@ -137,8 +134,7 @@ public class ExitScreen extends GUI
 		this.addComponent(feedback);
 	}
 	
-	private void initiateStarDisplay(Rectangle subContainer)
-			throws SlickException
+	private void initiateStarDisplay(Rectangle subContainer) throws SlickException
 	{
 		// Star Display (center in bottom-right section)
 		Rectangle componentBounds = new Rectangle(0, 0, 300, 150);
@@ -196,14 +192,13 @@ public class ExitScreen extends GUI
 		Button continueButton = new Button(new Image(ARROW_RIGHT), 750, 550,
 				new Rectangle(0, 0, 50, 25), "Exit!");
 		continueButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
-		continueButton.addActionListener(new TransitionButtonListener(
-				TaskScreen.class));
+		continueButton.addActionListener(new TransitionButtonListener(TaskScreen.class));
 		continueButton.positionText(Position.LEFT);
 		this.addComponent(continueButton);
 		
 		// Replay Button
-		Button replayButton = new Button(new Image(ARROW_LEFT), 5, 5,
-				new Rectangle(0, 0, 50, 25), "Replay");
+		Button replayButton = new Button(new Image(ARROW_LEFT), 5, 5, new Rectangle(0, 0,
+				50, 25), "Replay");
 		replayButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 		replayButton.addActionListener(new ReplayButtonListener());
 		replayButton.positionText(Position.RIGHT);
@@ -226,11 +221,8 @@ public class ExitScreen extends GUI
 		
 		if (currentAttempt != null)
 		{
-	
-			
 			dataDisplay.getUnitAt(0).setText(
-					UtilFunctions.formatTime(currentAttempt.getTimeSpent(),
-							false, true));
+					UtilFunctions.formatTime(currentAttempt.getTimeSpent(), false, true));
 			dataDisplay.getUnitAt(1).setText(
 					Integer.toString(currentAttempt.getNumberOfUniqueHints()));
 			starDisplay.setScore(currentAttempt.calculateStarScore());
@@ -244,11 +236,10 @@ public class ExitScreen extends GUI
 	 * Set the text to be displayed by this screen.
 	 * 
 	 * @param titleField
-	 *            Single line of text to display at the top of the screen
-	 *            (aligned left)
+	 *            Single line of text to display at the top of the screen (aligned left)
 	 * @param feedback
-	 *            Paragraph to display below the title field, in the upper-half
-	 *            of the screen.
+	 *            Paragraph to display below the title field, in the upper-half of the
+	 *            screen.
 	 */
 	public void updateExitText(String titleField, String feedback)
 	{
@@ -266,17 +257,17 @@ public class ExitScreen extends GUI
 	}
 	
 	/**
-	 * Set the background image and associate class for this screen. A value of
-	 * null for backgroundImage will remove the current background of this
-	 * screen.
+	 * Set the background image and associate class for this screen. A value of null for
+	 * backgroundImage will remove the current background of this screen.
 	 * 
 	 * @param backgroundImage
 	 *            The desired background. Null will remove the background.
 	 * @param associatedTask
-	 *            The task which this screen is to display. The replay button
-	 *            will correspond to this task.
+	 *            The task which this screen is to display. The replay button will
+	 *            correspond to this task.
 	 */
-	public void updateExitScreen(Image backgroundImage, Class<? extends Task> associatedTask)
+	public void updateExitScreen(Image backgroundImage,
+			Class<? extends Task> associatedTask)
 	{
 		updateExitScreen(associatedTask);
 		updateExitScreen(backgroundImage);

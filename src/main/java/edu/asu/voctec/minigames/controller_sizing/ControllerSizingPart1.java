@@ -29,7 +29,6 @@ import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.game_states.GameTemplate;
 import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.game_states.TaskScreen;
-import edu.asu.voctec.minigames.cdmg.CDPart1;
 import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
@@ -65,8 +64,6 @@ public class ControllerSizingPart1 extends GameTemplate
 	
 	public static final float LARGE_FONT_SIZE = 18f;
 	public static final float MEDIUM_FONT_SIZE = 11f;
-	
-	private static final Color FONT_COLOR1 = Color.white;
 	
 	public static final String ARROW_RIGHT = "resources/default/img/arrow-right.png";
 	
@@ -167,12 +164,15 @@ public class ControllerSizingPart1 extends GameTemplate
 	private boolean step9 = false;
 	private boolean initialStep = true;
 	private boolean gameOver = false;
-	private boolean nextState;
-	private int lc;
 	
 	public class contListener extends ButtonListener
 	{
 		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		@Override
 		protected void actionPerformed()
 		{
@@ -192,18 +192,28 @@ public class ControllerSizingPart1 extends GameTemplate
 	public class continueListener extends ButtonListener
 	{
 		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		@Override
 		protected void actionPerformed()
 		{
-			TaskScreen task = (TaskScreen)Game.getCurrentGame().getState(Game.getStateID(TaskScreen.class));
-			if (task.currentImage < 5){
-				try {
+			TaskScreen task = (TaskScreen) Game.getCurrentGame().getState(
+					Game.getStateID(TaskScreen.class));
+			if (TaskScreen.currentImage < 5)
+			{
+				try
+				{
 					task.setBackgroundImage(new Image(TASK_SCREEN_BACKGROUND));
-				} catch (SlickException e) {
+				}
+				catch (SlickException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				task.currentImage = 5;
+				TaskScreen.currentImage = 5;
 			}
 			
 			try
@@ -218,38 +228,52 @@ public class ControllerSizingPart1 extends GameTemplate
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if (MainMenu.UserData.size() <19){
+			if (MainMenu.UserData.size() < 19)
+			{
 				MainMenu.UserData.add("Size the Controller");
-				MainMenu.UserData.add(Integer.toString(Game.getCurrentTask().getCurrentAttempt().getNumberOfUniqueHints()));
-				MainMenu.UserData.add(String.valueOf(UtilFunctions.formatTime(Game.getCurrentTask().getCurrentAttempt().getTimeSpent(),false, true)));
-				File file = new File(System.getProperty("user.dir")+"/userData.txt");
-				 
+				MainMenu.UserData.add(Integer.toString(Game.getCurrentTask()
+						.getCurrentAttempt().getNumberOfUniqueHints()));
+				MainMenu.UserData.add(String.valueOf(UtilFunctions
+						.formatTime(Game.getCurrentTask().getCurrentAttempt()
+								.getTimeSpent(), false, true)));
+				File file = new File(System.getProperty("user.dir") + "/userData.txt");
+				
 				// if file doesnt exists, then create it
-				try {
-				if (!file.exists()) {
-					
+				try
+				{
+					if (!file.exists())
+					{
+						
 						file.createNewFile();
 					}
-				
-				FileWriter fw = new FileWriter(file, true);
-				BufferedWriter bw = new BufferedWriter(fw);
-				
-				String s = new String();
-				//s = MainMenu.UserData.get(0) + "'s data(minigame, hints used, time spent): ";
-				s += MainMenu.UserData.get(16);
-				s += ", ";
-				s += MainMenu.UserData.get(17);
-				s += ", ";
-				s += MainMenu.UserData.get(18);
-				s += "; ";
-			
-				bw.write(s);
-				bw.close();
-				} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					
+					FileWriter fw = new FileWriter(file, true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					
+					String s = new String();
+					// s = MainMenu.UserData.get(0) +
+					// "'s data(minigame, hints used, time spent): ";
+					s += MainMenu.UserData.get(16);
+					s += ", ";
+					s += MainMenu.UserData.get(17);
+					s += ", ";
+					s += MainMenu.UserData.get(18);
+					s += "; ";
+					
+					bw.write(s);
+					bw.close();
 				}
+				catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				catch (IndexOutOfBoundsException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			Game.getCurrentGame().enterState(ExitScreen.class);
 			
 		}
@@ -259,6 +283,11 @@ public class ControllerSizingPart1 extends GameTemplate
 	public class replayListener extends ButtonListener
 	{
 		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		@Override
 		protected void actionPerformed()
 		{
@@ -274,6 +303,11 @@ public class ControllerSizingPart1 extends GameTemplate
 	public class skipListener extends ButtonListener
 	{
 		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		@Override
 		protected void actionPerformed()
 		{
@@ -294,8 +328,7 @@ public class ControllerSizingPart1 extends GameTemplate
 	}
 	
 	@Override
-	public void init(GameContainer container, StateBasedGame game)
-			throws SlickException
+	public void init(GameContainer container, StateBasedGame game) throws SlickException
 	{
 		super.init(container, game);
 		this.backgroundImage = new Image(TRANS_3);
@@ -306,8 +339,7 @@ public class ControllerSizingPart1 extends GameTemplate
 				+ BATTERY_MIN + " percent.";
 		instructionSet[2] = "When the house is on but the battery is at a minimum or recharging, the controller will not discharge the battery.";
 		instructionSet[3] = "Once the battery reaches " + BATTERY_MIN
-				+ " percent it will need to recharge to "
-				+ (RECHARGE_LEVEL + 1)
+				+ " percent it will need to recharge to " + (RECHARGE_LEVEL + 1)
 				+ " percent before it can discharge again.";
 		
 		instructionSet[4] = "Now that you know how a controller works, it's time for you to control the controller...";
@@ -350,8 +382,7 @@ public class ControllerSizingPart1 extends GameTemplate
 		
 		// new controller
 		// TODO
-		BasicComponent regController = new BasicComponent(
-				new Image(CONTROLLER), 207, 407);
+		BasicComponent regController = new BasicComponent(new Image(CONTROLLER), 207, 407);
 		regController.rescale(regController.getBounds().width + 2,
 				regController.getBounds().height + 6);
 		regController.setX(207);
@@ -481,8 +512,8 @@ public class ControllerSizingPart1 extends GameTemplate
 		// Instruction Box Initialization
 		Rectangle hintBounds = new Rectangle(600, 8, 192, 192);
 		
-		Rectangle relativeHintTextBounds = UtilFunctions.dialateRectangle(
-				new Rectangle(0, 0, 192, 192), 0.92f);
+		Rectangle relativeHintTextBounds = UtilFunctions.dialateRectangle(new Rectangle(
+				0, 0, 192, 192), 0.92f);
 		instructions = new TextAreaX(hintBounds, relativeHintTextBounds, null);
 		instructions.setCurrentImage(hintBoxBackground, true);
 		instructions.setFontSize(Fonts.FONT_SIZE_MEDIUM);
@@ -492,8 +523,8 @@ public class ControllerSizingPart1 extends GameTemplate
 		
 		// Skip Button
 		Image skipButtonImage = new Image(ImagePaths.SKIP_BUTTON);
-		skip = new Button(skipButtonImage, 1000, 5,
-				new Rectangle(15, 0, 50, 45), "Skip Tutorial");
+		skip = new Button(skipButtonImage, 1000, 5, new Rectangle(15, 0, 50, 45),
+				"Skip Tutorial");
 		
 		skip.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 		
@@ -505,8 +536,8 @@ public class ControllerSizingPart1 extends GameTemplate
 		skip.getTextField().setFontSize(Fonts.FONT_SIZE_SMALL);
 		
 		// Replay Button
-		replay = new Button(new Image(ImagePaths.REPLAY_BUTTON), 1000, 5,
-				new Rectangle(30, 0, 50, 45), "Replay Tutorial");
+		replay = new Button(new Image(ImagePaths.REPLAY_BUTTON), 1000, 5, new Rectangle(
+				30, 0, 50, 45), "Replay Tutorial");
 		
 		replay.setFontColor(Fonts.TRANSITION_FONT_COLOR);
 		
@@ -517,8 +548,8 @@ public class ControllerSizingPart1 extends GameTemplate
 		replay.positionText(Position.RIGHT);
 		replay.getTextField().setFontSize(Fonts.FONT_SIZE_SMALL);
 		// continue
-		cont = new Button(new Image(ARROW_RIGHT), 730, 480, new Rectangle(0, 0,
-				50, 25), "");
+		cont = new Button(new Image(ARROW_RIGHT), 730, 480, new Rectangle(0, 0, 50, 25),
+				"");
 		cont.rescale(.8f);
 		cont.setX(800 - cont.getBounds().width);
 		cont.setY(instructions.getBounds().height + instructions.getY()
@@ -550,7 +581,7 @@ public class ControllerSizingPart1 extends GameTemplate
 		addComponent(instructions);
 		addComponent(cont);
 		addComponent(danger);
-		//addComponent(skip);
+		// addComponent(skip);
 		addComponent(replay);
 		addComponent(hintBox);
 		addComponent(continueButton);
@@ -566,25 +597,6 @@ public class ControllerSizingPart1 extends GameTemplate
 			throws SlickException
 	{
 		
-			//Game.getCurrentGame();
-				super.update(container, game, delta);
-				if (!nextState){
-					++lc;
-					if (lc == 5){
-					try {
-				
-						Game.getCurrentGame().addState(new ControllerSizingExit(), Game.getCurrentGame().getContainer());
-				
-					
-					} catch (SlickException e) {
-			
-						e.printStackTrace();
-					}
-				nextState = true;
-					}
-			}
-				
-		
 		super.update(container, game, delta);
 		if (gameOver)
 		{
@@ -598,43 +610,41 @@ public class ControllerSizingPart1 extends GameTemplate
 		{
 			layout.setCurrentImage(new Image(LAYOUT_PANEL_OFF), true);
 		}
-		if (!panelOn && houseOn && !houseNeed)
+		else if (!panelOn && houseOn && !houseNeed)
 		{
 			layout.setCurrentImage(new Image(LAYOUT_PANEL_OFF1), true);
 		}
-		if (!panelOn && !houseOn && houseNeed)
+		else if (!panelOn && !houseOn && houseNeed)
 		{
 			layout.setCurrentImage(new Image(LAYOUT_PANEL_OFF2), true);
 		}
-		if (panelOn && !houseOn && !houseNeed)
+		else if (panelOn && !houseOn && !houseNeed)
 		{
 			layout.setCurrentImage(new Image(LAYOUT_PANEL_ON), true);
 		}
-		if (panelOn && houseOn && !houseNeed)
+		else if (panelOn && houseOn && !houseNeed)
 		{
 			layout.setCurrentImage(new Image(LAYOUT_PANEL_ON1), true);
 		}
-		if (panelOn && !houseOn && houseNeed)
+		else if (panelOn && !houseOn && houseNeed)
 		{
 			layout.setCurrentImage(new Image(LAYOUT_PANEL_ON2), true);
 		}
+		
 		previousBattery = currentBattery;
 		if (batteryPercent <= ((BATTERY_MAX - BATTERY_MIN) / 5) + BATTERY_MIN)
 		{
 			currentBattery = 1;
 		}
-		else if (batteryPercent <= (2 * (BATTERY_MAX - BATTERY_MIN) / 5)
-				+ BATTERY_MIN)
+		else if (batteryPercent <= (2 * (BATTERY_MAX - BATTERY_MIN) / 5) + BATTERY_MIN)
 		{
 			currentBattery = 2;
 		}
-		else if (batteryPercent <= (3 * (BATTERY_MAX - BATTERY_MIN) / 5)
-				+ BATTERY_MIN)
+		else if (batteryPercent <= (3 * (BATTERY_MAX - BATTERY_MIN) / 5) + BATTERY_MIN)
 		{
 			currentBattery = 3;
 		}
-		else if (batteryPercent <= (4 * (BATTERY_MAX - BATTERY_MIN) / 5)
-				+ BATTERY_MIN)
+		else if (batteryPercent <= (4 * (BATTERY_MAX - BATTERY_MIN) / 5) + BATTERY_MIN)
 		{
 			currentBattery = 4;
 		}
@@ -644,8 +654,7 @@ public class ControllerSizingPart1 extends GameTemplate
 		}
 		if (previousBattery != currentBattery)
 		{
-			battery.setCurrentImage(new Image(
-					batteryStrings[currentBattery - 1]), true);
+			battery.setCurrentImage(new Image(batteryStrings[currentBattery - 1]), true);
 		}
 		
 		if (intro)
@@ -824,17 +833,13 @@ public class ControllerSizingPart1 extends GameTemplate
 				cont.setX(800);
 				if (!firstTime)
 				{
-					instructions
-							.setText("Charge the battery past "
-									+ (RECHARGE_LEVEL + 1)
-									+ "%. Then power the house.");
+					instructions.setText("Charge the battery past "
+							+ (RECHARGE_LEVEL + 1) + "%. Then power the house.");
 				}
 				else
 				{
-					instructions
-							.setText("Charge the battery past "
-									+ (RECHARGE_LEVEL + 1)
-									+ "%. Then power the house.");
+					instructions.setText("Charge the battery past "
+							+ (RECHARGE_LEVEL + 1) + "%. Then power the house.");
 				}
 				counter = 0;
 				a = false;
@@ -862,10 +867,9 @@ public class ControllerSizingPart1 extends GameTemplate
 				cont.setX(800);
 				if (!firstTime)
 				{
-					instructions
-							.setText("Wait until the battery charge is over "
-									+ (RECHARGE_LEVEL + 1)
-									+ "%. Then discharge the battery and power the house.");
+					instructions.setText("Wait until the battery charge is over "
+							+ (RECHARGE_LEVEL + 1)
+							+ "%. Then discharge the battery and power the house.");
 				}
 				else
 				{
@@ -889,9 +893,8 @@ public class ControllerSizingPart1 extends GameTemplate
 			{
 				if (batteryPercent < 50)
 				{
-					instructions
-							.setText("Wait until the battery has charged past "
-									+ (RECHARGE_LEVEL + 1) + "%.");
+					instructions.setText("Wait until the battery has charged past "
+							+ (RECHARGE_LEVEL + 1) + "%.");
 				}
 				else
 				{
@@ -922,8 +925,7 @@ public class ControllerSizingPart1 extends GameTemplate
 				walkthrough = false;
 				gameTimer = 100000;
 				replay.setX(instructions.getX());
-				replay.setY(instructions.getY()
-						+ instructions.getBounds().height
+				replay.setY(instructions.getY() + instructions.getBounds().height
 						- skip.getBounds().height);
 				contAppear();
 			}
@@ -936,13 +938,12 @@ public class ControllerSizingPart1 extends GameTemplate
 				for (int i = 0; i < starsx.length; i++)
 				{
 					
-					stars.get(i)
-							.setX((int) (starsx[i] * Math.sin(Math
-									.toRadians(starCounter - starsOffSet[i]))) + 394);
+					stars.get(i).setX(
+							(int) (starsx[i] * Math.sin(Math.toRadians(starCounter
+									- starsOffSet[i]))) + 394);
 					stars.get(i).setY(
-							(int) (starsy[i] * Math.cos(Math
-									.toRadians(starCounter
-											+ (180 - starsOffSet[i])))) + 390);
+							(int) (starsy[i] * Math.cos(Math.toRadians(starCounter
+									+ (180 - starsOffSet[i])))) + 390);
 				}
 			}
 			counter = counter + .3;
@@ -1154,8 +1155,7 @@ public class ControllerSizingPart1 extends GameTemplate
 			}
 			if (batteryPercent >= BATTERY_MAX)
 			{
-				batteryPrompt
-						.setText("Battery at capacity. Do not overcharge.");
+				batteryPrompt.setText("Battery at capacity. Do not overcharge.");
 			}
 			if (batteryPercent <= 0)
 			{
@@ -1254,8 +1254,7 @@ public class ControllerSizingPart1 extends GameTemplate
 					}
 					if ((panelOn || houseOn) && batteryWithinRange)
 					{
-						s = String
-								.format("%d", (int) Math.ceil(batteryPercent));
+						s = String.format("%d", (int) Math.ceil(batteryPercent));
 						batteryLife.setText(s + "%");
 					}
 					
@@ -1344,8 +1343,7 @@ public class ControllerSizingPart1 extends GameTemplate
 					}
 					if (batteryPercent >= BATTERY_MAX)
 					{
-						batteryPrompt
-								.setText("Battery at capacity. Do not overcharge.");
+						batteryPrompt.setText("Battery at capacity. Do not overcharge.");
 					}
 					if (batteryPercent <= 0)
 					{
@@ -1357,14 +1355,12 @@ public class ControllerSizingPart1 extends GameTemplate
 					}
 					if (a || d)
 					{
-						s = String
-								.format("%d", (int) Math.ceil(batteryPercent));
+						s = String.format("%d", (int) Math.ceil(batteryPercent));
 						batteryLife.setText(s + "%");
 					}
 				}
 				
-				if (batteryPercent > BATTERY_MIN
-						&& batteryPercent < BATTERY_MAX)
+				if (batteryPercent > BATTERY_MIN && batteryPercent < BATTERY_MAX)
 				{
 					batteryWithinRange = true;
 					if (batteryPercent >= RECHARGE_LEVEL)
@@ -1375,8 +1371,7 @@ public class ControllerSizingPart1 extends GameTemplate
 					
 				}
 				
-				if ((houseTransition)
-						% (houseIncrements.get(currentHouseIndex) * 10) == 0)
+				if ((houseTransition) % (houseIncrements.get(currentHouseIndex) * 10) == 0)
 				{
 					houseTransition = 0;
 					
@@ -1416,13 +1411,12 @@ public class ControllerSizingPart1 extends GameTemplate
 					for (int i = 0; i < starsx.length; i++)
 					{
 						
-						stars.get(i)
-								.setX((int) (starsx[i] * Math.sin(Math
-										.toRadians(starCounter - starsOffSet[i]))) + 394);
-						stars.get(i)
-								.setY((int) (starsy[i] * Math.cos(Math
-										.toRadians(starCounter
-												+ (180 - starsOffSet[i])))) + 390);
+						stars.get(i).setX(
+								(int) (starsx[i] * Math.sin(Math.toRadians(starCounter
+										- starsOffSet[i]))) + 394);
+						stars.get(i).setY(
+								(int) (starsy[i] * Math.cos(Math.toRadians(starCounter
+										+ (180 - starsOffSet[i])))) + 390);
 					}
 				}
 				counter = counter + .3;
@@ -1573,8 +1567,8 @@ public class ControllerSizingPart1 extends GameTemplate
 			{
 				if (setIndex < 4)
 				{
-					introScreens.setCurrentImage(new Image(
-							introScreenImages[setIndex]), true);
+					introScreens.setCurrentImage(new Image(introScreenImages[setIndex]),
+							true);
 				}
 				instructions.setText(instructionSet[setIndex]);
 				++setIndex;
@@ -1628,10 +1622,11 @@ public class ControllerSizingPart1 extends GameTemplate
 	{
 		cont.setX(800 - cont.getBounds().width);
 	}
+	
 	public void onEnter()
-	 {
+	{
 		
 		trackTime = true;
-	 }
+	}
 	
 }

@@ -21,13 +21,11 @@ import org.newdawn.slick.state.StateBasedGame;
 import edu.asu.voctec.Game;
 import edu.asu.voctec.GameDefaults;
 import edu.asu.voctec.GameDefaults.ImagePaths.SelectorIcons;
-import edu.asu.voctec.GUI.Button;
 import edu.asu.voctec.GUI.ButtonListener;
 import edu.asu.voctec.GUI.Selector;
 import edu.asu.voctec.GUI.SelectorDisplay;
 import edu.asu.voctec.GUI.SelectorDisplay.DisplayIsFullException;
 import edu.asu.voctec.GUI.SelectorIcon;
-import edu.asu.voctec.GUI.TextAreaX;
 import edu.asu.voctec.GUI.TransitionButtonListener;
 import edu.asu.voctec.game_states.ExitScreen;
 import edu.asu.voctec.game_states.GameTemplate;
@@ -35,7 +33,6 @@ import edu.asu.voctec.game_states.MainMenu;
 import edu.asu.voctec.information.SizingStepsData;
 import edu.asu.voctec.information.TaskData;
 import edu.asu.voctec.utilities.CircularList;
-import edu.asu.voctec.utilities.Position;
 import edu.asu.voctec.utilities.UtilFunctions;
 
 public class StepSelection extends GameTemplate
@@ -47,23 +44,21 @@ public class StepSelection extends GameTemplate
 	private Animation endingAnimation;
 	private Rectangle endingAnimationBounds;
 	private boolean complete;
-
-	private int hints;
-
+	
 	private boolean nextState;
-
+	
 	private int lc;
 	
 	/**
-	 * Listener for the ready button. If the button is pressed before all
-	 * choices have been made, a message will be displayed asking the user to
-	 * complete his/her selections. Otherwise, the user's choices will be
-	 * verified and the instructions and hints will be updated accordingly.
+	 * Listener for the ready button. If the button is pressed before all choices have
+	 * been made, a message will be displayed asking the user to complete his/her
+	 * selections. Otherwise, the user's choices will be verified and the instructions and
+	 * hints will be updated accordingly.
 	 * 
 	 * The following feature was removed as of Jan 12, 2013, and replaced by
-	 * ContinueButtonListener per client preference. If this listener is
-	 * activated after the choices have been verified and this state is marked
-	 * as complete, the user will be transfered to the StepSelectionExitScreen.
+	 * ContinueButtonListener per client preference. If this listener is activated after
+	 * the choices have been verified and this state is marked as complete, the user will
+	 * be transfered to the StepSelectionExitScreen.
 	 * 
 	 * @see ContinueButtonListener
 	 * @author Moore, Zachary
@@ -114,8 +109,8 @@ public class StepSelection extends GameTemplate
 	}
 	
 	/**
-	 * Listener for the hint button. When this button is pressed, the user is
-	 * shown a single hint, displayed in the hintBox.
+	 * Listener for the hint button. When this button is pressed, the user is shown a
+	 * single hint, displayed in the hintBox.
 	 * 
 	 * @see #displayGenericHint()
 	 * @author Moore, Zachary
@@ -135,39 +130,48 @@ public class StepSelection extends GameTemplate
 		}
 		
 	}
-	public void update(GameContainer container, StateBasedGame game, int delta)
-			throws SlickException {
-		super.update(container, game, delta);
-		if (!nextState){
-			++lc;
-			if (lc == 5){
-			try {
-		
-			
-				Game.getCurrentGame().addState(new StepSelectionExitScreen(), Game.getCurrentGame().getContainer());
-			
-			} catch (SlickException e) {
 	
-				e.printStackTrace();
+	public void update(GameContainer container, StateBasedGame game, int delta)
+			throws SlickException
+	{
+		super.update(container, game, delta);
+		if (!nextState)
+		{
+			++lc;
+			if (lc == 5)
+			{
+				try
+				{
+					
+					Game.getCurrentGame().addState(new StepSelectionExitScreen(),
+							Game.getCurrentGame().getContainer());
+					
+				}
+				catch (SlickException e)
+				{
+					
+					e.printStackTrace();
+				}
+				nextState = true;
 			}
-		nextState = true;
-			}
-	}
-		if(complete){
-			int numberOfStars = 6 - hints;
+		}
+		if (complete)
+		{
+			int numberOfStars = calculateStarScore();
 			
-			if (numberOfStars <0)
+			if (numberOfStars < 0)
 			{
 				numberOfStars = 0;
 			}
-			if (sequenceStep != 4000){
-			sequenceStep = initiateStars(numberOfStars, sequenceStep);
+			if (sequenceStep != 4000)
+			{
+				sequenceStep = initiateStars(numberOfStars, sequenceStep);
 			}
 		}
 	}
 	
 	/**
-	 * Listener for the continue button.This event can only be
+	 * Listener for the continue button.
 	 * 
 	 * @author Moore, Zachary
 	 * 
@@ -180,54 +184,62 @@ public class StepSelection extends GameTemplate
 		protected void actionPerformed()
 		{
 			if (complete)
-				
+			
 			{
-				String exitText = 
-						"You have successfully completed the sizing process. Now get ready to play with each of the sizing steps.";
-				if (GameDefaults.DeveloperOptions.INCLUDE_TASK_DISCLAIMER && !GameDefaults.DeveloperOptions.INCLUDE_TASK_1)
+				String exitText = "You have successfully completed the sizing process. Now get ready to play with each of the sizing steps.";
+				if (GameDefaults.DeveloperOptions.INCLUDE_TASK_DISCLAIMER
+						&& !GameDefaults.DeveloperOptions.INCLUDE_TASK_1)
 					exitText = exitText + GameDefaults.DeveloperOptions.TASK_DISCLAIMER;
 				
-				Game.updateExitText(
-						"Good Job!", exitText);
-				if (MainMenu.UserData.size() <3){
+				Game.updateExitText("Good Job!", exitText);
+				if (MainMenu.UserData.size() < 3)
+				{
 					MainMenu.UserData.add("Step Selection");
-					MainMenu.UserData.add(Integer.toString(Game.getCurrentTask().getCurrentAttempt().getNumberOfUniqueHints()));
-					MainMenu.UserData.add(String.valueOf(UtilFunctions.formatTime(Game.getCurrentTask().getCurrentAttempt().getTimeSpent(),false, true)));
-				
+					MainMenu.UserData.add(Integer.toString(Game.getCurrentTask()
+							.getCurrentAttempt().getNumberOfUniqueHints()));
+					MainMenu.UserData.add(String.valueOf(UtilFunctions.formatTime(Game
+							.getCurrentTask().getCurrentAttempt().getTimeSpent(), false,
+							true)));
 					
-					File file = new File(System.getProperty("user.dir")+"/userData.txt");
-				
+					File file = new File(System.getProperty("user.dir") + "/userData.txt");
+					
 					// if file doesnt exists, then create it
-					try {
-					if (!file.exists()) {
-						
+					try
+					{
+						if (!file.exists())
+						{
+							
 							file.createNewFile();
 						}
-					
-					FileWriter fw = new FileWriter(file, true);
-					BufferedWriter bw = new BufferedWriter(fw);
-				
-					String s = new String();
-					s = MainMenu.UserData.get(0) + "'s data(minigame, hints used, time spent): ";
-					s += MainMenu.UserData.get(1);
-					s += ", ";
-					s += MainMenu.UserData.get(2);
-					s += ", ";
-					s += MainMenu.UserData.get(3);
-					s += "; ";
-					BufferedReader br = new BufferedReader(new FileReader(file));     
-					if (br.readLine() != null) {
-					    
-					    bw.newLine();
-					}
-					
-					bw.write(s);
-					bw.close();
-					} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						
+						FileWriter fw = new FileWriter(file, true);
+						BufferedWriter bw = new BufferedWriter(fw);
+						
+						String s = new String();
+						s = MainMenu.UserData.get(0)
+								+ "'s data(minigame, hints used, time spent): ";
+						s += MainMenu.UserData.get(1);
+						s += ", ";
+						s += MainMenu.UserData.get(2);
+						s += ", ";
+						s += MainMenu.UserData.get(3);
+						s += "; ";
+						BufferedReader br = new BufferedReader(new FileReader(file));
+						if (br.readLine() != null)
+						{
+							
+							bw.newLine();
 						}
+						
+						bw.write(s);
+						br.close();
+						bw.close();
 					}
+					catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+				}
 				Game.getCurrentGame().enterState(ExitScreen.class);
 			}
 		}
@@ -237,13 +249,11 @@ public class StepSelection extends GameTemplate
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.asu.voctec.utilities.gameTemplate#init(org.newdawn.slick.GameContainer
-	 * , org.newdawn.slick.state.StateBasedGame)
+	 * @see edu.asu.voctec.utilities.gameTemplate#init(org.newdawn.slick.GameContainer ,
+	 * org.newdawn.slick.state.StateBasedGame)
 	 */
 	@Override
-	public void init(GameContainer container, StateBasedGame game)
-			throws SlickException
+	public void init(GameContainer container, StateBasedGame game) throws SlickException
 	{
 		System.out.println("\nSelectorTest: Initializing...");
 		
@@ -272,8 +282,8 @@ public class StepSelection extends GameTemplate
 	}
 	
 	/**
-	 * Add all action listeners to the buttons on this screen. Note: the buttons
-	 * are initialized by GameTemplate; they are formatted here.
+	 * Add all action listeners to the buttons on this screen. Note: the buttons are
+	 * initialized by GameTemplate; they are formatted here.
 	 */
 	public void setupButtonListeners()
 	{
@@ -285,13 +295,13 @@ public class StepSelection extends GameTemplate
 	}
 	
 	/**
-	 * Initiates the selector field of this class, with a new Selector object,
-	 * centered in the control bar at the bottom of the screen. This method
-	 * depends on the control bar being instantiated. As such, super.init()
-	 * should be called prior to calling this method.
+	 * Initiates the selector field of this class, with a new Selector object, centered in
+	 * the control bar at the bottom of the screen. This method depends on the control bar
+	 * being instantiated. As such, super.init() should be called prior to calling this
+	 * method.
 	 * 
-	 * Note: the content of the selector is handled by the load method, more
-	 * specifically by populateSelectorContents.
+	 * Note: the content of the selector is handled by the load method, more specifically
+	 * by populateSelectorContents.
 	 * 
 	 * @see #populateSelectorContents(CircularList)
 	 * @see #generateDefaultData()
@@ -315,20 +325,18 @@ public class StepSelection extends GameTemplate
 	}
 	
 	/**
-	 * Initiates the selectorDisplay field of this class, with a new
-	 * SelectorDisplay object, centered in the main portion of this screen (the
-	 * top-left section, not occupied by the control panel or the side bar) of
-	 * the screen. This method depends on the control bar and sideBar being
-	 * instantiated. As such, super.init() should be called prior to calling
-	 * this method.
+	 * Initiates the selectorDisplay field of this class, with a new SelectorDisplay
+	 * object, centered in the main portion of this screen (the top-left section, not
+	 * occupied by the control panel or the side bar) of the screen. This method depends
+	 * on the control bar and sideBar being instantiated. As such, super.init() should be
+	 * called prior to calling this method.
 	 * 
-	 * Note: the content of the selectorDisplay is handled by the load method,
-	 * and by the user's actions during gameplay.
+	 * Note: the content of the selectorDisplay is handled by the load method, and by the
+	 * user's actions during gameplay.
 	 * 
 	 * @see #load()
 	 * @throws SlickException
-	 *             Indicates a failure to load or resize the selectorDisplay
-	 *             images.
+	 *             Indicates a failure to load or resize the selectorDisplay images.
 	 */
 	public void instantiateSelectorDisplay() throws SlickException
 	{
@@ -355,11 +363,11 @@ public class StepSelection extends GameTemplate
 	}
 	
 	/**
-	 * Instantiate and format the animation to be played when the user selects a
-	 * correct combination.
+	 * Instantiate and format the animation to be played when the user selects a correct
+	 * combination.
 	 * 
-	 * Note: This method depends on the hintBox being instantiated. As such,
-	 * super.init() should be called prior to calling this method.
+	 * Note: This method depends on the hintBox being instantiated. As such, super.init()
+	 * should be called prior to calling this method.
 	 * 
 	 * @throws SlickException
 	 */
@@ -371,58 +379,10 @@ public class StepSelection extends GameTemplate
 		int frameWidth = 115;
 		int frameHeight = 150;
 		endingAnimationBounds = new Rectangle(0, 0, frameWidth, frameHeight);
-		UtilFunctions.centerRectangle(hintBox.getBounds(),
-				endingAnimationBounds);
+		UtilFunctions.centerRectangle(hintBox.getBounds(), endingAnimationBounds);
 		SpriteSheet endingAnimationSprites = new SpriteSheet(spriteSheetImage,
 				frameWidth, frameHeight);
 		endingAnimation = new Animation(endingAnimationSprites, 1000 / fps);
-	}
-	
-	private void instantiateHintBox() throws SlickException
-	{
-		// Hint Bounds
-		Rectangle hintBounds = new Rectangle(398, 62, 370, 320);
-		Rectangle relativeHintTextBounds = UtilFunctions.dialateRectangle(
-				new Rectangle(0, 0, 370, 320), 0.92f);
-		
-		// Hint Box
-		hintBox = new TextAreaX(hintBounds, relativeHintTextBounds, null);
-		Image hintBoxBackground = new Image(
-				ImagePaths.Selector.HINT_BOX_BACKGROUND);
-		hintBox.setCurrentImage(hintBoxBackground, true);
-		
-		// Format hint box
-		hintBox.setFontSize(Fonts.FONT_SIZE_MEDIUM);
-		hintBox.setFontColor(Fonts.FONT_COLOR);
-		// instructionBox.center();
-		instructionBox.setFontColor(Fonts.FONT_COLOR);
-		instructionBox.setFontSize(Fonts.FONT_SIZE_MEDIUM);
-		
-		// Add hint box to this screen
-		this.addComponent(hintBox);
-		this.addComponent(instructionBox);
-	}
-	
-	private void instantiateButtons() throws SlickException
-	{
-		// Ready Button
-		Image readyButtonImage = new Image(ImagePaths.Buttons.BASE);
-		Rectangle textBounds = UtilFunctions.getImageBounds(readyButtonImage);
-		textBounds = UtilFunctions.dialateRectangle(textBounds, 0.75f);
-		readyButton = new Button(readyButtonImage, 600, 500, textBounds,
-				"Ready");
-		readyButton.addActionListener(new ReadyButtonListener());
-		readyButton.setFontColor(Fonts.BUTTON_FONT_COLOR);
-		this.addComponent(readyButton);
-		
-		// Back Button
-		Button backButton = new Button(new Image(ImagePaths.BACK_BUTTON), 5, 5,
-				new Rectangle(0, 0, 50, 25), "Back");
-		backButton.addActionListener(new TransitionButtonListener(
-				ScenarioIntroductionScreen.class));
-		backButton.setFontColor(Fonts.TRANSITION_FONT_COLOR);
-		backButton.positionText(Position.RIGHT);
-		this.addComponent(backButton);
 	}
 	
 	/*
@@ -439,13 +399,12 @@ public class StepSelection extends GameTemplate
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.asu.voctec.game_states.GUI#render(org.newdawn.slick.GameContainer,
+	 * @see edu.asu.voctec.game_states.GUI#render(org.newdawn.slick.GameContainer,
 	 * org.newdawn.slick.state.StateBasedGame, org.newdawn.slick.Graphics)
 	 */
 	@Override
-	public void render(GameContainer container, StateBasedGame game,
-			Graphics graphics) throws SlickException
+	public void render(GameContainer container, StateBasedGame game, Graphics graphics)
+			throws SlickException
 	{
 		super.render(container, game, graphics);
 		
@@ -453,6 +412,11 @@ public class StepSelection extends GameTemplate
 		 * if (complete) endingAnimation.draw(endingAnimationBounds.x,
 		 * endingAnimationBounds.y);
 		 */
+	}
+	
+	protected int calculateStarScore()
+	{
+		return Game.getCurrentTask().getCurrentAttempt().calculateStarScore();
 	}
 	
 	public void updateInstructions()
@@ -472,9 +436,8 @@ public class StepSelection extends GameTemplate
 			else
 			{
 				// Standard format for instructions 2-5
-				instructions = Labels.Step0.INSTRUCTIONS1.getTranslation()
-						+ " " + firstEmpty
-						+ Labels.Step0.INSTRUCTIONS2.getTranslation();
+				instructions = Labels.Step0.INSTRUCTIONS1.getTranslation() + " "
+						+ firstEmpty + Labels.Step0.INSTRUCTIONS2.getTranslation();
 			}
 			
 			this.instructionBox.setText(instructions);
@@ -485,11 +448,9 @@ public class StepSelection extends GameTemplate
 			// Determine instruction text
 			String instructions;
 			if (complete)
-				instructions = Labels.Step0.INSTRUCTIONS_CORRECT
-						.getTranslation();
+				instructions = Labels.Step0.INSTRUCTIONS_CORRECT.getTranslation();
 			else
-				instructions = Labels.Step0.INSTRUCTIONS_COMPLETE
-						.getTranslation();
+				instructions = Labels.Step0.INSTRUCTIONS_COMPLETE.getTranslation();
 			
 			// Set instructions label text
 			this.instructionBox.setText(instructions);
@@ -528,7 +489,6 @@ public class StepSelection extends GameTemplate
 		hintBox.addLine(hint);
 		
 		// Update the number of hints used
-		++hints;
 		Game.getCurrentTask().getCurrentAttempt().addHints(1);
 	}
 	
@@ -551,8 +511,7 @@ public class StepSelection extends GameTemplate
 		
 		// Load from data
 		selector.setElements(currentAttempt.getSelectorContents());
-		selectorDisplay
-				.setElements(currentAttempt.getSelectorDisplayContents());
+		selectorDisplay.setElements(currentAttempt.getSelectorDisplayContents());
 		ArrayList<String> currentHints = currentAttempt.getCurrentHints();
 		hintBox.setText(currentHints);
 		selector.updateChoiceLabel();
@@ -571,8 +530,7 @@ public class StepSelection extends GameTemplate
 		}
 		System.out.println("Loaded!\nCurrent Hints: "
 				+ Arrays.toString(currentAttempt.getCurrentHints().toArray()));
-		System.out.println("HintBox: "
-				+ Arrays.toString(hintBox.getText().toArray()));
+		System.out.println("HintBox: " + Arrays.toString(hintBox.getText().toArray()));
 	}
 	
 	public SizingStepsData generateDefaultData()
@@ -591,25 +549,20 @@ public class StepSelection extends GameTemplate
 				currentHints, false);
 	}
 	
-	public void populateSelectorContents(
-			CircularList<SelectorIcon> selectorContents)
+	public void populateSelectorContents(CircularList<SelectorIcon> selectorContents)
 	{
 		// Add each of 5 steps to the selectorContent list
 		try
 		{
-			selectorContents.add(new SelectorIcon(
-					SelectorIcons.ENERGY_ASSESSMENT,
+			selectorContents.add(new SelectorIcon(SelectorIcons.ENERGY_ASSESSMENT,
 					Labels.TaskScreen.ENERGY_ASSESSMENT.getTranslation(), 0));
-			selectorContents
-					.add(new SelectorIcon(SelectorIcons.CRITICAL_DESIGN_MONTH,
-							Labels.TaskScreen.CRITICAL_DESIGN_MONTH
-									.getTranslation(), 1));
+			selectorContents.add(new SelectorIcon(SelectorIcons.CRITICAL_DESIGN_MONTH,
+					Labels.TaskScreen.CRITICAL_DESIGN_MONTH.getTranslation(), 1));
 			selectorContents.add(new SelectorIcon(SelectorIcons.BATTERY_SIZING,
 					Labels.TaskScreen.BATTERY_SIZING.getTranslation(), 2));
 			selectorContents.add(new SelectorIcon(SelectorIcons.PV_SIZING,
 					Labels.TaskScreen.PV_SIZING.getTranslation(), 3));
-			selectorContents.add(new SelectorIcon(
-					SelectorIcons.CONTROLLER_SIZING,
+			selectorContents.add(new SelectorIcon(SelectorIcons.CONTROLLER_SIZING,
 					Labels.TaskScreen.CONTROLLER_SIZING.getTranslation(), 4));
 		}
 		catch (SlickException e)
@@ -620,13 +573,12 @@ public class StepSelection extends GameTemplate
 	
 	public void save()
 	{
-		SizingStepsData currentAttempt = (SizingStepsData) Game
-				.getCurrentTask().getCurrentAttempt();
+		SizingStepsData currentAttempt = (SizingStepsData) Game.getCurrentTask()
+				.getCurrentAttempt();
 		
 		ArrayList<SelectorIcon> selectorDisplayContents = this.selectorDisplay
 				.getElements();
-		CircularList<SelectorIcon> selectorContents = this.selector
-				.getElements();
+		CircularList<SelectorIcon> selectorContents = this.selector.getElements();
 		
 		ArrayList<String> currentHints = new ArrayList<>();
 		for (String string : this.hintBox.getText())
