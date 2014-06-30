@@ -210,6 +210,10 @@ public class CDPart2 extends GameTemplate
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					catch (IndexOutOfBoundsException e)
+					{
+						e.printStackTrace();
+					}
 				}
 				Game.getCurrentGame().enterState(ExitScreen.class);
 			}
