@@ -550,7 +550,7 @@ public class CDPart2 extends GameTemplate
 					panel1.setRotation(0f);
 					
 				}
-				s = String.format("Angle:           %f�ｽ",
+				s = String.format("Angle:           %.0f",
 						(Math.floor(panel1.getRotation())));
 				angle.setText(s);
 				panel2.setRotation(-panel1.getRotation());
@@ -578,7 +578,7 @@ public class CDPart2 extends GameTemplate
 				{
 					panel1.setRotation(90f);
 				}
-				s = String.format("Angle:           %f�ｽ",
+				s = String.format("Angle:           %.0f",
 						(Math.floor(panel1.getRotation())));
 				angle.setText(s);
 				panel2.setRotation(-panel1.getRotation());
